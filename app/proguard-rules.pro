@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn okio.**
+-dontwarn retrofit2.**
+-dontwarn com.pushtorefresh.storio2.**
+-dontwarn com.squareup.picasso.**
+-dontwarn okhttp3.**
