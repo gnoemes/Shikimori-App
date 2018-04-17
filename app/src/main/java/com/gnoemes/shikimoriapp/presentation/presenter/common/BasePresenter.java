@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.common;
 import com.arellomobile.mvp.MvpPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseView;
 
+import io.reactivex.annotations.NonNull;
 import ru.terrakok.cicerone.Router;
 
 public abstract class BasePresenter<View extends BaseView> extends MvpPresenter<View> {
@@ -17,6 +18,7 @@ public abstract class BasePresenter<View extends BaseView> extends MvpPresenter<
      *
      * @return Router local router
      */
+    @NonNull
     public abstract Router getRouter();
 
     /**
@@ -28,5 +30,6 @@ public abstract class BasePresenter<View extends BaseView> extends MvpPresenter<
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().initToolbar();
+        initData();
     }
 }

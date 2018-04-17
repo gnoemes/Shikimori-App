@@ -22,7 +22,7 @@ public interface FragmentCallback {
     void onShowError(String message);
 
     /**
-     * Back button was pressed
+     * Then back pressed
      */
-    void onBack();
+    void onBackPressed();
 }

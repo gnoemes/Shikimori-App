@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Shikimori App</string>
+
+    <string name="common_favorite">Избранное</string>
+    <string name="common_calendar">Календарь</string>
+    <string name="common_search">Поиск</string>
+    <string name="common_main">Главная</string>
+    <string name="common_menu">Меню</string>
+
+    <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
 </resources>
