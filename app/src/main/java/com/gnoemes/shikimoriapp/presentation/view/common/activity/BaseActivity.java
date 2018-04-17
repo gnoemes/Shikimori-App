@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.FragmentCallback;
 
+import javax.inject.Inject;
 import javax.inject.Provider;
 
 import butterknife.BindView;
@@ -34,13 +35,11 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
 
-    //    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-
-    //    @Inject
+    @Inject
     protected Provider<Presenter> presenterProvider;
-
-    protected Navigator navigator;
+    protected Navigator localNavigator;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -54,16 +53,15 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
         setContentView(getLayoutActivity());
     }
 
-
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-//        getNavigatorHolder().setNavigator(getLocalNavigator());
+        getNavigatorHolder().setNavigator(getLocalNavigator());
     }
 
     @Override
     protected void onPause() {
-//        getNavigatorHolder().removeNavigator();
+        getNavigatorHolder().removeNavigator();
         super.onPause();
     }
 
@@ -127,7 +125,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     }
 
     @Override
-    public void onBack() {
+    public void onBackPressed() {
         getPresenter().onBackPressed();
     }
 }

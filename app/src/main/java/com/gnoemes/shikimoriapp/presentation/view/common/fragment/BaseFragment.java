@@ -36,6 +36,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     @Override
     public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
         try {
             fragmentCallback = (FragmentCallback) context;
@@ -47,7 +48,6 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -82,6 +82,10 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
      */
     protected abstract Presenter getPresenter();
 
+    protected FragmentCallback getFragmentCallback() {
+        return fragmentCallback;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // UI METHODS
     ///////////////////////////////////////////////////////////////////////////
@@ -112,6 +116,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     ///////////////////////////////////////////////////////////////////////////
     // MVP
     ///////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public void onBackPressed() {

@@ -8,9 +8,8 @@ import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.android.AndroidInjectionModule;
 
-@Module(includes = AndroidInjectionModule.class)
+@Module
 public interface MainContextModule {
 
     @Binds
