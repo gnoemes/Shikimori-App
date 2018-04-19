@@ -12,6 +12,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseNetworkView;
 
+import javax.inject.Inject;
 import javax.inject.Provider;
 
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ import dagger.android.support.AndroidSupportInjection;
 public abstract class BaseFragment<Presenter extends BasePresenter, View extends BaseNetworkView>
         extends MvpAppCompatFragment implements BaseFragmentView {
 
-    //    @Inject
+    @Inject
     protected Provider<Presenter> presenterProvider;
 
     private FragmentCallback fragmentCallback;
@@ -131,7 +132,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     }
 
     @Override
-    public void onShowLoadingDialog() {
+    public void onShowLoading() {
         if (hasCallback()) {
             fragmentCallback.onShowLoading();
         }

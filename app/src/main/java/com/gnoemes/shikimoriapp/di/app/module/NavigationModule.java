@@ -11,7 +11,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 @Module
-public class NavigationModule {
+public abstract class NavigationModule {
 
     @Provides
     @Singleton
@@ -33,7 +33,7 @@ public class NavigationModule {
 
     @Provides
     @Singleton
-    Cicerone<Router> provideCicerone() {
+    static Cicerone<Router> provideCicerone() {
         return Cicerone.create();
     }
 }

@@ -1,11 +1,27 @@
 <resources>
     <string name="app_name">Shikimori App</string>
 
+    <!--Bottom navigation-->
     <string name="common_favorite">Избранное</string>
     <string name="common_calendar">Календарь</string>
     <string name="common_search">Поиск</string>
     <string name="common_main">Главная</string>
     <string name="common_menu">Меню</string>
+    <string name="common_today">Сегодня</string>
+    <string name="common_tomorrow">Завтра</string>
+
+    <string name="calendar_ongoings">Календарь онгоингов</string>
+    <string name="calendar_date_format" translatable="false">%s, %s</string>
+    <string name="calendar_episodes_format">\n[%s из %s]</string>
+
 
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
+
+    <string name="error_internet">Internet error</string>
+    <string name="error_timeout">Connection timeout</string>
+    <string name="error_json">Json syntax error</string>
+    <string name="error_unknown">Unknown Error</string>
+    <string name="description_image">Изображение</string>
+    <string name="calendar_episode_in">%s эпизод c %s</string>
+    <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
 </resources>

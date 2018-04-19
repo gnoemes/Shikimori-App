@@ -5,16 +5,24 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="light_gray">#EEEEEE</color>
+    <color name="red">#FFFF0000</color>
+    <color name="light_cyan">#69d7d7</color>
+    <color name="pink">#ff9be7</color>
+    <color name="bittersweet">#f66767</color>
+    <color name="light_teal">#58e978</color>
+    <color name="brown">#491600</color>
 
     <!--Light Theme Colors-->
     <color name="colorPrimary">#FFA726</color>
     <color name="colorPrimaryDark">#F57C00</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorBackground">@color/light_gray</color>
+    <color name="colorBackgroundTransparent">#80ffa726</color>
 
     <!--Dark Theme Colors-->
     <color name="colorPrimaryInverse">#243447</color>
     <color name="colorPrimaryDarkInverse">#1B2836</color>
     <color name="colorAccentInverse">#FFD200</color>
     <color name="colorBackgroundInverse">#141D26</color>
+    <color name="colorBackgroundTransparentInverse">#96141d26</color>
 </resources>
