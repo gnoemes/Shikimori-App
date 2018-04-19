@@ -2,13 +2,13 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_nav_size"
+        android:layout_height="@dimen/bottom_navigation_height"
         android:layout_gravity="bottom"
         app:bnbActiveColor="?attr/colorPrimary"
         app:bnbBackgroundColor="?attr/colorAccent"

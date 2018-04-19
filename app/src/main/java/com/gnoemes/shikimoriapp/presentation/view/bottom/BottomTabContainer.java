@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,7 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
-import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
-import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
@@ -24,15 +23,17 @@ import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
 
 import javax.inject.Inject;
 
+import dagger.android.support.AndroidSupportInjection;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
+import ru.terrakok.cicerone.commands.Command;
 
 /**
  * Tab container for fragments with local routers
  */
-public class BottomTabContainer extends BaseFragment implements RouterProvider {
+public class BottomTabContainer extends Fragment implements RouterProvider {
 
     /**
      * Contains ciceron instances
@@ -58,9 +59,13 @@ public class BottomTabContainer extends BaseFragment implements RouterProvider {
         return container;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // UI METHODS
+    ///////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
         localRouter = ciceroneHolder.getCicerone(getContainerName()).getRouter();
     }
@@ -92,6 +97,10 @@ public class BottomTabContainer extends BaseFragment implements RouterProvider {
         super.onPause();
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // GETTERS
+    ///////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns current screen name
      *
@@ -112,15 +121,6 @@ public class BottomTabContainer extends BaseFragment implements RouterProvider {
      */
     private NavigatorHolder getNavigationHolder(String screenName) {
         return ciceroneHolder.getCicerone(screenName).getNavigatorHolder();
-    }
-
-    /**
-     * Not implemented
-     */
-    @Override
-    protected BasePresenter getPresenter() {
-        //not implemented
-        return null;
     }
 
     /**
@@ -165,7 +165,12 @@ public class BottomTabContainer extends BaseFragment implements RouterProvider {
 
                 @Override
                 protected void exit() {
-                    onBackPressed();
+                }
+
+                @Override
+                protected void setupFragmentTransactionAnimation(Command command, Fragment currentFragment, Fragment nextFragment, FragmentTransaction fragmentTransaction) {
+                    //TODO transactions
+                    super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction);
                 }
             };
         }

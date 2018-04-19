@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.common;
 
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseNetworkView;
+import com.gnoemes.shikimoriapp.utils.rx.ErrorUtils;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -24,5 +25,8 @@ public abstract class BaseNetworkPresenter<View extends BaseNetworkView> extends
         compositeDisposable.clear();
     }
 
-    protected abstract void processErrors(Throwable throwable);
+    protected void processErrors(Throwable throwable) {
+        ErrorUtils errorUtils = new ErrorUtils();
+        errorUtils.processErrors(throwable, getRouter(), getViewState());
+    }
 }

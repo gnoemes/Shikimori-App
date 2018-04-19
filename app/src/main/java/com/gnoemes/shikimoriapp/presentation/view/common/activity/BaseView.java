@@ -17,7 +17,7 @@ public interface BaseView extends MvpView {
     /**
      * Show loading Dialog
      */
-    void onShowLoadingDialog();
+    void onShowLoading();
 
     /**
      * Hide loading dialog

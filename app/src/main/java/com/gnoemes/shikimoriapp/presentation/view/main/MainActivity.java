@@ -14,6 +14,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
@@ -55,6 +56,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
         return presenterProvider.get();
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // UI METHODS
+    ///////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,68 +68,27 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(AppExtras.ARGUMENT_SELECT_TAB, bottomNav.getCurrentSelectedPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (bottomNav != null && savedInstanceState != null) {
+            bottomNav.selectTab(savedInstanceState.getInt(AppExtras.ARGUMENT_SELECT_TAB));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // GETTERS
+    ///////////////////////////////////////////////////////////////////////////
+
+    @Override
     @LayoutRes
     protected int getLayoutActivity() {
         return R.layout.activity_main;
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public void initToolbar() {
-
-    }
-
-    @Override
-    public void onSetTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
-    public void onShowLoading() {
-
-    }
-
-    @Override
-    public void onHideLoading() {
-
-    }
-
-    @Override
-    public void initBottomNavigation() {
-        bottomNav.addItem(new BottomNavigationItem(R.drawable.ic_star, R.string.common_favorite))
-                .addItem(new BottomNavigationItem(R.drawable.ic_calendar, R.string.common_calendar))
-                .addItem(new BottomNavigationItem(R.drawable.ic_search, R.string.common_search))
-                .addItem(new BottomNavigationItem(R.drawable.ic_group, R.string.common_main))
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu, R.string.common_menu))
-                .initialise();
-
-        bottomNav.setTabSelectedListener(new BottomNavigationBar.SimpleOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(int position) {
-                switch (position) {
-                    case TabPosition.FAVORITE:
-                        getPresenter().onFavoriteSelected();
-                        break;
-                    case TabPosition.CALENDAR:
-                        getPresenter().onCalendarSelected();
-                        break;
-                    case TabPosition.SEARCH:
-                        getPresenter().onSearchSelected();
-                        break;
-                    case TabPosition.SOCIAL:
-                        getPresenter().onSocialSelected();
-                        break;
-                    case TabPosition.MENU:
-                        getPresenter().onMenuSelected();
-                        break;
-
-                }
-            }
-        });
     }
 
     @Override
@@ -228,6 +192,75 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
         return presenter;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // MVP
+    ///////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public void initToolbar() {
+
+    }
+
+    @Override
+    public void onSetTitle(String title) {
+        toolbar.setTitle(title);
+    }
+
+    @Override
+    public void onShowLoading() {
+
+    }
+
+    @Override
+    public void onHideLoading() {
+
+    }
+
+    @Override
+    public void initBottomNavigation() {
+        bottomNav.addItem(new BottomNavigationItem(R.drawable.ic_star, R.string.common_favorite))
+                .addItem(new BottomNavigationItem(R.drawable.ic_calendar, R.string.common_calendar))
+                .addItem(new BottomNavigationItem(R.drawable.ic_search, R.string.common_search))
+                .addItem(new BottomNavigationItem(R.drawable.ic_group, R.string.common_main))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu, R.string.common_menu))
+                .initialise();
+
+        bottomNav.setTabSelectedListener(new BottomNavigationBar.SimpleOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                switch (position) {
+                    case TabPosition.FAVORITE:
+                        getPresenter().onFavoriteSelected();
+                        break;
+                    case TabPosition.CALENDAR:
+                        getPresenter().onCalendarSelected();
+                        break;
+                    case TabPosition.SEARCH:
+                        getPresenter().onSearchSelected();
+                        break;
+                    case TabPosition.SOCIAL:
+                        getPresenter().onSocialSelected();
+                        break;
+                    case TabPosition.MENU:
+                        getPresenter().onMenuSelected();
+                        break;
+
+                }
+            }
+        });
+
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // METHODS
+    ///////////////////////////////////////////////////////////////////////////
+
     private void initContainers() {
         FragmentManager fm = getSupportFragmentManager();
         createFavoritePage(fm);
@@ -286,7 +319,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                     .detach(favoriteTabFragment).commitNow();
         }
     }
-
 
     private class TabPosition {
         final static int FAVORITE = 0;

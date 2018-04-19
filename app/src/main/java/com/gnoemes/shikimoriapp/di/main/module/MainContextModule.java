@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.gnoemes.shikimoriapp.di.main.scope.ActivityContext;
 import com.gnoemes.shikimoriapp.di.main.scope.MainActivityScope;
-import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
+import com.gnoemes.shikimoriapp.presentation.view.main.MainActivity;
 
 import dagger.Binds;
 import dagger.Module;
@@ -15,5 +15,5 @@ public interface MainContextModule {
     @Binds
     @ActivityContext
     @MainActivityScope
-    Context bindContext(BaseActivity activity);
+    Context bindContext(MainActivity activity);
 }

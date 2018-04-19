@@ -110,7 +110,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     }
 
     @Override
-    public void onShowLoadingDialog() {
+    public void onShowLoading() {
 
     }
 
