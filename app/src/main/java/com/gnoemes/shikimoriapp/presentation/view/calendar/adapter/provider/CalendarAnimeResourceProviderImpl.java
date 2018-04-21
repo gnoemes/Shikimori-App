@@ -3,7 +3,6 @@ package com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider;
 import android.content.Context;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.di.main.scope.ActivityContext;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 
 import javax.inject.Inject;
@@ -13,7 +12,7 @@ public class CalendarAnimeResourceProviderImpl implements CalendarAnimeResourceP
     private Context context;
 
     @Inject
-    public CalendarAnimeResourceProviderImpl(@ActivityContext Context context) {
+    public CalendarAnimeResourceProviderImpl(Context context) {
         this.context = context;
     }
 

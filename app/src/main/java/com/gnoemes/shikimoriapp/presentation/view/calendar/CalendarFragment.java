@@ -6,14 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.CalendarPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.CalendarAdapter;
@@ -51,7 +48,6 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter, CalendarVi
     @Inject
     ImageLoader imageLoader;
     private CalendarAdapter calendarAdapter;
-    private LinearLayoutManager layoutManager;
 
     @ProvidePresenter
     CalendarPresenter providePresenter() {
@@ -69,26 +65,24 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter, CalendarVi
         return fragment;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
-        if (savedInstanceState != null) {
-            layoutManager.scrollToPosition(savedInstanceState.getInt(AppExtras.ARGUMENT_ITEM_POSITION));
-        }
+        initList();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(AppExtras.ARGUMENT_ITEM_POSITION, layoutManager.findLastCompletelyVisibleItemPosition());
-        super.onSaveInstanceState(outState);
+    private void initList() {
+        calendarAdapter = new CalendarAdapter(dateTimeConverter,
+                resourceProvider,
+                imageLoader,
+                id -> getPresenter().onAnimeClicked(id));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(calendarAdapter);
+
+        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.red));
+        refreshLayout.setOnRefreshListener(() -> getPresenter().loadCalendarData());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -103,25 +97,14 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter, CalendarVi
         return presenter;
     }
 
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_calendar;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // MVP
     ///////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void initList() {
-        calendarAdapter = new CalendarAdapter(dateTimeConverter,
-                resourceProvider,
-                imageLoader,
-                id -> getPresenter().onAnimeClicked(id));
-
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(calendarAdapter);
-
-        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.red));
-        refreshLayout.setOnRefreshListener(() -> getPresenter().loadCalendarData());
-    }
 
     @Override
     public void showCalendarData(List<CalendarItemViewModel> items) {

@@ -39,7 +39,6 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     @Override
     public void initData() {
         getViewState().setTitle(resourceProvider.getTitle());
-        getViewState().initList();
         loadCalendarData();
     }
 
