@@ -5,16 +5,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseNetworkView;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
@@ -27,6 +32,9 @@ import dagger.android.support.AndroidSupportInjection;
  */
 public abstract class BaseFragment<Presenter extends BasePresenter, View extends BaseNetworkView>
         extends MvpAppCompatFragment implements BaseFragmentView {
+
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
 
     @Inject
     protected Provider<Presenter> presenterProvider;
@@ -51,6 +59,17 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+
+    @Nullable
+    @Override
+    public android.view.View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        android.view.View view = inflater.inflate(R.layout.fragment_base, container, false);
+        if (getFragmentLayout() != android.view.View.NO_ID) {
+            inflater.inflate(getFragmentLayout(), view.findViewById(R.id.fragment_content), true);
+        }
+        return view;
     }
 
     /**
@@ -86,6 +105,8 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     protected FragmentCallback getFragmentCallback() {
         return fragmentCallback;
     }
+
+    protected abstract int getFragmentLayout();
 
     ///////////////////////////////////////////////////////////////////////////
     // UI METHODS
@@ -147,9 +168,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     @Override
     public void setTitle(String title) {
-        if (hasCallback()) {
-            fragmentCallback.onSetTitle(title);
-        }
+        toolbar.setTitle(title);
     }
 
     @Override

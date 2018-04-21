@@ -2,11 +2,6 @@ package com.gnoemes.shikimoriapp.presentation.view.common.fragment;
 
 public interface FragmentCallback {
     /**
-     * Set title
-     */
-    void onSetTitle(String title);
-
-    /**
      * Show loading
      */
     void onShowLoading();

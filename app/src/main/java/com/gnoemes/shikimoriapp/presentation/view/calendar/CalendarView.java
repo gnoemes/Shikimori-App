@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.view.calendar;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
@@ -11,15 +12,9 @@ import java.util.List;
 public interface CalendarView extends BaseFragmentView {
 
     /**
-     * init adapter and list
-     */
-
-    void initList();
-
-    /**
      * Show calendar data list
      */
-    @StateStrategyType(AddToEndSingleStrategy.class)
+    @StateStrategyType(AddToEndStrategy.class)
     void showCalendarData(List<CalendarItemViewModel> items);
 
     /**

@@ -207,11 +207,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     }
 
     @Override
-    public void onSetTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
     public void onShowLoading() {
 
     }

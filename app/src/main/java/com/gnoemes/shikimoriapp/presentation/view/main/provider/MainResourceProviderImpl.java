@@ -3,7 +3,6 @@ package com.gnoemes.shikimoriapp.presentation.view.main.provider;
 import android.content.Context;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.di.main.scope.ActivityContext;
 
 import javax.inject.Inject;
 
@@ -12,7 +11,7 @@ public class MainResourceProviderImpl implements MainResourceProvider {
     private Context context;
 
     @Inject
-    public MainResourceProviderImpl(@ActivityContext Context context) {
+    public MainResourceProviderImpl(Context context) {
         this.context = context;
     }
 

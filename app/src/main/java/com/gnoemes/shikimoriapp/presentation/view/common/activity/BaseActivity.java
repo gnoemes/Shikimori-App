@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.inputmethod.InputMethodManager;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.FragmentCallback;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import butterknife.BindView;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -31,9 +28,6 @@ import ru.terrakok.cicerone.NavigatorHolder;
  */
 public abstract class BaseActivity<Presenter extends BasePresenter, View extends BaseView>
         extends MvpAppCompatActivity implements HasSupportFragmentInjector, BaseView, FragmentCallback {
-
-    @BindView(R.id.toolbar)
-    protected Toolbar toolbar;
 
     @Inject
     protected Provider<Presenter> presenterProvider;
@@ -117,11 +111,6 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     @Override
     public void onHideLoading() {
 
-    }
-
-    @Override
-    public void setTitle(String title) {
-        toolbar.setTitle(title);
     }
 
     @Override
