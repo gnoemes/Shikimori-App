@@ -1,6 +1,5 @@
-package com.gnoemes.shikimoriapp.di.app.module;
+package com.gnoemes.shikimoriapp.di;
 
-import com.gnoemes.shikimoriapp.di.main.module.FragmentInjectionModule;
 import com.gnoemes.shikimoriapp.di.main.module.MainContextModule;
 import com.gnoemes.shikimoriapp.di.main.module.MainPresenterModule;
 import com.gnoemes.shikimoriapp.di.main.module.MainUtilsModule;

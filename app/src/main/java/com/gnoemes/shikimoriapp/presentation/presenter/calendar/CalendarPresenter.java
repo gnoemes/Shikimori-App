@@ -15,12 +15,10 @@ import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarView;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
-import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
 
-    private Router localRouter;
     private CalendarInteractor interactor;
     private CalendarResourceProvider resourceProvider;
     private CalendarViewModelConverter viewModelConverter;
@@ -85,20 +83,6 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     private void processNetworkError(Throwable throwable) {
         getViewState().showNetworkErrorView();
         getViewState().hideList();
-    }
-
-    @Override
-    public void onBackPressed() {
-        getRouter().exit();
-    }
-
-    @Override
-    public Router getRouter() {
-        return localRouter;
-    }
-
-    public void setLocalRouter(Router localRouter) {
-        this.localRouter = localRouter;
     }
 
     public void onAnimeClicked(long id) {

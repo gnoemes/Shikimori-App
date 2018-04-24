@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
+import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.CommonApi;
 
@@ -16,5 +17,11 @@ public abstract class ApiModule {
     @Provides
     static CalendarApi bindCalendarApi(@CommonApi Retrofit retrofit) {
         return retrofit.create(CalendarApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static AnimesApi bindAnimesApi(@CommonApi Retrofit retrofit) {
+        return retrofit.create(AnimesApi.class);
     }
 }

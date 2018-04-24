@@ -29,7 +29,6 @@ public abstract class BasePresenter<View extends BaseView> extends MvpPresenter<
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().initToolbar();
         initData();
     }
 }

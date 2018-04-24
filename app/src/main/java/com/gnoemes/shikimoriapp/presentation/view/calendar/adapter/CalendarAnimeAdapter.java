@@ -85,7 +85,7 @@ public class CalendarAnimeAdapter extends RecyclerView.Adapter<CalendarAnimeAdap
 
         void bind(CalendarAnimeViewModel item) {
 
-            imageLoader.setImage(image, item.getImagePreviewUrl());
+            imageLoader.setImageWithFit(image, item.getImagePreviewUrl());
 
             type.setText(item.getType().name());
             type.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));

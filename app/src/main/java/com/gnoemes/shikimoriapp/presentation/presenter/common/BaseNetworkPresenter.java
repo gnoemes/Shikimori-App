@@ -7,7 +7,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseNetworkPresenter<View extends BaseNetworkView> extends BasePresenter<View> {
+public abstract class BaseNetworkPresenter<View extends BaseNetworkView> extends BaseNavigationPresenter<View> {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 

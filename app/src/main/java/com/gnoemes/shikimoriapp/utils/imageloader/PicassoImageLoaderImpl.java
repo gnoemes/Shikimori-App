@@ -17,10 +17,20 @@ public class PicassoImageLoaderImpl implements ImageLoader {
     }
 
     @Override
-    public void setImage(ImageView imageView, String url) {
+    public void setImageWithFit(ImageView imageView, String url) {
         Picasso.get()
                 .load(BuildConfig.ShikimoriBaseUrl + url)
                 .fit()
                 .into(imageView);
+    }
+
+    @Override
+    public void setImage(ImageView imageView, String url) {
+        Picasso.get()
+                .load(BuildConfig.ShikimoriBaseUrl + url)
+                .fit()
+                .centerCrop()
+                .into(imageView);
+
     }
 }

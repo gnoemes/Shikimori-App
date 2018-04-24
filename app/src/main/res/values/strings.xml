@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Shikimori App</string>
+    <string name="appBarFixScrollingFooterBehavior">com.gnoemes.shikimoriapp.utils.FixScrollingFooterBehavior</string>
 
     <!--Bottom navigation-->
     <string name="common_favorite">Избранное</string>
@@ -9,11 +10,25 @@
     <string name="common_menu">Меню</string>
     <string name="common_today">Сегодня</string>
     <string name="common_tomorrow">Завтра</string>
+    <string name="common_genre">Жанр</string>
+    <string name="common_type">Тип</string>
+    <string name="common_status">Статус</string>
+    <string name="common_season">Сезон</string>
+    <string name="common_year">Год</string>
+    <string name="common_order_by">Упорядочить по</string>
+    <string name="common_duration">Продолжительность</string>
+    <string name="common_franchise">Франшиза</string>
+    <string name="common_studio">Студия</string>
+    <string name="common_loading">Загрузка</string>
+    <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
+
+    <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
+    <string name="search_advance">Продвинутый</string>
 
     <string name="calendar_ongoings">Календарь онгоингов</string>
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
-
+    <string name="calendar_episode_in">%s эпизод c %s</string>
 
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
 
@@ -22,6 +37,128 @@
     <string name="error_json">Json syntax error</string>
     <string name="error_unknown">Unknown Error</string>
     <string name="description_image">Изображение</string>
-    <string name="calendar_episode_in">%s эпизод c %s</string>
-    <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
+    <string name="description_progress">progress</string>
+    <string name="description_clear">Сброс фильтров</string>
+    <string name="description_accept">Принять</string>
+
+
+    <string name="type_tv" translatable="false">TV</string>
+    <string name="type_tv_13" translatable="false">TV 13</string>
+    <string name="type_tv_24" translatable="false">TV 24</string>
+    <string name="type_tv_48" translatable="false">TV 48</string>
+    <string name="type_movie" translatable="false">Movie</string>
+    <string name="type_ova" translatable="false">OVA</string>
+    <string name="type_ona" translatable="false">ONA</string>
+    <string name="type_special" translatable="false">Special</string>
+    <string name="type_music" translatable="false">Music</string>
+
+
+    <string-array name="types">
+        <item>@string/type_tv</item>
+        <item>@string/type_ova</item>
+        <item>@string/type_ona</item>
+        <item>@string/type_special</item>
+        <item>@string/type_movie</item>
+        <item>@string/type_music</item>
+        <item>@string/type_tv_13</item>
+        <item>@string/type_tv_24</item>
+        <item>@string/type_tv_48</item>
+    </string-array>
+
+    <string-array name="types_name">
+        <item>tv</item>
+        <item>ova</item>
+        <item>ona</item>
+        <item>special</item>
+        <item>movie</item>
+        <item>music</item>
+        <item>tv_13</item>
+        <item>tv_24</item>
+        <item>tv_48</item>
+    </string-array>
+
+    <string name="status_anons">Анонс</string>
+    <string name="status_ongoing">Онгоинг</string>
+    <string name="status_released">Завершен</string>
+
+    <string-array name="statuses">
+        <item>@string/status_anons</item>
+        <item>@string/status_ongoing</item>
+        <item>@string/status_released</item>
+    </string-array>
+
+    <string-array name="statuses_names">
+        <item>anons</item>
+        <item>ongoing</item>
+        <item>released</item>
+    </string-array>
+
+    <string name="season_autumn">Осень</string>
+    <string name="season_winter">Зима</string>
+    <string name="season_spring">Весна</string>
+    <string name="season_summer">Лето</string>
+
+    <string-array name="seasons">
+        <item>@string/season_autumn</item>
+        <item>@string/season_winter</item>
+        <item>@string/season_spring</item>
+        <item>@string/season_summer</item>
+    </string-array>
+
+    <string-array name="seasons_names">
+        <item>fall</item>
+        <item>winter</item>
+        <item>spring</item>
+        <item>summer</item>
+    </string-array>
+
+
+    <string name="order_by_id">По порядку</string>
+    <string name="order_by_type">По типу</string>
+    <string name="order_by_popularity">По популярности</string>
+    <string name="order_by_name">По имени</string>
+    <string name="order_by_aired_on">По дате</string>
+    <string name="order_by_episodes">По эпизодам</string>
+    <string name="order_by_status">По статусу</string>
+    <string name="order_by_random">Рандом</string>
+
+    <string-array name="order">
+        <item>@string/order_by_name</item>
+        <item>@string/order_by_aired_on</item>
+        <item>@string/order_by_type</item>
+        <item>@string/order_by_id</item>
+        <item>@string/order_by_status</item>
+        <item>@string/order_by_random</item>
+        <item>@string/order_by_episodes</item>
+        <item>@string/order_by_popularity</item>
+    </string-array>
+
+    <string-array name="order_names">
+        <item>name</item>
+        <item>aired_on</item>
+        <item>type</item>
+        <item>id</item>
+        <item>status</item>
+        <item>random</item>
+        <item>episodes</item>
+        <item>popularity</item>
+    </string-array>
+
+    <string name="duration_small">&lt; 10 мин.</string>
+    <string name="duration_medium">&lt; 30 мин.</string>
+    <string name="duration_long">&gt; 30 мин.</string>
+
+    <string-array name="duration">
+        <item>@string/duration_small</item>
+        <item>@string/duration_medium</item>
+        <item>@string/duration_long</item>
+    </string-array>
+
+    <string-array name="duration_names">
+        <item>S</item>
+        <item>D</item>
+        <item>F</item>
+    </string-array>
+
+
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.allattentionhere.fabulousfilter.AAH_FilterView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_size"
+            android:background="?attr/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="@+id/view_pager"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabPadding="0dp"
+            app:tabSelectedTextColor="?attr/colorAccent"
+            app:tabTextColor="?attr/colorAccentTransparent" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tab_layout"
+            android:layout_marginBottom="56dp"
+            android:layout_marginTop="0dp" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageButton
+                android:id="@+id/btn_clear"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/bittersweet"
+                android:contentDescription="@string/description_clear"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_normal"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_autorenew" />
+
+            <ImageButton
+                android:id="@+id/btn_accept"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_teal"
+                android:contentDescription="@string/description_accept"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_normal"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_check" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</com.allattentionhere.fabulousfilter.AAH_FilterView>

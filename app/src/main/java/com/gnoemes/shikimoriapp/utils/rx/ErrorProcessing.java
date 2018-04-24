@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.TitleException;
 import com.google.gson.JsonSyntaxException;
 
@@ -14,6 +15,7 @@ import java.net.UnknownHostException;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import retrofit2.HttpException;
 
 public class ErrorProcessing<T> {
 
@@ -36,7 +38,7 @@ public class ErrorProcessing<T> {
     }
 
     @NonNull
-    private Throwable throwProcessException(Throwable throwable) throws TitleException, NetworkException {
+    private Throwable throwProcessException(Throwable throwable) throws TitleException, NetworkException, ServiceCodeException {
 
         if (throwable instanceof UnknownHostException) {
             throw new NetworkException(resourceProvider.getUnknownHostException());
@@ -52,6 +54,10 @@ public class ErrorProcessing<T> {
 
         if (throwable instanceof JsonSyntaxException) {
             throw new TitleException("", resourceProvider.getJsonSyntaxException());
+        }
+
+        if (throwable instanceof HttpException) {
+            throw new ServiceCodeException(((HttpException) throwable).code());
         }
 
         if (throwable instanceof BaseException) {
