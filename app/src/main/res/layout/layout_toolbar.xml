@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    app:elevation="4dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -12,7 +13,9 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:title="@string/app_name"
-        app:layout_scrollFlags="scroll"
-        app:titleTextAppearance="@style/ToolbarTextAppearance" />
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextAppearance="@style/ToolbarTextAppearance"
+
+        />
 
 </android.support.design.widget.AppBarLayout>

@@ -6,7 +6,10 @@ public enum AnimeType {
     OVA("ova"),
     ONA("ona"),
     SPECIAL("special"),
-    MUSIC("music");
+    MUSIC("music"),
+    TV_13("tv_13"),
+    TV_24("tv_24"),
+    TV_48("tv_48");
 
 
     private final String type;

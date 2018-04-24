@@ -15,4 +15,8 @@ public class AppExtras {
      */
     public static final String ARGUMENT_SELECT_TAB = "ARGUMENT_SELECT_TAB";
 
+    /**
+     * Argument for filter Dialog
+     */
+    public static final String ARGUMENT_DIALOG = "ARGUMENT_DIALOG";
 }

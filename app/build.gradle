@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'shikimori'
+            keyPassword 'Danilfriter123hjkav9kYdDcda4c1dd4'
+            storeFile file('C:/Users/User/keystore.jks')
+            storePassword 'Danilfriter123hjkav9kYdDcda4c1dd4'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
@@ -11,6 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -23,13 +32,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     buildTypes.each {
         it.buildConfigField 'String', 'ShikimoriClientId', ShikimoriClientId
         it.buildConfigField 'String', 'ShikimoriClientSecret', ShikimoriClientSecret
         it.buildConfigField 'String', 'ShikimoriBaseUrl', ShikimoriBaseUrl
     }
     buildToolsVersion '27.0.3'
+    productFlavors {
+    }
 }
 
 def supportLibraryVersion = '27.1.1'
@@ -74,6 +84,9 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.9.3'
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
     implementation 'com.milaptank:stv:1.0.0'
+    implementation 'com.allattentionhere:fabulousfilter:0.0.5'
+    implementation 'com.google.android:flexbox:0.3.2'
+    implementation 'com.lapism:searchview:4.0'
     testImplementation 'org.mockito:mockito-all:1.10.19'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

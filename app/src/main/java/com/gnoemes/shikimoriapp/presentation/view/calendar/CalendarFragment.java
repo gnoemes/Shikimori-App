@@ -33,7 +33,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter, CalendarVi
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.list_calendar)
+    @BindView(R.id.list)
     RecyclerView recyclerView;
 
     @BindView(R.id.view_network_error)

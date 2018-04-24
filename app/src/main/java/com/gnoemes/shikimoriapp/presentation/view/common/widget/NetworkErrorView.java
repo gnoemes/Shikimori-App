@@ -12,7 +12,6 @@ import com.gnoemes.shikimoriapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class NetworkErrorView extends FrameLayout {
 
     @BindView(R.id.image_title)
@@ -43,5 +42,4 @@ public class NetworkErrorView extends FrameLayout {
         imageView.setVisibility(visibility);
         textView.setVisibility(visibility);
     }
-
 }

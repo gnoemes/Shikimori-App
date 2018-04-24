@@ -13,8 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDark">
-        <activity android:name=".presentation.view.main.MainActivity">
+        android:theme="@style/AppThemeLight">
+        <activity
+            android:name=".presentation.view.main.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
