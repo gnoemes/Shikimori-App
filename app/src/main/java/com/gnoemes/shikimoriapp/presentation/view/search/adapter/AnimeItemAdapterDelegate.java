@@ -15,6 +15,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
 import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 import com.mpt.android.stv.Slice;
 import com.mpt.android.stv.SpannableTextView;
@@ -30,12 +31,12 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
     @NonNull
     private SearchAnimeResourceProvider resourceProvider;
     @NonNull
-    private SearchAnimeItemCallback callback;
+    private DefaultItemCallback callback;
     @NonNull
     private ImageLoader imageLoader;
 
     public AnimeItemAdapterDelegate(@NonNull SearchAnimeResourceProvider resourceProvider,
-                                    @NonNull SearchAnimeItemCallback callback,
+                                    @NonNull DefaultItemCallback callback,
                                     @NonNull ImageLoader imageLoader) {
         this.resourceProvider = resourceProvider;
         this.callback = callback;
@@ -80,8 +81,6 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            layout.setOnClickListener(v -> callback.onItemClick(itemView.getId()));
         }
 
         public void bind(AnimeViewModel item) {
@@ -107,6 +106,8 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
                     .textSize((int) itemView.getContext().getResources().getDimension(R.dimen.text_normal))
                     .build());
             name.display();
+
+            layout.setOnClickListener(v -> callback.onItemClick(item.getId()));
         }
 
         private Slice getSliceWithName(String name) {

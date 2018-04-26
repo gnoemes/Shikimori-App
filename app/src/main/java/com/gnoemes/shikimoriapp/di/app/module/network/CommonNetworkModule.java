@@ -1,6 +1,9 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
+import android.content.Context;
+
 import com.gnoemes.shikimoriapp.BuildConfig;
+import com.gnoemes.shikimoriapp.di.app.qualifiers.ClientCacheApi;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.CommonApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
 
@@ -10,6 +13,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
@@ -45,5 +49,17 @@ public class CommonNetworkModule {
     @CommonApi
     Retrofit provideRetrofit(@CommonApi Retrofit.Builder builder) {
         return builder.baseUrl(BuildConfig.ShikimoriBaseUrl).build();
+    }
+
+    @Provides
+    @Singleton
+    @ClientCacheApi
+    OkHttpClient provdeOkHttpClientCache(HttpLoggingInterceptor interceptor, Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .cache(new Cache(context.getCacheDir(), 1024 * 1024))
+                .connectTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
     }
 }

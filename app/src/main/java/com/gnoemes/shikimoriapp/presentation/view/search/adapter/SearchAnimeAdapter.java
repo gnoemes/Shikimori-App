@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseSearchIte
 
     public SearchAnimeAdapter(@NonNull SearchAnimeResourceProvider resourceProvider,
                               @NonNull ImageLoader imageLoader,
-                              @NonNull SearchAnimeItemCallback callback) {
+                              @NonNull DefaultItemCallback callback) {
 
         delegatesManager.addDelegate(new AnimeItemAdapterDelegate(resourceProvider, callback, imageLoader));
         delegatesManager.addDelegate(new ProgressItemAdapterDelegate());

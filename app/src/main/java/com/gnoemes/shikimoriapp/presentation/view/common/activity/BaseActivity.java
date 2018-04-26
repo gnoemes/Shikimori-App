@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.inputmethod.InputMethodManager;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
-import com.gnoemes.shikimoriapp.presentation.view.common.fragment.FragmentCallback;
+import com.gnoemes.shikimoriapp.presentation.view.common.fragment.ActivityCallback;
+import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -27,7 +29,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
  * @param <View>
  */
 public abstract class BaseActivity<Presenter extends BasePresenter, View extends BaseView>
-        extends MvpAppCompatActivity implements HasSupportFragmentInjector, BaseView, FragmentCallback {
+        extends MvpAppCompatActivity implements HasSupportFragmentInjector, BaseView, ActivityCallback {
 
     @Inject
     protected Provider<Presenter> presenterProvider;
@@ -115,6 +117,14 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
 
     @Override
     public void onBackPressed() {
-        getPresenter().onBackPressed();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_container);
+        if (fragment != null
+                && fragment instanceof BackButtonListener
+                && ((BackButtonListener) fragment).onBackPressed()) {
+            return;
+        } else {
+            getPresenter().onBackPressed();
+        }
     }
 }
+

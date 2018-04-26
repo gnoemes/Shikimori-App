@@ -25,8 +25,8 @@ import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants;
-import com.gnoemes.shikimoriapp.utils.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
+import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -331,7 +331,7 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
                 selected.mutate();
 
                 for (int i = 0; i < values.size(); i++) {
-                    View subChild = getLayoutInflater().inflate(R.layout.item_chip, null);
+                    View subChild = getLayoutInflater().inflate(R.layout.item_filter_chip, null);
                     final TextView tv = subChild.findViewById(R.id.txt_title);
                     tv.setText(values.get(i).getLocalizedText());
                     final int finalIndex = i;
