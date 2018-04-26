@@ -48,6 +48,54 @@ public class DateTimeConverterImpl implements DateTimeConverter {
         return timeFormatter.print(dateTime);
     }
 
+    @Override
+    public String convertAnimeSeasonToString(DateTime dateTime) {
+        String season;
+        switch (dateTime.getMonthOfYear()) {
+            case 1:
+                season = resourceProvider.getWinterString();
+                break;
+            case 2:
+                season = resourceProvider.getWinterString();
+                break;
+            case 3:
+                season = resourceProvider.getSpringString();
+                break;
+            case 4:
+                season = resourceProvider.getSpringString();
+                break;
+            case 5:
+                season = resourceProvider.getSpringString();
+                break;
+            case 6:
+                season = resourceProvider.getSummerString();
+                break;
+            case 7:
+                season = resourceProvider.getSummerString();
+                break;
+            case 8:
+                season = resourceProvider.getSummerString();
+                break;
+            case 9:
+                season = resourceProvider.getFallString();
+                break;
+            case 10:
+                season = resourceProvider.getFallString();
+                break;
+            case 11:
+                season = resourceProvider.getFallString();
+                break;
+            case 12:
+                season = resourceProvider.getWinterString();
+                break;
+            default:
+                return "";
+        }
+
+        return season.concat(" ") + dateTime.getYear();
+    }
+
+
     private String firstToUpperCase(String print) {
         return print.substring(0, 1).toUpperCase().concat(print.substring(1));
     }

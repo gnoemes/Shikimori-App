@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Shikimori App</string>
-    <string name="appBarFixScrollingFooterBehavior">com.gnoemes.shikimoriapp.utils.FixScrollingFooterBehavior</string>
+    <string name="appBarFixScrollingFooterBehavior">com.gnoemes.shikimoriapp.utils.view.FixScrollingFooterBehavior</string>
 
     <!--Bottom navigation-->
     <string name="common_favorite">Избранное</string>
@@ -21,6 +21,8 @@
     <string name="common_studio">Студия</string>
     <string name="common_loading">Загрузка</string>
     <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
+    <string name="common_description">Описание</string>
+
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
     <string name="search_advance">Продвинутый</string>
@@ -36,6 +38,7 @@
     <string name="error_timeout">Connection timeout</string>
     <string name="error_json">Json syntax error</string>
     <string name="error_unknown">Unknown Error</string>
+    <string name="error_no_data">Нет данных</string>
     <string name="description_image">Изображение</string>
     <string name="description_progress">progress</string>
     <string name="description_clear">Сброс фильтров</string>
@@ -51,6 +54,7 @@
     <string name="type_ona" translatable="false">ONA</string>
     <string name="type_special" translatable="false">Special</string>
     <string name="type_music" translatable="false">Music</string>
+    <string name="type_pattern">%s (%o эп.), %o мин.</string>
 
 
     <string-array name="types">
@@ -147,6 +151,10 @@
     <string name="duration_small">&lt; 10 мин.</string>
     <string name="duration_medium">&lt; 30 мин.</string>
     <string name="duration_long">&gt; 30 мин.</string>
+    <string name="watch_online">Смотреть онлайн</string>
+    <string name="common_links">Ссылки</string>
+    <string name="common_related">Похожие</string>
+    <string name="common_comments">Комментарии</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

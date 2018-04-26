@@ -14,6 +14,7 @@
 
     <!--Light Theme Colors-->
     <color name="colorPrimary">#FFA726</color>
+    <color name="colorPrimaryTransparent">#42ffa726</color>
     <color name="colorPrimaryDark">#F57C00</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorBackground">@color/light_gray</color>
@@ -21,6 +22,7 @@
 
     <!--Dark Theme Colors-->
     <color name="colorPrimaryInverse">#243447</color>
+    <color name="colorPrimaryTransparentInverse">#42243447</color>
     <color name="colorPrimaryDarkInverse">#1B2836</color>
     <color name="colorAccentInverse">#FFD200</color>
     <color name="colorBackgroundInverse">#141D26</color>

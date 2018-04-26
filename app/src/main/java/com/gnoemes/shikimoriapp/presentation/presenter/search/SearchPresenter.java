@@ -5,10 +5,12 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.search.SearchInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -32,6 +34,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     private HashMap<String, List<FilterItem>> filters = new HashMap<>();
 
     private String reactiveQuery;
+    private AnimeGenre genre;
     /**
      * Pagination callback interface for view
      */
@@ -118,7 +121,13 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         getViewState().hideEmptyView();
         getViewState().hideNetworkError();
         paginator = new SearchPaginatorImpl(interactor, viewController);
-        paginator.refresh();
+
+        if (genre == null) {
+            paginator.refresh();
+        } else {
+            onGenreSearch();
+        }
+
     }
 
     public void onFiltersSelected(HashMap<String, List<FilterItem>> filters) {
@@ -140,6 +149,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
                 break;
             case NetworkException.TAG:
                 getViewState().showNetworkError();
+                getViewState().hideList();
                 break;
             default:
                 super.processErrors(throwable);
@@ -151,6 +161,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         switch (exception.getServiceCode()) {
             case HttpStatusCode.UNPROCESSABLE_ENTITY:
                 getViewState().showEmptyView();
+                getViewState().hideList();
                 break;
         }
     }
@@ -164,8 +175,8 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         paginator.refresh();
     }
 
-    public void onItemClicked(int id) {
-        //TODO anime details
+    public void onItemClicked(long id) {
+        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
     public void loadNextPage() {
@@ -185,5 +196,15 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
 
     public void setSearchReactive(String reactiveQuery) {
         this.reactiveQuery = reactiveQuery;
+    }
+
+    private void onGenreSearch() {
+        filters.put(SearchConstants.GENRE, Collections.singletonList(
+                new FilterItem(SearchConstants.GENRE, genre.getId(), genre.getRussianName())));
+        onRefresh();
+    }
+
+    public void setGenre(AnimeGenre genre) {
+        this.genre = genre;
     }
 }

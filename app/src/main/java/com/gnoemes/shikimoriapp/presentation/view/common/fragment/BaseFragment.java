@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.view.common.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +40,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     @Inject
     protected Provider<Presenter> presenterProvider;
 
-    private FragmentCallback fragmentCallback;
+    private ActivityCallback activityCallback;
 
     private Unbinder unbinder;
 
@@ -48,10 +49,10 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
         try {
-            fragmentCallback = (FragmentCallback) context;
+            activityCallback = (ActivityCallback) context;
         } catch (ClassCastException exception) {
             throw new ClassCastException(context.toString()
-                    + " must implement " + fragmentCallback.getClass());
+                    + " must implement " + activityCallback.getClass());
         }
     }
 
@@ -102,10 +103,11 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
      */
     protected abstract Presenter getPresenter();
 
-    protected FragmentCallback getFragmentCallback() {
-        return fragmentCallback;
+    protected ActivityCallback getActivityCallback() {
+        return activityCallback;
     }
 
+    @LayoutRes
     protected abstract int getFragmentLayout();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -116,7 +118,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                getPresenter().onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -148,21 +150,21 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     @Override
     public void onShowError(String error) {
         if (hasCallback()) {
-            fragmentCallback.onShowError(error);
+            activityCallback.onShowError(error);
         }
     }
 
     @Override
     public void onShowLoading() {
         if (hasCallback()) {
-            fragmentCallback.onShowLoading();
+            activityCallback.onShowLoading();
         }
     }
 
     @Override
     public void onHideLoading() {
         if (hasCallback()) {
-            fragmentCallback.onHideLoading();
+            activityCallback.onHideLoading();
         }
     }
 
@@ -177,6 +179,6 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     }
 
     private boolean hasCallback() {
-        return fragmentCallback != null;
+        return activityCallback != null;
     }
 }

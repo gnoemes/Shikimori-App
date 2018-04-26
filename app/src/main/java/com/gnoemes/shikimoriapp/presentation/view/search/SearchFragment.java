@@ -14,6 +14,7 @@ import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
@@ -25,8 +26,8 @@ import com.gnoemes.shikimoriapp.presentation.view.common.widget.SearchEmptyView;
 import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAnimeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
-import com.gnoemes.shikimoriapp.utils.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -67,20 +68,26 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     private SearchAnimeAdapter animeAdapter;
     private FilterDialogFragment dialogFragment;
 
+    public static SearchFragment newInstance(@Nullable AnimeGenre data) {
+        Bundle args = new Bundle();
+        SearchFragment fragment = new SearchFragment();
+        args.putSerializable(AppExtras.ARGUMENT_GENRE, data);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @ProvidePresenter
     SearchPresenter provideSearchPresenter() {
         presenter = presenterProvider.get();
         if (getParentFragment() != null) {
             presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
         }
-        return presenter;
-    }
 
-    public static SearchFragment newInstance() {
-        Bundle args = new Bundle();
-        SearchFragment fragment = new SearchFragment();
-        fragment.setArguments(args);
-        return fragment;
+        if (getArguments() != null && getArguments().containsKey(AppExtras.ARGUMENT_GENRE)) {
+            presenter.setGenre((AnimeGenre) getArguments().getSerializable(AppExtras.ARGUMENT_GENRE));
+        }
+
+        return presenter;
     }
 
     @Override
@@ -137,7 +144,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     private void initSearchView() {
         searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
         toolbar.addView(searchView);
-        toolbar.inflateMenu(R.menu.menu_search);
+
         searchView.setNavigationIcon(R.drawable.ic_arrow_back);
         searchView.setHint(R.string.common_search);
         searchView.setVoice(false);
@@ -145,7 +152,6 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         searchView.setVersion(com.lapism.searchview.SearchView.VERSION_MENU_ITEM);
         searchView.setVersionMargins(com.lapism.searchview.SearchView.VERSION_MARGINS_MENU_ITEM);
         searchView.setShouldHideOnKeyboardClose(true);
-
         searchView.setOnOpenCloseListener(new com.lapism.searchview.SearchView.OnOpenCloseListener() {
             @Override
             public boolean onClose() {
@@ -185,6 +191,8 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
                 return false;
             }
         });
+
+        toolbar.inflateMenu(R.menu.menu_search);
     }
 
     private MenuItem toggleMenu(boolean search) {

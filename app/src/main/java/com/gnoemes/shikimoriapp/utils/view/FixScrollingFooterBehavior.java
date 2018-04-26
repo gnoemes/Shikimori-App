@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.utils;
+package com.gnoemes.shikimoriapp.utils.view;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;

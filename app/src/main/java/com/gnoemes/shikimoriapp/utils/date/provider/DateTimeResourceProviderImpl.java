@@ -30,4 +30,24 @@ public class DateTimeResourceProviderImpl implements DateTimeResourceProvider {
         return context.getString(R.string.calendar_date_format);
     }
 
+    @Override
+    public String getFallString() {
+        return context.getString(R.string.season_autumn);
+    }
+
+    @Override
+    public String getWinterString() {
+        return context.getString(R.string.season_winter);
+    }
+
+    @Override
+    public String getSpringString() {
+        return context.getString(R.string.season_spring);
+    }
+
+    @Override
+    public String getSummerString() {
+        return context.getString(R.string.season_summer);
+    }
+
 }

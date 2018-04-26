@@ -1,11 +1,10 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.calendar;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.calendar.CalendarInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.converter.CalendarViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.provider.CalendarResourceProvider;
@@ -86,6 +85,6 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     }
 
     public void onAnimeClicked(long id) {
-        Log.i("DEVE", "onAnimeClicked: " + id);
+        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 }

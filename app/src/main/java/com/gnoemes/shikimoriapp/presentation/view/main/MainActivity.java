@@ -17,10 +17,10 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
-import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.presentation.presenter.main.MainPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
+import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
 
 import javax.inject.Inject;
@@ -29,10 +29,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class MainActivity extends BaseActivity<MainPresenter, MainView> implements MainView {
+public class MainActivity extends BaseActivity<MainPresenter, MainView> implements MainView, RouterProvider {
 
     @BindView(R.id.bottom_nav)
     BottomNavigationBar bottomNav;
@@ -43,8 +44,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     NavigatorHolder navigatorHolder;
     @Inject
     MainResourceProvider resourceProvider;
-    @Inject
-    LocalCiceroneHolder localCiceroneHolder;
+
     private BottomTabContainer favoriteTabFragment;
     private BottomTabContainer calendarTabFragment;
     private BottomTabContainer searchTabFragment;
@@ -93,10 +93,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
 
     @Override
     protected Navigator getLocalNavigator() {
-
         if (localNavigator == null) {
             localNavigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.activity_container) {
-                boolean canExit = false;
+
 
                 @Override
                 protected Intent createActivityIntent(Context context, String screenKey, Object data) {
@@ -165,10 +164,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                     }
                 }
 
+                boolean canExit = false;
+
                 @Override
                 protected void exit() {
                     if (!canExit) {
-                        showSystemMessage(resourceProvider.getExitMessage());
+                        getPresenter().getRouter().showSystemMessage(resourceProvider.getExitMessage());
                         canExit = true;
                         new Handler().postDelayed(() -> canExit = false, Constants.EXIT_TIMEOUT);
                     } else {
@@ -313,6 +314,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                     .add(R.id.activity_container, favoriteTabFragment, BottomScreens.FAVORITE)
                     .detach(favoriteTabFragment).commitNow();
         }
+    }
+
+    @Override
+    public Router getLocalRouter() {
+        return getPresenter().getRouter();
     }
 
     private class TabPosition {

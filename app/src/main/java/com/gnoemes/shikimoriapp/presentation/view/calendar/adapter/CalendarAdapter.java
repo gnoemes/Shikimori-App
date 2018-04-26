@@ -11,9 +11,9 @@ import android.widget.TextView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider.CalendarAnimeResourceProvider;
-import com.gnoemes.shikimoriapp.utils.RecyclerItemClickListener;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

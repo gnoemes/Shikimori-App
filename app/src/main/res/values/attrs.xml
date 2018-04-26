@@ -3,4 +3,7 @@
     <attr name="dividerColor" format="color" />
     <attr name="colorAccentTransparent" format="color" />
     <attr name="colorText" format="color" />
+    <attr name="colorTextInverse" format="color" />
+    <attr name="colorBackgroundContent" format="color" />
+    <attr name="colorBackgroundWindow" format="color" />
 </resources>

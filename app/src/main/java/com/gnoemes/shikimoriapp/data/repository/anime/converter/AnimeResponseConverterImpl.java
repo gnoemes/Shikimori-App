@@ -30,15 +30,16 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
                 animeResponse.getReleasedDate());
     }
 
-    private AnimeImage convertAnimeImage(AnimeImageResponse image) {
+    @Override
+    public AnimeImage convertAnimeImage(AnimeImageResponse image) {
         return new AnimeImage(image.getImageOriginalUrl(),
                 image.getImagePreviewUrl(),
                 image.getImageX96Url(),
                 image.getImageX48Url());
     }
 
-
-    private AnimeType convertAnimeType(String type) {
+    @Override
+    public AnimeType convertAnimeType(String type) {
 
         if (AnimeType.TV.equalsType(type)) {
             return AnimeType.TV;
@@ -57,7 +58,8 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
         }
     }
 
-    private AnimeStatus convertAnimeStatus(String status) {
+    @Override
+    public AnimeStatus convertAnimeStatus(String status) {
 
         if (AnimeStatus.ANONS.equalsStatus(status)) {
             return AnimeStatus.ANONS;

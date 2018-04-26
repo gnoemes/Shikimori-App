@@ -19,4 +19,12 @@ public interface DateTimeResourceProvider {
      */
     String getCalendarDateFormat();
 
+    String getFallString();
+
+    String getWinterString();
+
+    String getSpringString();
+
+    String getSummerString();
+
 }

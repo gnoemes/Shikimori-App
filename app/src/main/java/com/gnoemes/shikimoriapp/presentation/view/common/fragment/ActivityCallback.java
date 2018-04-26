@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.common.fragment;
 
-public interface FragmentCallback {
+public interface ActivityCallback {
     /**
      * Show loading
      */
@@ -16,8 +16,4 @@ public interface FragmentCallback {
      */
     void onShowError(String message);
 
-    /**
-     * Then back pressed
-     */
-    void onBackPressed();
 }

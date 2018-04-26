@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:padding="@dimen/margin_normal">
 
     <ImageView
@@ -11,7 +14,6 @@
         android:layout_width="140dp"
         android:layout_height="190dp"
         android:contentDescription="@string/description_image"
-
         tools:srcCompat="@drawable/test_preview2" />
 
     <TextView
