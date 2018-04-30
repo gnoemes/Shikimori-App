@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="dividerColor" format="color" />
+    <attr name="colorDivider" format="color" />
+    <attr name="colorDividerTransparent" format="color" />
     <attr name="colorAccentTransparent" format="color" />
     <attr name="colorText" format="color" />
     <attr name="colorTextInverse" format="color" />
     <attr name="colorBackgroundContent" format="color" />
+    <attr name="colorBackgroundWindowInverse" format="color" />
     <attr name="colorBackgroundWindow" format="color" />
+    <attr name="colorAction" format="color" />
 </resources>

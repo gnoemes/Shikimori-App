@@ -24,11 +24,6 @@ public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseSearchIte
         setItems(new ArrayList<>());
     }
 
-
-    public BaseSearchItem getItemByPosition(int position) {
-        return items.get(position);
-    }
-
     public void bindItems(List<BaseSearchItem> searchItems) {
         items.clear();
         items.addAll(searchItems);
