@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
@@ -29,6 +30,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.converter.EpisodeViewMod
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiConsumer;
 
 @InjectViewState
 public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
@@ -66,10 +68,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load episodes list
      */
     private void loadEpisodes() {
-        getViewState().hideEmptyView();
+        getViewState().onShowRefresh();
         getViewState().hideErrorView();
 
         Disposable disposable = seriesInteractor.getEpisodes(animeId)
+                .doOnEvent(new BiConsumer<List<Episode>, Throwable>() {
+                    @Override
+                    public void accept(List<Episode> episodes, Throwable throwable) {
+                        getViewState().onHideRefresh();
+                    }
+                })
                 .map(episodeViewModelConverter)
                 .subscribe(this::setEpisodes, this::processErrors);
 
@@ -108,6 +116,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     /**
      * Action on episode clicked
+     *
      * @param episode EpisodeItem
      */
     public void onEpisodeClicked(EpisodeItem episode) {
@@ -165,6 +174,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void setEpisodes(List<BaseEpisodeItem> episodes) {
         getViewState().showEpisodeList(episodes);
+
     }
 
     /**
