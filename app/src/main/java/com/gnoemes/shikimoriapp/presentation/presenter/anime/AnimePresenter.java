@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
@@ -40,7 +41,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private long animeId;
     private AnimeDetails currentAnime;
-    private long selectedEpisodeId;
+    private EpisodeItem selectedEpisode;
 
     public AnimePresenter(@NonNull AnimeInteractor animeInteractor,
                           @NonNull SeriesInteractor seriesInteractor,
@@ -107,11 +108,13 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     /**
      * Action on episode clicked
+     * @param episode EpisodeItem
      */
-    public void onEpisodeClicked(long id) {
+    public void onEpisodeClicked(EpisodeItem episode) {
         //TODO check user settings
-        selectedEpisodeId = id;
+        selectedEpisode = episode;
         getViewState().showSettingsWizard();
+
     }
 
     /**
@@ -238,7 +241,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     public void onEpisodeOptionAction(EpisodeOptionAction action, long id) {
         switch (action) {
             case WATCH_ONLINE:
-                onEpisodeClicked(id);
+//                onEpisodeClicked;
                 break;
         }
     }
@@ -248,6 +251,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     public void onSettingsSelected(TranslationType type, TranslationChooseSettings chooseSettings, PlayerType playerType) {
         //TODO save settings
+
+
+//        Disposable disposable = seriesInteractor.getEpisodeTranslations(type, selectedEpisode.getId())
+//                .subscribe(new Consumer<List<Translation>>() {
+//                    @Override
+//                    public void accept(List<Translation> translations) throws Exception {
+//                        getViewState().playVideoOnWeb(translations.get(0).getEmbedUrl());
+//                    }
+//                });
+
     }
 
     /**

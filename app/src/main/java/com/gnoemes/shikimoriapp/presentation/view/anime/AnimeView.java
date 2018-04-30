@@ -40,4 +40,7 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);
+
+    @StateStrategyType(SkipStrategy.class)
+    void playVideoOnWeb(String embedUrl);
 }
