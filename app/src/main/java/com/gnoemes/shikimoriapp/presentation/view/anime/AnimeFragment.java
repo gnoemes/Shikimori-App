@@ -113,7 +113,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     private void initViews() {
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
-                (action, id) -> getPresenter().onEpisodeOptionAction(action, id));
+                (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
         pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
 
