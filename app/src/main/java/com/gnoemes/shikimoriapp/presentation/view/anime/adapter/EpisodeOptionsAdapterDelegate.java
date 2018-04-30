@@ -95,11 +95,11 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
                 buttonText = itemView.getResources().getString(R.string.watch_continue);
 
             }
-            nextEpisode.setText(optionsItem.getEpisode());
+            nextEpisode.setText(optionsItem.getEpisodeItem().getEpisodeFull());
 
             continueBtn.setText(buttonText);
 
-            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.WATCH_ONLINE, optionsItem.getEpisodeId()));
+            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.WATCH_ONLINE, optionsItem.getEpisodeItem()));
         }
     }
 }

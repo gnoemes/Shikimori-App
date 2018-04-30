@@ -21,18 +21,17 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
     public List<BaseEpisodeItem> apply(List<Episode> episodes) {
         List<BaseEpisodeItem> items = new ArrayList<>();
 
-        String episodeFull = null;
-        long episodeId = 0;
         boolean isFirst = true;
+        EpisodeItem currentItem = null;
 
         boolean flag = true;
 
         //TODO wrong logic
         for (Episode episode : episodes) {
-            items.add(convertEpisode(episode));
+            EpisodeItem item = convertEpisode(episode);
+            items.add(item);
             if (!episode.isWatched() && flag) {
-                episodeFull = episode.getEpisodeFull();
-                episodeId = episode.getId();
+                currentItem = item;
                 flag = false;
             }
             if (episode.isWatched()) {
@@ -41,9 +40,8 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
         }
 
         if (!items.isEmpty()) {
-            episodeId = episodeId == 0 ? episodes.get(episodes.size() - 1).getId() : episodeId;
-            episodeFull = episodeFull == null ? episodes.get(episodes.size() - 1).getEpisodeFull() : episodeFull;
-            items.add(0, new EpisodeOptionsItem(episodeId, isFirst, episodeFull));
+            currentItem = currentItem == null ? convertEpisode(episodes.get(episodes.size() - 1)) : currentItem;
+            items.add(0, new EpisodeOptionsItem(isFirst, currentItem));
         }
         return items;
     }
