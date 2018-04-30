@@ -34,6 +34,11 @@ public class SeriesResponseConverterImpl implements SeriesResponseConverter {
 
     private List<Episode> convertEpisodes(List<EpisodeResponse> episodes, long animeId) {
         List<Episode> episodeList = new ArrayList<>();
+
+        if (episodes == null) {
+            return episodeList;
+        }
+
         for (EpisodeResponse response : episodes) {
             episodeList.add(converter.convertFrom(response, animeId));
         }

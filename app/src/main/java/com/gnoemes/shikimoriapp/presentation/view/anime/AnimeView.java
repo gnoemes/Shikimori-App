@@ -24,12 +24,6 @@ public interface AnimeView extends BaseFragmentView {
     void showEpisodeList(List<BaseEpisodeItem> episodes);
 
     @StateStrategyType(SkipStrategy.class)
-    void showEmptyView();
-
-    @StateStrategyType(SkipStrategy.class)
-    void hideEmptyView();
-
-    @StateStrategyType(SkipStrategy.class)
     void showErrorView();
 
     @StateStrategyType(SkipStrategy.class)
@@ -43,4 +37,10 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void playVideoOnWeb(String embedUrl);
+
+    @StateStrategyType(SkipStrategy.class)
+    void onShowRefresh();
+
+    @StateStrategyType(SkipStrategy.class)
+    void onHideRefresh();
 }

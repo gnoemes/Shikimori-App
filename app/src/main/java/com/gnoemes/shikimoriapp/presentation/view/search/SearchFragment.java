@@ -21,8 +21,8 @@ import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentView;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
-import com.gnoemes.shikimoriapp.presentation.view.common.widget.SearchEmptyView;
 import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAnimeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
@@ -56,7 +56,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     NetworkErrorView networkErrorView;
 
     @BindView(R.id.view_search_empty)
-    SearchEmptyView searchEmptyView;
+    EmptyContentView searchEmptyView;
 
     @InjectPresenter
     SearchPresenter presenter;
@@ -145,6 +145,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
         toolbar.addView(searchView);
 
+        searchEmptyView.setText(R.string.search_nothing);
         searchView.setNavigationIcon(R.drawable.ic_arrow_back);
         searchView.setHint(R.string.common_search);
         searchView.setVoice(false);

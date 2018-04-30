@@ -34,7 +34,6 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.AnimeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
-import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
@@ -66,9 +65,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-
-    @BindView(R.id.view_network_error)
-    NetworkErrorView errorView;
 
     @InjectPresenter
     AnimePresenter presenter;
@@ -120,6 +116,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 (action, id) -> getPresenter().onEpisodeOptionAction(action, id));
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
         pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
+
 
         viewPager.setAdapter(pagerAdapter);
         progressBar.setSecondaryProgress(getResources().getColor(R.color.red));
@@ -197,25 +194,23 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     @Override
-    public void showEmptyView() {
-
-    }
-
-    @Override
-    public void hideEmptyView() {
-
-    }
-
-    @Override
     public void showErrorView() {
-        errorView.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
     }
 
     @Override
     public void hideErrorView() {
-        errorView.setVisibility(View.GONE);
         viewPager.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onShowRefresh() {
+        pagerAdapter.onShowRefresh();
+    }
+
+    @Override
+    public void onHideRefresh() {
+        pagerAdapter.onHideRefresh();
     }
 
     @Override
@@ -277,6 +272,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         private RecyclerView animeDetailsList;
         private RecyclerView seriesList;
 
+        private SwipeRefreshLayout refreshLayout;
+
         AnimePagerAdapter(AnimeAdapter animeAdapter, EpisodeAdapter episodeAdapter) {
             this.animeAdapter = animeAdapter;
             this.episodeAdapter = episodeAdapter;
@@ -322,7 +319,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         }
 
         private void createSeriesPage(ViewGroup layout) {
-            SwipeRefreshLayout refreshLayout = layout.findViewById(R.id.refresh_layout);
+            refreshLayout = layout.findViewById(R.id.refresh_layout);
             seriesList = layout.findViewById(R.id.list);
             refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
             seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(getContext()));
@@ -335,6 +332,18 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         void showEpisodeList(List<BaseEpisodeItem> episodes) {
             episodeAdapter.bindItems(episodes);
+        }
+
+        void onHideRefresh() {
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
+            }
+        }
+
+        void onShowRefresh() {
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(true);
+            }
         }
     }
 }

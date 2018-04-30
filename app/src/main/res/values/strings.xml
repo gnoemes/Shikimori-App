@@ -29,6 +29,7 @@
     <string name="common_comments">Комментарии</string>
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
+    <string name="episode_nothing">Ничего не найдено.\n Похоже, что серии еще не появились на сайте</string>
     <string name="search_advance">Продвинутый</string>
 
     <string name="calendar_ongoings">Календарь онгоингов</string>
