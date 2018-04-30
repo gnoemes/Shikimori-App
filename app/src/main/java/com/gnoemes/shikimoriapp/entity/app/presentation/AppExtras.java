@@ -21,4 +21,5 @@ public class AppExtras {
     public static final String ARGUMENT_DIALOG = "ARGUMENT_DIALOG";
     public static final String ARGUMENT_ANIME_ID = "ARGUMENT_ANIME_ID";
     public static final String ARGUMENT_GENRE = "ARGUMENT_GENRE";
+    public static final String ARGUMENT_URL = "ARGUMENT_URL";
 }

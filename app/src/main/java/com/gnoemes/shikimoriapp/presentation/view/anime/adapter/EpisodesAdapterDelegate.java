@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
-import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
@@ -25,9 +24,9 @@ import butterknife.ButterKnife;
 public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeItem>> {
 
     @NonNull
-    private DefaultItemCallback callback;
+    private EpisodePickCallback callback;
 
-    public EpisodesAdapterDelegate(@NonNull DefaultItemCallback callback) {
+    public EpisodesAdapterDelegate(@NonNull EpisodePickCallback callback) {
         this.callback = callback;
     }
 
@@ -102,7 +101,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
 
             layout.setBackground(card);
 
-            layout.setOnClickListener(v -> callback.onItemClick(episode.getId()));
+            layout.setOnClickListener(v -> callback.onEpisodePicked(episode));
         }
     }
 }
