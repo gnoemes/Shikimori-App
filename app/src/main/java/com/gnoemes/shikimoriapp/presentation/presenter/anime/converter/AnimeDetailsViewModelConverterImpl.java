@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.presenter.anime;
+package com.gnoemes.shikimoriapp.presentation.presenter.anime.converter;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -8,10 +8,15 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -85,5 +90,27 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
 
     private String convertName(String first, List<String> second) {
         return first != null ? first : second.get(0);
+    }
+
+    @Override
+    public List<BaseAnimeItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
+        List<BaseAnimeItem> animeItems = new ArrayList<>();
+
+        animeItems.add(new AnimeHeadItem(viewModel.getId(),
+                viewModel.getName(),
+                viewModel.getJpOrEngName(),
+                viewModel.getUrl(),
+                viewModel.getImageUrl(),
+                viewModel.getAnimeType(),
+                viewModel.getAnimeStatus(),
+                viewModel.getSeason(),
+                viewModel.getGenres(),
+                viewModel.getScore()));
+
+        animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
+
+        animeItems.add(new AnimeOtherItem(viewModel.getId()));
+
+        return animeItems;
     }
 }

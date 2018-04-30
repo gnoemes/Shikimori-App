@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.data.network;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.AnimeLinkResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 
 import java.util.List;
@@ -22,8 +23,15 @@ public interface AnimesApi {
     /**
      * Get anime detail info
      *
-     * @param animeId
+     * @param animeId long
      */
     @GET("/api/animes/{id}")
     Single<AnimeDetailsResponse> getAnimeDetails(@Path("id") long animeId);
+
+    /**
+     * Get anime external links
+     */
+    @GET("/api/animes/{id}/external_links")
+    Single<List<AnimeLinkResponse>> getAnimeLinks(@Path("id") long animeId);
+
 }

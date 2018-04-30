@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProviderImpl;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.imageloader.PicassoImageLoaderImpl;
+import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorProcessing;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorResourceProvider;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorResourceProviderImpl;
@@ -23,7 +24,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public abstract class UtilModule {
+public interface UtilModule {
 
     @Provides
     @Singleton
@@ -39,28 +40,34 @@ public abstract class UtilModule {
 
     @Provides
     @Singleton
+    static CompletableErrorHandler bindCompletableErrorHandler(ErrorProcessing errorProcessing) {
+        return new CompletableErrorHandler(errorProcessing);
+    }
+
+    @Provides
+    @Singleton
     static RxUtils bindRxUtils() {
         return new RxUtils();
     }
 
     @Binds
     @Singleton
-    abstract ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
+    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
 
     @Binds
     @Singleton
-    abstract ErrorResourceProvider bindErrorResourceProvider(ErrorResourceProviderImpl resourceProvider);
+    ErrorResourceProvider bindErrorResourceProvider(ErrorResourceProviderImpl resourceProvider);
 
     @Binds
-    abstract AnimeResponseConverter bindAnimeResponseConverter(AnimeResponseConverterImpl converter);
+    AnimeResponseConverter bindAnimeResponseConverter(AnimeResponseConverterImpl converter);
 
     @Binds
-    abstract DateTimeConverter bindDateTimeConverter(DateTimeConverterImpl converter);
+    DateTimeConverter bindDateTimeConverter(DateTimeConverterImpl converter);
 
     @Binds
-    abstract DateTimeResourceProvider bindResourceProvider(DateTimeResourceProviderImpl provider);
+    DateTimeResourceProvider bindResourceProvider(DateTimeResourceProviderImpl provider);
 
     @Binds
     @Singleton
-    abstract DateTimeUtils bindDateTimeUtils(DateTimeUtilsImpl utils);
+    DateTimeUtils bindDateTimeUtils(DateTimeUtilsImpl utils);
 }

@@ -1,52 +1,54 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime;
 
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.GenresAdapter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.AnimeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
-import com.gnoemes.shikimoriapp.utils.view.RecyclerItemClickListener;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.mpt.android.stv.Slice;
-import com.mpt.android.stv.SpannableTextView;
+import com.gnoemes.shikimoriapp.utils.view.LinearStickyHead;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
-/**
- * Fragment of anime detail information
- */
-public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView> implements AnimeView {
+public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
+        implements AnimeView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -57,73 +59,17 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView> imple
     @BindView(R.id.image_background)
     ImageView backgroundImage;
 
-    @BindView(R.id.text_name)
-    TextView nameView;
-
-    @BindView(R.id.text_japan_name)
-    TextView secondName;
-
-    @BindView(R.id.text_season)
-    SpannableTextView seasonView;
-
-    @BindView(R.id.text_type)
-    SpannableTextView typeView;
-
-    @BindView(R.id.text_status)
-    SpannableTextView statusView;
-
-    @BindView(R.id.text_genre)
-    SpannableTextView genreView;
-
-    @BindView(R.id.list_genres)
-    RecyclerView genresList;
-
-    @BindView(R.id.rating)
-    RatingBar ratingBar;
-
-    @BindView(R.id.text_rating)
-    TextView ratingValue;
-
-    @BindView(R.id.button_online)
-    Button buttonOnline;
-
-    @BindView(R.id.text_description)
-    TextView descriptionView;
-
-    @BindView(R.id.text_desctiption_title)
-    SpannableTextView desctiptionTitleView;
-
-    @BindView(R.id.image_add)
-    ImageView addImage;
-
-    @BindView(R.id.btn_related)
-    Button relatedBtn;
-
-    @BindView(R.id.btn_attach)
-    Button linksBtn;
-
-    @BindView(R.id.btn_comments)
-    Button commentsBtn;
-
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    @Inject
-    ImageLoader imageLoader;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+    @BindView(R.id.view_network_error)
+    NetworkErrorView errorView;
 
     @InjectPresenter
     AnimePresenter presenter;
-
-    private int textColor;
-    private GenresAdapter adapter;
-
-    public static AnimeFragment newInstance(long animeId) {
-        Bundle args = new Bundle();
-        AnimeFragment fragment = new AnimeFragment();
-        args.putLong(AppExtras.ARGUMENT_ANIME_ID, animeId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @ProvidePresenter
     AnimePresenter provideAnimePresenter() {
@@ -137,117 +83,48 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView> imple
         return presenter;
     }
 
+    @Inject
+    ImageLoader imageLoader;
+
+    @Inject
+    AnimeDetailsViewModelConverter converter;
+
+    private AnimePagerAdapter pagerAdapter;
+
+    public static AnimeFragment newInstance(long animeId) {
+        Bundle args = new Bundle();
+        AnimeFragment fragment = new AnimeFragment();
+        args.putLong(AppExtras.ARGUMENT_ANIME_ID, animeId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(getFragmentLayout(), container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         initViews();
     }
 
     private void initViews() {
-        textColor = AttributesHelper.withContext(getContext())
+        EpisodeAdapter episodeAdapter = new EpisodeAdapter(id -> getPresenter().onEpisodeClicked(id),
+                (action, id) -> getPresenter().onEpisodeOptionAction(action, id));
+        AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
+        pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
+
+        viewPager.setAdapter(pagerAdapter);
+        progressBar.setSecondaryProgress(getResources().getColor(R.color.red));
+
+        int textColor = AttributesHelper.withContext(getContext())
                 .getColor(R.attr.colorText);
 
-        seasonView.addSlice(getSliceTitle(getString(R.string.common_season)));
-        typeView.addSlice(getSliceTitle(getString(R.string.common_type)));
-        statusView.addSlice(getSliceTitle(getString(R.string.common_status)));
-        genreView.addSlice(getSliceTitle(getString(R.string.common_genre)));
-        desctiptionTitleView.addSlice(getSliceTitle(getString(R.string.common_description)));
-
-        Drawable related;
-        Drawable links;
-        Drawable add;
-        related = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrange_send_backward)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        links = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_attachment)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        add = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_star_border)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        relatedBtn.setCompoundDrawablesWithIntrinsicBounds(null, related, null, null);
-        linksBtn.setCompoundDrawablesWithIntrinsicBounds(null, links, null, null);
-        addImage.setImageDrawable(add);
-
-        adapter = new GenresAdapter();
-        genresList.setItemAnimator(new DefaultItemAnimator());
-        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
-        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
-        genresList.setLayoutManager(flexboxLayoutManager);
-        genresList.setAdapter(adapter);
-        genresList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), (view, position) -> getPresenter().onGenreClick(adapter.getItemByPosition(position))));
-
-        addImage.setOnClickListener(v -> getPresenter().onAddListClick());
-        relatedBtn.setOnClickListener(v -> getPresenter().onRelatedClicked());
-        linksBtn.setOnClickListener(v -> getPresenter().onLinksClicked());
-        commentsBtn.setOnClickListener(v -> getPresenter().onCommentsClicked());
-        buttonOnline.setOnClickListener(v -> getPresenter().onOnlineClicked());
-    }
-
-    /**
-     * Returns slice for title (e.g. <b>Genre:</b>)
-     *
-     * @param text
-     * @return Slice title
-     */
-    private Slice getSliceTitle(String text) {
-        return new Slice.Builder(text.concat(": "))
-                .textColor(textColor)
-                .style(Typeface.BOLD)
-                .build();
-    }
-
-    /**
-     * Returns slice for content (base text)
-     *
-     * @param text
-     * @return Slice content
-     */
-    private Slice getSliceContent(String text) {
-        return new Slice.Builder(text)
-                .textColor(textColor)
-                .build();
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // GETTERS
-    ///////////////////////////////////////////////////////////////////////////
-
-    @Override
-    protected AnimePresenter getPresenter() {
-        return presenter;
-    }
-
-    @Override
-    @LayoutRes
-    protected int getFragmentLayout() {
-        return R.layout.fragment_anime;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // MVP
-    ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Init toolbar and change color of menu icon to a theme
-     */
-    @Override
-    public void initToolbar() {
         collapsingToolbarLayout.setCollapsedTitleTextColor(textColor);
         Drawable navigationIcon = DrawableHelper.withContext(getContext())
                 .withDrawable(R.drawable.ic_arrow_back)
@@ -267,8 +144,28 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView> imple
                 .get();
 
         toolbar.setOverflowIcon(overFlowIcon);
+        progressBar.setSecondaryProgress(R.color.red);
         progressBar.setIndeterminate(true);
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // GETTERS
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    @Override
+    protected AnimePresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_details_page;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // MVP
+    ///////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onShowLoading() {
@@ -280,57 +177,155 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView> imple
         progressBar.setVisibility(View.GONE);
     }
 
-
     @Override
-    public void setImage(String imageUrl) {
-        imageLoader.setImageWithFit(backgroundImage, imageUrl);
+    public void setAnimeData(AnimeDetailsViewModel model) {
+        imageLoader.setImageWithFit(backgroundImage, model.getImageUrl());
+        toolbar.setTitle(model.getName());
+        pagerAdapter.setData(converter.convertFromViewModel(model));
     }
 
     @Override
-    public void setName(String name) {
-        nameView.setText(name);
-        toolbar.setTitle(name);
-    }
-
-
-    @Override
-    public void setSecondName(String jpOrEngName) {
-        secondName.setText(jpOrEngName);
+    public void setPage(int position) {
+        viewPager.setCurrentItem(position, true);
     }
 
     @Override
-    public void setSeason(String season) {
-        seasonView.addSlice(getSliceContent(season));
-        seasonView.display();
+    public void showEpisodeList(List<BaseEpisodeItem> episodes) {
+        pagerAdapter.showEpisodeList(episodes);
     }
 
     @Override
-    public void setType(String animeType) {
-        typeView.addSlice(getSliceContent(animeType));
-        typeView.display();
+    public void showEmptyView() {
+
     }
 
     @Override
-    public void setStatus(String animeStatus) {
-        statusView.addSlice(getSliceContent(animeStatus));
-        statusView.display();
+    public void hideEmptyView() {
+
     }
 
     @Override
-    public void setGenres(List<AnimeGenre> genres) {
-        genreView.display();
-        adapter.bindItems(genres);
+    public void showErrorView() {
+        errorView.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
     }
 
     @Override
-    public void setScore(float score) {
-        ratingBar.setRating(score / 2);
-        ratingValue.setText(String.valueOf(score));
+    public void hideErrorView() {
+        errorView.setVisibility(View.GONE);
+        viewPager.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void setDescription(String description) {
-        desctiptionTitleView.display();
-        descriptionView.setText(description);
+    public void showSettingsWizard() {
+        EpisodeWizardDialogFragment dialog = EpisodeWizardDialogFragment.newInstance();
+        dialog.setCallback((type, chooseSettings, playerType) ->
+                getPresenter().onSettingsSelected(type, chooseSettings, playerType));
+        dialog.show(getChildFragmentManager(), "WIZARD");
+    }
+
+    @Override
+    public void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels) {
+
+        List<String> titles = new ArrayList<>();
+
+        for (AnimeLinkViewModel model : animeLinkViewModels) {
+            titles.add(model.getName());
+        }
+
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.common_links)
+                .items(titles.toArray(new CharSequence[titles.size()]))
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    dialog.dismiss();
+                    AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
+                })
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .autoDismiss(false)
+                .negativeColorAttr(R.attr.colorAction)
+                .negativeText(R.string.common_cancel)
+                .onNegative((dialog, which) -> dialog.dismiss())
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // INNER CLASS
+    ///////////////////////////////////////////////////////////////////////////
+
+    class AnimePagerAdapter extends PagerAdapter {
+
+
+        private final List<Integer> screens = Arrays.asList(R.layout.fragment_anime,
+                R.layout.fragment_series);
+        private AnimeAdapter animeAdapter;
+        private EpisodeAdapter episodeAdapter;
+        private RecyclerView animeDetailsList;
+        private RecyclerView seriesList;
+
+        AnimePagerAdapter(AnimeAdapter animeAdapter, EpisodeAdapter episodeAdapter) {
+            this.animeAdapter = animeAdapter;
+            this.episodeAdapter = episodeAdapter;
+        }
+
+        @Override
+        public int getCount() {
+            return screens.size();
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            LayoutInflater inflater = LayoutInflater.from(container.getContext());
+            ViewGroup layout = (ViewGroup) inflater.inflate(screens.get(position), container, false);
+            container.addView(layout);
+            switch (position) {
+                case 0:
+                    createAnimePage(layout);
+                    break;
+                case 1:
+                    createSeriesPage(layout);
+                    break;
+            }
+            return layout;
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == object;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            container.removeView((View) object);
+        }
+
+        private void createAnimePage(ViewGroup layout) {
+            animeDetailsList = layout.findViewById(R.id.anime_details_list);
+            animeDetailsList.setItemAnimator(new DefaultItemAnimator());
+            animeDetailsList.setAdapter(animeAdapter);
+            animeDetailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
+
+        private void createSeriesPage(ViewGroup layout) {
+            SwipeRefreshLayout refreshLayout = layout.findViewById(R.id.refresh_layout);
+            seriesList = layout.findViewById(R.id.list);
+            refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
+            seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(getContext()));
+            seriesList.setAdapter(episodeAdapter);
+        }
+
+        public void setData(List<BaseAnimeItem> animeItems) {
+            animeAdapter.bindItems(animeItems);
+        }
+
+        void showEpisodeList(List<BaseEpisodeItem> episodes) {
+            episodeAdapter.bindItems(episodes);
+        }
     }
 }

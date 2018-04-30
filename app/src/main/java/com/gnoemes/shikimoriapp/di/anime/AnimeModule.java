@@ -1,37 +1,57 @@
 package com.gnoemes.shikimoriapp.di.anime;
 
+import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
+import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeDetailsResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeDetailsResponseConverterImpl;
-import com.gnoemes.shikimoriapp.data.repository.anime.repository.AnimeRepository;
-import com.gnoemes.shikimoriapp.data.repository.anime.repository.AnimeRepositoryImpl;
-import com.gnoemes.shikimoriapp.domain.anime.AnimeDetailsInteractor;
-import com.gnoemes.shikimoriapp.domain.anime.AnimeDetailsInteractorImpl;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimeDetailsViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimeDetailsViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverterImpl;
+import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
+import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
+import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.anime.converter.EpisodeViewModelConverter;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public abstract class AnimeModule {
+public interface AnimeModule {
 
     @Provides
-    static AnimePresenter provideAnimePresenter(AnimeDetailsInteractor interactor,
-                                                AnimeDetailsViewModelConverter converter) {
-        return new AnimePresenter(interactor, converter);
+    static AnimePresenter provideAnimePresenter(AnimeInteractor interactor,
+                                                SeriesInteractor seriesInteractor,
+                                                AnimeDetailsViewModelConverter converter,
+                                                EpisodeViewModelConverter modelConverter,
+                                                AnimeLinkViewModelConverter linkViewModelConverter) {
+        return new AnimePresenter(interactor, seriesInteractor, converter, modelConverter, linkViewModelConverter);
     }
 
     @Binds
-    abstract AnimeDetailsResponseConverter bindAnimeDetailsResponseConverter(AnimeDetailsResponseConverterImpl converter);
+    AnimeDetailsResponseConverter bindAnimeDetailsResponseConverter(AnimeDetailsResponseConverterImpl converter);
 
     @Binds
-    abstract AnimeRepository bindAnimeRepository(AnimeRepositoryImpl repository);
+    AnimeRepository bindAnimeRepository(AnimeRepositoryImpl repository);
 
     @Binds
-    abstract AnimeDetailsInteractor bindAnimeDetailsInteractor(AnimeDetailsInteractorImpl interactor);
+    AnimeInteractor bindAnimeDetailsInteractor(AnimeInteractorImpl interactor);
 
     @Binds
-    abstract AnimeDetailsViewModelConverter bindAnimeDetailsViewModelConverter(AnimeDetailsViewModelConverterImpl converter);
+    AnimeDetailsViewModelConverter bindAnimeDetailsViewModelConverter(AnimeDetailsViewModelConverterImpl converter);
+
+    @Binds
+    AnimeListResponseConverter bindAnimeListResponseConverter(AnimeListResponseConverterImpl converter);
+
+    @Binds
+    AnimeLinkViewModelConverter bindAnimeLinkViewModelConverter(AnimeLinkViewModelConverterImpl converter);
+
+    @Binds
+    AnimeLinkResponseConverter bindAnimeLinkResponseConverter(AnimeLinkResponseConverterImpl converter);
 }

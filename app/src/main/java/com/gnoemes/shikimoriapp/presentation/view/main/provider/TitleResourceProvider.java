@@ -5,4 +5,6 @@ public interface TitleResourceProvider {
     String getCalendarTitle();
 
     String getSearchTitle();
+
+    String getSeriesTitle();
 }

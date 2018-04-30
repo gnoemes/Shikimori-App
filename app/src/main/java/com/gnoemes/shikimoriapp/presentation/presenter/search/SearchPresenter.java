@@ -207,4 +207,10 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     public void setGenre(AnimeGenre genre) {
         this.genre = genre;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        paginator.release();
+    }
 }

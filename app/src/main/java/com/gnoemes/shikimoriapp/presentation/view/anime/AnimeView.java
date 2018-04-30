@@ -1,26 +1,43 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
 import java.util.List;
 
+@StateStrategyType(AddToEndSingleStrategy.class)
 public interface AnimeView extends BaseFragmentView {
-    void setName(String name);
 
-    void setImage(String imageUrl);
+    @StateStrategyType(SkipStrategy.class)
+    void setPage(int i);
 
-    void setSecondName(String jpOrEngName);
+    @StateStrategyType(AddToEndStrategy.class)
+    void setAnimeData(AnimeDetailsViewModel model);
 
-    void setSeason(String season);
+    @StateStrategyType(AddToEndStrategy.class)
+    void showEpisodeList(List<BaseEpisodeItem> episodes);
 
-    void setType(String animeType);
+    @StateStrategyType(SkipStrategy.class)
+    void showEmptyView();
 
-    void setStatus(String animeStatus);
+    @StateStrategyType(SkipStrategy.class)
+    void hideEmptyView();
 
-    void setGenres(List<AnimeGenre> genres);
+    @StateStrategyType(SkipStrategy.class)
+    void showErrorView();
 
-    void setScore(float score);
+    @StateStrategyType(SkipStrategy.class)
+    void hideErrorView();
 
-    void setDescription(String description);
+    @StateStrategyType(SkipStrategy.class)
+    void showSettingsWizard();
+
+    @StateStrategyType(SkipStrategy.class)
+    void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);
 }

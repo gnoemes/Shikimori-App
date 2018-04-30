@@ -25,4 +25,9 @@ public class TitleResourceProviderImpl implements TitleResourceProvider {
     public String getSearchTitle() {
         return context.getString(R.string.common_search);
     }
+
+    @Override
+    public String getSeriesTitle() {
+        return context.getString(R.string.series_title);
+    }
 }

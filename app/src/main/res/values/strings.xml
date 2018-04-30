@@ -22,7 +22,11 @@
     <string name="common_loading">Загрузка</string>
     <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
     <string name="common_description">Описание</string>
-
+    <string name="common_cancel">Отмена</string>
+    <string name="common_next">Далее</string>
+    <string name="common_links">Ссылки</string>
+    <string name="common_related">Похожие</string>
+    <string name="common_comments">Комментарии</string>
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
     <string name="search_advance">Продвинутый</string>
@@ -33,6 +37,8 @@
     <string name="calendar_episode_in">%s эпизод c %s</string>
 
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
+    <string name="series_settings">Настройки просмотра</string>
+    <string name="series_title">Выбор серии</string>
 
     <string name="error_internet">Internet error</string>
     <string name="error_timeout">Connection timeout</string>
@@ -151,10 +157,27 @@
     <string name="duration_small">&lt; 10 мин.</string>
     <string name="duration_medium">&lt; 30 мин.</string>
     <string name="duration_long">&gt; 30 мин.</string>
+
+
     <string name="watch_online">Смотреть онлайн</string>
-    <string name="common_links">Ссылки</string>
-    <string name="common_related">Похожие</string>
-    <string name="common_comments">Комментарии</string>
+
+    <string name="description_watched">Просмотрено</string>
+    <string name="watch_continue">Продолжить просмотр</string>
+    <string name="watch_now">Начать просмотр</string>
+    <string name="manual_choice">Ручной выбор</string>
+    <string name="translation_voice">Озвучка</string>
+    <string name="translation_sub">Субтитры</string>
+    <string name="translation_raw">Оригинал</string>
+    <string name="ru">RU</string>
+    <string name="jp">JP</string>
+    <string name="en">EN</string>
+    <string name="translation_auto">Автоматический</string>
+    <string name="translation_manual">В ручную</string>
+    <string name="translation_dubber_choose">Выбор даббера:</string>
+    <string name="player_in_browser">В браузере</string>
+    <string name="player_external">Внешний</string>
+    <string name="player_embedded">Внутренний</string>
+    <string name="player_choose">Выбор плеера:</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>
@@ -168,5 +191,12 @@
         <item>F</item>
     </string-array>
 
+    <string-array name="translations_type">
+        <item>Озвучка</item>
+        <item>Русские субтитры</item>
+        <item>Оригинал</item>
+        <item>Английска озвучка</item>
+        <item>Английские субтитры</item>
+    </string-array>
 
 </resources>

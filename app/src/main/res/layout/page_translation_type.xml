@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBackgroundWindow">
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:divider="?android:attr/dividerHorizontal"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/label_ru_1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/btn_sound_ru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingEnd="20dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="20dp"
+            android:paddingStart="60dp"
+            android:paddingTop="@dimen/margin_normal"
+            android:text="@string/translation_voice"
+            android:textColor="?attr/colorText"
+            android:textSize="18sp"
+            tools:drawableEnd="@drawable/ic_check"
+            tools:drawableTint="@color/light_teal" />
+
+        <RadioButton
+            android:id="@+id/btn_sub_ru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingEnd="20dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="20dp"
+            android:paddingStart="60dp"
+            android:paddingTop="@dimen/margin_normal"
+            android:text="@string/translation_sub"
+            android:textColor="?attr/colorText"
+            android:textSize="18sp"
+            tools:drawableEnd="@drawable/ic_check"
+            tools:drawableTint="@color/light_teal" />
+
+        <RadioButton
+            android:id="@+id/btn_raw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingEnd="20dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="20dp"
+            android:paddingStart="60dp"
+            android:paddingTop="@dimen/margin_normal"
+            android:text="@string/translation_raw"
+            android:textColor="?attr/colorText"
+            android:textSize="18sp"
+            tools:drawableEnd="@drawable/ic_check"
+            tools:drawableTint="@color/light_teal" />
+
+        <RadioButton
+            android:id="@+id/btn_sound_en"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingEnd="20dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="20dp"
+            android:paddingStart="60dp"
+            android:paddingTop="@dimen/margin_normal"
+            android:text="@string/translation_voice"
+            android:textColor="?attr/colorText"
+            android:textSize="18sp"
+            tools:drawableEnd="@drawable/ic_check"
+            tools:drawableTint="@color/light_teal" />
+
+        <RadioButton
+            android:id="@+id/btn_sub_en"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingEnd="20dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="20dp"
+            android:paddingStart="60dp"
+            android:paddingTop="@dimen/margin_normal"
+            android:text="@string/translation_sub"
+            android:textColor="?attr/colorText"
+            android:textSize="18sp"
+            tools:drawableEnd="@drawable/ic_check"
+            tools:drawableTint="@color/light_teal" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/label_ru_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/language_background"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:text="@string/ru"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/label_ru_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/language_background"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:text="@string/ru"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_ru_1" />
+
+
+    <TextView
+        android:id="@+id/label_jp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/language_background"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:text="@string/jp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_ru_2" />
+
+    <TextView
+        android:id="@+id/label_en_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/language_background"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:text="@string/en"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_jp" />
+
+    <TextView
+        android:id="@+id/label_en_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/language_background"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:text="@string/en"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_en_1" />
+
+</android.support.constraint.ConstraintLayout>
