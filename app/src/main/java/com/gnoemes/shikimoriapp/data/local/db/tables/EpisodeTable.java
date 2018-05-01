@@ -44,7 +44,7 @@ public class EpisodeTable {
                 + COLUMN_SERIES_ID + " INTEGER NOT NULL, "
                 + COLUMN_ANIME_ID + " INTEGER NOT NULL, "
                 + COLUMN_EPISODE_FULL + " TEXT, "
-                + COLUMN_EPISODE + " INTEGER, "
+                + COLUMN_EPISODE + " REAL, "
                 + COLUMN_TYPE + " TEXT, "
                 + COLUMN_VIEWS + " INTEGER, "
                 + COLUMN_WATCHED + " INTEGER "

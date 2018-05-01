@@ -6,16 +6,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.local.db.tables.EpisodeTable;
+import com.gnoemes.shikimoriapp.data.local.db.tables.HistoryTable;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     public DbOpenHelper(@NonNull Context context) {
-        super(context, "shikimori_db", null, 11);
+        super(context, "shikimori_db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(EpisodeTable.getCreateTableQuery());
+        db.execSQL(HistoryTable.getCreateTableQuery());
     }
 
     @Override

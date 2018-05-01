@@ -44,8 +44,10 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
-    public Completable setEpisodeWatched(long episodeId) {
-        return null;
+    public Completable setEpisodeWatched(long animeId, long episodeId) {
+        return repository.setEpisodeWatched(animeId, episodeId)
+                .compose(completableErrorHandler)
+                .compose(rxUtils.applyCompleteSchedulers());
     }
 
     @Override

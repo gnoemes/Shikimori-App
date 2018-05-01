@@ -1,6 +1,9 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.series;
 
+import android.support.annotation.NonNull;
+
 import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
+import com.gnoemes.shikimoriapp.data.local.db.HistoryDbSource;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.TranslationResponseConverter;
@@ -23,30 +26,35 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     private VideoApi api;
     private SeriesResponseConverter responseConverter;
     private TranslationResponseConverter translationResponseConverter;
-    private EpisodeDbSource dbSource;
+    private EpisodeDbSource episodeDbSource;
+    private HistoryDbSource historyDbSource;
 
     @Inject
-    public SeriesRepositoryImpl(VideoApi api,
-                                SeriesResponseConverter responseConverter,
-                                TranslationResponseConverter translationResponseConverter,
-                                EpisodeDbSource dbSource) {
+    public SeriesRepositoryImpl(@NonNull VideoApi api,
+                                @NonNull SeriesResponseConverter responseConverter,
+                                @NonNull TranslationResponseConverter translationResponseConverter,
+                                @NonNull EpisodeDbSource episodeDbSource,
+                                @NonNull HistoryDbSource historyDbSource) {
         this.api = api;
         this.responseConverter = responseConverter;
         this.translationResponseConverter = translationResponseConverter;
-        this.dbSource = dbSource;
+        this.episodeDbSource = episodeDbSource;
+        this.historyDbSource = historyDbSource;
     }
 
     @Override
     public Single<List<Episode>> getAnimeEpisodes(long animeId) {
-//        return dbSource.getEpisodes(animeId)
-//                .onErrorResumeNext(throwable -> api.getAnimeSeriesById(animeId)
-//                        .map(responseConverter)
-//                        .map(Series::getEpisodes)
-//                        .flatMap(episodes -> dbSource.saveEpisodes(episodes).toSingleDefault(episodes)));
         return api.getAnimeSeriesById(animeId)
                 .map(responseConverter)
-                .map(Series::getEpisodes);
-//                .flatMap(episodes -> dbSource.saveEpisodes(episodes).toSingleDefault(episodes));
+                .map(Series::getEpisodes)
+                .flatMap(episodes -> Observable.fromIterable(episodes)
+                        .flatMapSingle(episode -> historyDbSource.isEpisodeWatched(episode.getId())
+                                .map(isWatched -> {
+                                    episode.setWatched(isWatched);
+                                    return episode;
+                                }))
+                        .toList())
+                .flatMap(episodes -> episodeDbSource.saveEpisodes(episodes).toSingleDefault(episodes));
     }
 
     /**
@@ -62,7 +70,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     }
 
     @Override
-    public Completable setEpisodeWatched(long episodeId) {
-        return null;
+    public Completable setEpisodeWatched(long animeId, long episodeId) {
+        return historyDbSource.episodeWatched(animeId, episodeId);
     }
 }
