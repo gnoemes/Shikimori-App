@@ -85,7 +85,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
 
         public void bind(AnimeViewModel item) {
 
-            imageLoader.setImage(animeImage, item.getImageOriginalUrl());
+            imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
 
             textType.setText(item.getType().name());
             textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));

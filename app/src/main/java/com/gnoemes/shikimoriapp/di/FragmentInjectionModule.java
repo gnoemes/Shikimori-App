@@ -6,8 +6,8 @@ import com.gnoemes.shikimoriapp.di.anime.SeriesModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarInteractorModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarPresenterModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarRepositoryModule;
+import com.gnoemes.shikimoriapp.di.calendar.CalendarScope;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarUtilsModule;
-import com.gnoemes.shikimoriapp.di.main.scope.BottomScope;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchInteractorModule;
 import com.gnoemes.shikimoriapp.di.search.SearchPresenterModule;
@@ -33,10 +33,10 @@ public interface FragmentInjectionModule {
     @ContributesAndroidInjector(modules = {})
     FavoriteFragment favoriteFragmentInjector();
 
-    @BottomScope
     @ContributesAndroidInjector(modules = {})
     BottomTabContainer bottomTabContainerInjector();
 
+    @CalendarScope
     @ContributesAndroidInjector(modules = {CalendarPresenterModule.class, CalendarRepositoryModule.class,
             CalendarUtilsModule.class, CalendarInteractorModule.class})
     CalendarFragment calendarFragmentInjector();

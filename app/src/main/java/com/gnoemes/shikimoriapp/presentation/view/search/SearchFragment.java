@@ -112,6 +112,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         if (dialogFragment != null) {
             outState.putBoolean(AppExtras.ARGUMENT_DIALOG, dialogFragment.isAdded());
             dialogFragment.dismiss();
+            dialogFragment = null;
         }
     }
 
