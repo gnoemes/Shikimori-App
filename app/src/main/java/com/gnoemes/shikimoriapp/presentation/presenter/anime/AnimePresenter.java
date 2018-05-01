@@ -63,7 +63,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         this.linkViewModelConverter = linkViewModelConverter;
     }
 
-
     @Override
     public void initData() {
         loadAnimeData();
@@ -86,7 +85,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load episodes list
      */
     private void loadEpisodes() {
-        getViewState().onShowRefresh();
         getViewState().hideErrorView();
 
         Disposable disposable = seriesInteractor.getEpisodes(animeId)
@@ -149,8 +147,17 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                     //TODO translations page
                     break;
             }
+            setEpisodeWatched(episode.getAnimeId(), episode.getId());
         }
 
+    }
+
+    private void setEpisodeWatched(long animeId, long episodeId) {
+        Disposable disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId)
+                .doOnComplete(this::loadEpisodes)
+                .subscribe();
+
+        unsubscribeOnDestroy(disposable);
     }
 
     /**
@@ -160,6 +167,28 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         Disposable disposable = seriesInteractor
                 .getAutoTranslation(userSettings.getTranslationType(), selectedEpisode.getId())
                 .subscribe(this::onPlayTranslation, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    /**
+     * Wizard callback with user selected settings
+     */
+    public void onSettingsSelected(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType) {
+        UserSettings settings = new UserSettings.Builder()
+                .setIsNeedShowWizard(false)
+                .setDubberSettings(chooseSettings)
+                .setPlayerType(playerType)
+                .setTranslationType(type)
+                .build();
+
+        Disposable disposable = settingsInteractor.saveUserSettings(settings)
+                .doOnComplete(() -> {
+                    if (selectedEpisode != null) {
+                        onEpisodeClicked(selectedEpisode);
+                    }
+                })
+                .subscribe();
 
         unsubscribeOnDestroy(disposable);
     }
@@ -218,24 +247,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         }
     }
 
-    /**
-     * Set anime data to details page
-     */
-    private void setAnimeData(AnimeDetailsViewModel model) {
-        getViewState().setAnimeData(model);
-    }
 
-    /**
-     * Set episodes list
-     */
-    private void setEpisodes(List<BaseEpisodeItem> episodes) {
-        getViewState().showEpisodeList(episodes);
-
-    }
-
-    private void setCurrentSettings(UserSettings settings) {
-        this.userSettings = settings;
-    }
 
     /**
      * Route to search page and search animes with clicked genre
@@ -296,12 +308,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         //TODO check authorization and rate if user exist
     }
 
-    /**
-     * Set current anime id
-     */
-    public void setAnimeId(long animeId) {
-        this.animeId = animeId;
-    }
 
     /**
      * Button callback from episodes page
@@ -315,31 +321,36 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     /**
-     * Wizard callback with user selected settings
-     */
-    public void onSettingsSelected(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType) {
-        UserSettings settings = new UserSettings.Builder()
-                .setIsNeedShowWizard(false)
-                .setDubberSettings(chooseSettings)
-                .setPlayerType(playerType)
-                .setTranslationType(type)
-                .build();
-
-        Disposable disposable = settingsInteractor.saveUserSettings(settings)
-                .doOnComplete(() -> {
-                    if (selectedEpisode != null) {
-                        onEpisodeClicked(selectedEpisode);
-                    }
-                })
-                .subscribe();
-
-        unsubscribeOnDestroy(disposable);
-    }
-
-    /**
      * Open link in browser
      */
     public void onLinkPressed(AnimeLinkViewModel animeLinkViewModel) {
         //TODO open browser activity
     }
+
+    /**
+     * Set anime data to details page
+     */
+    private void setAnimeData(AnimeDetailsViewModel model) {
+        getViewState().setAnimeData(model);
+    }
+
+    /**
+     * Set episodes list
+     */
+    private void setEpisodes(List<BaseEpisodeItem> episodes) {
+        getViewState().showEpisodeList(episodes);
+
+    }
+
+    private void setCurrentSettings(UserSettings settings) {
+        this.userSettings = settings;
+    }
+
+    /**
+     * Set current anime id
+     */
+    public void setAnimeId(long animeId) {
+        this.animeId = animeId;
+    }
+
 }

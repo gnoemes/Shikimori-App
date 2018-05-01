@@ -67,4 +67,8 @@ public class Episode {
     public boolean isWatched() {
         return isWatched;
     }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
+    }
 }

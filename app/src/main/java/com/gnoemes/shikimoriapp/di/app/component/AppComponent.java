@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.di.app.module.AppModule;
 import com.gnoemes.shikimoriapp.di.app.module.NavigationModule;
 import com.gnoemes.shikimoriapp.di.app.module.UtilModule;
 import com.gnoemes.shikimoriapp.di.app.module.db.DbModule;
+import com.gnoemes.shikimoriapp.di.app.module.db.HistoryModule;
 import com.gnoemes.shikimoriapp.di.app.module.db.SettingsModule;
 import com.gnoemes.shikimoriapp.di.app.module.network.ApiModule;
 
@@ -17,7 +18,7 @@ import dagger.android.AndroidInjector;
 @Singleton
 @Component(modules = {AppModule.class, ApiModule.class,
         ActivityInjectionModule.class, NavigationModule.class,
-        UtilModule.class, DbModule.class, SettingsModule.class})
+        UtilModule.class, DbModule.class, SettingsModule.class, HistoryModule.class})
 public interface AppComponent extends AndroidInjector<App> {
 
     @Component.Builder

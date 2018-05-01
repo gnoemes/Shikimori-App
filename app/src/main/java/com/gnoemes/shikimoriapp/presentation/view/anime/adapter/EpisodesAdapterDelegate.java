@@ -86,7 +86,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
                 DrawableHelper
                         .withContext(itemView.getContext())
                         .withDrawable(R.drawable.ic_approval)
-                        .withAttributeColor(R.attr.divider)
+                        .withAttributeColor(R.attr.colorDivider)
                         .tint()
                         .applyTo(watchedBadge);
                 watchedBadge.setVisibility(View.VISIBLE);
