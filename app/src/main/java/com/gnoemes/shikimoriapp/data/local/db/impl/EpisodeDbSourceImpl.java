@@ -1,10 +1,10 @@
-package com.gnoemes.shikimoriapp.data.db.impl;
+package com.gnoemes.shikimoriapp.data.local.db.impl;
 
 import android.util.Log;
 
-import com.gnoemes.shikimoriapp.data.db.EpisodeDbSource;
-import com.gnoemes.shikimoriapp.data.db.converters.EpisodeDAOConverter;
-import com.gnoemes.shikimoriapp.data.db.tables.EpisodeTable;
+import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
+import com.gnoemes.shikimoriapp.data.local.db.converters.EpisodeDAOConverter;
+import com.gnoemes.shikimoriapp.data.local.db.tables.EpisodeTable;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.EpisodeDAO;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;

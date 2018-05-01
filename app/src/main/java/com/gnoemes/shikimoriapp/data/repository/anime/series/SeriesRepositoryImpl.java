@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.series;
 
-import com.gnoemes.shikimoriapp.data.db.EpisodeDbSource;
+import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.TranslationResponseConverter;
@@ -49,17 +49,16 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 //                .flatMap(episodes -> dbSource.saveEpisodes(episodes).toSingleDefault(episodes));
     }
 
+    /**
+     * Get sorted by rating translations
+     */
     @Override
     public Single<List<Translation>> getTranslations(TranslationType type, long episodeId) {
         return api.getEpisodeTranslations(type.getType(), episodeId)
                 .map(TranslationListResponse::getTranslationResponses)
                 .map(translationResponseConverter)
                 .flatMap(translations -> Observable.fromIterable(translations)
-                        .toSortedList((o1, o2) -> Long.compare(o2.getPriority(), o1.getPriority()))
-                        .flatMapObservable(sortedList -> Observable.fromIterable(sortedList)
-                                .take(5))
-                        .toList()
-                );
+                        .toSortedList((o1, o2) -> Long.compare(o2.getPriority(), o1.getPriority())));
     }
 
     @Override

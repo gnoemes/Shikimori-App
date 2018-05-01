@@ -10,11 +10,11 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class ActivityInjectionModule {
+public interface ActivityInjectionModule {
 
     @MainActivityScope
     @ContributesAndroidInjector(modules = {MainContextModule.class, MainPresenterModule.class,
             MainUtilsModule.class, FragmentInjectionModule.class})
-    abstract MainActivity mainActivityInjector();
+    MainActivity mainActivityInjector();
 
 }

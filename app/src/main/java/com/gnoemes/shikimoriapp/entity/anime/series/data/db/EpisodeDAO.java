@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.series.data.db;
 
 import android.support.annotation.NonNull;
 
-import com.gnoemes.shikimoriapp.data.db.tables.EpisodeTable;
+import com.gnoemes.shikimoriapp.data.local.db.tables.EpisodeTable;
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteColumn;
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteType;
 

@@ -8,7 +8,7 @@ import dagger.Provides;
 import ru.terrakok.cicerone.Router;
 
 @Module
-public abstract class MainPresenterModule {
+public interface MainPresenterModule {
 
     @Provides
     @MainActivityScope

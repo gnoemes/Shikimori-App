@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
@@ -13,12 +14,15 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationChooseSettings;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
@@ -38,18 +42,22 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private AnimeLinkViewModelConverter linkViewModelConverter;
     private SeriesInteractor seriesInteractor;
     private EpisodeViewModelConverter episodeViewModelConverter;
+    private UserSettingsInteractor settingsInteractor;
 
     private long animeId;
     private AnimeDetails currentAnime;
     private EpisodeItem selectedEpisode;
+    private UserSettings userSettings;
 
     public AnimePresenter(@NonNull AnimeInteractor animeInteractor,
                           @NonNull SeriesInteractor seriesInteractor,
+                          @NonNull UserSettingsInteractor settingsInteractor,
                           @NonNull AnimeDetailsViewModelConverter viewModelConverter,
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
                           @NonNull AnimeLinkViewModelConverter linkViewModelConverter) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;
+        this.settingsInteractor = settingsInteractor;
         this.viewModelConverter = viewModelConverter;
         this.episodeViewModelConverter = episodeViewModelConverter;
         this.linkViewModelConverter = linkViewModelConverter;
@@ -60,6 +68,18 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     public void initData() {
         loadAnimeData();
         loadEpisodes();
+        loadUserSettings();
+    }
+
+    /**
+     * Subscribe to user settings (on changes settings update)
+     */
+    private void loadUserSettings() {
+        Disposable disposable = settingsInteractor.getUserSettings()
+                .doOnNext(this::setCurrentSettings)
+                .subscribe();
+
+        unsubscribeOnDestroy(disposable);
     }
 
     /**
@@ -102,6 +122,10 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case NetworkException.TAG:
                 getViewState().showErrorView();
                 break;
+            case ContentException.TAG:
+                //TODO show message and navigate to translations page
+                getRouter().showSystemMessage("Не найдено");
+                break;
             default:
                 super.processErrors(throwable);
         }
@@ -113,10 +137,49 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * @param episode EpisodeItem
      */
     public void onEpisodeClicked(EpisodeItem episode) {
-        //TODO check user settings
         selectedEpisode = episode;
-        getViewState().showSettingsWizard();
+        if (userSettings.getNeedShowWizard()) {
+            getViewState().showSettingsWizard();
+        } else {
+            switch (userSettings.getDubberSettings()) {
+                case AUTO:
+                    onAutoLoadTranslation();
+                    break;
+                case MANUAL:
+                    //TODO translations page
+                    break;
+            }
+        }
 
+    }
+
+    /**
+     * Load most rated translation with selected type
+     */
+    private void onAutoLoadTranslation() {
+        Disposable disposable = seriesInteractor
+                .getAutoTranslation(userSettings.getTranslationType(), selectedEpisode.getId())
+                .subscribe(this::onPlayTranslation, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    /**
+     * Start the video depending on the type of player
+     */
+    private void onPlayTranslation(Translation translation) {
+        //TODO add other players
+        switch (userSettings.getPlayerType()) {
+            case EMBEDDED:
+
+                break;
+            case EXTERNAL:
+
+                break;
+            case BROWSER:
+                getViewState().playVideoOnWeb(translation.getEmbedUrl());
+                break;
+        }
     }
 
     /**
@@ -170,6 +233,10 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     }
 
+    private void setCurrentSettings(UserSettings settings) {
+        this.userSettings = settings;
+    }
+
     /**
      * Route to search page and search animes with clicked genre
      */
@@ -195,13 +262,11 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load external links
      */
     private void onLinksClicked() {
-
         Disposable disposable = animeInteractor.getAnimeLinks(animeId)
                 .map(linkViewModelConverter)
                 .subscribe(this::showLinks, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
-
     }
 
     /**
@@ -252,18 +317,23 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Wizard callback with user selected settings
      */
-    public void onSettingsSelected(TranslationType type, TranslationChooseSettings chooseSettings, PlayerType playerType) {
-        //TODO save settings
+    public void onSettingsSelected(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType) {
+        UserSettings settings = new UserSettings.Builder()
+                .setIsNeedShowWizard(false)
+                .setDubberSettings(chooseSettings)
+                .setPlayerType(playerType)
+                .setTranslationType(type)
+                .build();
 
+        Disposable disposable = settingsInteractor.saveUserSettings(settings)
+                .doOnComplete(() -> {
+                    if (selectedEpisode != null) {
+                        onEpisodeClicked(selectedEpisode);
+                    }
+                })
+                .subscribe();
 
-//        Disposable disposable = seriesInteractor.getEpisodeTranslations(type, selectedEpisode.getId())
-//                .subscribe(new Consumer<List<Translation>>() {
-//                    @Override
-//                    public void accept(List<Translation> translations) throws Exception {
-//                        getViewState().playVideoOnWeb(translations.get(0).getEmbedUrl());
-//                    }
-//                });
-
+        unsubscribeOnDestroy(disposable);
     }
 
     /**

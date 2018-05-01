@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public abstract class SearchPresenterModule {
+public interface SearchPresenterModule {
 
     @Provides
     static SearchPresenter provideSearchPresenter(TitleResourceProvider resourceProvider,

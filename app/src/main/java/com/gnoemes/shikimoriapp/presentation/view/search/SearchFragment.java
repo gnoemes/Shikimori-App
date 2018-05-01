@@ -156,24 +156,28 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         searchView.setOnOpenCloseListener(new com.lapism.searchview.SearchView.OnOpenCloseListener() {
             @Override
             public boolean onClose() {
-                toolbar.setTitle(R.string.common_search);
-                toggleMenu(true)
-                        .setOnMenuItemClickListener(item -> {
-                            searchView.open(true);
-                            return false;
-                        });
+                if (toolbar != null) {
+                    toolbar.setTitle(R.string.common_search);
+                    toggleMenu(true)
+                            .setOnMenuItemClickListener(item -> {
+                                searchView.open(true);
+                                return false;
+                            });
+                }
                 return false;
             }
 
             @Override
             public boolean onOpen() {
-                toolbar.setTitle(null);
-                toggleMenu(false)
-                        .setOnMenuItemClickListener(item -> {
-                            getPresenter().setSearchQuery();
-                            searchView.close(false);
-                            return false;
-                        });
+                if (toolbar != null) {
+                    toolbar.setTitle(null);
+                    toggleMenu(false)
+                            .setOnMenuItemClickListener(item -> {
+                                getPresenter().setSearchQuery();
+                                searchView.close(false);
+                                return false;
+                            });
+                }
                 return false;
             }
         });
@@ -194,6 +198,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         });
 
         toolbar.inflateMenu(R.menu.menu_search);
+        toggleMenu(true);
     }
 
     private MenuItem toggleMenu(boolean search) {

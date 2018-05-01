@@ -19,14 +19,18 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 @Module
-public abstract class VideoNetworkModule {
+public interface VideoNetworkModule {
 
     @Provides
     @Singleton
     @VideoApi
-    static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor) {
+    static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor,
+                                            @VideoApi ConnectionSpec spec) {
         return new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+//                .connectionSpecs(Collections.singletonList(spec))
+                .followSslRedirects(true)
+                .followRedirects(true)
                 .connectTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .build();

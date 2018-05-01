@@ -44,7 +44,7 @@
     </style>
 
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:colorBackground">?attr/colorTextInverse</item>
+        <item name="android:colorBackground">?attr/colorBackgroundWindow</item>
         <item name="android:textColor">?attr/colorText</item>
     </style>
 

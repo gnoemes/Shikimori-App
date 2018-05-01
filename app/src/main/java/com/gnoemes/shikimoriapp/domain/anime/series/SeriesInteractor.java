@@ -25,4 +25,9 @@ public interface SeriesInteractor {
      * Get translations for episode
      */
     Single<List<Translation>> getEpisodeTranslations(TranslationType type, long episodeId);
+
+    /**
+     * Get translation by type and order by rating
+     */
+    Single<Translation> getAutoTranslation(TranslationType type, long episodeId);
 }

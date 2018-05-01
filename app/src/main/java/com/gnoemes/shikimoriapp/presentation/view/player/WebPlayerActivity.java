@@ -17,6 +17,7 @@ import com.gnoemes.shikimoriapp.utils.view.VideoWebChromeClient;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO fix SSL/ PREVIEW_MAGE /Security exceptions
 public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
@@ -36,16 +37,27 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new VideoWebChromeClient(webView, getWindow()));
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        //fix fullscreen mode on 4.4
         webView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
 
         if (getIntent() != null) {
             String url = getIntent().getStringExtra(AppExtras.ARGUMENT_URL);
             Map<String, String> map = new HashMap<>();
+            map.put("Access-Control-Allow-Origin", "https://smotret-anime.ru");
             webView.loadUrl(url, map);
         } else {
             finish();
         }
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

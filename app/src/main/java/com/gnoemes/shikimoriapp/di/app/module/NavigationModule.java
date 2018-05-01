@@ -11,7 +11,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 @Module
-public abstract class NavigationModule {
+public interface NavigationModule {
 
     @Provides
     @Singleton

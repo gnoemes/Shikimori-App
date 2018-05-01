@@ -1,9 +1,9 @@
 package com.gnoemes.shikimoriapp.di.anime;
 
-import com.gnoemes.shikimoriapp.data.db.EpisodeDbSource;
-import com.gnoemes.shikimoriapp.data.db.converters.EpisodeDAOConverter;
-import com.gnoemes.shikimoriapp.data.db.converters.EpisodeDAOConverterImpl;
-import com.gnoemes.shikimoriapp.data.db.impl.EpisodeDbSourceImpl;
+import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
+import com.gnoemes.shikimoriapp.data.local.db.converters.EpisodeDAOConverter;
+import com.gnoemes.shikimoriapp.data.local.db.converters.EpisodeDAOConverterImpl;
+import com.gnoemes.shikimoriapp.data.local.db.impl.EpisodeDbSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.EpisodeResponseConverter;

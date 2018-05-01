@@ -48,7 +48,7 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
 
     private TranslationType convertType(String type) {
         for (TranslationType translationQuality : TranslationType.values()) {
-            if (translationQuality.equalType(type)) {
+            if (translationQuality.isEqualType(type)) {
                 return translationQuality;
             }
         }

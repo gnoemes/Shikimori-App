@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 @Module
-public abstract class CommonNetworkModule {
+public interface CommonNetworkModule {
 
     @Provides
     @Singleton

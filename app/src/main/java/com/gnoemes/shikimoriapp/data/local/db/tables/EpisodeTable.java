@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.data.db.tables;
+package com.gnoemes.shikimoriapp.data.local.db.tables;
 
 import android.support.annotation.NonNull;
 

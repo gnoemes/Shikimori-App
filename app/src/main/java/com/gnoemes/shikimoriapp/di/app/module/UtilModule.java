@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.di.app.module;
 
+import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
+import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
@@ -70,4 +72,7 @@ public interface UtilModule {
     @Binds
     @Singleton
     DateTimeUtils bindDateTimeUtils(DateTimeUtilsImpl utils);
+
+    @Binds
+    UserSettingsConverter bindUserSettingsConverter(UserSettingsConverterImpl converter);
 }
