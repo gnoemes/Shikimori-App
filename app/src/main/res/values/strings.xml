@@ -27,6 +27,7 @@
     <string name="common_links">Ссылки</string>
     <string name="common_related">Похожие</string>
     <string name="common_comments">Комментарии</string>
+    <string name="common_translations">Переводы</string>
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
     <string name="episode_nothing">Ничего не найдено.\n Похоже, что серии еще не появились на сайте</string>
@@ -40,6 +41,7 @@
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
     <string name="series_settings">Настройки просмотра</string>
     <string name="series_title">Выбор серии</string>
+    <string name="translations_empty">Не найдено подходящих переводов. \n Попробуйте поменять тип перевода</string>
 
     <string name="error_internet">Internet error</string>
     <string name="error_timeout">Connection timeout</string>
@@ -180,6 +182,11 @@
     <string name="player_embedded">Внутренний</string>
     <string name="player_choose">Выбор плеера:</string>
     <string name="open_browser">Открыть в браузере</string>
+    <string name="quality_tv" translatable="false">TV</string>
+    <string name="quality_dvd" translatable="false">DVD</string>
+    <string name="quality_bd" translatable="false">BD</string>
+    <string name="translation_settings">Настройки переводов</string>
+    <string name="translation_find_all">Искать все</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>
@@ -194,10 +201,10 @@
     </string-array>
 
     <string-array name="translations_type">
-        <item>Озвучка</item>
+        <item>Русская озвучка</item>
         <item>Русские субтитры</item>
         <item>Оригинал</item>
-        <item>Английска озвучка</item>
+        <item>Английская озвучка</item>
         <item>Английские субтитры</item>
     </string-array>
 
