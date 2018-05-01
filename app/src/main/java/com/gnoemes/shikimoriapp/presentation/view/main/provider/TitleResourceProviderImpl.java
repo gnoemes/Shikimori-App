@@ -30,4 +30,9 @@ public class TitleResourceProviderImpl implements TitleResourceProvider {
     public String getSeriesTitle() {
         return context.getString(R.string.series_title);
     }
+
+    @Override
+    public String getTranslationsTitle() {
+        return context.getString(R.string.common_translations);
+    }
 }

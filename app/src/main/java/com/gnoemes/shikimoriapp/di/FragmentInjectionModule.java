@@ -12,13 +12,17 @@ import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchInteractorModule;
 import com.gnoemes.shikimoriapp.di.search.SearchPresenterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchRepositoryModule;
+import com.gnoemes.shikimoriapp.di.search.SearchScope;
 import com.gnoemes.shikimoriapp.di.search.SearchUtilModule;
+import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
+import com.gnoemes.shikimoriapp.di.translations.TranslationsScope;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
+import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -37,6 +41,7 @@ public interface FragmentInjectionModule {
             CalendarUtilsModule.class, CalendarInteractorModule.class})
     CalendarFragment calendarFragmentInjector();
 
+    @SearchScope
     @ContributesAndroidInjector(modules = {SearchPresenterModule.class, SearchRepositoryModule.class,
             SearchInteractorModule.class, SearchUtilModule.class})
     SearchFragment searchFragmentInjector();
@@ -44,9 +49,11 @@ public interface FragmentInjectionModule {
     @ContributesAndroidInjector(modules = {FilterModule.class})
     FilterDialogFragment filterFragmentInjector();
 
-
     @AnimeDetailsScope
     @ContributesAndroidInjector(modules = {AnimeModule.class, SeriesModule.class})
     AnimeFragment animeFragmentInjector();
 
+    @TranslationsScope
+    @ContributesAndroidInjector(modules = {TranslationsModule.class, SeriesModule.class})
+    TranslationsFragment translationsFragmentInjector();
 }

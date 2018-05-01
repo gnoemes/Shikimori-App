@@ -4,21 +4,26 @@ import android.support.annotation.Nullable;
 
 public enum TranslationType {
     VOICE_RU("voiceRu"),
-    VOICE_EN("voiceEn"),
     SUB_RU("subRu"),
+    RAW("raw"),
+    VOICE_EN("voiceEn"),
     SUB_EN("subEn"),
-    RAW("raw");
+    ALL(null);
 
+
+    @Nullable
     private final String type;
 
-    TranslationType(String type) {
+    TranslationType(@Nullable String type) {
         this.type = type;
     }
 
     public boolean isEqualType(@Nullable String otherType) {
-        return otherType != null && type.equals(otherType);
+        return (otherType != null && type != null && type.equals(otherType))
+                || (otherType == null && type == null);
     }
 
+    @Nullable
     public String getType() {
         return type;
     }

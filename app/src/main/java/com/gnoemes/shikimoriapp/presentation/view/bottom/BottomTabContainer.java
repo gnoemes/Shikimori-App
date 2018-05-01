@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
@@ -26,6 +27,7 @@ import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
+import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
 import javax.inject.Inject;
@@ -155,6 +157,8 @@ public class BottomTabContainer extends Fragment implements RouterProvider, Back
                             return MenuFragment.newInstance();
                         case Screens.ANIME_DETAILS:
                             return AnimeFragment.newInstance((Long) data);
+                        case Screens.TRANSLATIONS:
+                            return TranslationsFragment.newInstance((TranslationNavigationData) data);
                     }
                     return null;
                 }

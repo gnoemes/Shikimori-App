@@ -7,4 +7,6 @@ public interface TitleResourceProvider {
     String getSearchTitle();
 
     String getSeriesTitle();
+
+    String getTranslationsTitle();
 }

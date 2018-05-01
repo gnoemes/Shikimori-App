@@ -19,10 +19,12 @@ import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
@@ -66,6 +68,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     @Override
     public void initData() {
         loadAnimeData();
+        getViewState().onShowRefresh();
         loadEpisodes();
         loadUserSettings();
     }
@@ -121,9 +124,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 getViewState().showErrorView();
                 break;
             case ContentException.TAG:
-                //TODO show message and navigate to translations page
-                getRouter().showSystemMessage("Не найдено");
-                break;
+                onManualSearchTranslation();
             default:
                 super.processErrors(throwable);
         }
@@ -144,7 +145,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                     onAutoLoadTranslation();
                     break;
                 case MANUAL:
-                    //TODO translations page
+                    onManualSearchTranslation();
                     break;
             }
             setEpisodeWatched(episode.getAnimeId(), episode.getId());
@@ -169,6 +170,15 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .subscribe(this::onPlayTranslation, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
+    }
+
+    /**
+     * Navigate to translations page with current data
+     */
+    private void onManualSearchTranslation() {
+        getRouter().navigateTo(Screens.TRANSLATIONS, new TranslationNavigationData(
+                selectedEpisode.getId(),
+                userSettings.getTranslationType()));
     }
 
     /**
@@ -246,7 +256,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 break;
         }
     }
-
 
 
     /**
