@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.gnoemes.shikimoriapp.R;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
+    private FrameLayout layout;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -30,7 +32,9 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_web_player);
 
-        webView = findViewById(R.id.web_view);
+        layout = findViewById(R.id.frame);
+        webView = new WebView(getApplicationContext());
+        layout.addView(webView);
 
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -109,5 +113,12 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         super.onBackPressed();
         webView.destroy();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        layout.removeAllViews();
+        webView.destroy();
     }
 }

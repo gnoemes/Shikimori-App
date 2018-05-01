@@ -188,7 +188,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void setAnimeData(AnimeDetailsViewModel model) {
-        imageLoader.setImageWithFit(backgroundImage, model.getImageUrl());
+        imageLoader.setImage(backgroundImage, model.getImageUrl());
         toolbar.setTitle(model.getName());
         pagerAdapter.setData(converter.convertFromViewModel(model));
     }
