@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public abstract class CalendarPresenterModule {
+public interface CalendarPresenterModule {
 
     @Provides
     static CalendarPresenter bindCalendarPresenter(CalendarInteractor calendarInteractor,

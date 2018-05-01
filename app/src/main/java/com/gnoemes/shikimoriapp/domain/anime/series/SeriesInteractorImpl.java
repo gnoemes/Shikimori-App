@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class SeriesInteractorImpl implements SeriesInteractor {
@@ -53,4 +54,16 @@ public class SeriesInteractorImpl implements SeriesInteractor {
                 .compose((SingleErrorHandler<List<Translation>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
+
+    @Override
+    public Single<Translation> getAutoTranslation(TranslationType type, long episodeId) {
+        return repository.getTranslations(type, episodeId)
+                .flatMap(translations -> Observable
+                        .fromIterable(translations)
+                        .firstOrError())
+                .compose((SingleErrorHandler<Translation>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+
 }

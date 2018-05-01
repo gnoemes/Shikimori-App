@@ -117,7 +117,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
         pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
 
-
         viewPager.setAdapter(pagerAdapter);
         progressBar.setSecondaryProgress(getResources().getColor(R.color.red));
 
@@ -134,6 +133,17 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
         toolbar.inflateMenu(R.menu.menu_anime);
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.item_settings:
+                    showSettingsWizard();
+                    break;
+                case R.id.item_open:
+                    //TODO browser intent
+                    break;
+            }
+            return false;
+        });
 
         Drawable overFlowIcon = toolbar.getOverflowIcon();
         overFlowIcon = DrawableHelper.withContext(getContext())

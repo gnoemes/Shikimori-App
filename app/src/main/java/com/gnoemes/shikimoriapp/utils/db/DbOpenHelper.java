@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import com.gnoemes.shikimoriapp.data.db.tables.EpisodeTable;
+import com.gnoemes.shikimoriapp.data.local.db.tables.EpisodeTable;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 

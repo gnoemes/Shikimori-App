@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.di;
 
+import com.gnoemes.shikimoriapp.di.anime.AnimeDetailsScope;
 import com.gnoemes.shikimoriapp.di.anime.AnimeModule;
 import com.gnoemes.shikimoriapp.di.anime.SeriesModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarInteractorModule;
@@ -23,27 +24,29 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class FragmentInjectionModule {
+public interface FragmentInjectionModule {
 
     @ContributesAndroidInjector(modules = {})
-    abstract FavoriteFragment favoriteFragmentInjector();
+    FavoriteFragment favoriteFragmentInjector();
 
     @BottomScope
     @ContributesAndroidInjector(modules = {})
-    abstract BottomTabContainer bottomTabContainerInjector();
+    BottomTabContainer bottomTabContainerInjector();
 
     @ContributesAndroidInjector(modules = {CalendarPresenterModule.class, CalendarRepositoryModule.class,
             CalendarUtilsModule.class, CalendarInteractorModule.class})
-    abstract CalendarFragment calendarFragmentInjector();
+    CalendarFragment calendarFragmentInjector();
 
     @ContributesAndroidInjector(modules = {SearchPresenterModule.class, SearchRepositoryModule.class,
             SearchInteractorModule.class, SearchUtilModule.class})
-    abstract SearchFragment searchFragmentInjector();
+    SearchFragment searchFragmentInjector();
 
     @ContributesAndroidInjector(modules = {FilterModule.class})
-    abstract FilterDialogFragment filterFragmentInjector();
+    FilterDialogFragment filterFragmentInjector();
 
+
+    @AnimeDetailsScope
     @ContributesAndroidInjector(modules = {AnimeModule.class, SeriesModule.class})
-    abstract AnimeFragment animeFragmentInjector();
+    AnimeFragment animeFragmentInjector();
 
 }

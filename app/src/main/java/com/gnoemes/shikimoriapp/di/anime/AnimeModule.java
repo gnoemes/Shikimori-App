@@ -11,6 +11,7 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListRespons
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverterImpl;
@@ -28,10 +29,11 @@ public interface AnimeModule {
     @Provides
     static AnimePresenter provideAnimePresenter(AnimeInteractor interactor,
                                                 SeriesInteractor seriesInteractor,
+                                                UserSettingsInteractor settingsInteractor,
                                                 AnimeDetailsViewModelConverter converter,
                                                 EpisodeViewModelConverter modelConverter,
                                                 AnimeLinkViewModelConverter linkViewModelConverter) {
-        return new AnimePresenter(interactor, seriesInteractor, converter, modelConverter, linkViewModelConverter);
+        return new AnimePresenter(interactor, seriesInteractor, settingsInteractor, converter, modelConverter, linkViewModelConverter);
     }
 
     @Binds

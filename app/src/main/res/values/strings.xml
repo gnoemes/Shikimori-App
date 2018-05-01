@@ -179,6 +179,7 @@
     <string name="player_external">Внешний</string>
     <string name="player_embedded">Внутренний</string>
     <string name="player_choose">Выбор плеера:</string>
+    <string name="open_browser">Открыть в браузере</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

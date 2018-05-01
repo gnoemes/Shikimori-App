@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.data.db;
+package com.gnoemes.shikimoriapp.data.local.db;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 

@@ -12,7 +12,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 
 @Module(includes = {RetrofitModule.class, CommonNetworkModule.class, VideoNetworkModule.class})
-public abstract class ApiModule {
+public interface ApiModule {
 
     @Singleton
     @Provides

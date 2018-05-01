@@ -2,14 +2,13 @@ package com.gnoemes.shikimoriapp.entity.anime.series.presentation;
 
 import android.support.annotation.Nullable;
 
-public enum PlayerType {
-    EMBEDDED("embedded"),
-    EXTERNAL("external"),
-    BROWSER("browser"),;
+public enum TranslationDubberSettings {
+    AUTO("auto"),
+    MANUAL("manual"),;
 
     private final String type;
 
-    PlayerType(String type) {
+    TranslationDubberSettings(String type) {
         this.type = type;
     }
 

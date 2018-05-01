@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.utils.rx;
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.TitleException;
@@ -11,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -38,7 +40,8 @@ public class ErrorProcessing<T> {
     }
 
     @NonNull
-    private Throwable throwProcessException(Throwable throwable) throws TitleException, NetworkException, ServiceCodeException {
+    private Throwable throwProcessException(Throwable throwable) throws TitleException,
+            NetworkException, ServiceCodeException, ContentException {
 
         if (throwable instanceof UnknownHostException) {
             throw new NetworkException(resourceProvider.getUnknownHostException());
@@ -58,6 +61,10 @@ public class ErrorProcessing<T> {
 
         if (throwable instanceof HttpException) {
             throw new ServiceCodeException(((HttpException) throwable).code());
+        }
+
+        if (throwable instanceof NoSuchElementException) {
+            throw new ContentException("");
         }
 
         if (throwable instanceof BaseException) {

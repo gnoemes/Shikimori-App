@@ -16,7 +16,7 @@ import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationChooseSettings;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.WrapContentHeightViewPager;
@@ -39,7 +39,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
     @BindView(R.id.indicator)
     InkPageIndicator indicator;
     private TranslationType selectedType;
-    private TranslationChooseSettings selectedDubberSetting;
+    private TranslationDubberSettings selectedDubberSetting;
     private PlayerType selectedPlayer;
     private int backgroundColor;
     private int backgroundCheckedColor;
@@ -61,7 +61,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
 
         if (savedInstanceState != null) {
             selectedType = (TranslationType) savedInstanceState.getSerializable(ARGUMENT_TYPE);
-            selectedDubberSetting = (TranslationChooseSettings) savedInstanceState.getSerializable(ARGUMENT_DUBBER);
+            selectedDubberSetting = (TranslationDubberSettings) savedInstanceState.getSerializable(ARGUMENT_DUBBER);
             selectedPlayer = (PlayerType) savedInstanceState.getSerializable(ARGUMENT_PLAYER);
         }
 
@@ -137,7 +137,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
     }
 
     public interface EpisodeWizardCallback {
-        void onSaveSettings(TranslationType type, TranslationChooseSettings chooseSettings, PlayerType playerType);
+        void onSaveSettings(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType);
     }
 
     //TODO load from settings
@@ -234,7 +234,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                 if (isChecked) {
                     auto.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
                     auto.setBackgroundColor(backgroundCheckedColor);
-                    selectedDubberSetting = TranslationChooseSettings.AUTO;
+                    selectedDubberSetting = TranslationDubberSettings.AUTO;
                 } else {
                     auto.setBackgroundColor(backgroundColor);
                     auto.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -246,7 +246,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                 if (isChecked) {
                     manual.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
                     manual.setBackgroundColor(backgroundCheckedColor);
-                    selectedDubberSetting = TranslationChooseSettings.MANUAL;
+                    selectedDubberSetting = TranslationDubberSettings.MANUAL;
                 } else {
                     manual.setBackgroundColor(backgroundColor);
                     manual.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -255,7 +255,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
 
             if (selectedDubberSetting == null) {
                 radioGroup.check(R.id.btn_auto);
-                selectedDubberSetting = TranslationChooseSettings.AUTO;
+                selectedDubberSetting = TranslationDubberSettings.AUTO;
             } else {
                 switch (selectedDubberSetting) {
                     case AUTO:

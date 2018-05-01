@@ -17,7 +17,7 @@ import retrofit2.Converter;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public abstract class RetrofitModule {
+public interface RetrofitModule {
 
     @Provides
     @Singleton
@@ -41,5 +41,5 @@ public abstract class RetrofitModule {
     }
 
     @Binds
-    abstract DateTimeResponseConverter bindDateTimeConverter(DateTimeResponseConverterImpl converter);
+    DateTimeResponseConverter bindDateTimeConverter(DateTimeResponseConverterImpl converter);
 }
