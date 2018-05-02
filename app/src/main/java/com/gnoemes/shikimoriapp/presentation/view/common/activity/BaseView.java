@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.view.common.activity;
 
+import android.support.annotation.StringRes;
+
 import com.arellomobile.mvp.MvpView;
 
 public interface BaseView extends MvpView {
@@ -28,6 +30,11 @@ public interface BaseView extends MvpView {
      * Set title
      */
     void setTitle(String title);
+
+    /**
+     * Set title
+     */
+    void setTitle(@StringRes int stringRes);
 
     /**
      * Initialize toolbar
