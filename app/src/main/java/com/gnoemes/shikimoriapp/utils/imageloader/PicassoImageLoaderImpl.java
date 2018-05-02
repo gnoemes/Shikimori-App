@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.utils.imageloader;
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
@@ -18,6 +20,25 @@ public class PicassoImageLoaderImpl implements ImageLoader {
     public PicassoImageLoaderImpl() {
         picasso = Picasso.get();
         picasso.setIndicatorsEnabled(true);
+    }
+
+    @Override
+    public void setCircleImage(ImageView imageView, @Nullable String url, @DrawableRes int errorImage) {
+        picasso.load(BuildConfig.ShikimoriBaseUrl + url)
+                .transform(new CircleTransformation())
+                .fit()
+                .centerCrop()
+                .error(errorImage)
+                .into(imageView);
+    }
+
+    @Override
+    public void setCircleImage(ImageView imageView, int drawableRes) {
+        picasso.load(drawableRes)
+                .transform(new CircleTransformation())
+                .fit()
+                .centerCrop()
+                .into(imageView);
     }
 
     @Override

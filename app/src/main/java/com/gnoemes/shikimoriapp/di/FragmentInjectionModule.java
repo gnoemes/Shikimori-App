@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.di.calendar.CalendarPresenterModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarRepositoryModule;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarScope;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarUtilsModule;
+import com.gnoemes.shikimoriapp.di.menu.MenuModule;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchInteractorModule;
 import com.gnoemes.shikimoriapp.di.search.SearchPresenterModule;
@@ -20,6 +21,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
@@ -56,4 +58,7 @@ public interface FragmentInjectionModule {
     @TranslationsScope
     @ContributesAndroidInjector(modules = {TranslationsModule.class, SeriesModule.class})
     TranslationsFragment translationsFragmentInjector();
+
+    @ContributesAndroidInjector(modules = {MenuModule.class})
+    MenuFragment menuFragmentInjector();
 }

@@ -82,7 +82,7 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     }
 
     private long getUserId() {
-        return getPrefs().getLong(SettingsExtras.USER_ID, 0);
+        return getPrefs().getLong(SettingsExtras.USER_ID, -1);
     }
 
     private void saveWizardFlag(@Nullable Boolean needShowWizard) {

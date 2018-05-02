@@ -174,6 +174,11 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     }
 
     @Override
+    public void setTitle(int stringRes) {
+        toolbar.setTitle(stringRes);
+    }
+
+    @Override
     public void initToolbar() {
 
     }

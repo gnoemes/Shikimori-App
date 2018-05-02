@@ -193,11 +193,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .build();
 
         Disposable disposable = settingsInteractor.saveUserSettings(settings)
-                .doOnComplete(() -> {
-                    if (selectedEpisode != null) {
-                        onEpisodeClicked(selectedEpisode);
-                    }
-                })
                 .subscribe();
 
         unsubscribeOnDestroy(disposable);

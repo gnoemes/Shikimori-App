@@ -18,7 +18,7 @@
         <item name="colorBackgroundWindowInverse">@color/colorBackgroundInverse</item>
         <item name="colorBackgroundWindow">@color/colorBackground</item>
         <item name="colorTextInverse">@color/white</item>
-        <item name="colorControlHighlight">@color/colorAccentTransparent</item>
+        <item name="colorControlHighlight">@color/gray_transparent</item>
         <item name="colorAction">@color/bittersweet</item>
     </style>
 

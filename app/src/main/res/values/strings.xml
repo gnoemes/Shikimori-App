@@ -28,6 +28,12 @@
     <string name="common_related">Похожие</string>
     <string name="common_comments">Комментарии</string>
     <string name="common_translations">Переводы</string>
+    <string name="common_guest">Гость</string>
+    <string name="common_notifications">Оповещения</string>
+    <string name="common_friends">Друзья</string>
+    <string name="common_news">Новости</string>
+    <string name="common_messages">Сообщения</string>
+    <string name="common_settings">Настройки</string>
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
     <string name="episode_nothing">Ничего не найдено.\n Похоже, что серии еще не появились на сайте</string>
@@ -37,6 +43,9 @@
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
     <string name="calendar_episode_in">%s эпизод c %s</string>
+
+    <string name="menu_guest_hint">Авторизоваться</string>
+    <string name="menu_user_hint">Перейти в профиль</string>
 
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
     <string name="series_settings">Настройки просмотра</string>
