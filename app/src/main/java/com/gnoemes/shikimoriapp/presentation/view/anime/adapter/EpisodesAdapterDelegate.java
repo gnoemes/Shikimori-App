@@ -26,7 +26,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
     @NonNull
     private EpisodePickCallback callback;
 
-    public EpisodesAdapterDelegate(@NonNull EpisodePickCallback callback) {
+    EpisodesAdapterDelegate(@NonNull EpisodePickCallback callback) {
         this.callback = callback;
     }
 
@@ -94,7 +94,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.bg_card)
+                    .withDrawable(R.drawable.card)
                     .withAttributeColor(R.attr.colorBackgroundContent)
                     .tint()
                     .get();

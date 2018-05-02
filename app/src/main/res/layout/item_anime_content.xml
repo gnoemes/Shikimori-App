@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:background="@drawable/bg_card"
+    tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <com.mpt.android.stv.SpannableTextView

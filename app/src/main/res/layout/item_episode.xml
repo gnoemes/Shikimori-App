@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    tools:background="@drawable/bg_card"
+    tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <ImageView

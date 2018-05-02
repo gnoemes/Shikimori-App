@@ -27,6 +27,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.translations.adapter.TranslationsAdapter;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
+import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,6 +92,9 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
         refreshLayout.setOnRefreshListener(() -> getPresenter().loadTranslations());
 
         adapter = new TranslationsAdapter(url -> getPresenter().onTranslationClicked(url));
+
+        int margin = (int) getResources().getDimension(R.dimen.margin_small);
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

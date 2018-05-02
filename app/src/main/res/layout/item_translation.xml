@@ -9,7 +9,7 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
     android:padding="@dimen/margin_normal"
-    tools:background="@drawable/bg_card"
+    tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_marginStart="8dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/text_resolution"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/text_language"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="FMA:B озвучка от AniDub " />
@@ -44,17 +44,29 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/ru" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
     <TextView
         android:id="@+id/text_resolution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:paddingLeft="@dimen/margin_normal"
         android:paddingRight="@dimen/margin_normal"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/label_quality"
         tools:text="720x480" />
 
     <TextView
@@ -65,32 +77,16 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/language_background"
         android:paddingLeft="@dimen/margin_normal"
         android:paddingRight="@dimen/margin_normal"
         android:textColor="@color/black"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/text_resolution"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/text_resolution"
         app:layout_constraintStart_toStartOf="@+id/text_resolution"
+        app:layout_constraintTop_toTopOf="parent"
         tools:backgroundTint="@color/bittersweet"
         tools:text="DVD" />
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_arrow"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_marginEnd="8dp"-->
-    <!--android:layout_marginRight="8dp"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:contentDescription="@string/description_image"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--tools:srcCompat="@drawable/ic_chevron_right"-->
-    <!--tools:tint="?attr/colorDivider"-->
-    <!--/>-->
 
 </android.support.constraint.ConstraintLayout>
