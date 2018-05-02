@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/margin_normal"
-    tools:background="@drawable/bg_card"
+    tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <Button

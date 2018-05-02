@@ -25,7 +25,7 @@ public class AnimeOtherAdapterDelegate extends AdapterDelegate<List<BaseAnimeIte
 
     private AnimeItemCallback callback;
 
-    public AnimeOtherAdapterDelegate(@NonNull AnimeItemCallback callback) {
+    AnimeOtherAdapterDelegate(@NonNull AnimeItemCallback callback) {
         this.callback = callback;
     }
 
@@ -62,7 +62,7 @@ public class AnimeOtherAdapterDelegate extends AdapterDelegate<List<BaseAnimeIte
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.bg_card)
+                    .withDrawable(R.drawable.card)
                     .withAttributeColor(R.attr.colorBackgroundContent)
                     .tint()
                     .get();

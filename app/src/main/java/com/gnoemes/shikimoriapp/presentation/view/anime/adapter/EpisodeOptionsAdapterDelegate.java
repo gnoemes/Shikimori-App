@@ -26,7 +26,7 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
 
     private EpisodeOptionCallback callback;
 
-    public EpisodeOptionsAdapterDelegate(@NonNull EpisodeOptionCallback callback) {
+    EpisodeOptionsAdapterDelegate(@NonNull EpisodeOptionCallback callback) {
         this.callback = callback;
     }
 
@@ -68,7 +68,7 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.bg_card)
+                    .withDrawable(R.drawable.card)
                     .withAttributeColor(R.attr.colorBackgroundWindow)
                     .tint()
                     .get();

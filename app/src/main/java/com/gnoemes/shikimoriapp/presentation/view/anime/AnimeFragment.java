@@ -39,6 +39,7 @@ import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.LinearStickyHead;
+import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -324,6 +325,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         private void createAnimePage(ViewGroup layout) {
             animeDetailsList = layout.findViewById(R.id.anime_details_list);
             animeDetailsList.setItemAnimator(new DefaultItemAnimator());
+            int margin = (int) getResources().getDimension(R.dimen.margin_small);
+            animeDetailsList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             animeDetailsList.setAdapter(animeAdapter);
             animeDetailsList.setLayoutManager(new LinearLayoutManager(getContext()));
         }
@@ -333,6 +336,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             seriesList = layout.findViewById(R.id.list);
             refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
             seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(getContext()));
+            int margin = (int) getResources().getDimension(R.dimen.margin_small);
+            seriesList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             seriesList.setAdapter(episodeAdapter);
         }
 

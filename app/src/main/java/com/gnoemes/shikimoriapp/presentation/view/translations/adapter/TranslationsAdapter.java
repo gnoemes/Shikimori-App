@@ -141,7 +141,7 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.bg_card)
+                    .withDrawable(R.drawable.card)
                     .withAttributeColor(R.attr.colorBackgroundContent)
                     .tint()
                     .get();
