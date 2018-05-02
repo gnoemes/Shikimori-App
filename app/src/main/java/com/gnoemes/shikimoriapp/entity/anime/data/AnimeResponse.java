@@ -1,10 +1,10 @@
 package com.gnoemes.shikimoriapp.entity.anime.data;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
-
-import javax.annotation.Nullable;
 
 public class AnimeResponse {
 
