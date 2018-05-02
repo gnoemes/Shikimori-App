@@ -35,7 +35,7 @@ android {
 }
 
 def supportLibraryVersion = '27.1.1'
-def dagger = '2.11'
+def dagger = '2.15'
 def butterKnife = '8.8.1'
 def okHttp = '3.10.0'
 def retrofit = '2.4.0'

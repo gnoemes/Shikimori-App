@@ -208,8 +208,8 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
             });
 
             if (selectedPlayer == null) {
-                radioGroup.check(R.id.btn_embedded);
-                selectedPlayer = PlayerType.EMBEDDED;
+                radioGroup.check(R.id.btn_browser);
+                selectedPlayer = PlayerType.BROWSER;
             } else {
                 switch (selectedPlayer) {
                     case EMBEDDED:

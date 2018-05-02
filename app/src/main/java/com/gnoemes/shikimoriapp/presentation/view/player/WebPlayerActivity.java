@@ -33,7 +33,7 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         setContentView(R.layout.activity_web_player);
 
         layout = findViewById(R.id.frame);
-        webView = new WebView(getApplicationContext());
+        webView = new WebView(WebPlayerActivity.this);
         layout.addView(webView);
 
         webView.getSettings().setAppCacheEnabled(true);

@@ -1,11 +1,11 @@
 package com.gnoemes.shikimoriapp.entity.calendar.presentation;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 
 import org.joda.time.DateTime;
-
-import javax.annotation.Nullable;
 
 /**
  * Anime view model for calendar

@@ -1,8 +1,8 @@
 package com.gnoemes.shikimoriapp.entity.anime.domain;
 
-import org.joda.time.DateTime;
+import android.support.annotation.Nullable;
 
-import javax.annotation.Nullable;
+import org.joda.time.DateTime;
 
 /**
  * Anime model
