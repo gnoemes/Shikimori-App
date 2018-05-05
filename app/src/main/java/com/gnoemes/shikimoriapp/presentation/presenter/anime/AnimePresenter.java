@@ -212,7 +212,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
                 break;
             case BROWSER:
-                getViewState().playVideoOnWeb(translation.getEmbedUrl());
+                getRouter().navigateTo(Screens.WEB_PLAYER, translation.getEmbedUrl());
                 break;
         }
     }

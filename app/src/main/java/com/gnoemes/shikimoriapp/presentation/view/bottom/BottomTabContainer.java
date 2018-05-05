@@ -27,6 +27,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentVi
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
@@ -172,6 +173,8 @@ public class BottomTabContainer extends Fragment implements RouterProvider, Back
                     switch (screenKey) {
                         case Screens.AUTHORIZATION:
                             return AuthActivity.newIntent(context, (AuthType) data);
+                        case Screens.WEB_PLAYER:
+                            return WebPlayerActivity.newIntent(context, (String) data);
                     }
                     return null;
                 }

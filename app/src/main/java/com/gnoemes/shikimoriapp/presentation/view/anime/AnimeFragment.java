@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +33,6 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.AnimeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
-import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -259,13 +257,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 .canceledOnTouchOutside(true)
                 .build()
                 .show();
-    }
-
-    @Override
-    public void playVideoOnWeb(String embedUrl) {
-        Intent intent = new Intent(getContext(), WebPlayerActivity.class);
-        intent.putExtra(AppExtras.ARGUMENT_URL, embedUrl);
-        startActivity(intent);
     }
 
     ///////////////////////////////////////////////////////////////////////////
