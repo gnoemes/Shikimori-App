@@ -36,9 +36,6 @@ public interface AnimeView extends BaseFragmentView {
     void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);
 
     @StateStrategyType(SkipStrategy.class)
-    void playVideoOnWeb(String embedUrl);
-
-    @StateStrategyType(SkipStrategy.class)
     void onShowRefresh();
 
     @StateStrategyType(SkipStrategy.class)

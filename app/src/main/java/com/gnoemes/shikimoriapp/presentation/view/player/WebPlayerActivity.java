@@ -1,6 +1,8 @@
 package com.gnoemes.shikimoriapp.presentation.view.player;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -23,6 +25,13 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
     private FrameLayout layout;
+
+    public static Intent newIntent(Context context, String url) {
+        Intent intent = new Intent(context, WebPlayerActivity.class);
+        intent.putExtra(AppExtras.ARGUMENT_URL, url);
+        return intent;
+    }
+
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
