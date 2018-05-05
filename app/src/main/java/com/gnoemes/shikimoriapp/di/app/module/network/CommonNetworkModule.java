@@ -1,8 +1,8 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
-import com.gnoemes.shikimoriapp.di.app.qualifiers.CommonApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
+import com.gnoemes.shikimoriapp.utils.net.UserAgentInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,10 +21,11 @@ public interface CommonNetworkModule {
 
     @Provides
     @Singleton
-    @CommonApi
-    static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor) {
+    static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor,
+                                            UserAgentInterceptor userAgentInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(userAgentInterceptor)
                 .connectTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();
@@ -32,8 +33,7 @@ public interface CommonNetworkModule {
 
     @Provides
     @Singleton
-    @CommonApi
-    static Retrofit.Builder provideRetrofitBuilder(Converter.Factory factory, @CommonApi OkHttpClient client) {
+    static Retrofit.Builder provideRetrofitBuilder(Converter.Factory factory, OkHttpClient client) {
         return new Retrofit.Builder()
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -42,20 +42,8 @@ public interface CommonNetworkModule {
 
     @Provides
     @Singleton
-    @CommonApi
-    static Retrofit provideRetrofit(@CommonApi Retrofit.Builder builder) {
+    static Retrofit provideRetrofit(Retrofit.Builder builder) {
         return builder.baseUrl(BuildConfig.ShikimoriBaseUrl).build();
     }
 
-//    @Provides
-//    @Singleton
-//    @ClientCacheApi
-//    static OkHttpClient provdeOkHttpClientCache(HttpLoggingInterceptor interceptor, Context context) {
-//        return new OkHttpClient.Builder()
-//                .addInterceptor(interceptor)
-//                .cache(new Cache(context.getCacheDir(), 1024 * 1024))
-//                .connectTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-//                .readTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-//                .build();
-//    }
 }

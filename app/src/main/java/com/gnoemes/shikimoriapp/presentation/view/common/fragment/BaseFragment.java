@@ -82,6 +82,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
         if (getView() != null) {
             unbinder = ButterKnife.bind(this, getView());
         }
+        toolbar.setVisibility(android.view.View.VISIBLE);
     }
 
     /**

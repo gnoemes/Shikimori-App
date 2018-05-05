@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
-import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.impl.UserSettingsRepositoryImpl;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.SettingsQualifier;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractorImpl;

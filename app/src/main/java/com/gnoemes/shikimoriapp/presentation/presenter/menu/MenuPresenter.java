@@ -3,8 +3,10 @@ package com.gnoemes.shikimoriapp.presentation.presenter.menu;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
@@ -34,7 +36,6 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     public void initData() {
         loadList();
         loadUserSettings();
-        loadUserProfile();
         getViewState().setTitle(R.string.common_menu);
     }
 
@@ -54,6 +55,7 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void loadUserProfile() {
+        //TODO load user profile
     }
 
     private void loadUserSettings() {
@@ -107,10 +109,29 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void onProfileClicked() {
-
+        switch (settings.getStatus()) {
+            case AUTHORIZED:
+                //TODO navigate to profile
+                break;
+            case GUEST:
+                getViewState().showAuthTypeDialog();
+                break;
+        }
     }
 
     private void setUserSettings(UserSettings settings) {
         this.settings = settings;
+
+        if (settings.getStatus() == UserStatus.AUTHORIZED) {
+            loadUserProfile();
+        }
+    }
+
+    public void onSignIn() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.OAUTH);
+    }
+
+    public void onSignUp() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.SIGN_UP);
     }
 }

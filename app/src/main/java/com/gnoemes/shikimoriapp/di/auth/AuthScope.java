@@ -1,11 +1,11 @@
-package com.gnoemes.shikimoriapp.di.app.qualifiers;
+package com.gnoemes.shikimoriapp.di.auth;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Qualifier;
+import javax.inject.Scope;
 
-@Qualifier
+@Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommonApi {
+public @interface AuthScope {
 }

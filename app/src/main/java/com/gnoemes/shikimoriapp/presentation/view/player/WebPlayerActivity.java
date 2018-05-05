@@ -117,8 +117,11 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         layout.removeAllViews();
+        webView.setWebViewClient(null);
+        webView.stopLoading();
         webView.destroy();
+        webView = null;
+        super.onDestroy();
     }
 }

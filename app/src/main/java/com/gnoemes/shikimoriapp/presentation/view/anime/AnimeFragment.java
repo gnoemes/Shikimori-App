@@ -119,7 +119,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
 
         viewPager.setAdapter(pagerAdapter);
-        progressBar.setSecondaryProgress(getResources().getColor(R.color.red));
 
         int textColor = AttributesHelper.withContext(getContext())
                 .getColor(R.attr.colorText);

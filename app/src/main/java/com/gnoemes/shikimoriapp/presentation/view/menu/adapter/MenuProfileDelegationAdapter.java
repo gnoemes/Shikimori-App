@@ -101,7 +101,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
             switch (model.getStatus()) {
                 case GUEST:
                     userName.setText(R.string.common_guest);
-                    imageLoader.setCircleImage(avatar, R.drawable.avatar_test);
+                    imageLoader.setCircleImage(avatar, R.mipmap.ic_launcher);
                     textHint.setText(R.string.menu_guest_hint);
                     break;
                 case AUTHORIZED:
