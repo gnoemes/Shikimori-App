@@ -55,6 +55,7 @@ public interface UtilModule {
     @Binds
     @Singleton
     ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
+//    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
 
     @Binds
     @Singleton

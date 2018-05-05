@@ -13,4 +13,5 @@ public interface ImageLoader {
     void setImageWithFit(ImageView imageView, String url);
 
     void setImage(ImageView imageView, String url);
+
 }

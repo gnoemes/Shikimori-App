@@ -4,15 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.di.base.modules.BaseActivityModule;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.ActivityCallback;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
 import dagger.android.AndroidInjection;
@@ -34,6 +37,11 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     @Inject
     protected Provider<Presenter> presenterProvider;
     protected Navigator localNavigator;
+
+    @Inject
+    @Named(BaseActivityModule.ACTIVITY_FRAGMENT_MANAGER)
+    protected FragmentManager fragmentManager;
+
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
@@ -117,7 +125,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_container);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
         if (fragment != null
                 && fragment instanceof BackButtonListener
                 && ((BackButtonListener) fragment).onBackPressed()) {

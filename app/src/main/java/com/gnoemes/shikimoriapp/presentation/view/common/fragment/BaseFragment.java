@@ -40,20 +40,12 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
     @Inject
     protected Provider<Presenter> presenterProvider;
 
-    private ActivityCallback activityCallback;
-
     private Unbinder unbinder;
 
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-        try {
-            activityCallback = (ActivityCallback) context;
-        } catch (ClassCastException exception) {
-            throw new ClassCastException(context.toString()
-                    + " must implement " + activityCallback.getClass());
-        }
     }
 
     @Override
@@ -104,10 +96,6 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
      */
     protected abstract Presenter getPresenter();
 
-    protected ActivityCallback getActivityCallback() {
-        return activityCallback;
-    }
-
     @LayoutRes
     protected abstract int getFragmentLayout();
 
@@ -150,23 +138,17 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     @Override
     public void onShowError(String error) {
-        if (hasCallback()) {
-            activityCallback.onShowError(error);
-        }
+
     }
 
     @Override
     public void onShowLoading() {
-        if (hasCallback()) {
-            activityCallback.onShowLoading();
-        }
+
     }
 
     @Override
     public void onHideLoading() {
-        if (hasCallback()) {
-            activityCallback.onHideLoading();
-        }
+
     }
 
     @Override
@@ -184,7 +166,4 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     }
 
-    private boolean hasCallback() {
-        return activityCallback != null;
-    }
 }

@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.di.main.module;
 
-import com.gnoemes.shikimoriapp.di.main.scope.MainActivityScope;
+import com.gnoemes.shikimoriapp.di.base.scopes.ActivityScope;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
@@ -15,7 +15,7 @@ import dagger.Module;
 public interface MainUtilsModule {
 
     @Binds
-    @MainActivityScope
+    @ActivityScope
     MainResourceProvider bindMainResourceProvider(MainResourceProviderImpl provider);
 
     @Binds

@@ -1,20 +1,19 @@
 package com.gnoemes.shikimoriapp.presentation.view.common.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class EmptyContentViewWithButton extends FrameLayout {
+public class EmptyContentViewWithButton extends BaseView {
 
     @BindView(R.id.image_title)
     ImageView imageView;
@@ -25,29 +24,31 @@ public class EmptyContentViewWithButton extends FrameLayout {
 
     private OnClickListener callback;
 
-    public EmptyContentViewWithButton(Context context) {
+    public EmptyContentViewWithButton(@NonNull Context context) {
         super(context);
-        init(context);
     }
 
-    public EmptyContentViewWithButton(Context context, @Nullable AttributeSet attrs) {
+    public EmptyContentViewWithButton(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
-    public EmptyContentViewWithButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public EmptyContentViewWithButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
-    private void init(Context context) {
-        ButterKnife.bind(inflate(context, R.layout.view_empty_with_button, this));
-
+    @Override
+    protected void init(Context context) {
+        super.init(context);
         button.setOnClickListener(v -> {
             if (callback != null) {
                 callback.onClick(v);
             }
         });
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.view_empty_with_button;
     }
 
     public void setVisibility(int visibility) {
@@ -68,5 +69,9 @@ public class EmptyContentViewWithButton extends FrameLayout {
         textView.setText(textRes);
     }
 
-
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        callback = null;
+    }
 }

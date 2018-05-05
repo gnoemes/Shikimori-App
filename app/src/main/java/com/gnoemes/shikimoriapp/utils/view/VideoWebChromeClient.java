@@ -3,20 +3,21 @@ package com.gnoemes.shikimoriapp.utils.view;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+
+import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 
 public class VideoWebChromeClient extends WebChromeClient {
     private boolean isVideoFullscreen = false;
     private ViewGroup activityVideoView;
     private View videoViewContainer;
     private CustomViewCallback videoCallback;
-    private Window videoWindow;
+    private WebPlayerActivity.WindowCallback windowCallback;
 
-    public VideoWebChromeClient(ViewGroup activityVideoView, Window window) {
+    public VideoWebChromeClient(ViewGroup activityVideoView, WebPlayerActivity.WindowCallback windowCallback) {
         this.activityVideoView = activityVideoView;
-        this.videoWindow = window;
+        this.windowCallback = windowCallback;
     }
 
     @Override
@@ -24,7 +25,7 @@ public class VideoWebChromeClient extends WebChromeClient {
         Log.i("DEVE", "ENTER FULLSCREEN");
         videoCallback = callback;
         videoViewContainer = view;
-        videoWindow.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        windowCallback.onFullscreenMode();
         activityVideoView.addView(videoViewContainer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         activityVideoView.setVisibility(View.VISIBLE);
         isVideoFullscreen = true;
@@ -38,7 +39,7 @@ public class VideoWebChromeClient extends WebChromeClient {
         Log.i("DEVE", "EXIT FULLSCREEN");
         activityVideoView.setVisibility(View.VISIBLE);
         activityVideoView.removeView(videoViewContainer);
-        videoWindow.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        windowCallback.onNormalMode();
         videoViewContainer = null;
         videoCallback.onCustomViewHidden();
         isVideoFullscreen = false;
@@ -47,5 +48,13 @@ public class VideoWebChromeClient extends WebChromeClient {
     public boolean onBackPressed() {
         onHideCustomView();
         return isVideoFullscreen;
+    }
+
+    @Override
+    public void onCloseWindow(WebView window) {
+        window.destroy();
+        windowCallback = null;
+        videoCallback = null;
+        super.onCloseWindow(window);
     }
 }

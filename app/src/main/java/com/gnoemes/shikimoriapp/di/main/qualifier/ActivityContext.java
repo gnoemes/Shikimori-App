@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.di.main.scope;
+package com.gnoemes.shikimoriapp.di.main.qualifier;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.di.search;
+package com.gnoemes.shikimoriapp.di.base.scopes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -7,5 +7,5 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SearchScope {
+public @interface ActivityScope {
 }

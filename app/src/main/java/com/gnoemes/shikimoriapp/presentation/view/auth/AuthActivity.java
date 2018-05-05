@@ -167,12 +167,6 @@ public class AuthActivity extends BaseActivity<AuthPresenter, AuthView> implemen
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
             }
-
-            @Override
-            public void onPageCommitVisible(WebView view, String url) {
-                super.onPageCommitVisible(view, url);
-                progressBar.setVisibility(View.VISIBLE);
-            }
         });
     }
 
