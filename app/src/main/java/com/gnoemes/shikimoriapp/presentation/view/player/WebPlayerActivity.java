@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
@@ -25,6 +26,8 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
     private FrameLayout layout;
+    private VideoWebChromeClient client;
+    private View decorView;
 
     public static Intent newIntent(Context context, String url) {
         Intent intent = new Intent(context, WebPlayerActivity.class);
@@ -32,6 +35,28 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         return intent;
     }
 
+    private WindowCallback windowCallback = new WindowCallback() {
+        @Override
+        public void onFullscreenMode() {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+        @Override
+        public void onNormalMode() {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    };
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                hideSystemUi();
+            }
+        }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -42,14 +67,15 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         setContentView(R.layout.activity_web_player);
 
         layout = findViewById(R.id.frame);
-        webView = new WebView(WebPlayerActivity.this);
+        webView = new WebView(getApplicationContext());
         layout.addView(webView);
 
+        client = new VideoWebChromeClient(webView, windowCallback);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebChromeClient(new VideoWebChromeClient(webView, getWindow()));
+        webView.setWebChromeClient(client);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
@@ -71,20 +97,9 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         }
     }
 
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                hideSystemUi();
-            }
-        }
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void hideSystemUi() {
-        View decorView = getWindow().getDecorView();
+        decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
                         // Set the content to appear under the system bars so that the
@@ -95,14 +110,6 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     @Override
@@ -117,20 +124,37 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         webView.onPause();
     }
 
+    private void showSystemUI() {
+        decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         webView.destroy();
-        finish();
+        super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
+        Log.i("DEVE", "onDestroy: ");
         layout.removeAllViews();
         webView.setWebViewClient(null);
-        webView.stopLoading();
+        client = null;
+        decorView.destroyDrawingCache();
+        decorView = null;
         webView.destroy();
         webView = null;
+        windowCallback = null;
         super.onDestroy();
+    }
+
+    public interface WindowCallback {
+        void onFullscreenMode();
+
+        void onNormalMode();
     }
 }

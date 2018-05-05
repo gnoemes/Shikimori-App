@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.di.main.module;
 
-import com.gnoemes.shikimoriapp.di.main.scope.MainActivityScope;
+import com.gnoemes.shikimoriapp.di.base.scopes.ActivityScope;
 import com.gnoemes.shikimoriapp.presentation.presenter.main.MainPresenter;
 
 import dagger.Module;
@@ -11,7 +11,7 @@ import ru.terrakok.cicerone.Router;
 public interface MainPresenterModule {
 
     @Provides
-    @MainActivityScope
+    @ActivityScope
     static MainPresenter bindMainPresenter(Router router) {
         return new MainPresenter(router);
     }

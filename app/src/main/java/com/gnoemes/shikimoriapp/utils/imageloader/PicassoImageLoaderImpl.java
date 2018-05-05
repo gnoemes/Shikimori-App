@@ -19,7 +19,6 @@ public class PicassoImageLoaderImpl implements ImageLoader {
     @Inject
     public PicassoImageLoaderImpl() {
         picasso = Picasso.get();
-        picasso.setIndicatorsEnabled(true);
     }
 
     @Override

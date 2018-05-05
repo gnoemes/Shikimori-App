@@ -41,11 +41,9 @@ public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseSearchIte
 
     public void showProgress() {
         items.add(new ProgressItemViewModel());
-        notifyItemInserted(items.size() - 1);
     }
 
     public void hideProgress() {
         items.remove(items.size() - 1);
-        notifyItemRemoved(items.size() - 1);
     }
 }

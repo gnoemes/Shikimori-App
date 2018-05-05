@@ -1,11 +1,8 @@
 package com.gnoemes.shikimoriapp.di;
 
 import com.gnoemes.shikimoriapp.di.auth.AuthModule;
-import com.gnoemes.shikimoriapp.di.auth.AuthScope;
-import com.gnoemes.shikimoriapp.di.main.module.MainContextModule;
-import com.gnoemes.shikimoriapp.di.main.module.MainPresenterModule;
-import com.gnoemes.shikimoriapp.di.main.module.MainUtilsModule;
-import com.gnoemes.shikimoriapp.di.main.scope.MainActivityScope;
+import com.gnoemes.shikimoriapp.di.base.scopes.ActivityScope;
+import com.gnoemes.shikimoriapp.di.main.module.MainModule;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.main.MainActivity;
 
@@ -15,12 +12,11 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public interface ActivityInjectionModule {
 
-    @MainActivityScope
-    @ContributesAndroidInjector(modules = {MainContextModule.class, MainPresenterModule.class,
-            MainUtilsModule.class, FragmentInjectionModule.class})
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class})
     MainActivity mainActivityInjector();
 
-    @AuthScope
+    @ActivityScope
     @ContributesAndroidInjector(modules = AuthModule.class)
     AuthActivity authActivityInjector();
 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -18,7 +17,11 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.presentation.presenter.main.MainPresenter;
-import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
+import com.gnoemes.shikimoriapp.presentation.view.bottom.CalendarFragmentContainer;
+import com.gnoemes.shikimoriapp.presentation.view.bottom.FavoriteFragmentContainer;
+import com.gnoemes.shikimoriapp.presentation.view.bottom.MenuFragmentContainer;
+import com.gnoemes.shikimoriapp.presentation.view.bottom.SearchFragmentContainer;
+import com.gnoemes.shikimoriapp.presentation.view.bottom.SocialFragmentContainer;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
@@ -45,11 +48,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     @Inject
     MainResourceProvider resourceProvider;
 
-    private BottomTabContainer favoriteTabFragment;
-    private BottomTabContainer calendarTabFragment;
-    private BottomTabContainer searchTabFragment;
-    private BottomTabContainer socialTabFragment;
-    private BottomTabContainer menuTabFragment;
+    private FavoriteFragmentContainer favoriteTabFragment;
+    private CalendarFragmentContainer calendarTabFragment;
+    private SearchFragmentContainer searchTabFragment;
+    private SocialFragmentContainer socialTabFragment;
+    private MenuFragmentContainer menuTabFragment;
 
     @ProvidePresenter
     MainPresenter provideMainPresenter() {
@@ -94,7 +97,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     @Override
     protected Navigator getLocalNavigator() {
         if (localNavigator == null) {
-            localNavigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.activity_container) {
+            localNavigator = new SupportAppNavigator(this, fragmentManager, R.id.activity_container) {
 
 
                 @Override
@@ -114,10 +117,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
 
                 @Override
                 protected void replace(Replace command) {
-                    FragmentManager fm = getSupportFragmentManager();
                     switch (command.getScreenKey()) {
                         case BottomScreens.FAVORITE:
-                            fm.beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .detach(calendarTabFragment)
                                     .detach(searchTabFragment)
                                     .detach(socialTabFragment)
@@ -126,7 +128,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                                     .commitNow();
                             break;
                         case BottomScreens.CALENDAR:
-                            fm.beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .detach(favoriteTabFragment)
                                     .detach(searchTabFragment)
                                     .detach(socialTabFragment)
@@ -135,7 +137,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                                     .commitNow();
                             break;
                         case BottomScreens.SEARCH:
-                            fm.beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .detach(calendarTabFragment)
                                     .detach(favoriteTabFragment)
                                     .detach(socialTabFragment)
@@ -144,7 +146,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                                     .commitNow();
                             break;
                         case BottomScreens.SOCIAL:
-                            fm.beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .detach(calendarTabFragment)
                                     .detach(searchTabFragment)
                                     .detach(favoriteTabFragment)
@@ -153,7 +155,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                                     .commitNow();
                             break;
                         case BottomScreens.MENU:
-                            fm.beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .detach(calendarTabFragment)
                                     .detach(searchTabFragment)
                                     .detach(socialTabFragment)
@@ -249,8 +251,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                 }
             }
         });
-
-
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -258,59 +258,58 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     ///////////////////////////////////////////////////////////////////////////
 
     private void initContainers() {
-        FragmentManager fm = getSupportFragmentManager();
-        createFavoritePage(fm);
-        createCalendarPage(fm);
-        createSearchPage(fm);
-        createSocialPage(fm);
-        createMenuPage(fm);
+        createFavoritePage();
+        createCalendarPage();
+        createSearchPage();
+        createSocialPage();
+        createMenuPage();
     }
 
-    private void createMenuPage(FragmentManager fm) {
-        menuTabFragment = (BottomTabContainer) fm.findFragmentByTag(BottomScreens.MENU);
+    private void createMenuPage() {
+        menuTabFragment = (MenuFragmentContainer) fragmentManager.findFragmentByTag(BottomScreens.MENU);
         if (menuTabFragment == null) {
-            menuTabFragment = (BottomTabContainer) BottomTabContainer.newInstance(BottomScreens.MENU);
-            fm.beginTransaction()
+            menuTabFragment = MenuFragmentContainer.newInstance();
+            fragmentManager.beginTransaction()
                     .add(R.id.activity_container, menuTabFragment, BottomScreens.MENU)
                     .detach(menuTabFragment).commitNow();
         }
     }
 
-    private void createSocialPage(FragmentManager fm) {
-        socialTabFragment = (BottomTabContainer) fm.findFragmentByTag(BottomScreens.SOCIAL);
+    private void createSocialPage() {
+        socialTabFragment = (SocialFragmentContainer) fragmentManager.findFragmentByTag(BottomScreens.SOCIAL);
         if (socialTabFragment == null) {
-            socialTabFragment = (BottomTabContainer) BottomTabContainer.newInstance(BottomScreens.SOCIAL);
-            fm.beginTransaction()
+            socialTabFragment = SocialFragmentContainer.newInstance();
+            fragmentManager.beginTransaction()
                     .add(R.id.activity_container, socialTabFragment, BottomScreens.SOCIAL)
                     .detach(socialTabFragment).commitNow();
         }
     }
 
-    private void createSearchPage(FragmentManager fm) {
-        searchTabFragment = (BottomTabContainer) fm.findFragmentByTag(BottomScreens.SEARCH);
+    private void createSearchPage() {
+        searchTabFragment = (SearchFragmentContainer) fragmentManager.findFragmentByTag(BottomScreens.SEARCH);
         if (searchTabFragment == null) {
-            searchTabFragment = (BottomTabContainer) BottomTabContainer.newInstance(BottomScreens.SEARCH);
-            fm.beginTransaction()
+            searchTabFragment = SearchFragmentContainer.newInstance();
+            fragmentManager.beginTransaction()
                     .add(R.id.activity_container, searchTabFragment, BottomScreens.SEARCH)
                     .detach(searchTabFragment).commitNow();
         }
     }
 
-    private void createCalendarPage(FragmentManager fm) {
-        calendarTabFragment = (BottomTabContainer) fm.findFragmentByTag(BottomScreens.CALENDAR);
+    private void createCalendarPage() {
+        calendarTabFragment = (CalendarFragmentContainer) fragmentManager.findFragmentByTag(BottomScreens.CALENDAR);
         if (calendarTabFragment == null) {
-            calendarTabFragment = (BottomTabContainer) BottomTabContainer.newInstance(BottomScreens.CALENDAR);
-            fm.beginTransaction()
+            calendarTabFragment = CalendarFragmentContainer.newInstance();
+            fragmentManager.beginTransaction()
                     .add(R.id.activity_container, calendarTabFragment, BottomScreens.CALENDAR)
                     .detach(calendarTabFragment).commitNow();
         }
     }
 
-    private void createFavoritePage(FragmentManager fm) {
-        favoriteTabFragment = (BottomTabContainer) fm.findFragmentByTag(BottomScreens.FAVORITE);
+    private void createFavoritePage() {
+        favoriteTabFragment = (FavoriteFragmentContainer) fragmentManager.findFragmentByTag(BottomScreens.FAVORITE);
         if (favoriteTabFragment == null) {
-            favoriteTabFragment = (BottomTabContainer) BottomTabContainer.newInstance(BottomScreens.FAVORITE);
-            fm.beginTransaction()
+            favoriteTabFragment = FavoriteFragmentContainer.newInstance();
+            fragmentManager.beginTransaction()
                     .add(R.id.activity_container, favoriteTabFragment, BottomScreens.FAVORITE)
                     .detach(favoriteTabFragment).commitNow();
         }
