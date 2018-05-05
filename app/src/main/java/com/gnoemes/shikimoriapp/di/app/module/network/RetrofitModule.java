@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.di.app.module.network;
 
 import com.gnoemes.shikimoriapp.utils.date.DateTimeResponseConverter;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.utils.net.UserAgentInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,6 +25,12 @@ public interface RetrofitModule {
     static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         return new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
+    }
+
+    @Provides
+    @Singleton
+    static UserAgentInterceptor provideUserAgentIntercepter() {
+        return new UserAgentInterceptor();
     }
 
     @Provides

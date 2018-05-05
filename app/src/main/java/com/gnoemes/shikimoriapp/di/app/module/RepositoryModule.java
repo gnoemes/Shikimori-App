@@ -1,0 +1,30 @@
+package com.gnoemes.shikimoriapp.di.app.module;
+
+import com.gnoemes.shikimoriapp.data.repository.app.AuthorizationRepository;
+import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
+import com.gnoemes.shikimoriapp.data.repository.app.TokenSource;
+import com.gnoemes.shikimoriapp.data.repository.app.impl.AuthorizationRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenSourceImpl;
+
+import javax.inject.Singleton;
+
+import dagger.Binds;
+import dagger.Module;
+
+@Module
+public interface RepositoryModule {
+
+    @Binds
+    @Singleton
+    TokenSource bindTokenSource(TokenSourceImpl source);
+
+    @Binds
+    @Singleton
+    TokenRepository bindTokenRepository(TokenRepositoryImpl repository);
+
+    @Binds
+    @Singleton
+    AuthorizationRepository bindAuthorizationRepository(AuthorizationRepositoryImpl repository);
+
+}

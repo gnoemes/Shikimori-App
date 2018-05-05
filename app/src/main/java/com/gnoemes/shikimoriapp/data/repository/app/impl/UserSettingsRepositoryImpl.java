@@ -1,8 +1,9 @@
-package com.gnoemes.shikimoriapp.data.repository.app;
+package com.gnoemes.shikimoriapp.data.repository.app.impl;
 
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource;
+import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 
 import javax.inject.Inject;

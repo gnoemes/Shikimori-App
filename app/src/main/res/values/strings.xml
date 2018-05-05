@@ -196,6 +196,11 @@
     <string name="quality_bd" translatable="false">BD</string>
     <string name="translation_settings">Настройки переводов</string>
     <string name="translation_find_all">Искать все</string>
+    <string name="common_sign_in">Вход</string>
+    <string name="auth_dialog_conent">Войдите или зарегистрируйтесь для использования всех возможностей приложения</string>
+    <string name="common_sign_up">Регистрация</string>
+    <string name="reg_nickname">Никнейм</string>
+    <string name="reg_password">Пароль</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

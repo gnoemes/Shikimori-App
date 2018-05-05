@@ -193,6 +193,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .build();
 
         Disposable disposable = settingsInteractor.saveUserSettings(settings)
+                .doOnComplete(() -> getRouter().showSystemMessage("Настройки успешно сохранены. Приятного просмотра :)"))
                 .subscribe();
 
         unsubscribeOnDestroy(disposable);

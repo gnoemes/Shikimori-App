@@ -24,4 +24,6 @@ public class AppExtras {
     public static final String ARGUMENT_URL = "ARGUMENT_URL";
     public static final String ARGUMENT_EPISODE_ID = "ARGUMENT_EPISODE_ID";
     public static final String ARGUMENT_TRANSLATION_TYPE = "ARGUMENT_TRANSLATION_TYPE";
+    public static final String ARGUMENT_TOKEN = "ARGUMENT_TOKEN";
+    public static final String ARGUMENT_AUTH_TYPE = "ARGUMENT_AUTH_TYPE";
 }
