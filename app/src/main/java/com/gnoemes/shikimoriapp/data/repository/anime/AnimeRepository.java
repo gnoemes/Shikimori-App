@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.anime;
 
+import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
 
@@ -18,4 +19,10 @@ public interface AnimeRepository {
      * Anime Links
      */
     Single<List<AnimeLink>> getAnimeLinks(long animeId);
+
+    /**
+     * Similar anime
+     */
+    Single<List<Anime>> getSimilarAnimes(long animeId);
+
 }

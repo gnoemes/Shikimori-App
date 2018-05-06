@@ -25,7 +25,7 @@
     <string name="common_cancel">Отмена</string>
     <string name="common_next">Далее</string>
     <string name="common_links">Ссылки</string>
-    <string name="common_related">Похожие</string>
+    <string name="common_similar">Похожие</string>
     <string name="common_comments">Комментарии</string>
     <string name="common_translations">Переводы</string>
     <string name="common_guest">Гость</string>
@@ -50,7 +50,7 @@
     <string name="main_exit_message">Для выхода из программы нажмите кнопку еще раз</string>
     <string name="series_settings">Настройки просмотра</string>
     <string name="series_title">Выбор серии</string>
-    <string name="translations_empty">Не найдено подходящих переводов. \n Попробуйте поменять тип перевода</string>
+    <string name="translations_empty">Не найдено подходящих переводов. \n Попробуйте изменить тип перевода</string>
 
     <string name="error_internet">Internet error</string>
     <string name="error_timeout">Connection timeout</string>
@@ -201,6 +201,7 @@
     <string name="common_sign_up">Регистрация</string>
     <string name="reg_nickname">Никнейм</string>
     <string name="reg_password">Пароль</string>
+    <string name="similar_empty">Ничего не найдено. \n Возможно Вам стоит пересмотреть свои вкусы ;)</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

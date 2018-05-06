@@ -34,4 +34,7 @@ public interface AnimesApi {
     @GET("/api/animes/{id}/external_links")
     Single<List<AnimeLinkResponse>> getAnimeLinks(@Path("id") long animeId);
 
+    @GET("/api/animes/{id}/similar")
+    Single<List<AnimeResponse>> getSimilarAnimes(@Path("id") long animeId);
+
 }

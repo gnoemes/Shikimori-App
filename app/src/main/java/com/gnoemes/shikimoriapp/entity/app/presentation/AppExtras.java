@@ -26,5 +26,4 @@ public class AppExtras {
     public static final String ARGUMENT_TRANSLATION_TYPE = "ARGUMENT_TRANSLATION_TYPE";
     public static final String ARGUMENT_TOKEN = "ARGUMENT_TOKEN";
     public static final String ARGUMENT_AUTH_TYPE = "ARGUMENT_AUTH_TYPE";
-    public static final String ARGUMENT_EXTERNAL_LINK = "ARGUMENT_EXTERNAL_LINK";
 }

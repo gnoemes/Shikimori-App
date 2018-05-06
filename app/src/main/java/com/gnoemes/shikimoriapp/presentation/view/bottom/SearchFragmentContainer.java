@@ -19,6 +19,7 @@ import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
+import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import ru.terrakok.cicerone.Navigator;
@@ -57,6 +58,8 @@ public class SearchFragmentContainer extends BottomTabContainer {
                             return AnimeFragment.newInstance((Long) data);
                         case Screens.TRANSLATIONS:
                             return TranslationsFragment.newInstance((TranslationNavigationData) data);
+                        case Screens.SIMILAR:
+                            return SimilarFragment.newInstance((Long) data);
                     }
                     return null;
                 }

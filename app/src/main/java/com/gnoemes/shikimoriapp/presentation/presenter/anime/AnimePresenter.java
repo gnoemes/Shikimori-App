@@ -107,11 +107,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
         Disposable disposable = animeInteractor.loadAnimeDetails(animeId)
                 .doOnEvent((animeDetails, throwable) -> getViewState().onHideLoading())
-                .map(anime -> currentAnime = anime)
+                .map(this::setCurrentAnime)
                 .map(viewModelConverter)
                 .subscribe(this::setAnimeData, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
+    }
+
+    private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
+        this.currentAnime = animeDetails;
+        return animeDetails;
     }
 
     /**
@@ -243,7 +248,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 onLinksClicked();
                 break;
             case RELATED:
-                onRelatedClicked();
+                onSimilarClicked();
                 break;
             case COMMENTS:
                 onCommentsClicked();
@@ -272,8 +277,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Route to related/similar anime list
      */
-    private void onRelatedClicked() {
-        //TODO screen with related animes
+    private void onSimilarClicked() {
+        getRouter().navigateTo(Screens.SIMILAR, animeId);
     }
 
     /**
