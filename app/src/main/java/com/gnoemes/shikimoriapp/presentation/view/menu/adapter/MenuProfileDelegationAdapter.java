@@ -106,7 +106,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
                     break;
                 case AUTHORIZED:
                     userName.setText(model.getUserName());
-                    imageLoader.setCircleImage(avatar, model.getAvatarUrl(), R.mipmap.ic_launcher);
+                    imageLoader.setCircleImage(avatar, model.getAvatarUrl(), R.attr.colorPrimary);
                     textHint.setText(R.string.menu_user_hint);
                     break;
             }
