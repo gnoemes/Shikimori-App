@@ -11,6 +11,9 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubb
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
+import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import javax.inject.Inject;
 
@@ -23,12 +26,15 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     private SharedPreferences sharedPreferences;
     private UserSettingsConverter converter;
     private BehaviorSubject<UserSettings> settingsPublishSubject;
+    private Gson gson;
 
     @Inject
     public UserPreferenceSourceImpl(@SettingsQualifier SharedPreferences sharedPreferences,
-                                    @NonNull UserSettingsConverter converter) {
+                                    @NonNull UserSettingsConverter converter,
+                                    @NonNull Gson gson) {
         this.sharedPreferences = sharedPreferences;
         this.converter = converter;
+        this.gson = gson;
         settingsPublishSubject = BehaviorSubject.create();
         settingsPublishSubject.onNext(getUserSettings());
     }
@@ -45,7 +51,7 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
 
     private void saveSettings(UserSettings userSettings) {
         saveUserStatus(userSettings.getStatus());
-        saveUserId(userSettings.getId());
+        saveUserBrief(userSettings.getUserBrief());
         saveWizardFlag(userSettings.getNeedShowWizard());
         saveTranslationType(userSettings.getTranslationType());
         saveTranslationDubberSettings(userSettings.getDubberSettings());
@@ -56,7 +62,7 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
 
     private UserSettings getUserSettings() {
         return new UserSettings(getUserStatus(),
-                getUserId(),
+                getUserBrief(),
                 getWizardFlag(),
                 getTranslationType(),
                 getTranslationDubberSettings(),
@@ -74,15 +80,20 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         return converter.convertStatus(getPrefs().getString(SettingsExtras.USER_STATUS, "guest"));
     }
 
-    private void saveUserId(@Nullable Long id) {
-        if (id == null) {
+    private void saveUserBrief(@Nullable UserBrief userBrief) {
+        if (userBrief == null) {
             return;
         }
-        getEditor().putLong(SettingsExtras.USER_ID, id).commit();
+        getEditor().putString(SettingsExtras.USER_BRIEF, gson.toJson(userBrief)).commit();
     }
 
-    private long getUserId() {
-        return getPrefs().getLong(SettingsExtras.USER_ID, -1);
+    private UserBrief getUserBrief() {
+        try {
+            String json = getPrefs().getString(SettingsExtras.USER_BRIEF, "");
+            return gson.fromJson(json, UserBrief.class);
+        } catch (JsonSyntaxException e) {
+            return null;
+        }
     }
 
     private void saveWizardFlag(@Nullable Boolean needShowWizard) {

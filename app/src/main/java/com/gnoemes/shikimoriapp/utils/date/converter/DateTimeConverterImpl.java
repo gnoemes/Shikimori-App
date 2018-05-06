@@ -51,6 +51,10 @@ public class DateTimeConverterImpl implements DateTimeConverter {
     @Override
     public String convertAnimeSeasonToString(DateTime dateTime) {
         String season;
+        if (dateTime == null) {
+            return "xxx";
+        }
+
         switch (dateTime.getMonthOfYear()) {
             case 1:
                 season = resourceProvider.getWinterString();

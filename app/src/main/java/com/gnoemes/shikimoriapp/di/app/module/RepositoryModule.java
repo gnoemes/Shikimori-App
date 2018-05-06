@@ -6,6 +6,8 @@ import com.gnoemes.shikimoriapp.data.repository.app.TokenSource;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.AuthorizationRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenSourceImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.UserRepository;
+import com.gnoemes.shikimoriapp.data.repository.user.UserRepositoryImpl;
 
 import javax.inject.Singleton;
 
@@ -27,4 +29,7 @@ public interface RepositoryModule {
     @Singleton
     AuthorizationRepository bindAuthorizationRepository(AuthorizationRepositoryImpl repository);
 
+    @Binds
+    @Singleton
+    UserRepository bindUserRepository(UserRepositoryImpl repository);
 }

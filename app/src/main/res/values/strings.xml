@@ -72,7 +72,7 @@
     <string name="type_ona" translatable="false">ONA</string>
     <string name="type_special" translatable="false">Special</string>
     <string name="type_music" translatable="false">Music</string>
-    <string name="type_pattern">%s (%o эп.), %o мин.</string>
+    <string name="type_pattern">%s (%s эп.), %o мин.</string>
 
 
     <string-array name="types">

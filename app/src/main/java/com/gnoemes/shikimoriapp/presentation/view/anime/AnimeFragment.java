@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
@@ -186,7 +187,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void setAnimeData(AnimeDetailsViewModel model) {
-        imageLoader.setImage(backgroundImage, model.getImageUrl());
+        imageLoader.setImageWithFit(backgroundImage, BuildConfig.ShikimoriBaseUrl + model.getImageUrl());
         toolbar.setTitle(model.getName());
         pagerAdapter.setData(converter.convertFromViewModel(model));
     }

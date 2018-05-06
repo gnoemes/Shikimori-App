@@ -4,6 +4,8 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverterImpl;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtilsImpl;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
@@ -11,7 +13,7 @@ import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverterImpl;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProviderImpl;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.imageloader.PicassoImageLoaderImpl;
+import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorProcessing;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorResourceProvider;
@@ -54,8 +56,8 @@ public interface UtilModule {
 
     @Binds
     @Singleton
-    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
-//    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
+//    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
+    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
 
     @Binds
     @Singleton
@@ -76,4 +78,7 @@ public interface UtilModule {
 
     @Binds
     UserSettingsConverter bindUserSettingsConverter(UserSettingsConverterImpl converter);
+
+    @Binds
+    UserBriefResponseConverter bindUserBriefResponseConverter(UserBriefResponseConverterImpl converter);
 }

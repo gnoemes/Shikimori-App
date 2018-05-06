@@ -5,11 +5,12 @@ import android.support.annotation.Nullable;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
+import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 
 public class UserSettings {
 
     private UserStatus status;
-    private Long id;
+    private UserBrief userBrief;
     private Boolean isNeedShowWizard;
     private TranslationType translationType;
     private TranslationDubberSettings dubberSettings;
@@ -18,11 +19,11 @@ public class UserSettings {
     public UserSettings() {
     }
 
-    public UserSettings(@Nullable UserStatus status, @Nullable Long id,
+    public UserSettings(@Nullable UserStatus status, @Nullable UserBrief userBrief,
                         @Nullable Boolean isNeedShowWizard, @Nullable TranslationType translationType,
                         @Nullable TranslationDubberSettings dubberSettings, @Nullable PlayerType playerType) {
         this.status = status;
-        this.id = id;
+        this.userBrief = userBrief;
         this.isNeedShowWizard = isNeedShowWizard;
         this.translationType = translationType;
         this.dubberSettings = dubberSettings;
@@ -37,12 +38,12 @@ public class UserSettings {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
+    public UserBrief getUserBrief() {
+        return userBrief;
     }
 
-    public void setId(@Nullable Long id) {
-        this.id = id;
+    public void setUserBrief(UserBrief userBrief) {
+        this.userBrief = userBrief;
     }
 
     public Boolean getNeedShowWizard() {
@@ -79,7 +80,7 @@ public class UserSettings {
 
     public static class Builder {
         private UserStatus status;
-        private Long id;
+        private UserBrief userBrief;
         private Boolean isNeedShowWizard;
         private TranslationType translationType;
         private TranslationDubberSettings dubberSettings;
@@ -90,8 +91,8 @@ public class UserSettings {
             return this;
         }
 
-        public Builder setId(Long id) {
-            this.id = id;
+        public Builder setUserBrief(UserBrief userBrief) {
+            this.userBrief = userBrief;
             return this;
         }
 
@@ -116,7 +117,7 @@ public class UserSettings {
         }
 
         public UserSettings build() {
-            return new UserSettings(status, id, isNeedShowWizard, translationType, dubberSettings, playerType);
+            return new UserSettings(status, userBrief, isNeedShowWizard, translationType, dubberSettings, playerType);
         }
     }
 }

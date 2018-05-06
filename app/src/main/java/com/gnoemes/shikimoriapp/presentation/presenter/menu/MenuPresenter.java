@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.menu;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
+import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
@@ -13,6 +14,7 @@ import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryWithBadgeViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuDividerViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuProfileViewModel;
+import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuView;
 
@@ -25,11 +27,14 @@ import io.reactivex.disposables.Disposable;
 public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
 
     private UserSettingsInteractor settingsInteractor;
+    private UserInteractor userInteractor;
 
     private UserSettings settings;
 
-    public MenuPresenter(UserSettingsInteractor settingsInteractor) {
+    public MenuPresenter(UserSettingsInteractor settingsInteractor,
+                         UserInteractor userInteractor) {
         this.settingsInteractor = settingsInteractor;
+        this.userInteractor = userInteractor;
     }
 
     @Override
@@ -55,7 +60,17 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void loadUserProfile() {
-        //TODO load user profile
+        Disposable disposable = userInteractor.getMyUser()
+                .subscribe(this::setUserProfile, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void setUserProfile(UserBrief userBrief) {
+        getViewState().updateUser(new MenuProfileViewModel(
+                settings.getStatus(),
+                userBrief.getNickname(),
+                userBrief.getAvatarUrl()));
     }
 
     private void loadUserSettings() {

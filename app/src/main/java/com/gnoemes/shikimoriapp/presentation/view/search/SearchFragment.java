@@ -269,7 +269,6 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     public void showList(List<BaseSearchItem> animes) {
         recyclerView.setVisibility(View.VISIBLE);
         animeAdapter.bindItems(animes);
-        recyclerView.post(() -> animeAdapter.notifyDataSetChanged());
     }
 
     @Override
@@ -305,19 +304,16 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     @Override
     public void clearList() {
         animeAdapter.clearItems();
-        recyclerView.post(() -> animeAdapter.notifyDataSetChanged());
     }
 
     @Override
     public void onShowPageLoading() {
         animeAdapter.showProgress();
-        recyclerView.post(() -> animeAdapter.notifyDataSetChanged());
     }
 
     @Override
     public void onHidePageLoading() {
         animeAdapter.hideProgress();
-        recyclerView.post(() -> animeAdapter.notifyDataSetChanged());
     }
 
     @Override
