@@ -3,11 +3,12 @@ package com.gnoemes.shikimoriapp.utils.imageloader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
+import android.support.annotation.AttrRes;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import javax.inject.Inject;
@@ -23,20 +24,23 @@ public class UniversalImageLoader implements ImageLoader {
         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
     }
 
-
     @Override
-    public void setCircleImage(ImageView imageView, @Nullable String url, int errorImage) {
+    public void setCircleImage(ImageView imageView, String url, @AttrRes int attrColor) {
         imageLoader.displayImage(url, imageView, new SimpleImageLoadingListener() {
-
             @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), errorImage);
+            public void onLoadingStarted(String imageUri, View view) {
+                Bitmap bitmap = DrawableHelper
+                        .withContext(imageView.getContext())
+                        .withDrawable(R.drawable.circle_image_placeholder)
+                        .withAttributeColor(attrColor)
+                        .tint()
+                        .asBitmap();
+
                 imageView.setImageBitmap(new CircleTransformation().transform(bitmap));
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageBitmap(new CircleTransformation().transform(loadedImage));
             }
         });

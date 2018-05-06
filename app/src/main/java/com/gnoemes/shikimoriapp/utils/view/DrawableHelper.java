@@ -2,7 +2,11 @@ package com.gnoemes.shikimoriapp.utils.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.AttrRes;
@@ -103,4 +107,21 @@ public class DrawableHelper {
 
         return wrappedDrawable;
     }
+
+    public Bitmap asBitmap() {
+        if (wrappedDrawable == null) {
+            throw new NullPointerException();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(wrappedDrawable.getIntrinsicWidth(),
+                wrappedDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawRect(new RectF(0f, 0f, (float) wrappedDrawable.getIntrinsicWidth(),
+                (float) wrappedDrawable.getIntrinsicHeight()), paint);
+
+        return bitmap;
+    }
+
 }

@@ -20,7 +20,6 @@ public class PicassoImageLoaderImpl implements ImageLoader {
         picasso = Picasso.get();
     }
 
-    @Override
     public void setCircleImage(ImageView imageView, @Nullable String url, @DrawableRes int errorImage) {
         picasso.load(url)
                 .transform(new CircleTransformation())
