@@ -8,11 +8,13 @@ import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarModule;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
+import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
 import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.CalendarFragmentContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
+import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import javax.inject.Named;
@@ -39,6 +41,10 @@ public interface CalendarTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = {TranslationsModule.class})
     TranslationsFragment translationsFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = {SimilarModule.class})
+    SimilarFragment similarFragmentInjector();
 
     @Binds
     @BottomScope

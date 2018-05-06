@@ -2,12 +2,9 @@ package com.gnoemes.shikimoriapp.di.anime;
 
 import android.support.v4.app.Fragment;
 
-import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
-import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepositoryImpl;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
-import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
@@ -22,19 +19,14 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {BaseChildFragmentModule.class, SeriesModule.class, AnimeUtilsModule.class})
+@Module(includes = {BaseChildFragmentModule.class, SeriesModule.class,
+        AnimeUtilsModule.class, AnimeRepoAndInteractorModule.class})
 public interface AnimeModule {
 
     @Binds
     @Named(BaseChildFragmentModule.CHILD_FRAGMENT)
     @BottomChildScope
     Fragment bindFragment(AnimeFragment animeFragment);
-
-    @Binds
-    AnimeRepository bindAnimeRepository(AnimeRepositoryImpl repository);
-
-    @Binds
-    AnimeInteractor bindAnimeDetailsInteractor(AnimeInteractorImpl interactor);
 
     @Provides
     static AnimePresenter provideAnimePresenter(AnimeInteractor interactor,
