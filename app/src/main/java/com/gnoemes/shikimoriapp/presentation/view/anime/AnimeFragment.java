@@ -138,7 +138,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                     showSettingsWizard();
                     break;
                 case R.id.item_open:
-                    //TODO browser intent
+                    getPresenter().onOpenBrowserClicked();
                     break;
             }
             return false;

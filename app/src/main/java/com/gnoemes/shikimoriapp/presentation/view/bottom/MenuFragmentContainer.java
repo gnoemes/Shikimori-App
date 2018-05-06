@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.bottom;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -57,6 +58,8 @@ public class MenuFragmentContainer extends BottomTabContainer {
                     switch (screenKey) {
                         case Screens.AUTHORIZATION:
                             return AuthActivity.newIntent(context, (AuthType) data);
+                        case Screens.WEB:
+                            return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                     }
                     return null;
                 }
