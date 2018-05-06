@@ -27,6 +27,7 @@ public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseSearchIte
     public void bindItems(List<BaseSearchItem> searchItems) {
         items.clear();
         items.addAll(searchItems);
+        notifyDataSetChanged();
     }
 
     public void insertMore(List<BaseSearchItem> searchItems) {

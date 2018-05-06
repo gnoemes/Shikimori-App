@@ -81,7 +81,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     }
 
     private String convertType(AnimeType type, int episodes, int duration) {
-        return String.format(context.getString(R.string.type_pattern), type.toString().toUpperCase(), episodes, duration);
+        return String.format(context.getString(R.string.type_pattern), type.toString().toUpperCase(),
+                episodes == 0 ? "xxx" : String.valueOf(episodes), duration);
     }
 
     private String convertName(String russianName, String name) {

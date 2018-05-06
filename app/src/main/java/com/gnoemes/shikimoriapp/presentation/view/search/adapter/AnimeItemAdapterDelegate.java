@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
@@ -85,7 +86,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
 
         public void bind(AnimeViewModel item) {
 
-            imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
+            imageLoader.setImageWithFit(animeImage, BuildConfig.ShikimoriBaseUrl + item.getImageOriginalUrl());
 
             textType.setText(item.getType().name());
             textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));

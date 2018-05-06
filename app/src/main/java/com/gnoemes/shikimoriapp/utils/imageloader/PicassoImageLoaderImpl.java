@@ -4,7 +4,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -23,7 +22,7 @@ public class PicassoImageLoaderImpl implements ImageLoader {
 
     @Override
     public void setCircleImage(ImageView imageView, @Nullable String url, @DrawableRes int errorImage) {
-        picasso.load(BuildConfig.ShikimoriBaseUrl + url)
+        picasso.load(url)
                 .transform(new CircleTransformation())
                 .fit()
                 .centerCrop()
@@ -42,7 +41,7 @@ public class PicassoImageLoaderImpl implements ImageLoader {
 
     @Override
     public void setImageWithFit(ImageView imageView, String url) {
-        picasso.load(BuildConfig.ShikimoriBaseUrl + url)
+        picasso.load(url)
                 .fit()
                 .centerCrop()
                 .into(imageView);
@@ -50,9 +49,7 @@ public class PicassoImageLoaderImpl implements ImageLoader {
 
     @Override
     public void setImage(ImageView imageView, String url) {
-        picasso.load(BuildConfig.ShikimoriBaseUrl + url)
-                .fit()
-                .centerCrop()
+        picasso.load(url)
                 .into(imageView);
 
     }
