@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
@@ -329,7 +330,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Open link in browser
      */
     public void onLinkPressed(AnimeLinkViewModel animeLinkViewModel) {
-        //TODO open browser activity
+        getRouter().navigateTo(Screens.WEB, animeLinkViewModel.getUrl());
     }
 
     /**
@@ -358,4 +359,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         this.animeId = animeId;
     }
 
+    public void onOpenBrowserClicked() {
+        getRouter().navigateTo(Screens.WEB, BuildConfig.ShikimoriBaseUrl + currentAnime.getUrl());
+    }
 }

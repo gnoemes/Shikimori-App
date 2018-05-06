@@ -9,4 +9,6 @@ public class Screens {
     public static final String AUTHORIZATION = "AUTHORIZATION";
 
     public static final String WEB_PLAYER = "WEB_PLAYER";
+
+    public static final String WEB = "WEB";
 }
