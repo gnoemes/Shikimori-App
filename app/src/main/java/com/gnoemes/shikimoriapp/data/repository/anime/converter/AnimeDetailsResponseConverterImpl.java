@@ -25,6 +25,7 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
     @Override
     public AnimeDetails apply(AnimeDetailsResponse animeDetailsResponse) {
         return new AnimeDetails(animeDetailsResponse.getId(),
+                animeDetailsResponse.getTopicId(),
                 animeDetailsResponse.getName(),
                 animeDetailsResponse.getRussianName(),
                 converter.convertAnimeImage(animeDetailsResponse.getImage()),
@@ -46,9 +47,6 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
 
     /**
      * Returns List<AnimeGenres> (ENUMS)
-     *
-     * @param responses
-     * @return enums
      */
     private List<AnimeGenre> convertGenres(List<GenreResponse> responses) {
         List<AnimeGenre> animeGenres = new ArrayList<>();
@@ -66,9 +64,6 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
 
     /**
      * Converts genre name for future action (e.g. slice_of_life)
-     *
-     * @param name
-     * @return
      */
     private String convertGenreName(String name) {
         StringBuilder builder = new StringBuilder();

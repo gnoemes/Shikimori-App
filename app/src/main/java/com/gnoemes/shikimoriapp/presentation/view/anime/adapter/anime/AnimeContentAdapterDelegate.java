@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.anime.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime;
 
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;

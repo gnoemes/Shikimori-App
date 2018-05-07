@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.anime.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

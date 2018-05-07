@@ -9,4 +9,6 @@ public interface DateTimeConverter {
     String convertCalendarTimeToString(DateTime dateTime);
 
     String convertAnimeSeasonToString(DateTime dateTime);
+
+    String convertCommentDateTimeToString(DateTime dateTime);
 }

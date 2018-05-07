@@ -99,6 +99,19 @@ public class DateTimeConverterImpl implements DateTimeConverter {
         return season.concat(" ") + dateTime.getYear();
     }
 
+    @Override
+    public String convertCommentDateTimeToString(DateTime dateTime) {
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd MMMM yyyy");
+
+        if (dateUtils.isToday(dateTime)) {
+            return resourceProvider.getTodayMessage();
+        } else if (dateUtils.isYesterday(dateTime)) {
+            return resourceProvider.getYesterdayMessage();
+        }
+
+        return dateFormatter.print(dateTime);
+    }
+
 
     private String firstToUpperCase(String print) {
         return print.substring(0, 1).toUpperCase().concat(print.substring(1));

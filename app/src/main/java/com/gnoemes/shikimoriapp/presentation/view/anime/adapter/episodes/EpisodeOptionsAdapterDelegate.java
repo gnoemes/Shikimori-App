@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.anime.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;

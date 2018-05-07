@@ -17,6 +17,7 @@ public class UserBriefResponseConverterImpl implements UserBriefResponseConverte
         return new UserBrief(response.getId(),
                 response.getNickname(),
                 response.getAvatar(),
+                response.getImageResponse().getX48Url(),
                 response.getLastOnline(),
                 response.getName(),
                 response.getSex(),

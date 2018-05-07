@@ -3,7 +3,6 @@ package com.gnoemes.shikimoriapp.domain.anime;
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
-import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
@@ -48,13 +47,6 @@ public class AnimeInteractorImpl implements AnimeInteractor {
     public Single<List<AnimeLink>> getAnimeLinks(long animeId) {
         return animeRepository.getAnimeLinks(animeId)
                 .compose((SingleErrorHandler<List<AnimeLink>>) singleErrorHandler)
-                .compose(rxUtils.applySingleSchedulers());
-    }
-
-    @Override
-    public Single<List<Anime>> getSimilarAnimes(long animeId) {
-        return animeRepository.getSimilarAnimes(animeId)
-                .compose((SingleErrorHandler<List<Anime>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 }

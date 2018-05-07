@@ -16,6 +16,9 @@ public class AnimeDetailsResponse {
     @SerializedName("id")
     private long id;
 
+    @SerializedName("topic_id")
+    private long topicId;
+
     @SerializedName("name")
     private String name;
 
@@ -73,6 +76,10 @@ public class AnimeDetailsResponse {
 
     public long getId() {
         return id;
+    }
+
+    public long getTopicId() {
+        return topicId;
     }
 
     public String getName() {

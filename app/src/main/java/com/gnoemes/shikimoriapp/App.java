@@ -52,7 +52,6 @@ public class App extends Application implements HasActivityInjector {
                 .threadPoolSize(5)
                 .threadPriority(Thread.NORM_PRIORITY)
                 .defaultDisplayImageOptions(options)
-                .writeDebugLogs()
                 .build();
 
         ImageLoader.getInstance().init(config);

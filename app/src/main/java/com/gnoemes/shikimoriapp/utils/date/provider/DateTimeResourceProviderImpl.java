@@ -26,6 +26,11 @@ public class DateTimeResourceProviderImpl implements DateTimeResourceProvider {
     }
 
     @Override
+    public String getYesterdayMessage() {
+        return context.getString(R.string.common_yesterday);
+    }
+
+    @Override
     public String getCalendarDateFormat() {
         return context.getString(R.string.calendar_date_format);
     }
