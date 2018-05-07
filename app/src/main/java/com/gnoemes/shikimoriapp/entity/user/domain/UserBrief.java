@@ -9,6 +9,7 @@ public class UserBrief {
     private long id;
     private String nickname;
     private String avatarUrl;
+    private String smallAvatarUrl;
     private DateTime lastOnline;
     @Nullable
     private String name;
@@ -17,12 +18,13 @@ public class UserBrief {
     @Nullable
     private String website;
 
-    public UserBrief(long id, String nickname, String avatarUrl,
+    public UserBrief(long id, String nickname, String avatarUrl, String smallAvatarUrl,
                      DateTime lastOnline, @Nullable String name, @Nullable String sex,
                      @Nullable String website) {
         this.id = id;
         this.nickname = nickname;
         this.avatarUrl = avatarUrl;
+        this.smallAvatarUrl = smallAvatarUrl;
         this.lastOnline = lastOnline;
         this.name = name;
         this.sex = sex;
@@ -31,6 +33,10 @@ public class UserBrief {
 
     public long getId() {
         return id;
+    }
+
+    public String getSmallAvatarUrl() {
+        return smallAvatarUrl;
     }
 
     public String getNickname() {

@@ -7,6 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
+import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void showEpisodeList(List<BaseEpisodeItem> episodes);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void showComments(List<BaseCommentItem> baseCommentItems);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void insetMoreComments(List<BaseCommentItem> baseCommentItems);
 
     @StateStrategyType(SkipStrategy.class)
     void showErrorView();
@@ -40,4 +47,10 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void onHideRefresh();
+
+    @StateStrategyType(SkipStrategy.class)
+    void onShowPageLoading();
+
+    @StateStrategyType(SkipStrategy.class)
+    void onHidePageLoading();
 }

@@ -8,9 +8,11 @@ import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
+import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
@@ -26,10 +28,15 @@ import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginator;
+import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginatorImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.comments.converter.CommentsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeView;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.EpisodeViewModelConverter;
 
@@ -44,35 +51,84 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private AnimeDetailsViewModelConverter viewModelConverter;
     private AnimeLinkViewModelConverter linkViewModelConverter;
     private SeriesInteractor seriesInteractor;
+    private CommentsInteractor commentsInteractor;
     private EpisodeViewModelConverter episodeViewModelConverter;
     private UserSettingsInteractor settingsInteractor;
+    private CommentsViewModelConverter commentsConverter;
+
+    private CommentsPaginator paginator;
 
     private long animeId;
     private AnimeDetails currentAnime;
     private EpisodeItem selectedEpisode;
     private UserSettings userSettings;
+    private ViewController<Comment> viewController = new ViewController<Comment>() {
+        @Override
+        public void showEmptyError(boolean show, Throwable throwable) {
+            if (show) {
+                processErrors(throwable);
+            }
+        }
+
+        @Override
+        public void showEmptyView(boolean show) {
+            //not implemented
+        }
+
+        @Override
+        public void showList(boolean show, List<Comment> list) {
+            if (show) {
+                if (paginator.isFirstPage()) {
+                    getViewState().showComments(commentsConverter.convertListFrom(list));
+                } else {
+                    getViewState().insetMoreComments(commentsConverter.convertListFrom(list));
+                }
+            }
+        }
+
+        @Override
+        public void showRefreshProgress(boolean show) {
+            //not implemented
+        }
+
+        @Override
+        public void showPageProgress(boolean show) {
+            if (show) {
+                getViewState().onShowPageLoading();
+            } else {
+                getViewState().onHidePageLoading();
+            }
+        }
+
+        @Override
+        public void showEmptyProgress(boolean show) {
+            //not implemented
+        }
+
+        @Override
+        public void showError(Throwable throwable) {
+            processErrors(throwable);
+        }
+    };
 
     public AnimePresenter(@NonNull AnimeInteractor animeInteractor,
                           @NonNull SeriesInteractor seriesInteractor,
                           @NonNull UserSettingsInteractor settingsInteractor,
+                          @NonNull CommentsInteractor commentsInteractor,
                           @NonNull AnimeDetailsViewModelConverter viewModelConverter,
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
-                          @NonNull AnimeLinkViewModelConverter linkViewModelConverter) {
+                          @NonNull AnimeLinkViewModelConverter linkViewModelConverter,
+                          @NonNull CommentsViewModelConverter commentsConverter) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;
         this.settingsInteractor = settingsInteractor;
+        this.commentsInteractor = commentsInteractor;
         this.viewModelConverter = viewModelConverter;
         this.episodeViewModelConverter = episodeViewModelConverter;
         this.linkViewModelConverter = linkViewModelConverter;
+        this.commentsConverter = commentsConverter;
     }
 
-    @Override
-    public void initData() {
-        loadAnimeData();
-        getViewState().onShowRefresh();
-        loadEpisodes();
-        loadUserSettings();
-    }
 
     /**
      * Subscribe to user settings (on changes settings update)
@@ -99,19 +155,13 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         unsubscribeOnDestroy(disposable);
     }
 
-    /**
-     * Load anime detail data
-     */
-    private void loadAnimeData() {
-        getViewState().onShowLoading();
-
-        Disposable disposable = animeInteractor.loadAnimeDetails(animeId)
-                .doOnEvent((animeDetails, throwable) -> getViewState().onHideLoading())
-                .map(this::setCurrentAnime)
-                .map(viewModelConverter)
-                .subscribe(this::setAnimeData, this::processErrors);
-
-        unsubscribeOnDestroy(disposable);
+    @Override
+    public void initData() {
+        loadAnimeData();
+        getViewState().onShowRefresh();
+        loadEpisodes();
+        loadUserSettings();
+        getViewState().setPage(AnimeDetailsPage.INFO.getPage());
     }
 
     private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
@@ -300,18 +350,26 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     /**
-     * Navigate to comments page
+     * Load anime detail data
      */
-    private void onCommentsClicked() {
-        //TODO add comments page in viewPager
+    private void loadAnimeData() {
+        getViewState().onShowLoading();
+
+        Disposable disposable = animeInteractor.loadAnimeDetails(animeId)
+                .doOnEvent((animeDetails, throwable) -> getViewState().onHideLoading())
+                .map(this::setCurrentAnime)
+                .map(viewModelConverter)
+                .doOnSuccess(viewModel -> initPaginator())
+                .subscribe(this::setAnimeData, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 
     /**
-     * Navigate to episodes list
+     * Navigate to comments page
      */
-    private void onOnlineClicked() {
-        //TODO ENUM navigation
-        getViewState().setPage(1);
+    private void onCommentsClicked() {
+        getViewState().setPage(AnimeDetailsPage.COMMENTS.getPage());
     }
 
 
@@ -366,5 +424,26 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onOpenBrowserClicked() {
         getRouter().navigateTo(Screens.WEB, BuildConfig.ShikimoriBaseUrl + currentAnime.getUrl());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Comments
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Navigate to episodes list
+     */
+    private void onOnlineClicked() {
+        getViewState().setPage(AnimeDetailsPage.SERIES.getPage());
+    }
+
+    private void initPaginator() {
+        paginator = new CommentsPaginatorImpl(commentsInteractor, viewController);
+        paginator.setId(currentAnime.getTopicId());
+        paginator.refresh();
+    }
+
+    public void loadNextPage() {
+        paginator.loadNewPage();
     }
 }

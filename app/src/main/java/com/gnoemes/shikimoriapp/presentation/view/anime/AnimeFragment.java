@@ -28,10 +28,13 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.AnimeAdapter;
-import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.EpisodeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentContentAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -115,7 +118,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
-        pagerAdapter = new AnimePagerAdapter(animeAdapter, episodeAdapter);
+        CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader, new CommentContentAdapter(imageLoader));
+
+        pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
 
         viewPager.setAdapter(pagerAdapter);
 
@@ -203,6 +208,26 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     @Override
+    public void showComments(List<BaseCommentItem> baseCommentItems) {
+        pagerAdapter.showComments(baseCommentItems);
+    }
+
+    @Override
+    public void insetMoreComments(List<BaseCommentItem> baseCommentItems) {
+        pagerAdapter.insertMoreComments(baseCommentItems);
+    }
+
+    @Override
+    public void onShowPageLoading() {
+        pagerAdapter.showPageLoading();
+    }
+
+    @Override
+    public void onHidePageLoading() {
+        pagerAdapter.hidePageLoading();
+    }
+
+    @Override
     public void showErrorView() {
         viewPager.setVisibility(View.GONE);
     }
@@ -267,16 +292,22 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     class AnimePagerAdapter extends PagerAdapter {
 
 
-        private final List<Integer> screens = Arrays.asList(R.layout.fragment_anime,
+        private final List<Integer> screens = Arrays.asList(
+                R.layout.fragment_comments,
+                R.layout.fragment_anime,
                 R.layout.fragment_series);
+        private CommentsAdapter commentsAdapter;
         private AnimeAdapter animeAdapter;
         private EpisodeAdapter episodeAdapter;
+
         private RecyclerView animeDetailsList;
         private RecyclerView seriesList;
+        private RecyclerView commentsList;
 
         private SwipeRefreshLayout refreshLayout;
 
-        AnimePagerAdapter(AnimeAdapter animeAdapter, EpisodeAdapter episodeAdapter) {
+        AnimePagerAdapter(CommentsAdapter commentsAdapter, AnimeAdapter animeAdapter, EpisodeAdapter episodeAdapter) {
+            this.commentsAdapter = commentsAdapter;
             this.animeAdapter = animeAdapter;
             this.episodeAdapter = episodeAdapter;
         }
@@ -294,14 +325,18 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             container.addView(layout);
             switch (position) {
                 case 0:
-                    createAnimePage(layout);
+                    createCommentsPage(layout);
                     break;
                 case 1:
+                    createAnimePage(layout);
+                    break;
+                case 2:
                     createSeriesPage(layout);
                     break;
             }
             return layout;
         }
+
 
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
@@ -312,6 +347,32 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
         }
+
+        private void createCommentsPage(ViewGroup layout) {
+            commentsList = layout.findViewById(R.id.list_comments);
+            int margin = (int) getResources().getDimension(R.dimen.margin_small);
+            commentsList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            commentsList.setLayoutManager(layoutManager);
+            commentsList.setAdapter(commentsAdapter);
+            commentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    //TODO fix endless scroll listener (layoutManager.findLastCompletelyVisibleItemPosition returns -1)
+//                    int visibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                    int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                    int itemCount = layoutManager.getItemCount() - 1;
+
+                    if (visibleItemPosition >= itemCount) {
+                        getPresenter().loadNextPage();
+                    }
+
+                }
+            });
+        }
+
 
         private void createAnimePage(ViewGroup layout) {
             animeDetailsList = layout.findViewById(R.id.anime_details_list);
@@ -340,6 +401,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             episodeAdapter.bindItems(episodes);
         }
 
+
         void onHideRefresh() {
             if (refreshLayout != null) {
                 refreshLayout.setRefreshing(false);
@@ -350,6 +412,22 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             if (refreshLayout != null) {
                 refreshLayout.setRefreshing(true);
             }
+        }
+
+        void showComments(List<BaseCommentItem> baseCommentItems) {
+            commentsAdapter.bindItems(baseCommentItems);
+        }
+
+        void insertMoreComments(List<BaseCommentItem> baseCommentItems) {
+            commentsAdapter.insertMore(baseCommentItems);
+        }
+
+        void hidePageLoading() {
+            commentsAdapter.hideProgress();
+        }
+
+        void showPageLoading() {
+            commentsAdapter.showProgress();
         }
     }
 }

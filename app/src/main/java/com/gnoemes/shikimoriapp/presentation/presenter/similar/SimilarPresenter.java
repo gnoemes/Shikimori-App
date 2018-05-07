@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.similar;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
+import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarAnimeInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -18,12 +18,12 @@ import io.reactivex.disposables.Disposable;
 @InjectViewState
 public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
 
-    private AnimeInteractor animeInteractor;
+    private SimilarAnimeInteractor animeInteractor;
     private AnimeViewModelConverter converter;
 
     private long animeId;
 
-    public SimilarPresenter(AnimeInteractor animeInteractor,
+    public SimilarPresenter(SimilarAnimeInteractor animeInteractor,
                             AnimeViewModelConverter converter) {
         this.animeInteractor = animeInteractor;
         this.converter = converter;

@@ -202,6 +202,12 @@
     <string name="reg_nickname">Никнейм</string>
     <string name="reg_password">Пароль</string>
     <string name="similar_empty">Ничего не найдено. \n Возможно Вам стоит пересмотреть свои вкусы ;)</string>
+    <string name="description_avatar">Аватар</string>
+    <string name="description_answer">Ответить</string>
+    <string name="comment_summary">Отзыв</string>
+    <string name="common_yesterday">Вчера</string>
+    <string name="comments_nothing">Комментарии не найдены.</string>
+    <string name="comment_quote">Цитата:</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

@@ -12,6 +12,7 @@ import java.util.List;
 public class AnimeDetails {
 
     private long id;
+    private long topicId;
     private String name;
     @Nullable
     private String russianName;
@@ -36,12 +37,13 @@ public class AnimeDetails {
     private String description;
     private List<AnimeGenre> animeGenres;
 
-    public AnimeDetails(long id, String name, @Nullable String russianName, AnimeImage animeImage,
+    public AnimeDetails(long id, long topicId, String name, @Nullable String russianName, AnimeImage animeImage,
                         String url, AnimeType type, @Nullable AnimeStatus status, int episodes,
                         int episodesAired, @Nullable DateTime airedDate, @Nullable DateTime releasedDate,
                         @Nullable List<String> englishNames, @Nullable List<String> japaneseNames, int duration,
                         double score, @Nullable String description, List<AnimeGenre> animeGenres) {
         this.id = id;
+        this.topicId = topicId;
         this.name = name;
         this.russianName = russianName;
         this.animeImage = animeImage;
@@ -62,6 +64,10 @@ public class AnimeDetails {
 
     public long getId() {
         return id;
+    }
+
+    public long getTopicId() {
+        return topicId;
     }
 
     public String getName() {

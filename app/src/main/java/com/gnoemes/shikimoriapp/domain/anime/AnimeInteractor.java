@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.domain.anime;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
 
@@ -16,6 +15,4 @@ public interface AnimeInteractor {
     Single<AnimeDetails> loadAnimeDetails(long animeId);
 
     Single<List<AnimeLink>> getAnimeLinks(long animeId);
-
-    Single<List<Anime>> getSimilarAnimes(long animeId);
 }

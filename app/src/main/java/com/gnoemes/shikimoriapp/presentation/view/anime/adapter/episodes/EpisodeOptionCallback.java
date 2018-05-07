@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.anime.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes;
 
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
