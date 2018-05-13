@@ -60,7 +60,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        getNavigatorHolder().setNavigator(getLocalNavigator());
+        getNavigatorHolder().setNavigator(getNavigator());
     }
 
     @Override
@@ -84,7 +84,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     /**
      * Returns current navigator from child activity
      */
-    protected abstract Navigator getLocalNavigator();
+    protected abstract Navigator getNavigator();
 
     /**
      * Returns current navigator holder

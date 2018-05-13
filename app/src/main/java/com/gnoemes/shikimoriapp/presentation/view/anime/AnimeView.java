@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.List;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface AnimeView extends BaseFragmentView {
 
-    @StateStrategyType(SkipStrategy.class)
     void setPage(int i);
 
     @StateStrategyType(AddToEndStrategy.class)
@@ -53,4 +53,7 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void onHidePageLoading();
+
+    @StateStrategyType(SkipStrategy.class)
+    void showRatesDialog(UserRate data);
 }

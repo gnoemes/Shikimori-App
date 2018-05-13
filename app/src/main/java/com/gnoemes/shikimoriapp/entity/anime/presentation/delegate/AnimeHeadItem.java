@@ -1,6 +1,9 @@
 package com.gnoemes.shikimoriapp.entity.anime.presentation.delegate;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 
 import java.util.List;
 
@@ -16,11 +19,13 @@ public class AnimeHeadItem extends BaseAnimeItem {
     private String season;
     private List<AnimeGenre> genres;
     private double score;
+    @Nullable
+    private UserRate animeRate;
 
     public AnimeHeadItem(long id, String name, String jpOrEngName,
                          String url, String imageUrl, String animeType,
                          String animeStatus, String season, List<AnimeGenre> genres,
-                         double score) {
+                         double score, @Nullable UserRate animeRate) {
         this.id = id;
         this.name = name;
         this.jpOrEngName = jpOrEngName;
@@ -31,6 +36,7 @@ public class AnimeHeadItem extends BaseAnimeItem {
         this.season = season;
         this.genres = genres;
         this.score = score;
+        this.animeRate = animeRate;
     }
 
     public long getId() {
@@ -71,6 +77,11 @@ public class AnimeHeadItem extends BaseAnimeItem {
 
     public double getScore() {
         return score;
+    }
+
+    @Nullable
+    public UserRate getAnimeRate() {
+        return animeRate;
     }
 }
 

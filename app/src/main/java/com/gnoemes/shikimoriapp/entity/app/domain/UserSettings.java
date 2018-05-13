@@ -15,19 +15,22 @@ public class UserSettings {
     private TranslationType translationType;
     private TranslationDubberSettings dubberSettings;
     private PlayerType playerType;
+    private Boolean isLightTheme;
 
     public UserSettings() {
     }
 
     public UserSettings(@Nullable UserStatus status, @Nullable UserBrief userBrief,
                         @Nullable Boolean isNeedShowWizard, @Nullable TranslationType translationType,
-                        @Nullable TranslationDubberSettings dubberSettings, @Nullable PlayerType playerType) {
+                        @Nullable TranslationDubberSettings dubberSettings, @Nullable PlayerType playerType,
+                        @Nullable Boolean isLightTheme) {
         this.status = status;
         this.userBrief = userBrief;
         this.isNeedShowWizard = isNeedShowWizard;
         this.translationType = translationType;
         this.dubberSettings = dubberSettings;
         this.playerType = playerType;
+        this.isLightTheme = isLightTheme;
     }
 
     public UserStatus getStatus() {
@@ -74,6 +77,14 @@ public class UserSettings {
         return playerType;
     }
 
+    public Boolean getTheme() {
+        return isLightTheme;
+    }
+
+    public void setLightTheme(Boolean lightTheme) {
+        isLightTheme = lightTheme;
+    }
+
     public void setPlayerType(@Nullable PlayerType playerType) {
         this.playerType = playerType;
     }
@@ -85,6 +96,7 @@ public class UserSettings {
         private TranslationType translationType;
         private TranslationDubberSettings dubberSettings;
         private PlayerType playerType;
+        private Boolean isLightTheme;
 
         public Builder setStatus(UserStatus status) {
             this.status = status;
@@ -116,8 +128,13 @@ public class UserSettings {
             return this;
         }
 
+        public Builder setLightTheme(Boolean lightTheme) {
+            isLightTheme = lightTheme;
+            return this;
+        }
+
         public UserSettings build() {
-            return new UserSettings(status, userBrief, isNeedShowWizard, translationType, dubberSettings, playerType);
+            return new UserSettings(status, userBrief, isNeedShowWizard, translationType, dubberSettings, playerType, isLightTheme);
         }
     }
 }

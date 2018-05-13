@@ -8,4 +8,6 @@ import java.util.List;
 public interface AnimeViewModelConverter {
 
     List<BaseSearchItem> convertListFrom(List<Anime> animeList);
+
+    BaseSearchItem convertAnime(Anime anime);
 }

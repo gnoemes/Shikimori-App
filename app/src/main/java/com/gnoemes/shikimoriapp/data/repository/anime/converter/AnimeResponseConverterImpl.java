@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
@@ -16,7 +18,11 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
     }
 
     @Override
-    public Anime convertFrom(AnimeResponse animeResponse) {
+    public Anime convertFrom(@Nullable AnimeResponse animeResponse) {
+        if (animeResponse == null) {
+            return null;
+        }
+
         return new Anime(animeResponse.getId(),
                 animeResponse.getName(),
                 animeResponse.getRussianName(),

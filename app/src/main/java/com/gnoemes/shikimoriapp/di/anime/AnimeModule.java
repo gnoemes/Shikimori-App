@@ -9,9 +9,11 @@ import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
+import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.converter.CommentsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.EpisodeViewModelConverter;
@@ -36,11 +38,13 @@ public interface AnimeModule {
                                                 SeriesInteractor seriesInteractor,
                                                 UserSettingsInteractor settingsInteractor,
                                                 CommentsInteractor commentsInteractor,
+                                                UserRatesInteractor ratesInteractor,
                                                 AnimeDetailsViewModelConverter converter,
                                                 EpisodeViewModelConverter modelConverter,
                                                 AnimeLinkViewModelConverter linkViewModelConverter,
-                                                CommentsViewModelConverter commentsViewModelConverter) {
-        return new AnimePresenter(interactor, seriesInteractor, settingsInteractor, commentsInteractor, converter, modelConverter, linkViewModelConverter, commentsViewModelConverter);
+                                                CommentsViewModelConverter commentsViewModelConverter,
+                                                AnimeDetailsResourceProvider resourceProvider) {
+        return new AnimePresenter(interactor, seriesInteractor, settingsInteractor, commentsInteractor, ratesInteractor, converter, modelConverter, linkViewModelConverter, commentsViewModelConverter, resourceProvider);
     }
 
     @Binds

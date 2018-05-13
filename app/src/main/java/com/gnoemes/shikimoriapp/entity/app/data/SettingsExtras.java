@@ -8,4 +8,5 @@ public class SettingsExtras {
     public static final String TRANSLATION_TYPE = "TRANSLATION_TYPE";
     public static final String TRANSLATION_DUBBER_SETTINGS = "TRANSLATION_DUBBER_SETTINGS";
     public static final String PLAYER_TYPE = "PLAYER_TYPE";
+    public static final String THEME = "THEME";
 }

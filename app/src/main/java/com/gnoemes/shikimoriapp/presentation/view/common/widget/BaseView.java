@@ -39,6 +39,7 @@ public abstract class BaseView extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        unbinder.unbind();
+//        unbinder.unbind();
+        unbinder = null;
     }
 }

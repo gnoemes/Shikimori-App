@@ -17,6 +17,7 @@ import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentContentViewModel;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentViewModel;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
@@ -29,11 +30,9 @@ import butterknife.ButterKnife;
 public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentItem>> {
 
     private ImageLoader imageLoader;
-    private CommentContentAdapter adapter;
 
-    public CommentsDelegateAdapter(@NonNull ImageLoader imageLoader, CommentContentAdapter adapter) {
+    public CommentsDelegateAdapter(@NonNull ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
-        this.adapter = adapter;
     }
 
     @Override
@@ -101,12 +100,16 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentIte
 
             content.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             content.setItemAnimator(new DefaultItemAnimator());
-            content.setAdapter(adapter);
+
+            imageLoader = new UniversalImageLoader(itemView.getContext());
         }
 
 
         public void bind(CommentViewModel viewModel) {
             summaryBadge.setVisibility(View.GONE);
+            content.setAdapter(null);
+
+
             imageLoader.setCircleImage(avatar, viewModel.getAvatarUrl(), R.attr.colorPrimary);
 
             if (viewModel.isSummary()) {
@@ -122,7 +125,6 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentIte
 
             if (lines.size() == 1) {
                 models.add(new CommentContentViewModel(lines.get(0), false));
-                adapter.bindItems(models);
             } else {
                 boolean first = false;
                 for (String s : lines) {
@@ -134,8 +136,11 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentIte
                         first = true;
                     }
                 }
-                adapter.bindItems(models);
             }
+
+            CommentContentAdapter adapter = new CommentContentAdapter(imageLoader);
+            content.setAdapter(adapter);
+            adapter.bindItems(models);
         }
     }
 }

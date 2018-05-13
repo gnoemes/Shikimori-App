@@ -9,6 +9,7 @@ import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
+import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
@@ -26,12 +27,15 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavi
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginator;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginatorImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.converter.CommentsViewModelConverter;
@@ -55,10 +59,14 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private EpisodeViewModelConverter episodeViewModelConverter;
     private UserSettingsInteractor settingsInteractor;
     private CommentsViewModelConverter commentsConverter;
+    private UserRatesInteractor ratesInteractor;
+    private AnimeDetailsResourceProvider resourceProvider;
 
     private CommentsPaginator paginator;
 
+    private boolean first = true;
     private long animeId;
+    private long rateId;
     private AnimeDetails currentAnime;
     private EpisodeItem selectedEpisode;
     private UserSettings userSettings;
@@ -115,18 +123,22 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                           @NonNull SeriesInteractor seriesInteractor,
                           @NonNull UserSettingsInteractor settingsInteractor,
                           @NonNull CommentsInteractor commentsInteractor,
+                          @NonNull UserRatesInteractor ratesInteractor,
                           @NonNull AnimeDetailsViewModelConverter viewModelConverter,
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
                           @NonNull AnimeLinkViewModelConverter linkViewModelConverter,
-                          @NonNull CommentsViewModelConverter commentsConverter) {
+                          @NonNull CommentsViewModelConverter commentsConverter,
+                          @NonNull AnimeDetailsResourceProvider resourceProvider) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;
         this.settingsInteractor = settingsInteractor;
         this.commentsInteractor = commentsInteractor;
+        this.ratesInteractor = ratesInteractor;
         this.viewModelConverter = viewModelConverter;
         this.episodeViewModelConverter = episodeViewModelConverter;
         this.linkViewModelConverter = linkViewModelConverter;
         this.commentsConverter = commentsConverter;
+        this.resourceProvider = resourceProvider;
     }
 
 
@@ -145,6 +157,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load episodes list
      */
     private void loadEpisodes() {
+        getViewState().onShowRefresh();
         getViewState().hideErrorView();
 
         Disposable disposable = seriesInteractor.getEpisodes(animeId)
@@ -159,13 +172,18 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     public void initData() {
         loadAnimeData();
         getViewState().onShowRefresh();
-        loadEpisodes();
         loadUserSettings();
         getViewState().setPage(AnimeDetailsPage.INFO.getPage());
+        if (!first) {
+            loadEpisodes();
+        }
     }
 
     private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
         this.currentAnime = animeDetails;
+        if (currentAnime.getAnimeRate() != null) {
+            this.rateId = currentAnime.getAnimeRate().getId();
+        }
         return animeDetails;
     }
 
@@ -180,7 +198,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 getViewState().showErrorView();
                 break;
             case ContentException.TAG:
-                onManualSearchTranslation();
+                if (selectedEpisode != null) {
+                    onManualSearchTranslation();
+                }
             default:
                 super.processErrors(throwable);
         }
@@ -210,7 +230,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     private void setEpisodeWatched(long animeId, long episodeId) {
-        Disposable disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId)
+        Disposable disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
                 .doOnComplete(this::loadEpisodes)
                 .subscribe();
 
@@ -249,7 +269,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .build();
 
         Disposable disposable = settingsInteractor.saveUserSettings(settings)
-                .doOnComplete(() -> getRouter().showSystemMessage("Настройки успешно сохранены. Приятного просмотра :)"))
+                .doOnComplete(() -> getRouter().showSystemMessage(resourceProvider.getSuccessMessage()))
                 .subscribe();
 
         unsubscribeOnDestroy(disposable);
@@ -304,7 +324,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 onCommentsClicked();
                 break;
             case ADD_TO_LIST:
-                onAddListClick();
+                onAddListClick((UserRate) data);
                 break;
         }
     }
@@ -319,9 +339,11 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     /**
      * Add to user's list
+     *
+     * @param data
      */
-    private void onAddListClick() {
-        //TODO user lists
+    private void onAddListClick(UserRate data) {
+        getViewState().showRatesDialog(data);
     }
 
     /**
@@ -401,6 +423,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void setAnimeData(AnimeDetailsViewModel model) {
         getViewState().setAnimeData(model);
+        if (first) {
+            loadEpisodes();
+        }
     }
 
     /**
@@ -445,5 +470,50 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void loadNextPage() {
         paginator.loadNewPage();
+    }
+
+    public void onSaveRate(UserRate rate) {
+        if (rate.getId() == -1) {
+            if (userSettings.getUserBrief() != null) {
+                createRate(rate);
+            } else {
+                getRouter().showSystemMessage(resourceProvider.getNeedAuthMessage());
+            }
+        } else {
+            updateRate(rate);
+        }
+    }
+
+
+    private void updateRate(UserRate rate) {
+        Disposable disposable = ratesInteractor.updateRate(rate)
+                .subscribe(this::onUpdateSuccess, this::processErrors);
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void onUpdateSuccess() {
+        loadAnimeData();
+    }
+
+    private void createRate(UserRate rate) {
+        Disposable disposable = ratesInteractor.createRate(currentAnime.getId(), Type.ANIME, rate, userSettings.getUserBrief().getId())
+                .subscribe(this::onCreateSuccess, this::processErrors);
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void onCreateSuccess() {
+        loadAnimeData();
+        getRouter().showSystemMessage(String.format(resourceProvider.getCreateMessage(), currentAnime.getRussianName()));
+    }
+
+    public void onDeleteRate(long id) {
+        Disposable disposable = ratesInteractor.deleteRate(id)
+                .subscribe(this::onDeleteSuccess, this::processErrors);
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void onDeleteSuccess() {
+        loadAnimeData();
+        getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getRussianName()));
     }
 }

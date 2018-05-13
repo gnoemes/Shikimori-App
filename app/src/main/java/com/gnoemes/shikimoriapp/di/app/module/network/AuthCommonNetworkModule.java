@@ -35,9 +35,9 @@ public interface AuthCommonNetworkModule {
                                             @AuthCommonApi TokenInterceptor tokenInterceptor) {
         return new OkHttpClient.Builder()
                 .authenticator(authenticator)
-                .addInterceptor(interceptor)
                 .addInterceptor(tokenInterceptor)
                 .addInterceptor(userAgentInterceptor)
+                .addInterceptor(interceptor)
                 .connectTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();

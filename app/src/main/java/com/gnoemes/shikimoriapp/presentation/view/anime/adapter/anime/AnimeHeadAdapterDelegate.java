@@ -107,6 +107,8 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
 
         private GenresAdapter adapter;
         private int textColor;
+        private Drawable addEmpty;
+        private Drawable add;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -125,10 +127,6 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
             layout.setBackground(card);
 
             adapter = new GenresAdapter();
-            seasonView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_season)));
-            typeView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_type)));
-            statusView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_status)));
-            genreView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_genre)));
 
             Drawable related = DrawableHelper.withContext(itemView.getContext())
                     .withDrawable(R.drawable.ic_arrange_send_backward)
@@ -142,8 +140,14 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
                     .tint()
                     .get();
 
-            Drawable add = DrawableHelper.withContext(itemView.getContext())
+            addEmpty = DrawableHelper.withContext(itemView.getContext())
                     .withDrawable(R.drawable.ic_star_border)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
+
+            add = DrawableHelper.withContext(itemView.getContext())
+                    .withDrawable(R.drawable.ic_star_big)
                     .withAttributeColor(R.attr.colorText)
                     .tint()
                     .get();
@@ -160,13 +164,21 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
             genresList.addOnItemTouchListener(new RecyclerItemClickListener(itemView.getContext(), (view, position) ->
                     callback.onAction(AnimeAction.GENRE, adapter.getItemByPosition(position))));
 
-            addImage.setOnClickListener(v -> callback.onAction(AnimeAction.ADD_TO_LIST, null));
             relatedBtn.setOnClickListener(v -> callback.onAction(AnimeAction.RELATED, null));
             linksBtn.setOnClickListener(v -> callback.onAction(AnimeAction.LINKS, null));
             buttonOnline.setOnClickListener(v -> callback.onAction(AnimeAction.WATCH_ONLINE, null));
         }
 
         public void bind(AnimeHeadItem item) {
+            seasonView.reset();
+            typeView.reset();
+            statusView.reset();
+            genreView.reset();
+
+            seasonView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_season)));
+            typeView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_type)));
+            statusView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_status)));
+            genreView.addSlice(getSliceTitle(itemView.getResources().getString(R.string.common_genre)));
 
             nameView.setText(item.getName());
 
@@ -186,6 +198,14 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
 
             ratingBar.setRating((float) (item.getScore() / 2));
             ratingValue.setText(String.valueOf(item.getScore()));
+
+            if (item.getAnimeRate() == null) {
+                addImage.setImageDrawable(addEmpty);
+            } else {
+                addImage.setImageDrawable(add);
+            }
+
+            addImage.setOnClickListener(v -> callback.onAction(AnimeAction.ADD_TO_LIST, item.getAnimeRate()));
         }
 
 

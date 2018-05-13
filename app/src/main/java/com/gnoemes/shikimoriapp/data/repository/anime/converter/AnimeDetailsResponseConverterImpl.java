@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
@@ -16,10 +17,13 @@ import javax.inject.Inject;
 public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseConverter {
 
     private AnimeResponseConverter converter;
+    private AnimeRateResponseConverter rateConverter;
 
     @Inject
-    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter) {
+    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
+                                             AnimeRateResponseConverter rateConverter) {
         this.converter = converter;
+        this.rateConverter = rateConverter;
     }
 
     @Override
@@ -41,7 +45,8 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 animeDetailsResponse.getDuration(),
                 animeDetailsResponse.getScore(),
                 animeDetailsResponse.getDescription(),
-                convertGenres(animeDetailsResponse.getGenres()));
+                convertGenres(animeDetailsResponse.getGenres()),
+                rateConverter.convertUserRateResponse(animeDetailsResponse.getRateResponse()));
     }
 
 

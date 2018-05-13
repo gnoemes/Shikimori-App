@@ -50,7 +50,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 convertSeason(animeDetails.getAiredDate()),
                 animeDetails.getDuration(),
                 animeDetails.getScore(),
-                convertDescription(animeDetails.getDescription()));
+                convertDescription(animeDetails.getDescription()),
+                animeDetails.getAnimeRate());
     }
 
     private String convertDescription(String description) {
@@ -106,7 +107,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getAnimeStatus(),
                 viewModel.getSeason(),
                 viewModel.getGenres(),
-                viewModel.getScore()));
+                viewModel.getScore(),
+                viewModel.getAnimeRate()));
 
         animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
 

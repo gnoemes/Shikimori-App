@@ -100,6 +100,11 @@ public abstract class BottomTabContainer extends MvpAppCompatFragment implements
 
     protected abstract Navigator getNavigator();
 
+    @Override
+    public Navigator getLocalNavigator() {
+        return getNavigator();
+    }
+
     protected String getContainerName() {
         return getTag();
     }

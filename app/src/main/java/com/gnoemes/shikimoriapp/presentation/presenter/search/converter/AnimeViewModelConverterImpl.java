@@ -20,23 +20,28 @@ public class AnimeViewModelConverterImpl implements AnimeViewModelConverter {
         List<BaseSearchItem> viewModels = new ArrayList<>();
 
         for (Anime anime : animeList) {
-            viewModels.add(new AnimeViewModel(
-                    anime.getId(),
-                    anime.getName(),
-                    anime.getRussianName(),
-                    anime.getAnimeImage().getImageOriginalUrl(),
-                    anime.getAnimeImage().getImagePreviewUrl(),
-                    anime.getAnimeImage().getImageX96Url(),
-                    anime.getAnimeImage().getImageX48Url(),
-                    anime.getUrl(),
-                    anime.getType(),
-                    anime.getStatus(),
-                    anime.getEpisodes(),
-                    anime.getEpisodesAired(),
-                    anime.getAiredDate(),
-                    anime.getReleasedDate()));
+            viewModels.add(convertAnime(anime));
         }
 
         return viewModels;
+    }
+
+    @Override
+    public BaseSearchItem convertAnime(Anime anime) {
+        return new AnimeViewModel(
+                anime.getId(),
+                anime.getName(),
+                anime.getRussianName(),
+                anime.getAnimeImage().getImageOriginalUrl(),
+                anime.getAnimeImage().getImagePreviewUrl(),
+                anime.getAnimeImage().getImageX96Url(),
+                anime.getAnimeImage().getImageX48Url(),
+                anime.getUrl(),
+                anime.getType(),
+                anime.getStatus(),
+                anime.getEpisodes(),
+                anime.getEpisodesAired(),
+                anime.getAiredDate(),
+                anime.getReleasedDate());
     }
 }

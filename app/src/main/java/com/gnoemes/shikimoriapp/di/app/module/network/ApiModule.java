@@ -26,7 +26,7 @@ public interface ApiModule {
 
     @Singleton
     @Provides
-    static AnimesApi bindAnimesApi(Retrofit retrofit) {
+    static AnimesApi bindAnimesApi(@AuthCommonApi Retrofit retrofit) {
         return retrofit.create(AnimesApi.class);
     }
 

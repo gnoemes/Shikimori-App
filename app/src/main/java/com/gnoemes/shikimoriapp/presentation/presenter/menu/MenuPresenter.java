@@ -106,6 +106,14 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void onSettingsClicked() {
+//        //TODO remove
+//        UserSettings build = new UserSettings.Builder()
+//                .setLightTheme(!settings.getTheme())
+//                .build();
+//        Disposable disposable = settingsInteractor.saveUserSettings(build)
+//                .subscribe();
+//
+//        unsubscribeOnDestroy(disposable);
     }
 
     private void onFriendsClicked() {

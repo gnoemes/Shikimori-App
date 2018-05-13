@@ -24,8 +24,8 @@ public interface CommonNetworkModule {
     static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor,
                                             UserAgentInterceptor userAgentInterceptor) {
         return new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(userAgentInterceptor)
+                .addNetworkInterceptor(userAgentInterceptor)
+                .addNetworkInterceptor(interceptor)
                 .connectTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();

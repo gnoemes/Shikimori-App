@@ -13,4 +13,6 @@ public class Screens {
     public static final String SIMILAR = "SIMILAR";
 
     public static final String WEB = "WEB";
+
+    public static final String SEARCH = "SEARCH";
 }

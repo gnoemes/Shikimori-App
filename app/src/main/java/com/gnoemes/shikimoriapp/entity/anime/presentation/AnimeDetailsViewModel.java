@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.entity.anime.presentation;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 
 import java.util.List;
 
@@ -26,11 +27,14 @@ public class AnimeDetailsViewModel {
     private double score;
     @Nullable
     private String description;
+    @Nullable
+    private UserRate animeRate;
 
     public AnimeDetailsViewModel(long id, String name, String jpOrEngName, String url,
                                  String imageUrl, String animeType, String animeStatus,
                                  List<AnimeGenre> genres, int episodes, int episodesAired,
-                                 String season, int duration, double score, @Nullable String description) {
+                                 String season, int duration, double score, @Nullable String description,
+                                 @Nullable UserRate animeRate) {
         this.id = id;
         this.name = name;
         this.jpOrEngName = jpOrEngName;
@@ -45,6 +49,7 @@ public class AnimeDetailsViewModel {
         this.duration = duration;
         this.score = score;
         this.description = description;
+        this.animeRate = animeRate;
     }
 
     public long getId() {
@@ -102,5 +107,10 @@ public class AnimeDetailsViewModel {
     @Nullable
     public String getDescription() {
         return description;
+    }
+
+    @Nullable
+    public UserRate getAnimeRate() {
+        return animeRate;
     }
 }

@@ -8,15 +8,20 @@
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundWindow">
 
-    <android.support.v7.widget.AppCompatButton
+    <TextView
         android:id="@+id/btn_continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorBackgroundWindow"
         android:drawablePadding="@dimen/margin_big"
         android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:padding="@dimen/margin_normal"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_normal"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:drawableLeft="@drawable/ic_play_circle_filled"
         tools:drawableTint="?attr/colorText" />
 
@@ -28,7 +33,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.MainView;
 
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -19,6 +20,7 @@ public class MainPresenter extends BasePresenter<MainView> {
      */
     @NonNull
     private Router router;
+    private Disposable disposable;
 
     public MainPresenter(@NonNull Router router) {
         this.router = router;
@@ -62,5 +64,13 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void onMenuSelected() {
         getRouter().replaceScreen(BottomScreens.MENU);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
+        super.onDestroy();
     }
 }
