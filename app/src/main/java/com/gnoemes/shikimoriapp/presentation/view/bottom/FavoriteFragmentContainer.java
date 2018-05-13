@@ -2,15 +2,26 @@ package com.gnoemes.shikimoriapp.presentation.view.bottom;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
+import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
+import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
-import com.gnoemes.shikimoriapp.presentation.view.favorite.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
+import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
+import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
@@ -43,12 +54,28 @@ public class FavoriteFragmentContainer extends BottomTabContainer {
                     switch (screenKey) {
                         case BottomScreens.FAVORITE:
                             return FavoriteFragment.newInstance();
+                        case BottomScreens.SEARCH:
+                            return SearchFragment.newInstance((AnimeGenre) data);
+                        case Screens.ANIME_DETAILS:
+                            return AnimeFragment.newInstance((Long) data);
+                        case Screens.TRANSLATIONS:
+                            return TranslationsFragment.newInstance((TranslationNavigationData) data);
+                        case Screens.SIMILAR:
+                            return SimilarFragment.newInstance((Long) data);
                     }
                     return null;
                 }
 
                 @Override
                 protected Intent createActivityIntent(Context context, String screenKey, Object data) {
+                    switch (screenKey) {
+                        case Screens.AUTHORIZATION:
+                            return AuthActivity.newIntent(context, (AuthType) data);
+                        case Screens.WEB_PLAYER:
+                            return WebPlayerActivity.newIntent(context, (String) data);
+                        case Screens.WEB:
+                            return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                    }
                     return null;
                 }
 

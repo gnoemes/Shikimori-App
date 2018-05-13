@@ -19,7 +19,7 @@ public interface SeriesInteractor {
     /**
      * Episode was Watched
      */
-    Completable setEpisodeWatched(long animeId, long episodeId);
+    Completable setEpisodeWatched(long animeId, long episodeId, long rateId);
 
     /**
      * Get translations for episode

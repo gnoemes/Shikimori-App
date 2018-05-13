@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="0dp"
+    tools:background="@drawable/card"
+    tools:backgroundTint="?attr/colorBackgroundContent">
+
+    <ImageView
+        android:id="@+id/image_anime"
+        android:layout_width="130dp"
+        android:layout_height="180dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/description_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/test_preview2" />
+
+    <TextView
+        android:id="@+id/text_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:padding="@dimen/margin_small"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/constraint"
+        app:layout_constraintTop_toTopOf="@+id/constraint"
+        tools:background="@color/light_teal"
+        tools:text="OVA" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorAccentInverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_anime"
+        app:layout_constraintTop_toBottomOf="@+id/anime_title" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_upper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <TextView
+        android:id="@+id/anime_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_upper"
+        app:layout_constraintStart_toEndOf="@+id/image_anime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
+
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/image_watches"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/image_anime"
+        app:layout_constraintTop_toBottomOf="@+id/anime_title"
+        tools:text="Оценка: 5 (Более-менее)" />
+
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/episodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/rating"
+        app:layout_constraintTop_toBottomOf="@+id/rating"
+        tools:text="Эпизоды: 523 / 1242 (xxx)" />
+
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rating"
+        app:layout_constraintTop_toBottomOf="@+id/episodes"
+        tools:text="Комментарий: Я не фанат сестричек, но в целом - нелохо." />
+
+    <ImageView
+        android:id="@+id/image_watches"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/rate_rewatches"
+        app:layout_constraintEnd_toStartOf="@+id/text_watches"
+        app:layout_constraintStart_toStartOf="@+id/guideline_upper"
+        app:layout_constraintTop_toBottomOf="@+id/anime_title"
+        tools:srcCompat="@drawable/ic_eye" />
+
+    <TextView
+        android:id="@+id/text_watches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_watches"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_watches"
+        tools:text="3" />
+
+
+</android.support.constraint.ConstraintLayout>

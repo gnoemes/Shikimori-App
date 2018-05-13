@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     }
 
     @Override
-    protected Navigator getLocalNavigator() {
+    protected Navigator getNavigator() {
         if (localNavigator == null) {
             localNavigator = new SupportAppNavigator(this, fragmentManager, R.id.activity_container) {
 
@@ -318,6 +318,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     @Override
     public Router getLocalRouter() {
         return getPresenter().getRouter();
+    }
+
+    @Override
+    public Navigator getLocalNavigator() {
+        return getNavigator();
     }
 
     private class TabPosition {

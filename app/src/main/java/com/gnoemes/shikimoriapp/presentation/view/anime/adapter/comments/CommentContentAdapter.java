@@ -100,6 +100,7 @@ public class CommentContentAdapter extends RecyclerView.Adapter<CommentContentAd
         public void bind(CommentContentViewModel model) {
             indicator.setVisibility(View.GONE);
             parent.setBackgroundColor(0);
+            content.reset();
 
             if (model.isQuote()) {
                 content.addSlice(getQuoteSlice(model.getText()));

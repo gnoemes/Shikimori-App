@@ -1,8 +1,9 @@
-package com.gnoemes.shikimoriapp.entity.user.data;
+package com.gnoemes.shikimoriapp.entity.rates.data;
 
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.google.gson.annotations.SerializedName;
 
 public class AnimeRateResponse {
@@ -23,15 +24,18 @@ public class AnimeRateResponse {
     @SerializedName("episodes")
     private int episodes;
 
+    @Nullable
     @SerializedName("chapters")
-    private int chapters;
+    private Integer chapters;
 
+    @Nullable
     @SerializedName("volumes")
-    private int volumes;
+    private Integer volumes;
 
     @SerializedName("rewatches")
     private int rewatches;
 
+    @Nullable
     @SerializedName("user")
     private UserBriefResponse userBriefResponse;
 
@@ -60,11 +64,13 @@ public class AnimeRateResponse {
         return episodes;
     }
 
-    public int getChapters() {
+    @Nullable
+    public Integer getChapters() {
         return chapters;
     }
 
-    public int getVolumes() {
+    @Nullable
+    public Integer getVolumes() {
         return volumes;
     }
 

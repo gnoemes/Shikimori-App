@@ -3,7 +3,6 @@ package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
         ConstraintLayout layout;
 
         @BindView(R.id.btn_continue)
-        AppCompatButton continueBtn;
+        TextView continueBtn;
 
         @BindView(R.id.text_episode)
         TextView nextEpisode;

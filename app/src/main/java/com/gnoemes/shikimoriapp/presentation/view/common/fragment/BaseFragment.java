@@ -34,6 +34,7 @@ import dagger.android.support.AndroidSupportInjection;
 public abstract class BaseFragment<Presenter extends BasePresenter, View extends BaseNetworkView>
         extends MvpAppCompatFragment implements BaseFragmentView {
 
+
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
 

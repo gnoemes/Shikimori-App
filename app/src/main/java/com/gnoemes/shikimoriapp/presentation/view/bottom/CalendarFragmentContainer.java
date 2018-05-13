@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -18,6 +19,7 @@ import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
@@ -52,6 +54,8 @@ public class CalendarFragmentContainer extends BottomTabContainer {
                     switch (screenKey) {
                         case BottomScreens.CALENDAR:
                             return CalendarFragment.newInstance();
+                        case BottomScreens.SEARCH:
+                            return SearchFragment.newInstance((AnimeGenre) data);
                         case Screens.ANIME_DETAILS:
                             return AnimeFragment.newInstance((Long) data);
                         case Screens.TRANSLATIONS:
@@ -89,6 +93,13 @@ public class CalendarFragmentContainer extends BottomTabContainer {
                 protected void setupFragmentTransactionAnimation(Command command, Fragment currentFragment, Fragment nextFragment, FragmentTransaction fragmentTransaction) {
                     //TODO transactions
                     super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction);
+                }
+
+                @Override
+                protected void unknownScreen(Command command) {
+                    if (getActivity() != null) {
+                        ((RouterProvider) getActivity()).getLocalNavigator().applyCommands(new Command[]{command});
+                    }
                 }
             };
         }

@@ -84,7 +84,7 @@ public class AuthActivity extends BaseActivity<AuthPresenter, AuthView> implemen
     }
 
     @Override
-    protected Navigator getLocalNavigator() {
+    protected Navigator getNavigator() {
         return null;
     }
 

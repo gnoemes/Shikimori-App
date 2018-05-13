@@ -4,8 +4,16 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProviderImpl;
+import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.fav.provider.UserRatesAnimeResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.view.fav.provider.UserRatesAnimeResourceProviderImpl;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtilsImpl;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
@@ -81,4 +89,16 @@ public interface UtilModule {
 
     @Binds
     UserBriefResponseConverter bindUserBriefResponseConverter(UserBriefResponseConverterImpl converter);
+
+    @Binds
+    AnimeRateResponseConverter bindAnimeRateResponseConverter(AnimeRateResponseConverterImpl converter);
+
+    @Binds
+    RateResourceProvider bindRateResourceProvider(RateResourceProviderImpl provider);
+
+    @Binds
+    UserRatesAnimeResourceProvider bindUserRatesAnimeResourceProvider(UserRatesAnimeResourceProviderImpl provider);
+
+    @Binds
+    AnimeRateViewModelConverter bindAnimeRateViewModelConverter(AnimeRateViewModelConverterImpl converter);
 }

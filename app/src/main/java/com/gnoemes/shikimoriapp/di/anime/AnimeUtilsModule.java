@@ -10,6 +10,8 @@ import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDeta
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProviderImpl;
 
 import dagger.Binds;
 import dagger.Module;
@@ -31,4 +33,7 @@ public interface AnimeUtilsModule {
 
     @Binds
     AnimeDetailsResponseConverter bindAnimeDetailsResponseConverter(AnimeDetailsResponseConverterImpl converter);
+
+    @Binds
+    AnimeDetailsResourceProvider bindAnimeDetailsResourceProvider(AnimeDetailsResourceProviderImpl provider);
 }

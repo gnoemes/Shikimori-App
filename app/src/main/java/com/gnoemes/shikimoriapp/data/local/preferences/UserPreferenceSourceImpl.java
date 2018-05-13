@@ -56,6 +56,7 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         saveTranslationType(userSettings.getTranslationType());
         saveTranslationDubberSettings(userSettings.getDubberSettings());
         savePlayerType(userSettings.getPlayerType());
+        saveTheme(userSettings.getTheme());
 
         settingsPublishSubject.onNext(getUserSettings());
     }
@@ -66,7 +67,8 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
                 getWizardFlag(),
                 getTranslationType(),
                 getTranslationDubberSettings(),
-                getPlayerType());
+                getPlayerType(),
+                getTheme());
     }
 
     private void saveUserStatus(@Nullable UserStatus userStatus) {
@@ -140,6 +142,18 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         return converter.convertPlayerType(getPrefs().getString(SettingsExtras.PLAYER_TYPE, "embedded"));
     }
 
+    private void saveTheme(@Nullable Boolean isLightTheme) {
+        if (isLightTheme == null) {
+            return;
+        }
+
+        getEditor().putBoolean(SettingsExtras.THEME, isLightTheme).commit();
+    }
+
+    private Boolean getTheme() {
+        return getPrefs().getBoolean(SettingsExtras.THEME, true);
+    }
+
     private SharedPreferences getPrefs() {
         return sharedPreferences;
     }
@@ -147,4 +161,6 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     private SharedPreferences.Editor getEditor() {
         return sharedPreferences.edit();
     }
+
+
 }

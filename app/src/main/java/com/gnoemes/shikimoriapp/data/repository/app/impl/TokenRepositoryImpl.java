@@ -27,7 +27,8 @@ public class TokenRepositoryImpl implements TokenRepository {
     @Override
     public Token getToken() {
         if (token == null) {
-            return source.getToken();
+            token = source.getToken();
+            return token;
         }
         return token;
     }

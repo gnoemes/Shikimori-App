@@ -11,8 +11,8 @@ import java.util.List;
 
 public class CommentsAdapter extends ListDelegationAdapter<List<BaseCommentItem>> {
 
-    public CommentsAdapter(ImageLoader loader, CommentContentAdapter adapter) {
-        delegatesManager.addDelegate(new CommentsDelegateAdapter(loader, adapter));
+    public CommentsAdapter(ImageLoader loader) {
+        delegatesManager.addDelegate(new CommentsDelegateAdapter(loader));
         delegatesManager.addDelegate(new CommentsPlaceHolderAdapterDelegate());
         delegatesManager.addDelegate(new CommentsLoadingAdapterDelegate());
 

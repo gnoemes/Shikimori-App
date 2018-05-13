@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepository;
+import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
@@ -21,16 +22,19 @@ import io.reactivex.Single;
 public class SeriesInteractorImpl implements SeriesInteractor {
 
     private SeriesRepository repository;
+    private UserRatesRepository ratesRepository;
     private SingleErrorHandler singleErrorHandler;
     private CompletableErrorHandler completableErrorHandler;
     private RxUtils rxUtils;
 
     @Inject
     public SeriesInteractorImpl(@NonNull SeriesRepository repository,
+                                @NonNull UserRatesRepository ratesRepository,
                                 @NonNull SingleErrorHandler singleErrorHandler,
                                 @NonNull CompletableErrorHandler completableErrorHandler,
                                 @NonNull RxUtils rxUtils) {
         this.repository = repository;
+        this.ratesRepository = ratesRepository;
         this.singleErrorHandler = singleErrorHandler;
         this.completableErrorHandler = completableErrorHandler;
         this.rxUtils = rxUtils;
@@ -44,8 +48,9 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
-    public Completable setEpisodeWatched(long animeId, long episodeId) {
+    public Completable setEpisodeWatched(long animeId, long episodeId, long rateId) {
         return repository.setEpisodeWatched(animeId, episodeId)
+                .andThen(ratesRepository.onEpisodeWatched(rateId))
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
     }

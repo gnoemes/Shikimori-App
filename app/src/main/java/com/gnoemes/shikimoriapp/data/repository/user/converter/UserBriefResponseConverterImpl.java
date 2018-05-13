@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.user.converter;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 
@@ -13,7 +15,11 @@ public class UserBriefResponseConverterImpl implements UserBriefResponseConverte
     }
 
     @Override
-    public UserBrief apply(UserBriefResponse response) {
+    public UserBrief apply(@Nullable UserBriefResponse response) {
+
+        if (response == null) {
+            return null;
+        }
         return new UserBrief(response.getId(),
                 response.getNickname(),
                 response.getAvatar(),

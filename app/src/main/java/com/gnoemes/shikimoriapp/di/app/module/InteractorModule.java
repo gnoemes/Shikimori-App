@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.di.app.module;
 
+import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
+import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractorImpl;
 
@@ -15,4 +17,7 @@ public interface InteractorModule {
     @Singleton
     UserInteractor bindUserInteractor(UserInteractorImpl interactor);
 
+    @Binds
+    @Singleton
+    UserRatesInteractor bindUserRatesInteractor(UserRatesInteractorImpl userRatesInteractor);
 }

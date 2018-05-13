@@ -29,10 +29,10 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapter;
-import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentContentAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
@@ -110,7 +110,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initViews();
     }
 
@@ -118,10 +117,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
-        CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader, new CommentContentAdapter(imageLoader));
+        CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader);
 
         pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
-
         viewPager.setAdapter(pagerAdapter);
 
         int textColor = AttributesHelper.withContext(getContext())
@@ -283,6 +281,23 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 .canceledOnTouchOutside(true)
                 .build()
                 .show();
+    }
+
+    @Override
+    public void showRatesDialog(UserRate data) {
+        RateDialogFragment dialog = RateDialogFragment.newInstance(data);
+        dialog.setCallback(new RateDialogFragment.RateDialogCallback() {
+            @Override
+            public void onSaveAnimeRate(UserRate rate) {
+                getPresenter().onSaveRate(rate);
+            }
+
+            @Override
+            public void onDeleteAnimeRate(long id) {
+                getPresenter().onDeleteRate(id);
+            }
+        });
+        dialog.show(getChildFragmentManager(), "RATES");
     }
 
     ///////////////////////////////////////////////////////////////////////////

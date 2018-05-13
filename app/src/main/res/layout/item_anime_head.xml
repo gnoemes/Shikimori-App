@@ -41,19 +41,17 @@
         android:id="@+id/image_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:contentDescription="@string/description_image"
         android:focusable="true"
         android:foreground="?attr/actionBarItemBackground"
         android:tint="?attr/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666"
         tools:srcCompat="@drawable/ic_star_border" />
 
 
@@ -143,6 +141,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:padding="@dimen/margin_normal"
         android:text="@string/watch_online"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating" />
 
