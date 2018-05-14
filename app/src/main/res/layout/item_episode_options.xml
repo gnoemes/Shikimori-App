@@ -19,6 +19,7 @@
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
         android:visibility="visible"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

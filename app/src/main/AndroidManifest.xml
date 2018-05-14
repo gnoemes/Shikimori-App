@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDark">
+        android:theme="@style/AppThemeLight">
         <activity
             android:name=".presentation.view.main.MainActivity"
             android:hardwareAccelerated="true"
@@ -37,6 +37,10 @@
             android:name=".presentation.view.auth.AuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".presentation.view.settings.SettingsActivity"
+            android:label="@string/common_settings" />
+
     </application>
 
 </manifest>

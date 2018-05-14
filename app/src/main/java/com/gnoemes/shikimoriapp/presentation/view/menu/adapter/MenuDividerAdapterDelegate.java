@@ -25,7 +25,7 @@ public class MenuDividerAdapterDelegate extends AdapterDelegate<List<BaseMenuIte
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_menu_divider, parent, false);
+                .inflate(R.layout.layout_shadow_double, parent, false);
         return new ViewHolder(itemView);
     }
 

@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.di.base.modules.BaseActivityModule;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.ActivityCallback;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
+import com.gnoemes.shikimoriapp.utils.view.ThemeHelper;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,6 +54,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter, View extends
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
+        setTheme(ThemeHelper.applyTheme(getBaseContext()));
         super.onCreate(savedInstanceState);
         setContentView(getLayoutActivity());
     }
