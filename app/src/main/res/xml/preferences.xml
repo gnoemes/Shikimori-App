@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference android:layout="@layout/layout_shadow_top" />
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Ночной режим">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_dark_theme"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/pref_dark_theme_summary"
+            android:title="@string/pref_dark_theme_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_auto_dark_theme"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/pref_auto_dark_theme_summary"
+            android:title="@string/pref_auto_dark_theme_title" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="@string/about_program">
+
+        <Preference
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/pref_about_program"
+            android:layout="@layout/layout_preference"
+            android:title="@string/app_name" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_bottom" />
+
+</PreferenceScreen>

@@ -232,7 +232,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private void setEpisodeWatched(long animeId, long episodeId) {
         Disposable disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
                 .doOnComplete(this::loadEpisodes)
-                .subscribe();
+                .subscribe(() -> {
+                }, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
     }
@@ -340,7 +341,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Add to user's list
      *
-     * @param data
+     * @param data UserRate
      */
     private void onAddListClick(UserRate data) {
         getViewState().showRatesDialog(data);

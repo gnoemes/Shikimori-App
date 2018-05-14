@@ -14,8 +14,6 @@
                 android:left="10dp"
                 android:right="10dp"
                 android:top="5dp" />
-            <solid android:color="@color/card_shadow_1" />
-            <corners android:radius="2dp" />
         </shape>
     </item>
     <item>

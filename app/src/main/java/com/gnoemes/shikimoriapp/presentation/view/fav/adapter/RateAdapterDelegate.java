@@ -148,8 +148,8 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>
 
             String episodeTitle = itemView.getContext().getResources().getString(R.string.common_episodes);
             String episodesText = String.format(resourceProvider.getEpisodeRateStringFormat(),
-                    model.getEpisodes(),
-                    model.getAnime().getEpisodesAired() == 0 ? model.getAnime().getEpisodes() : model.getAnime().getEpisodesAired(),
+                    String.valueOf(model.getEpisodes()),
+                    String.valueOf(model.getAnime().getEpisodesAired() == 0 ? model.getAnime().getEpisodes() : model.getAnime().getEpisodesAired()),
                     model.getAnime().getEpisodes() == 0 ? "xxx" : model.getAnime().getEpisodes());
             episodes.addSlice(getSliceTitle(episodeTitle));
             episodes.addSlice(getSliceContent(episodesText));

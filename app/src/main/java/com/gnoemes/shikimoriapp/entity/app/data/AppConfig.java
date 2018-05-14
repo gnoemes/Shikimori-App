@@ -19,4 +19,14 @@ public class AppConfig {
      * Long timeout for connections
      */
     public static final int LONG_TIMEOUT = 30;
+
+    /**
+     * Auto dark theme starts at
+     */
+    public static final int AUTO_THEME_START_HOURS = 20;
+
+    /**
+     * Auto dark theme ends at
+     */
+    public static final int AUTO_THEME_END_HOURS = 8;
 }

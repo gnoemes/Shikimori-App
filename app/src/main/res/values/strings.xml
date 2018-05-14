@@ -210,7 +210,7 @@
     <string name="comment_quote">Цитата:</string>
     <string name="common_episodes">Эпизоды:</string>
     <string name="common_rate">Оценка:</string>
-    <string name="rate_episodes_format">%o / %o (%s)</string>
+    <string name="rate_episodes_format" translatable="false">%s / %s (%s)</string>
     <string name="rate_empty">Здесь пока ничего нет</string>
     <string name="rate_watching">Смотрю</string>
     <string name="rate_planned">Запланировано</string>
@@ -231,6 +231,17 @@
     <string name="delete_format_message">%s удалено из списка</string>
     <string name="need_auth_message">Для данного действия необходимо авторизироваться</string>
     <string name="settings_success_save">Настройки успешно сохранены. Приятного просмотра :)</string>
+    <string name="pref_dark_theme">is_dark_theme</string>
+    <string name="pref_auto_dark_theme">is_auto_dark</string>
+    <string name="pref_dark_theme_summary">Ночной режим позволяет уменьшить утомляемость глаз</string>
+    <string name="pref_dark_theme_title">Ночной режим</string>
+    <string name="pref_auto_dark_theme_summary">Включать режим автоматический в ночное время суток</string>
+    <string name="pref_auto_dark_theme_title">Включать автоматический</string>
+    <string name="about_program">О программе</string>
+    <string name="pref_about_program">about_version</string>
+    <string name="attention">Внимание</string>
+    <string name="need_restart">Для применения измений требуется перезапуск</string>
+    <string name="restart">Перезапустить</string>
 
     <string-array name="duration">
         <item>@string/duration_small</item>

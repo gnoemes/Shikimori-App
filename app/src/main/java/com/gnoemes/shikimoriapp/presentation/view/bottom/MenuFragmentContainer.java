@@ -15,6 +15,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
@@ -60,6 +61,8 @@ public class MenuFragmentContainer extends BottomTabContainer {
                             return AuthActivity.newIntent(context, (AuthType) data);
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                        case Screens.SETTINGS:
+                            return new Intent(context, SettingsActivity.class);
                     }
                     return null;
                 }
