@@ -13,6 +13,7 @@ public class AnimeAdapter extends ListDelegationAdapter<List<BaseAnimeItem>> {
     public AnimeAdapter(@NonNull AnimeItemCallback callback) {
         delegatesManager.addDelegate(new AnimeHeadAdapterDelegate(callback));
         delegatesManager.addDelegate(new AnimeContentAdapterDelegate());
+        delegatesManager.addDelegate(new AnimeDividerAdapterDelegate());
         delegatesManager.addDelegate(new AnimeOtherAdapterDelegate(callback));
 
         setItems(new ArrayList<>());
