@@ -6,14 +6,14 @@
         android:layout="@layout/layout_preference_category"
         android:title="Ночной режим">
 
-        <SwitchPreference
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
             android:defaultValue="false"
             android:key="@string/pref_dark_theme"
             android:layout="@layout/layout_preference"
             android:summary="@string/pref_dark_theme_summary"
             android:title="@string/pref_dark_theme_title" />
 
-        <SwitchPreference
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
             android:defaultValue="false"
             android:key="@string/pref_auto_dark_theme"
             android:layout="@layout/layout_preference"

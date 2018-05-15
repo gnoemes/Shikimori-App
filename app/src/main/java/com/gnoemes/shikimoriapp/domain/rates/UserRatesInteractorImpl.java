@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
@@ -41,10 +42,8 @@ public class UserRatesInteractorImpl implements UserRatesInteractor {
     }
 
     @Override
-    public Single<List<AnimeRate>> getUserRates(long id, int page, int limit, RateStatus status) {
-        return settingsRepository.getUserSettings()
-                .firstOrError()
-                .flatMap(settings -> repository.getUserAnimeRates(settings.getStatus(), id, page, limit, status))
+    public Single<List<AnimeRate>> getUserRates(long id, int page, int limit, RateStatus status, UserStatus userStatus) {
+        return repository.getUserAnimeRates(userStatus, id, page, limit, status)
                 .compose((SingleErrorHandler<List<AnimeRate>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }

@@ -2,8 +2,10 @@ package com.gnoemes.shikimoriapp.presentation.presenter.fav;
 
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
+import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +15,7 @@ import io.reactivex.disposables.Disposable;
 public class FavoritePaginatorImpl implements FavoritePaginator {
 
     private UserRatesInteractor interactor;
-    private StatusViewController<AnimeRate> viewController;
+    private ViewController<AnimeRate> viewController;
 
     private int currentPage;
     private int defaultPage = 1;
@@ -21,12 +23,13 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
     private State currentState = new EMPTY_STATE();
     private List<AnimeRate> currentData = Collections.emptyList();
     private RateStatus status;
+    private UserStatus userStatus;
     private long id;
 
     private Disposable disposable;
 
     public FavoritePaginatorImpl(UserRatesInteractor interactor,
-                                 StatusViewController<AnimeRate> viewController) {
+                                 ViewController<AnimeRate> viewController) {
         this.interactor = interactor;
         this.viewController = viewController;
     }
@@ -34,11 +37,16 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
     private void loadPage(int page) {
         unsubscribe();
 
-        disposable = interactor.getUserRates(id, page, AppConfig.DEFAULT_LIMIT, status)
+        disposable = interactor.getUserRates(id, page, AppConfig.DEFAULT_LIMIT, status, userStatus)
                 .subscribe(
                         items -> currentState.newData(items),
                         throwable -> currentState.error(throwable));
 
+    }
+
+    @Override
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     @Override
@@ -89,19 +97,6 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         }
     }
 
-    public interface StatusViewController<T> {
-
-        void showList(boolean show, List<AnimeRate> list, RateStatus status, boolean isFirst);
-
-        void showRefreshProgress(boolean show, RateStatus status);
-
-        void showPageProgress(boolean show, RateStatus status);
-
-        void showError(RateStatus status, Throwable throwable);
-
-        void showEmptyView(boolean show, RateStatus status);
-    }
-
     private interface State {
         void restart();
 
@@ -140,6 +135,7 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void refresh() {
             currentState = new EMPTY_PROGRESS_STATE();
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
@@ -178,19 +174,24 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
                 currentData.clear();
                 currentData = list;
                 currentPage = defaultPage;
-                viewController.showList(true, currentData, status, isFirstPage());
-                viewController.showRefreshProgress(false, status);
+                viewController.showList(true, currentData);
+                viewController.showEmptyView(false);
+                viewController.showEmptyProgress(false);
+                viewController.showRefreshProgress(false);
             } else {
                 currentState = new EMPTY_DATA_STATE();
-                viewController.showRefreshProgress(false, status);
-                viewController.showEmptyView(true, status);
+                viewController.showEmptyProgress(false);
+                viewController.showRefreshProgress(false);
+                viewController.showEmptyView(true);
             }
         }
 
         @Override
         public void error(Throwable throwable) {
             currentState = new EMPTY_ERROR_STATE();
-            viewController.showRefreshProgress(false, status);
+            viewController.showEmptyProgress(false);
+            viewController.showEmptyError(true, throwable);
+            viewController.showRefreshProgress(false);
         }
 
         @Override
@@ -222,12 +223,16 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
+            viewController.showEmptyError(false, null);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
         @Override
         public void refresh() {
             currentState = new EMPTY_PROGRESS_STATE();
+            viewController.showEmptyError(false, null);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
@@ -260,7 +265,9 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
-            viewController.showRefreshProgress(false, status);
+            viewController.showEmptyView(false);
+            viewController.showRefreshProgress(false);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
 
         }
@@ -268,6 +275,8 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void refresh() {
             currentState = new EMPTY_PROGRESS_STATE();
+            viewController.showEmptyView(false);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
 
         }
@@ -291,22 +300,23 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
-            viewController.showList(false, null, status, isFirstPage());
-            viewController.showRefreshProgress(false, status);
+            viewController.showList(false, null);
+            viewController.showRefreshProgress(false);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
         @Override
         public void refresh() {
             currentState = new REFRESH_STATE();
-            viewController.showRefreshProgress(true, status);
+            viewController.showRefreshProgress(true);
             loadPage(defaultPage);
         }
 
         @Override
         public void loadNewPage() {
             currentState = new PAGE_PROGRESS_STATE();
-            viewController.showPageProgress(true, status);
+            viewController.showPageProgress(true);
             increasePage();
             loadPage(currentPage);
 
@@ -320,7 +330,7 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
 
         @Override
         public void error(Throwable throwable) {
-            viewController.showError(status, throwable);
+            viewController.showError(throwable);
         }
     }
 
@@ -342,8 +352,9 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
-            viewController.showList(false, null, status, isFirstPage());
-            viewController.showRefreshProgress(false, status);
+            viewController.showList(false, null);
+            viewController.showRefreshProgress(false);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
@@ -354,22 +365,24 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
                 currentData.clear();
                 currentData = list;
                 currentPage = defaultPage;
-                viewController.showRefreshProgress(false, status);
-                viewController.showList(true, currentData, status, isFirstPage());
+                viewController.showRefreshProgress(false);
+                viewController.showEmptyError(false, null);
+                viewController.showList(true, currentData);
+                viewController.showEmptyView(false);
             } else {
                 currentState = new EMPTY_DATA_STATE();
                 currentData.clear();
-                viewController.showList(false, null, status, isFirstPage());
-                viewController.showEmptyView(true, status);
-                viewController.showRefreshProgress(false, status);
+                viewController.showList(false, null);
+                viewController.showRefreshProgress(false);
+                viewController.showEmptyView(true);
             }
         }
 
         @Override
         public void error(Throwable throwable) {
             currentState = new DATA_STATE();
-            viewController.showRefreshProgress(false, status);
-            viewController.showError(status, throwable);
+            viewController.showRefreshProgress(false);
+            viewController.showError(throwable);
         }
 
         @Override
@@ -392,8 +405,9 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
-            viewController.showList(false, null, status, isFirstPage());
-            viewController.showPageProgress(false, status);
+            viewController.showList(false, null);
+            viewController.showPageProgress(false);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
         }
 
@@ -403,12 +417,12 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
                 currentState = new DATA_STATE();
                 currentData = list;
                 increasePage();
-                viewController.showPageProgress(false, status);
-                viewController.showList(true, currentData, status, isFirstPage());
+                viewController.showPageProgress(false);
+                viewController.showList(true, currentData);
+                viewController.showEmptyView(false);
             } else {
                 currentState = new ALL_DATA_STATE();
-                viewController.showPageProgress(false, status);
-                viewController.showEmptyView(true, status);
+                viewController.showPageProgress(false);
             }
 
         }
@@ -416,8 +430,8 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void refresh() {
             currentState = new REFRESH_STATE();
-            viewController.showPageProgress(false, status);
-            viewController.showRefreshProgress(true, status);
+            viewController.showPageProgress(false);
+            viewController.showRefreshProgress(true);
             loadPage(defaultPage);
         }
 
@@ -425,8 +439,8 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void error(Throwable throwable) {
             currentState = new DATA_STATE();
-            viewController.showPageProgress(false, status);
-            viewController.showError(status, throwable);
+            viewController.showPageProgress(false);
+            viewController.showError(throwable);
         }
 
         @Override
@@ -460,7 +474,8 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void restart() {
             currentState = new EMPTY_PROGRESS_STATE();
-            viewController.showList(false, null, status, isFirstPage());
+            viewController.showList(false, null);
+            viewController.showEmptyProgress(true);
             loadPage(defaultPage);
 
         }
@@ -468,7 +483,7 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
         @Override
         public void refresh() {
             currentState = new REFRESH_STATE();
-            viewController.showRefreshProgress(true, status);
+            viewController.showRefreshProgress(true);
             loadPage(defaultPage);
 
         }

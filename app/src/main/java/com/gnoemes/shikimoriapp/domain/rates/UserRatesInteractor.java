@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.domain.rates;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
@@ -12,7 +13,7 @@ import io.reactivex.Single;
 
 public interface UserRatesInteractor {
 
-    Single<List<AnimeRate>> getUserRates(long id, int page, int limit, RateStatus status);
+    Single<List<AnimeRate>> getUserRates(long id, int page, int limit, RateStatus status, UserStatus userStatus);
 
     Single<List<AnimeRate>> getUserRates(long id, int page, int limit);
 

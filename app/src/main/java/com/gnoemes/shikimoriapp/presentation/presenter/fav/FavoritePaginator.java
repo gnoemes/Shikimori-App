@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.fav;
 
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.Paginator;
 
@@ -10,4 +11,6 @@ public interface FavoritePaginator extends Paginator {
     void setId(long id);
 
     boolean isFirstPage();
+
+    void setUserStatus(UserStatus status);
 }

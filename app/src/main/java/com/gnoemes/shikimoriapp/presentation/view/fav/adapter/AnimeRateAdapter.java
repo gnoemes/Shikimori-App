@@ -28,7 +28,7 @@ public class AnimeRateAdapter extends ListDelegationAdapter<List<BaseAnimeRateIt
 
     public void bindItems(List<BaseAnimeRateItem> viewModels) {
         items.clear();
-        if (viewModels.isEmpty()) {
+        if (viewModels == null || viewModels.isEmpty()) {
             items.add(new AnimeRatePlaceholder());
         } else {
             items.addAll(viewModels);
@@ -55,5 +55,6 @@ public class AnimeRateAdapter extends ListDelegationAdapter<List<BaseAnimeRateIt
 
     public void hideProgress() {
         items.remove(items.size() - 1);
+        notifyItemChanged(items.size());
     }
 }
