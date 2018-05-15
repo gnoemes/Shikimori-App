@@ -5,6 +5,9 @@ import android.content.Context;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.BaseAnimeResourceProvider;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class UserRatesAnimeResourceProviderImpl extends BaseAnimeResourceProvider
@@ -55,6 +58,11 @@ public class UserRatesAnimeResourceProviderImpl extends BaseAnimeResourceProvide
     @Override
     public String getFavString() {
         return getContext().getString(R.string.common_favorite);
+    }
+
+    @Override
+    public List<String> getRateStasuses() {
+        return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses));
     }
 
     @Override

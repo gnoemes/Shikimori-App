@@ -107,6 +107,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
 
         private GenresAdapter adapter;
         private int textColor;
+        private int textSize;
         private Drawable addEmpty;
         private Drawable add;
 
@@ -116,6 +117,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
 
             textColor = AttributesHelper.withContext(itemView.getContext())
                     .getColor(R.attr.colorText);
+            textSize = (int) itemView.getContext().getResources().getDimension(R.dimen.text_default);
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
@@ -218,6 +220,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
         private Slice getSliceTitle(String text) {
             return new Slice.Builder(text.concat(": "))
                     .textColor(textColor)
+                    .textSize(textSize)
                     .style(Typeface.BOLD)
                     .build();
         }
@@ -231,6 +234,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
         private Slice getSliceContent(String text) {
             return new Slice.Builder(text)
                     .textColor(textColor)
+                    .textSize(textSize)
                     .build();
         }
     }

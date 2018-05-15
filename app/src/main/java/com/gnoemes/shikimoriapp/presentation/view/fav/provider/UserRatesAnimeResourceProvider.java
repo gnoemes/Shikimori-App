@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.presentation.view.fav.provider;
 
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.AnimeResourceProvider;
 
+import java.util.List;
+
 public interface UserRatesAnimeResourceProvider extends AnimeResourceProvider {
     String getEpisodeRateStringFormat();
 
@@ -18,4 +20,6 @@ public interface UserRatesAnimeResourceProvider extends AnimeResourceProvider {
     String getDroppedString();
 
     String getFavString();
+
+    List<String> getRateStasuses();
 }
