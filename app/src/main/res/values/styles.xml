@@ -3,7 +3,7 @@
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="preferenceTheme">@style/PreferenceAppTheme</item>
-        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+        <!--<item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>-->
     </style>
 
     <!-- Base application theme. -->
@@ -71,7 +71,7 @@
     </style>
 
     <style name="CardViewLightStyle" parent="CardView">
-        <item name="cardBackgroundColor">@color/colorAccent</item>
+        <item name="cardBackgroundColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="CardViewDarkStyle" parent="CardView">

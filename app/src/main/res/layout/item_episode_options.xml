@@ -5,13 +5,14 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="0dp"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundWindow">
 
     <TextView
         android:id="@+id/btn_continue"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:drawablePadding="@dimen/margin_big"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:paddingBottom="@dimen/margin_small"

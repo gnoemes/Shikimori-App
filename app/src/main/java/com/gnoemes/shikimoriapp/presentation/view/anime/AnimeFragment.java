@@ -392,8 +392,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         private void createAnimePage(ViewGroup layout) {
             animeDetailsList = layout.findViewById(R.id.anime_details_list);
             animeDetailsList.setItemAnimator(new DefaultItemAnimator());
-            int margin = (int) getResources().getDimension(R.dimen.margin_small);
-            animeDetailsList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             animeDetailsList.setAdapter(animeAdapter);
             animeDetailsList.setLayoutManager(new LinearLayoutManager(getContext()));
         }

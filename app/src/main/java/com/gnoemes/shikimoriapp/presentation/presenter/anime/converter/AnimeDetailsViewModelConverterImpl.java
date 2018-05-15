@@ -9,6 +9,7 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeDividerItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
@@ -97,7 +98,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     @Override
     public List<BaseAnimeItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
         List<BaseAnimeItem> animeItems = new ArrayList<>();
-
+        animeItems.add(new AnimeDividerItem());
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
                 viewModel.getName(),
                 viewModel.getJpOrEngName(),
@@ -110,10 +111,11 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getScore(),
                 viewModel.getAnimeRate()));
 
+        animeItems.add(new AnimeDividerItem());
         animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
-
+        animeItems.add(new AnimeDividerItem());
         animeItems.add(new AnimeOtherItem(viewModel.getId()));
-
+        animeItems.add(new AnimeDividerItem());
         return animeItems;
     }
 }

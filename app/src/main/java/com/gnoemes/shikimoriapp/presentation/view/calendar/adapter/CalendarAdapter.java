@@ -1,11 +1,13 @@
 package com.gnoemes.shikimoriapp.presentation.view.calendar.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
@@ -13,6 +15,7 @@ import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewMod
 import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider.CalendarAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -70,6 +73,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.linear_layout)
+        LinearLayout layout;
+
         @BindView(R.id.text_date)
         TextView date;
         @BindView(R.id.list_anime)
@@ -80,6 +86,20 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            Drawable card = DrawableHelper
+                    .withContext(itemView.getContext())
+                    .withDrawable(R.drawable.card)
+                    .withAttributeColor(R.attr.colorBackgroundContent)
+                    .tint()
+                    .get();
+
+            layout.setBackground(card);
+
+        }
+
+        void bind(CalendarItemViewModel item) {
+            date.setText(dateTimeConverter.convertCalendarDateToString(item.getDate()));
 
             animeAdapter = new CalendarAnimeAdapter(resourceProvider, imageLoader, dateTimeConverter);
 
@@ -94,12 +114,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                     animeListener.onItemClicked(animeAdapter.getItemByPosition(position).getId());
                 }
             }));
-
-
-        }
-
-        void bind(CalendarItemViewModel item) {
-            date.setText(dateTimeConverter.convertCalendarDateToString(item.getDate()));
 
             animeAdapter.addNewItems(item.getAnimeViewModels());
         }

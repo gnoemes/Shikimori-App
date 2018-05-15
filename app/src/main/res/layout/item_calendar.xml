@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_normal"
-    app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_small"
-    app:contentPadding="@dimen/margin_normal">
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_shadow_top" />
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:background="@drawable/card"
+        tools:backgroundTint="?attr/colorBackgroundContent">
+
 
         <TextView
             android:id="@+id/text_date"
@@ -34,8 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal" />
-
     </LinearLayout>
+</LinearLayout>
 
-
-</android.support.v7.widget.CardView>
