@@ -117,7 +117,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         Drawable rateBackground = DrawableHelper
                 .withContext(getContext())
                 .withDrawable(spinner.getBackground())
-                .withAttributeColor(R.attr.colorDivider)
+                .withAttributeColor(R.attr.colorAccent)
                 .tint()
                 .get();
         spinner.setBackground(rateBackground);

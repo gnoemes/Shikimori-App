@@ -88,7 +88,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
             DrawableHelper
                     .withContext(itemView.getContext())
                     .withDrawable(R.drawable.ic_chevron_right)
-                    .withAttributeColor(R.attr.colorDivider)
+                    .withAttributeColor(R.attr.colorAccent)
                     .tint()
                     .applyTo(arrow);
         }

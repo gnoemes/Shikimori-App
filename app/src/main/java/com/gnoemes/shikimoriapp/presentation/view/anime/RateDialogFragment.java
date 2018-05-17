@@ -82,7 +82,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
                 .customView(view, true)
                 .titleColorAttr(R.attr.colorText)
-                .dividerColor(R.attr.colorDivider)
+                .dividerColor(R.attr.colorAccent)
                 .backgroundColorAttr(R.attr.colorBackgroundWindow)
                 .buttonRippleColorAttr(R.attr.colorAccentTransparent)
                 .positiveText(R.string.common_save)
@@ -143,7 +143,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         Drawable rateBackground = DrawableHelper
                 .withContext(getContext())
                 .withDrawable(rates.getBackground())
-                .withAttributeColor(R.attr.colorDivider)
+                .withAttributeColor(R.attr.colorAccent)
                 .tint()
                 .get();
         rates.setBackground(rateBackground);
@@ -151,7 +151,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         Drawable editTextBackground = DrawableHelper
                 .withContext(getContext())
                 .withDrawable(episodes.getBackground())
-                .withAttributeColor(R.attr.colorDivider)
+                .withAttributeColor(R.attr.colorAccent)
                 .tint()
                 .get();
 

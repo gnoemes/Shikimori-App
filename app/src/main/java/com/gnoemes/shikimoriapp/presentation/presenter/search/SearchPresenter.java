@@ -19,6 +19,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeVie
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -199,8 +200,9 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     }
 
     private void onGenreSearch() {
-        filters.put(SearchConstants.GENRE, Collections.singletonList(
-                new FilterItem(SearchConstants.GENRE, genre.getId(), genre.getRussianName())));
+        List<FilterItem> items = new ArrayList<>();
+        items.add(new FilterItem(SearchConstants.GENRE, genre.getId(), genre.getRussianName()));
+        filters.put(SearchConstants.GENRE, items);
         onRefresh();
     }
 

@@ -96,7 +96,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                 .icon(icon)
                 .customView(view, false)
                 .titleColorAttr(R.attr.colorText)
-                .dividerColor(R.attr.colorDivider)
+                .dividerColor(R.attr.colorAccent)
                 .backgroundColorAttr(R.attr.colorBackgroundWindow)
                 .buttonRippleColorAttr(R.attr.colorAccentTransparent)
                 .title(R.string.series_settings)

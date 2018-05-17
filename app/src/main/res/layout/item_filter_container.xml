@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif-condensed"
         android:padding="@dimen/margin_normal"
         android:textAllCaps="true"
-        android:textColor="?attr/colorAccent"
+        android:textColor="?attr/colorDivider"
         android:textSize="16sp"
         tools:text="Упорядочить по:" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="?attr/colorDivider" />
+        android:background="?attr/colorAccent" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/fbl"

@@ -78,7 +78,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
             DrawableHelper
                     .withContext(itemView.getContext())
                     .withDrawable(R.drawable.ic_chevron_right)
-                    .withAttributeColor(R.attr.colorDivider)
+                    .withAttributeColor(R.attr.colorAccent)
                     .tint()
                     .applyTo(arrow);
 
@@ -86,7 +86,7 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
                 DrawableHelper
                         .withContext(itemView.getContext())
                         .withDrawable(R.drawable.ic_approval)
-                        .withAttributeColor(R.attr.colorDivider)
+                        .withAttributeColor(R.attr.colorAccent)
                         .tint()
                         .applyTo(watchedBadge);
                 watchedBadge.setVisibility(View.VISIBLE);

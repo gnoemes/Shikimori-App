@@ -75,11 +75,11 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
     public void onRefreshClick() {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
 
         Drawable unselected = DrawableHelper.withContext(getContext())
                 .withDrawable(R.drawable.chip_unselected)
-                .withAttributeColor(R.attr.colorAccent)
+                .withAttributeColor(R.attr.colorDivider)
                 .stroke(2)
                 .get();
 
@@ -310,14 +310,14 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
 
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = getContext().getTheme();
-                theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+                theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
                 int accent = typedValue.data;
                 theme.resolveAttribute(R.attr.colorText, typedValue, true);
                 int textColor = typedValue.data;
 
                 Drawable uncelected = DrawableHelper.withContext(getContext())
                         .withDrawable(R.drawable.chip_unselected)
-                        .withAttributeColor(R.attr.colorAccent)
+                        .withAttributeColor(R.attr.colorDivider)
                         .stroke(2)
                         .get();
                 uncelected.mutate();

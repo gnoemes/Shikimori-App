@@ -20,12 +20,13 @@
     <color name="dark_blue">#070c18</color>
 
     <!--Light Theme Colors-->
-    <color name="colorPrimary">#FFA726</color>
+    <color name="colorPrimary">#ff9800</color>
     <color name="colorPrimaryTransparent">#42ffa726</color>
-    <color name="colorPrimaryDark">#F57C00</color>
-    <color name="colorAccent">#FFFFFF</color>
-    <color name="colorBackground">@color/light_gray</color>
-    <color name="colorAccentTransparent">#b4ffffff</color>
+    <color name="colorPrimaryDark">#c66900</color>
+    <color name="colorAccent">#ff3d00</color>
+    <color name="colorBackground">#EEEEEE</color>
+    <color name="colorBackgroundTransparent">#eeeeee</color>
+    <color name="colorAccentTransparent">#b4f4511e</color>
 
     <!--Dark Theme Colors-->
     <color name="colorPrimaryInverse">#243447</color>

@@ -22,12 +22,12 @@
             android:background="?attr/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="@+id/view_pager"
             app:tabGravity="fill"
-            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabIndicatorColor="?attr/colorDivider"
             app:tabIndicatorHeight="2dp"
             app:tabMode="scrollable"
             app:tabPadding="0dp"
-            app:tabSelectedTextColor="?attr/colorAccent"
-            app:tabTextColor="?attr/colorAccentTransparent" />
+            app:tabSelectedTextColor="?attr/colorDivider"
+            app:tabTextColor="?attr/colorDividerTransparent" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"

@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rate_title"
-        tools:backgroundTint="?attr/colorDivider" />
+        tools:backgroundTint="?attr/colorAccent" />
 
     <TextView
         android:id="@+id/episodes_title"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="@+id/episodes_title"
         app:layout_constraintStart_toStartOf="@+id/episodes_title"
         app:layout_constraintTop_toBottomOf="@+id/episodes_title"
-        tools:backgroundTint="?attr/colorDivider" />
+        tools:backgroundTint="?attr/colorAccent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -105,7 +105,7 @@
         app:layout_constraintEnd_toEndOf="@+id/rewatches_title"
         app:layout_constraintStart_toStartOf="@+id/rewatches_title"
         app:layout_constraintTop_toBottomOf="@+id/rewatches_title"
-        tools:backgroundTint="?attr/colorDivider" />
+        tools:backgroundTint="?attr/colorAccent" />
 
 
     <com.mpt.android.stv.SpannableTextView
