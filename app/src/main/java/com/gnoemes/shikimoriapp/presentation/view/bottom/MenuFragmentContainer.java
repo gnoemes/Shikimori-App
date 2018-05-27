@@ -105,8 +105,4 @@ public class MenuFragmentContainer extends BottomTabContainer {
 
         return localNavigator;
     }
-
-    public void clearRouter() {
-        getLocalRouter().backTo(null);
-    }
 }
