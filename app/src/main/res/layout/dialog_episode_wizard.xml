@@ -21,9 +21,9 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_normal"
             app:ipi_currentPageIndicatorColor="?attr/colorAccent"
-            app:ipi_pageIndicatorColor="?attr/colorDividerTransparent" />
+            app:ipi_pageIndicatorColor="?attr/colorAccentTransparent" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

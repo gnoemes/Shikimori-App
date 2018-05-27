@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.GenresAdapter;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem>> {
+public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private AnimeItemCallback callback;
 
@@ -42,7 +42,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseAnimeItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof AnimeHeadItem;
     }
 
@@ -55,7 +55,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseAnimeItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
         AnimeHeadItem headItem = (AnimeHeadItem) items.get(position);
         viewHolder.bind(headItem);

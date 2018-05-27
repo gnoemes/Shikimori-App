@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.anime.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import io.reactivex.functions.Function;
  */
 public interface AnimeDetailsViewModelConverter extends Function<AnimeDetails, AnimeDetailsViewModel> {
 
-    List<BaseAnimeItem> convertFromViewModel(AnimeDetailsViewModel viewModel);
+    List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel);
 }

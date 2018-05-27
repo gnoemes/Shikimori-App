@@ -8,4 +8,5 @@ import java.util.List;
 import io.reactivex.functions.Function;
 
 public interface CommentsResponseConverter extends Function<List<CommentResponse>, List<Comment>> {
+    Comment convertResponse(CommentResponse response);
 }

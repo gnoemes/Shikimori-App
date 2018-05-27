@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class UserBriefResponseConverterImpl implements UserBriefResponseConverter {
@@ -28,5 +31,15 @@ public class UserBriefResponseConverterImpl implements UserBriefResponseConverte
                 response.getName(),
                 response.getSex(),
                 response.getWebsite());
+    }
+
+    @Override
+    public List<UserBrief> convertList(List<UserBriefResponse> response) {
+        List<UserBrief> userBriefs = new ArrayList<>();
+
+        for (UserBriefResponse briefResponse : response) {
+            userBriefs.add(apply(briefResponse));
+        }
+        return userBriefs;
     }
 }

@@ -13,11 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentContentViewModel;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentViewModel;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
@@ -27,16 +28,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentItem>> {
+public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseItem>> {
 
     private ImageLoader imageLoader;
+    private DefaultItemCallback callback;
 
-    public CommentsDelegateAdapter(@NonNull ImageLoader imageLoader) {
+    public CommentsDelegateAdapter(ImageLoader imageLoader, DefaultItemCallback callback) {
         this.imageLoader = imageLoader;
+        this.callback = callback;
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseCommentItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof CommentViewModel;
     }
 
@@ -50,7 +53,7 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentIte
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseCommentItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         CommentViewModel viewModel = (CommentViewModel) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.bind(viewModel);
@@ -111,6 +114,7 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseCommentIte
 
 
             imageLoader.setCircleImage(avatar, viewModel.getAvatarUrl(), R.attr.colorPrimary);
+            avatar.setOnClickListener(v -> callback.onItemClick(viewModel.getUserId()));
 
             if (viewModel.isSummary()) {
                 summaryBadge.setVisibility(View.VISIBLE);

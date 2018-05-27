@@ -2,9 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference android:layout="@layout/layout_shadow_top" />
+
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
-        android:title="Ночной режим">
+        android:title="@string/pref_dark_theme_title">
 
         <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
             android:defaultValue="false"
@@ -19,7 +20,6 @@
             android:layout="@layout/layout_preference"
             android:summary="@string/pref_auto_dark_theme_summary"
             android:title="@string/pref_auto_dark_theme_title" />
-
     </PreferenceCategory>
 
     <Preference android:layout="@layout/layout_shadow_double" />
@@ -33,7 +33,6 @@
             android:key="@string/pref_about_program"
             android:layout="@layout/layout_preference"
             android:title="@string/app_name" />
-
     </PreferenceCategory>
 
     <Preference android:layout="@layout/layout_shadow_bottom" />

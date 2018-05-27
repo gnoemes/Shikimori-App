@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRateViewModel;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
@@ -124,7 +123,7 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>
         }
 
         public void bind(AnimeRateViewModel model) {
-            imageLoader.setImageWithFit(animePreview, BuildConfig.ShikimoriBaseUrl + model.getAnime().getImageOriginalUrl());
+            imageLoader.setImageWithFit(animePreview, model.getAnime().getImageOriginalUrl());
             imageWatches.setVisibility(View.GONE);
             watches.setVisibility(View.GONE);
 

@@ -21,14 +21,12 @@ import android.widget.ProgressBar;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
@@ -117,7 +115,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
         AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
-        CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader);
+        CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader,
+                id -> getPresenter().onUserClicked(id));
 
         pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
         viewPager.setAdapter(pagerAdapter);
@@ -163,7 +162,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////
 
-
     @Override
     protected AnimePresenter getPresenter() {
         return presenter;
@@ -190,7 +188,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void setAnimeData(AnimeDetailsViewModel model) {
-        imageLoader.setImageWithFit(backgroundImage, BuildConfig.ShikimoriBaseUrl + model.getImageUrl());
+        imageLoader.setImageWithFit(backgroundImage, model.getImageUrl());
         toolbar.setTitle(model.getName());
         pagerAdapter.setData(converter.convertFromViewModel(model));
     }
@@ -206,12 +204,12 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     @Override
-    public void showComments(List<BaseCommentItem> baseCommentItems) {
+    public void showComments(List<BaseItem> baseCommentItems) {
         pagerAdapter.showComments(baseCommentItems);
     }
 
     @Override
-    public void insetMoreComments(List<BaseCommentItem> baseCommentItems) {
+    public void insetMoreComments(List<BaseItem> baseCommentItems) {
         pagerAdapter.insertMoreComments(baseCommentItems);
     }
 
@@ -365,8 +363,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         private void createCommentsPage(ViewGroup layout) {
             commentsList = layout.findViewById(R.id.list_comments);
-            int margin = (int) getResources().getDimension(R.dimen.margin_small);
-            commentsList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             commentsList.setLayoutManager(layoutManager);
             commentsList.setAdapter(commentsAdapter);
@@ -406,7 +402,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             seriesList.setAdapter(episodeAdapter);
         }
 
-        public void setData(List<BaseAnimeItem> animeItems) {
+        public void setData(List<BaseItem> animeItems) {
             animeAdapter.bindItems(animeItems);
         }
 
@@ -427,11 +423,11 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             }
         }
 
-        void showComments(List<BaseCommentItem> baseCommentItems) {
+        void showComments(List<BaseItem> baseCommentItems) {
             commentsAdapter.bindItems(baseCommentItems);
         }
 
-        void insertMoreComments(List<BaseCommentItem> baseCommentItems) {
+        void insertMoreComments(List<BaseItem> baseCommentItems) {
             commentsAdapter.insertMore(baseCommentItems);
         }
 

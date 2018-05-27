@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
@@ -29,7 +30,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     private FavoritePaginator paginator;
 
     private RateStatus currentStatus;
-    private long id;
+    private Long userId;
     private UserSettings settings;
 
     private ViewController<AnimeRate> controller = new ViewController<AnimeRate>() {
@@ -91,6 +92,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         }
     };
 
+
     public FavoritePresenter(@NonNull UserRatesInteractor interactor,
                              @NonNull UserSettingsInteractor settingsInteractor,
                              @NonNull AnimeRateViewModelConverter converter) {
@@ -101,8 +103,13 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     @Override
     public void initData() {
-        loadUserSettings();
         currentStatus = RateStatus.WATCHING;
+        if (userId == null) {
+            loadUserSettings();
+        } else {
+            getViewState().addBackArrow();
+            initPaginator();
+        }
     }
 
     public void loadNextPage() {
@@ -127,16 +134,16 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     private void setSettings(UserSettings settings) {
-        this.id = settings.getUserBrief() == null ? -1 : settings.getUserBrief().getId();
+        this.userId = settings.getUserBrief() == null ? -1 : settings.getUserBrief().getId();
         this.settings = settings;
         initPaginator();
     }
 
     private void initPaginator() {
         paginator = new FavoritePaginatorImpl(interactor, controller);
-        paginator.setId(id);
+        paginator.setId(userId);
         paginator.setStatus(currentStatus);
-        paginator.setUserStatus(settings.getStatus());
+        paginator.setUserStatus(settings == null ? UserStatus.AUTHORIZED : settings.getStatus());
         paginator.refresh();
     }
 
@@ -155,6 +162,8 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         super.onDestroy();
     }
 
-
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }
 

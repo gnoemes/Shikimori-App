@@ -30,7 +30,8 @@ public class CommentsResponseConverterImpl implements CommentsResponseConverter 
         return comments;
     }
 
-    private Comment convertResponse(CommentResponse response) {
+    @Override
+    public Comment convertResponse(CommentResponse response) {
         return new Comment(response.getId(),
                 response.getUserId(),
                 response.getCommentableId(),

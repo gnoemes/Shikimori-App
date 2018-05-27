@@ -32,6 +32,41 @@ public class DateTimeUtilsImpl implements DateTimeUtils {
     }
 
     @Override
+    public boolean isSameWeek(DateTime time) {
+        return getNowDateTime().toLocalDate().getWeekOfWeekyear() == time.toLocalDate().getWeekOfWeekyear();
+    }
+
+    @Override
+    public boolean isSameWeek(DateTime firstDate, DateTime secondDate) {
+        return firstDate.toLocalDate().getWeekOfWeekyear() == secondDate.toLocalDate().getWeekOfWeekyear();
+    }
+
+    @Override
+    public boolean isSameMonth(DateTime time) {
+        return getNowDateTime().toLocalDate().getMonthOfYear() == time.toLocalDate().getMonthOfYear();
+    }
+
+    @Override
+    public boolean isSameMonth(DateTime firstDate, DateTime secondDate) {
+        return firstDate.toLocalDate().getMonthOfYear() == secondDate.toLocalDate().getMonthOfYear();
+    }
+
+    @Override
+    public boolean isSameYear(DateTime time) {
+        return getNowDateTime().toLocalDate().getYear() == time.toLocalDate().getYear();
+    }
+
+    @Override
+    public boolean isSameYear(DateTime firstDate, DateTime secondDate) {
+        return firstDate.toLocalDate().getYear() == secondDate.toLocalDate().getYear();
+    }
+
+    @Override
+    public boolean isSameDay(DateTime firstDate) {
+        return getNowDateTime().toLocalDate().getDayOfYear() == firstDate.toLocalDate().getDayOfYear();
+    }
+
+    @Override
     public boolean isSameDay(DateTime firstDate, DateTime secondDate) {
         return firstDate != null &&
                 secondDate != null &&

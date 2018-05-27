@@ -11,4 +11,8 @@ public interface DateTimeConverter {
     String convertAnimeSeasonToString(DateTime dateTime);
 
     String convertCommentDateTimeToString(DateTime dateTime);
+
+    String convertHistoryDateToString(DateTime actionDate);
+
+    String convertDateAgoToString(DateTime actionDate);
 }

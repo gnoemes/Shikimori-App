@@ -1,4 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.comments.presentation;
 
-public abstract class BaseCommentItem {
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+
+public abstract class BaseCommentItem extends BaseItem {
 }

@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.search.adapter;
 
 import android.support.annotation.NonNull;
 
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
@@ -12,7 +13,7 @@ import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseSearchItem>> {
+public class SearchAnimeAdapter extends ListDelegationAdapter<List<BaseItem>> {
 
     public SearchAnimeAdapter(@NonNull SearchAnimeResourceProvider resourceProvider,
                               @NonNull ImageLoader imageLoader,

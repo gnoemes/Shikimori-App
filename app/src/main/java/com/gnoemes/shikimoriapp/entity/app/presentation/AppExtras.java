@@ -28,4 +28,5 @@ public class AppExtras {
     public static final String ARGUMENT_AUTH_TYPE = "ARGUMENT_AUTH_TYPE";
     public static final String ARGUMENT_RATE_STATUS = "ARGUMENT_RATE_STATUS";
     public static final String ARGUMENT_ANIME_RATE = "ARGUMENT_ANIME_RATE";
+    public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
 }

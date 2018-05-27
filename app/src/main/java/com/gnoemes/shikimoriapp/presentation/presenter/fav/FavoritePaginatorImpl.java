@@ -37,7 +37,7 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
     private void loadPage(int page) {
         unsubscribe();
 
-        disposable = interactor.getUserRates(id, page, AppConfig.DEFAULT_LIMIT, status, userStatus)
+        disposable = interactor.getUserRates(id, page, AppConfig.DEFAULT_LIMIT, status, userStatus == null ? UserStatus.GUEST : userStatus)
                 .subscribe(
                         items -> currentState.newData(items),
                         throwable -> currentState.error(throwable));

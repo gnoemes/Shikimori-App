@@ -1,4 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.rates.presentation;
 
-public abstract class BaseAnimeRateItem {
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+
+public abstract class BaseAnimeRateItem extends BaseItem {
 }

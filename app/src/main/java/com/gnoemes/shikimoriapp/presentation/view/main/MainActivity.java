@@ -155,6 +155,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
                                     .commitNow();
                             break;
                         case BottomScreens.MENU:
+                            menuTabFragment.clearRouter();
                             fragmentManager.beginTransaction()
                                     .detach(calendarTabFragment)
                                     .detach(searchTabFragment)

@@ -18,7 +18,10 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
@@ -54,6 +57,8 @@ public class CalendarFragmentContainer extends BottomTabContainer {
                     switch (screenKey) {
                         case BottomScreens.CALENDAR:
                             return CalendarFragment.newInstance();
+                        case BottomScreens.FAVORITE:
+                            return FavoriteFragment.newInstance((Long) data);
                         case BottomScreens.SEARCH:
                             return SearchFragment.newInstance((AnimeGenre) data);
                         case Screens.ANIME_DETAILS:
@@ -62,6 +67,10 @@ public class CalendarFragmentContainer extends BottomTabContainer {
                             return TranslationsFragment.newInstance((TranslationNavigationData) data);
                         case Screens.SIMILAR:
                             return SimilarFragment.newInstance((Long) data);
+                        case Screens.PROFILE:
+                            return ProfileFragment.newInstance((Long) data);
+                        case Screens.HISTORY:
+                            return HistoryFragment.newInstance((Long) data);
                     }
                     return null;
                 }

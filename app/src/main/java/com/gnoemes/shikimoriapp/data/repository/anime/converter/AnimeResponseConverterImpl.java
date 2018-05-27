@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
@@ -38,10 +39,18 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
 
     @Override
     public AnimeImage convertAnimeImage(AnimeImageResponse image) {
-        return new AnimeImage(image.getImageOriginalUrl(),
-                image.getImagePreviewUrl(),
-                image.getImageX96Url(),
-                image.getImageX48Url());
+        return new AnimeImage(
+                buildUrl(image.getImageOriginalUrl()),
+                buildUrl(image.getImagePreviewUrl()),
+                buildUrl(image.getImageX96Url()),
+                buildUrl(image.getImageX48Url()));
+    }
+
+    private String buildUrl(String url) {
+        if (url.contains("http")) {
+            return url;
+        }
+        return BuildConfig.ShikimoriBaseUrl.concat(url);
     }
 
     @Override

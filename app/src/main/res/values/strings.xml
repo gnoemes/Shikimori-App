@@ -218,6 +218,12 @@
     <string name="rate_completed">Просмотрено</string>
     <string name="rate_on_hold">Отложено</string>
     <string name="rate_dropped">Брошено</string>
+    <string name="rate_watching_with_count">Смотрю(%s)</string>
+    <string name="rate_planned_with_count">Запланировано(%s)</string>
+    <string name="rate_rewatch_with_count">Пересматриваю(%s)</string>
+    <string name="rate_completed_with_count">Просмотрено(%s)</string>
+    <string name="rate_on_hold_with_count">Отложено(%s)</string>
+    <string name="rate_dropped_with_count">Брошено(%s)</string>
     <string name="common_anime_rates">Список аниме</string>
     <string name="rate_rewatches">Повторные просмотры</string>
     <string name="rate_rating">Оценка:</string>
@@ -242,6 +248,69 @@
     <string name="attention">Внимание</string>
     <string name="need_restart">Для применения измений требуется перезапуск</string>
     <string name="restart">Перезапустить</string>
+    <string name="avatarCollapsingBehavior">com.gnoemes.shikimoriapp.utils.view.CollapsingImageBehavior</string>
+    <string name="description_ignore">Заблокировать</string>
+    <string name="common_activity">Активность</string>
+    <string name="common_clubs">Клубы</string>
+    <string name="common_profile">Профиль</string>
+    <string name="common_no_friends">Нет друзей</string>
+    <string name="common_no_clubs">Не состоит в клубах</string>
+    <string name="no_activity_data">Нет статистики</string>
+    <string name="common_history">История</string>
+    <string name="profile_no_favorites">Нет избранных</string>
+    <string name="profile_no_lists">Нет списков</string>
+    <string name="common_this_week">На этой неделе</string>
+    <string name="day_ago">день назад</string>
+    <string name="week_ago">неделю назад</string>
+    <string name="month_ago">месяц назад</string>
+    <string name="year_ago">год назад</string>
+    <string name="history_half_year_ago">Более полугода назад</string>
+    <string name="history_hour_ago">час назад</string>
+    <string name="history_its_now">только что</string>
+    <string name="history_minute_ago">минуту назад</string>
+    <string name="common_in_dev">%s в разработке</string>
+
+    <plurals name="days_ago">
+        <item quantity="one">%1$d день назад</item>
+        <item quantity="few">%1$d дня назад</item>
+        <item quantity="many">%1$d дней назад</item>
+        <item quantity="other">%1$d дней назад</item>
+    </plurals>
+
+    <plurals name="weeks_ago">
+        <item quantity="one">%1$d неделю назад</item>
+        <item quantity="few">%1$d недели назад</item>
+        <item quantity="many">%1$d недель назад</item>
+        <item quantity="other">%1$d недель назад</item>
+    </plurals>
+
+    <plurals name="months_ago">
+        <item quantity="one">%1$d месяц назад</item>
+        <item quantity="few">%1$d месяца назад</item>
+        <item quantity="many">%1$d месяцев назад</item>
+        <item quantity="other">%1$d месяцев назад</item>
+    </plurals>
+
+    <plurals name="years_ago">
+        <item quantity="one">%1$d год назад</item>
+        <item quantity="few">%1$d года назад</item>
+        <item quantity="many">%1$d лет назад</item>
+        <item quantity="other">%1$d лет назад</item>
+    </plurals>
+
+    <plurals name="hours_ago">
+        <item quantity="one">%1$d час назад</item>
+        <item quantity="few">%1$d часа назад</item>
+        <item quantity="many">%1$d часов назад</item>
+        <item quantity="other">%1$d часов назад</item>
+    </plurals>
+
+    <plurals name="minutes_ago">
+        <item quantity="one">%1$d минуту назад</item>
+        <item quantity="few">%1$d минуты назад</item>
+        <item quantity="many">%1$d минут назад</item>
+        <item quantity="other">%1$d минут назад</item>
+    </plurals>
 
     <string-array name="duration">
         <item>@string/duration_small</item>
@@ -270,6 +339,16 @@
         <item>@string/rate_completed</item>
         <item>@string/rate_on_hold</item>
         <item>@string/rate_dropped</item>
+    </string-array>
+
+    <string-array name="rate_stasuses_with_count">
+        <item>@string/common_anime_rates</item>
+        <item>@string/rate_watching_with_count</item>
+        <item>@string/rate_planned_with_count</item>
+        <item>@string/rate_rewatch_with_count</item>
+        <item>@string/rate_completed_with_count</item>
+        <item>@string/rate_on_hold_with_count</item>
+        <item>@string/rate_dropped_with_count</item>
     </string-array>
 
 </resources>

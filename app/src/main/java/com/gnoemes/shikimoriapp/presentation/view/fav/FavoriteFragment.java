@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.FavoritePresenter;
@@ -46,13 +47,14 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     @InjectPresenter
     FavoritePresenter presenter;
 
-    @ProvidePresenter
-    FavoritePresenter providePresenter() {
-        presenter = presenterProvider.get();
-        if (getParentFragment() != null) {
-            presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
+    public static FavoriteFragment newInstance(Long id) {
+        FavoriteFragment fragment = new FavoriteFragment();
+        Bundle args = new Bundle();
+        if (id != null) {
+            args.putLong(AppExtras.ARGUMENT_USER_ID, id);
         }
-        return presenter;
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Inject
@@ -63,11 +65,17 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
 
     private AnimeRateAdapter adapter;
 
-    public static FavoriteFragment newInstance() {
-        Bundle args = new Bundle();
-        FavoriteFragment fragment = new FavoriteFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @ProvidePresenter
+    FavoritePresenter providePresenter() {
+        presenter = presenterProvider.get();
+        if (getParentFragment() != null) {
+            presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
+        }
+
+        if (getArguments() != null && getArguments().containsKey(AppExtras.ARGUMENT_USER_ID)) {
+            presenter.setUserId(getArguments().getLong(AppExtras.ARGUMENT_USER_ID));
+        }
+        return presenter;
     }
 
     @Override
@@ -207,5 +215,17 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     @Override
     public void onHideLoading() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void addBackArrow() {
+        Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                .withDrawable(R.drawable.ic_arrow_back)
+                .withAttributeColor(R.attr.colorText)
+                .tint()
+                .get();
+
+        toolbar.setNavigationIcon(navigationIcon);
+        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
     }
 }

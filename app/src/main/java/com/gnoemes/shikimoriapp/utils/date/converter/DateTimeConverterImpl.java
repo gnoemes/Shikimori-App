@@ -4,6 +4,11 @@ import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProvider;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Hours;
+import org.joda.time.Minutes;
+import org.joda.time.Months;
+import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -112,8 +117,46 @@ public class DateTimeConverterImpl implements DateTimeConverter {
         return dateFormatter.print(dateTime);
     }
 
-
     private String firstToUpperCase(String print) {
         return print.substring(0, 1).toUpperCase().concat(print.substring(1));
+    }
+
+    @Override
+    public String convertHistoryDateToString(DateTime actionDate) {
+        if (dateUtils.isToday(actionDate)) {
+            return resourceProvider.getTodayMessage();
+        } else if (dateUtils.isYesterday(actionDate)) {
+            return resourceProvider.getYesterdayMessage();
+        } else if (Months.monthsBetween(dateUtils.getNowDateTime(), actionDate).getMonths() == 0) {
+            int diff = Math.abs(dateUtils.getNowDateTime().toLocalDate().getWeekOfWeekyear() - actionDate.toLocalDate().getWeekOfWeekyear());
+            return firstToUpperCase(resourceProvider.getWeeksAgoString(diff));
+        } else if (dateUtils.isSameYear(actionDate) || Years.yearsBetween(dateUtils.getNowDateTime(), actionDate).getYears() == 0) {
+            int diff = Math.abs(Months.monthsBetween(dateUtils.getNowDateTime(), actionDate).getMonths());
+            return firstToUpperCase(resourceProvider.getMonthsAgoString(diff, false));
+        } else {
+            int diff = Math.abs(Years.yearsBetween(dateUtils.getNowDateTime(), actionDate).getYears());
+            return firstToUpperCase(resourceProvider.getYearsAgoString(diff));
+        }
+    }
+
+    @Override
+    public String convertDateAgoToString(DateTime actionDate) {
+        if (dateUtils.isSameDay(actionDate)) {
+            int hours = Math.abs(Hours.hoursBetween(dateUtils.getNowDateTime(), actionDate).getHours());
+            if (hours == 0) {
+                int minutes = Math.abs(Minutes.minutesBetween(dateUtils.getNowDateTime(), actionDate).getMinutes());
+                return resourceProvider.getMinutesAgoString(minutes);
+            }
+            return resourceProvider.getHoursAgoString(hours);
+        } else if (Months.monthsBetween(dateUtils.getNowDateTime(), actionDate).getMonths() == 0) {
+            int diff = Math.abs(Days.daysBetween(dateUtils.getNowDateTime(), actionDate).getDays());
+            return resourceProvider.getDaysAgoString(diff);
+        } else if (Years.yearsBetween(dateUtils.getNowDateTime(), actionDate).getYears() == 0) {
+            int diff = Math.abs(Months.monthsBetween(dateUtils.getNowDateTime(), actionDate).getMonths());
+            return resourceProvider.getMonthsAgoString(diff, true);
+        } else {
+            int diff = Math.abs(Years.yearsBetween(dateUtils.getNowDateTime(), actionDate).getYears());
+            return resourceProvider.getYearsAgoString(diff);
+        }
     }
 }

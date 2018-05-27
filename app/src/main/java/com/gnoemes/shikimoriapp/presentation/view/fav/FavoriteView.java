@@ -25,4 +25,7 @@ public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void clearList();
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void addBackArrow();
 }

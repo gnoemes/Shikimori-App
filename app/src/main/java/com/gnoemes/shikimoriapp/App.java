@@ -38,6 +38,7 @@ public class App extends Application implements HasActivityInjector {
                 .cacheInMemory(true)
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
+                .showImageOnFail(R.drawable.missing_original)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .delayBeforeLoading(0)
                 .displayer(new FadeInBitmapDisplayer(500, true, true, true))

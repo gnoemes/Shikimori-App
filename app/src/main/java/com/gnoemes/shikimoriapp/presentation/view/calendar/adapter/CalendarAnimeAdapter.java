@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarAnimeViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider.CalendarAnimeResourceProvider;
@@ -86,7 +85,7 @@ public class CalendarAnimeAdapter extends RecyclerView.Adapter<CalendarAnimeAdap
 
         void bind(CalendarAnimeViewModel item) {
 
-            imageLoader.setImageWithFit(image, BuildConfig.ShikimoriBaseUrl + item.getImageOriginalUrl());
+            imageLoader.setImageWithFit(image, item.getImageOriginalUrl());
 
             type.setText(item.getType().name());
             type.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));

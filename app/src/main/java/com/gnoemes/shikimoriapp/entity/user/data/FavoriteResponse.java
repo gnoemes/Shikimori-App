@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.user.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FavouriteResponse {
+public class FavoriteResponse {
 
     @SerializedName("id")
     private long id;

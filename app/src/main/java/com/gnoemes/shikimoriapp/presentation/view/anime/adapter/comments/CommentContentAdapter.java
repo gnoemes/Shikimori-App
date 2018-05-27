@@ -69,6 +69,7 @@ public class CommentContentAdapter extends RecyclerView.Adapter<CommentContentAd
 
         private int textColor;
         private int quote;
+        private int padding;
 
 //        private final Pattern URL_REGEX = Pattern.compile("(https|http)(.*?)\\s");
 
@@ -82,6 +83,7 @@ public class CommentContentAdapter extends RecyclerView.Adapter<CommentContentAd
 
             quote = itemView.getContext().getResources().getColor(R.color.quote_color);
 
+            padding = (int) itemView.getResources().getDimension(R.dimen.margin_normal);
 
         }
 
@@ -104,9 +106,11 @@ public class CommentContentAdapter extends RecyclerView.Adapter<CommentContentAd
 
             if (model.isQuote()) {
                 content.addSlice(getQuoteSlice(model.getText()));
+                content.setPadding(padding, padding, padding, padding);
                 parent.setBackgroundColor(quote);
                 indicator.setVisibility(View.VISIBLE);
             } else {
+                content.setPadding(0, padding, padding, padding);
                 content.addSlice(getTextSlice(model.getText()));
             }
 

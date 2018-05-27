@@ -7,6 +7,9 @@ import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarModule;
+import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
+import com.gnoemes.shikimoriapp.di.history.HistoryModule;
+import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchModule;
 import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
@@ -14,6 +17,9 @@ import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.CalendarFragmentContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
+import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
+import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
@@ -27,6 +33,10 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module(includes = BaseFragmentModule.class)
 public interface CalendarTabModule {
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = {FavoriteModule.class})
+    FavoriteFragment favoriteFragmentInjector();
 
     @BottomChildScope
     @ContributesAndroidInjector(modules = {AnimeModule.class})
@@ -51,6 +61,14 @@ public interface CalendarTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = {SimilarModule.class})
     SimilarFragment similarFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = {ProfileModule.class})
+    ProfileFragment profileFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = {HistoryModule.class})
+    HistoryFragment historyFragmentInjector();
 
     @Binds
     @BottomScope

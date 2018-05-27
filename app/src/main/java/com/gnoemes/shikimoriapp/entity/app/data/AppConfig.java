@@ -16,6 +16,11 @@ public class AppConfig {
     public static final int DEFAULT_LIMIT = 12;
 
     /**
+     * Big limit for pagination
+     */
+    public static final int BIG_LIMIT = 30;
+
+    /**
      * Long timeout for connections
      */
     public static final int LONG_TIMEOUT = 30;

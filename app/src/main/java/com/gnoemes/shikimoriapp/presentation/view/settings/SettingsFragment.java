@@ -40,8 +40,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 })
                 .build();
 
-        if (savedInstanceState != null) {
-            restartDialog.show();
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY)) {
+            if (savedInstanceState.getBoolean(KEY)) {
+                restartDialog.show();
+            }
         }
 
         findPreference(getResources().getString(R.string.pref_about_program)).setSummary(BuildConfig.VERSION_NAME);

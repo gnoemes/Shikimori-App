@@ -9,13 +9,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
+import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
+import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
@@ -48,7 +55,18 @@ public class MenuFragmentContainer extends BottomTabContainer {
                     switch (screenKey) {
                         case BottomScreens.MENU:
                             return MenuFragment.newInstance();
-
+                        case BottomScreens.FAVORITE:
+                            return FavoriteFragment.newInstance((Long) data);
+                        case Screens.PROFILE:
+                            return ProfileFragment.newInstance((Long) data);
+                        case Screens.ANIME_DETAILS:
+                            return AnimeFragment.newInstance((Long) data);
+                        case Screens.TRANSLATIONS:
+                            return TranslationsFragment.newInstance((TranslationNavigationData) data);
+                        case Screens.SIMILAR:
+                            return SimilarFragment.newInstance((Long) data);
+                        case Screens.HISTORY:
+                            return HistoryFragment.newInstance((Long) data);
                     }
                     return null;
                 }
@@ -86,5 +104,9 @@ public class MenuFragmentContainer extends BottomTabContainer {
         }
 
         return localNavigator;
+    }
+
+    public void clearRouter() {
+        getLocalRouter().backTo(null);
     }
 }

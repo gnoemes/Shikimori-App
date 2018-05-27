@@ -39,6 +39,6 @@ public class TranslationViewModelConverterImpl implements TranslationViewModelCo
     }
 
     private String convertResolution(int width, int height) {
-        return String.format("%ox%o", width, height);
+        return String.format("%sx%s", String.valueOf(width), String.valueOf(height));
     }
 }

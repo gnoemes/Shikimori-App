@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
@@ -17,10 +17,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProgressItemAdapterDelegate extends AdapterDelegate<List<BaseSearchItem>> {
+public class ProgressItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseSearchItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof ProgressItemViewModel;
     }
 
@@ -34,7 +34,7 @@ public class ProgressItemAdapterDelegate extends AdapterDelegate<List<BaseSearch
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseSearchItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
 
     }
 

@@ -127,7 +127,7 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     private void onProfileClicked() {
         switch (settings.getStatus()) {
             case AUTHORIZED:
-                //TODO navigate to profile
+                getRouter().navigateTo(Screens.PROFILE, settings.getUserBrief().getId());
                 break;
             case GUEST:
                 getViewState().showAuthTypeDialog();

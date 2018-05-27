@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
@@ -27,7 +26,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchItem>> {
+public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @NonNull
     private SearchAnimeResourceProvider resourceProvider;
@@ -45,7 +44,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseSearchItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof AnimeViewModel;
     }
 
@@ -59,7 +58,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseSearchItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
         AnimeViewModel item = (AnimeViewModel) items.get(position);
 
@@ -86,7 +85,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseSearchIte
 
         public void bind(AnimeViewModel item) {
 
-            imageLoader.setImageWithFit(animeImage, BuildConfig.ShikimoriBaseUrl + item.getImageOriginalUrl());
+            imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
 
             textType.setText(item.getType().name());
             textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));

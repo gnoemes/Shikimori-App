@@ -28,4 +28,18 @@ public interface DateTimeResourceProvider {
     String getSummerString();
 
     String getYesterdayMessage();
+
+    String getThisWeekMessage();
+
+    String getDaysAgoString(int days);
+
+    String getWeeksAgoString(int weeks);
+
+    String getMonthsAgoString(int months, boolean onlyWithNums);
+
+    String getYearsAgoString(int years);
+
+    String getHoursAgoString(int hours);
+
+    String getMinutesAgoString(int minutes);
 }

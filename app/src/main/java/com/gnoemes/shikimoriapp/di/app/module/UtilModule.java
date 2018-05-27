@@ -4,10 +4,24 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBanConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBanConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
@@ -101,4 +115,25 @@ public interface UtilModule {
 
     @Binds
     AnimeRateViewModelConverter bindAnimeRateViewModelConverter(AnimeRateViewModelConverterImpl converter);
+
+    @Binds
+    UserProfileResponseConverter bindUserProfileResponseConverter(UserProfileResponseConverterImpl converter);
+
+    @Binds
+    FavoritesResponseConverter bindFavoritesResponseConverter(FavoritesResponseConverterImpl converter);
+
+    @Binds
+    ClubResponseConverter bindClubResponseConverter(ClubResponseConverterImpl converter);
+
+    @Binds
+    CommentsResponseConverter bindCommentsResponseConverter(CommentsResponseConverterImpl converter);
+
+    @Binds
+    UserBanConverter bindUserBanConverter(UserBanConverterImpl converter);
+
+    @Binds
+    UserHistoryResponseConverter bindUserHistoryResponseConverter(UserHistoryResponseConverterImpl converter);
+
+    @Binds
+    TargetResponseConverter bindTargetResponseConverter(TargetResponseConverterImpl converter);
 }

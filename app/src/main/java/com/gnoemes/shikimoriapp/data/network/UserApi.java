@@ -1,12 +1,15 @@
 package com.gnoemes.shikimoriapp.data.network;
 
+import com.gnoemes.shikimoriapp.entity.club.data.ClubResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.AnimeRateResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateRequest;
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateUpdateRequest;
-import com.gnoemes.shikimoriapp.entity.user.data.FavouritesResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.FavoritesResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.UserBanResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserHistoryResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserMessageResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.UserProfileResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserUnreadMessages;
 
 import java.util.List;
@@ -53,7 +56,10 @@ public interface UserApi {
      * Get user's anime rates
      */
     @GET("/api/users/{id}/anime_rates")
-    Single<List<AnimeRateResponse>> getUserAnimeRates(@Path("id") long id, @Query("page") int page, @Query("limit") int limit, @Query("status") String status);
+    Single<List<AnimeRateResponse>> getUserAnimeRates(@Path("id") long id,
+                                                      @Query("page") int page,
+                                                      @Query("limit") int limit,
+                                                      @Query("status") String status);
 
     /**
      * Delete rate
@@ -83,7 +89,7 @@ public interface UserApi {
      * Get user's favourites
      */
     @GET("/api/users/{id}/favourites")
-    Single<FavouritesResponse> getUserFavourites(@Path("id") long id);
+    Single<FavoritesResponse> getUserFavourites(@Path("id") long id);
 
     /**
      * Get user's unread messages
@@ -107,12 +113,24 @@ public interface UserApi {
     @GET("/api/users/{id}/history")
     Single<List<UserHistoryResponse>> getUserHistory(@Path("id") long id, @Query("page") int page, @Query("limit") int limit);
 
-    //TODO model and api
     @GET("/api/users/{id}/clubs")
-    Single getClubs();
+    Single<List<ClubResponse>> getUserClubs(@Path("id") long id);
 
-    //TODO model and api
     @GET("/api/users/{id}")
-    Single getUserProfile(@Path("id") long id);
+    Single<UserProfileResponse> getUserProfile(@Path("id") long id);
 
+    @POST("/api/friends/{id}")
+    Completable addToFriends(@Path("id") long id);
+
+    @DELETE("/api/friends/{id}")
+    Completable deleteFriend(@Path("id") long id);
+
+    @POST(" /api/v2/users/{user_id}/ignore")
+    Completable ignoreUser(@Path("user_id") long id);
+
+    @DELETE(" /api/v2/users/{user_id}/ignore")
+    Completable unignoreUser(@Path("user_id") long id);
+
+    @GET("/api/users/{id}/bans")
+    Single<List<UserBanResponse>> getUserBans(@Path("id") long id);
 }

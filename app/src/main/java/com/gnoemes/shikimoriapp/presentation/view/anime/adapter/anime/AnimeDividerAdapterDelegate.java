@@ -7,17 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeDividerItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
 import java.util.List;
 
-public class AnimeDividerAdapterDelegate extends AdapterDelegate<List<BaseAnimeItem>> {
+public class AnimeDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseAnimeItem> items, int position) {
-        return items.get(position) instanceof AnimeDividerItem;
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
+        return items.get(position) instanceof DividerItem;
     }
 
     @NonNull
@@ -30,7 +30,7 @@ public class AnimeDividerAdapterDelegate extends AdapterDelegate<List<BaseAnimeI
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseAnimeItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
 
     }
 

@@ -517,4 +517,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         loadAnimeData();
         getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getRussianName()));
     }
+
+    public void onUserClicked(long id) {
+        getRouter().navigateTo(Screens.PROFILE, id);
+    }
 }

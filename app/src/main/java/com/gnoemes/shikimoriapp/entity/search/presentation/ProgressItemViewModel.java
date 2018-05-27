@@ -1,4 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.search.presentation;
 
-public class ProgressItemViewModel extends BaseSearchItem {
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+
+public class ProgressItemViewModel extends BaseItem {
 }

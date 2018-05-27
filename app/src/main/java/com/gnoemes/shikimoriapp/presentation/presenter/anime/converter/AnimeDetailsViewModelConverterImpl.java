@@ -9,10 +9,10 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeDividerItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseAnimeItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 
 import org.joda.time.DateTime;
@@ -96,9 +96,9 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     }
 
     @Override
-    public List<BaseAnimeItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
-        List<BaseAnimeItem> animeItems = new ArrayList<>();
-        animeItems.add(new AnimeDividerItem());
+    public List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
+        List<BaseItem> animeItems = new ArrayList<>();
+        animeItems.add(new DividerItem());
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
                 viewModel.getName(),
                 viewModel.getJpOrEngName(),
@@ -111,11 +111,11 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getScore(),
                 viewModel.getAnimeRate()));
 
-        animeItems.add(new AnimeDividerItem());
+        animeItems.add(new DividerItem());
         animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
-        animeItems.add(new AnimeDividerItem());
+        animeItems.add(new DividerItem());
         animeItems.add(new AnimeOtherItem(viewModel.getId()));
-        animeItems.add(new AnimeDividerItem());
+        animeItems.add(new DividerItem());
         return animeItems;
     }
 }
