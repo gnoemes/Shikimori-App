@@ -20,4 +20,8 @@ public enum TranslationDubberSettings {
     public String toString() {
         return type;
     }
+
+    public boolean getBoolean() {
+        return type.equals("auto");
+    }
 }

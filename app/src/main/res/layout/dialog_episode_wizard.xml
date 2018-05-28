@@ -24,6 +24,17 @@
             android:layout_marginTop="@dimen/margin_normal"
             app:ipi_currentPageIndicatorColor="?attr/colorAccent"
             app:ipi_pageIndicatorColor="?attr/colorAccentTransparent" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/ask_always"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_big"
+            android:layout_marginStart="@dimen/margin_big"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:checked="true"
+            android:text="@string/ask_always"
+            android:textColor="?attr/colorText" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

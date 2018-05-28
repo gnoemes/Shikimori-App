@@ -37,7 +37,7 @@ public interface AnimeView extends BaseFragmentView {
     void hideErrorView();
 
     @StateStrategyType(SkipStrategy.class)
-    void showSettingsWizard();
+    void showSettingsWizard(boolean loadEpisode);
 
     @StateStrategyType(SkipStrategy.class)
     void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);

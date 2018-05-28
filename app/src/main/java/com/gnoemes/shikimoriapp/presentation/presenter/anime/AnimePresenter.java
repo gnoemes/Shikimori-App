@@ -214,7 +214,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     public void onEpisodeClicked(EpisodeItem episode) {
         selectedEpisode = episode;
         if (userSettings.getNeedShowWizard()) {
-            getViewState().showSettingsWizard();
+            getViewState().showSettingsWizard(true);
         } else {
             switch (userSettings.getDubberSettings()) {
                 case AUTO:
@@ -249,6 +249,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         unsubscribeOnDestroy(disposable);
     }
 
+
     /**
      * Navigate to translations page with current data
      */
@@ -261,9 +262,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Wizard callback with user selected settings
      */
-    public void onSettingsSelected(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType) {
+    public void onSettingsSelected(boolean loadEpisode, TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType, boolean alwaysShow) {
         UserSettings settings = new UserSettings.Builder()
-                .setIsNeedShowWizard(false)
+                .setIsNeedShowWizard(alwaysShow)
                 .setDubberSettings(chooseSettings)
                 .setPlayerType(playerType)
                 .setTranslationType(type)
@@ -271,6 +272,11 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
         Disposable disposable = settingsInteractor.saveUserSettings(settings)
                 .doOnComplete(() -> getRouter().showSystemMessage(resourceProvider.getSuccessMessage()))
+                .doOnComplete(() -> {
+                    if (loadEpisode) {
+                        onEpisodeClicked(selectedEpisode);
+                    }
+                })
                 .subscribe();
 
         unsubscribeOnDestroy(disposable);
@@ -280,6 +286,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Start the video depending on the type of player
      */
     private void onPlayTranslation(Translation translation) {
+        getRouter().showSystemMessage("Выбрано: " + translation.getAuthors());
         //TODO add other players
         switch (userSettings.getPlayerType()) {
             case EMBEDDED:

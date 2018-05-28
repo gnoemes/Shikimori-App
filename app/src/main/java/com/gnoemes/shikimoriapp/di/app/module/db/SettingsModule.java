@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.di.app.module.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSourceImpl;
@@ -24,7 +25,7 @@ public interface SettingsModule {
     @SettingsQualifier
     @Singleton
     static SharedPreferences provideSharedPreferences(Context context) {
-        return context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Binds

@@ -80,6 +80,13 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
         unsubscribeOnDestroy(disposable);
     }
 
+    public void updateSettings() {
+        Disposable disposable = settingsInteractor.saveUserSettings(new UserSettings())
+                .subscribe();
+
+        unsubscribeOnDestroy(disposable);
+    }
+
 
     //TODO add navigation
     public void onAction(MenuCategory category) {
@@ -119,7 +126,6 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
 
     private void onMessagesClicked() {
         showNextUpdateMessage();
-
     }
 
     private void onNotificationsClicked() {

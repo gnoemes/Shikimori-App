@@ -137,7 +137,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.item_settings:
-                    showSettingsWizard();
+                    showSettingsWizard(false);
                     break;
                 case R.id.item_open:
                     getPresenter().onOpenBrowserClicked();
@@ -244,10 +244,10 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     @Override
-    public void showSettingsWizard() {
+    public void showSettingsWizard(boolean loadEpisode) {
         EpisodeWizardDialogFragment dialog = EpisodeWizardDialogFragment.newInstance();
-        dialog.setCallback((type, chooseSettings, playerType) ->
-                getPresenter().onSettingsSelected(type, chooseSettings, playerType));
+        dialog.setCallback((type, chooseSettings, playerType, isAlways) ->
+                getPresenter().onSettingsSelected(loadEpisode, type, chooseSettings, playerType, isAlways));
         dialog.show(getChildFragmentManager(), "WIZARD");
     }
 

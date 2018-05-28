@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Preference android:layout="@layout/layout_shadow_top" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="@string/series_settings">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pref_watch_wizard"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/pref_wizard_summary"
+            android:title="@string/pref_wizard_title" />
+
+        <Preference
+            android:key="@string/pref_translation_type"
+            android:layout="@layout/layout_preference"
+            android:title="@string/pref_translation_type_title"
+            tools:summary="@string/pref_not_choosed_summary" />
+
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="true"
+            android:key="@string/pref_auto_translation"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/pref_auto_translation_summary"
+            android:title="@string/pref_auto_translation_title" />
+
+        <ListPreference
+            android:defaultValue="browser"
+            android:enabled="false"
+            android:key="@string/pref_player_type"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/player_in_browser"
+            android:title="@string/pref_player_type_title" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
 
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"

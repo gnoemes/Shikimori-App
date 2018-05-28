@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,17 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
     private static final String ARGUMENT_TYPE = "ARGUMENT_TYPE";
     private static final String ARGUMENT_DUBBER = "ARGUMENT_DUBBER";
     private static final String ARGUMENT_PLAYER = "ARGUMENT_PLAYER";
+    private static final String ARGUMENT_IS_ALWAYS = "ARGUMENT_IS_ALWAYS";
     @BindView(R.id.view_pager)
     WrapContentHeightViewPager viewPager;
     @BindView(R.id.indicator)
     InkPageIndicator indicator;
+    @BindView(R.id.ask_always)
+    AppCompatCheckBox askAlways;
     private TranslationType selectedType;
     private TranslationDubberSettings selectedDubberSetting;
     private PlayerType selectedPlayer;
+    private boolean isAlways = true;
     private int backgroundColor;
     private int backgroundCheckedColor;
     private Drawable accept;
@@ -63,6 +68,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
             selectedType = (TranslationType) savedInstanceState.getSerializable(ARGUMENT_TYPE);
             selectedDubberSetting = (TranslationDubberSettings) savedInstanceState.getSerializable(ARGUMENT_DUBBER);
             selectedPlayer = (PlayerType) savedInstanceState.getSerializable(ARGUMENT_PLAYER);
+            isAlways = savedInstanceState.getBoolean(ARGUMENT_IS_ALWAYS);
         }
 
         Drawable icon = DrawableHelper
@@ -91,6 +97,8 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
         viewPager.setAdapter(new EpisodeWizardAdapter());
         indicator.setViewPager(viewPager);
 
+        askAlways.setChecked(isAlways);
+        askAlways.setOnCheckedChangeListener((buttonView, isChecked) -> isAlways = isChecked);
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext())
                 .icon(icon)
@@ -113,7 +121,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                         viewPager.setCurrentItem(nextPage);
                     } else {
                         if (callback != null) {
-                            callback.onSaveSettings(selectedType, selectedDubberSetting, selectedPlayer);
+                            callback.onSaveSettings(selectedType, selectedDubberSetting, selectedPlayer, isAlways);
                         }
                         dismiss();
                     }
@@ -130,6 +138,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
         outState.putSerializable(ARGUMENT_TYPE, selectedType);
         outState.putSerializable(ARGUMENT_DUBBER, selectedDubberSetting);
         outState.putSerializable(ARGUMENT_PLAYER, selectedPlayer);
+        outState.putBoolean(ARGUMENT_IS_ALWAYS, isAlways);
     }
 
     public void setCallback(EpisodeWizardCallback callback) {
@@ -137,7 +146,7 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
     }
 
     public interface EpisodeWizardCallback {
-        void onSaveSettings(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType);
+        void onSaveSettings(TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType, boolean isAlways);
     }
 
     //TODO load from settings

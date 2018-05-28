@@ -271,6 +271,18 @@
     <string name="common_in_dev">%s в разработке</string>
     <string name="common_home">Главная</string>
     <string name="in_dev_description">Просмотр топиков, клубов,\n пользователей в разработке.\nЖдите следующих обновлений ;)</string>
+    <string name="pref_watch_wizard">WATCH_WIZARD</string>
+    <string name="pref_wizard_title">Спрашивать всегда</string>
+    <string name="pref_wizard_summary">Отображать окно настроек перед просмотром</string>
+    <string name="pref_translation_type_title">Тип перевода</string>
+    <string name="pref_not_choosed_summary">Не выбрано</string>
+    <string name="pref_translation_type">TRANSLATION_TYPE</string>
+    <string name="pref_auto_translation">TRANSLATION_DUBBER_SETTINGS</string>
+    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматический в зависимости от рейтинга</string>
+    <string name="pref_auto_translation_title">Автоматический выбор перевода</string>
+    <string name="pref_player_type">PLAYER_TYPE</string>
+    <string name="pref_player_type_title">Видеоплеер</string>
+    <string name="ask_always">Спрашивать всегда</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

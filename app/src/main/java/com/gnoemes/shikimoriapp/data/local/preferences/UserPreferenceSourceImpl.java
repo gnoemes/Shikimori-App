@@ -36,6 +36,10 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         this.converter = converter;
         this.gson = gson;
         settingsPublishSubject = BehaviorSubject.create();
+        emitSettings();
+    }
+
+    private void emitSettings() {
         settingsPublishSubject.onNext(getUserSettings());
     }
 
@@ -58,7 +62,7 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         savePlayerType(userSettings.getPlayerType());
         saveTheme(userSettings.getTheme());
 
-        settingsPublishSubject.onNext(getUserSettings());
+        emitSettings();
     }
 
     private UserSettings getUserSettings() {
@@ -124,11 +128,11 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         if (settings == null) {
             return;
         }
-        getEditor().putString(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, settings.toString()).commit();
+        getEditor().putBoolean(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, settings.getBoolean()).commit();
     }
 
     private TranslationDubberSettings getTranslationDubberSettings() {
-        return converter.convertTranslationDubberSettings(getPrefs().getString(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, "auto"));
+        return converter.convertTranslationDubberSettings(getPrefs().getBoolean(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, true) ? TranslationDubberSettings.AUTO.toString() : TranslationDubberSettings.MANUAL.toString());
     }
 
     private void savePlayerType(@Nullable PlayerType type) {

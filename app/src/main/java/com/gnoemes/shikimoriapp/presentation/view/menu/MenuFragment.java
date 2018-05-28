@@ -61,6 +61,12 @@ public class MenuFragment extends BaseFragment<MenuPresenter, MenuView> implemen
         initList();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPresenter().updateSettings();
+    }
+
     private void initList() {
         menuAdapter = new MenuAdapter(imageLoader, category -> getPresenter().onAction(category));
         recyclerView.setAdapter(menuAdapter);
