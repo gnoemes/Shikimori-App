@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.user.presentation.profile.BaseProfileItem;
 import com.gnoemes.shikimoriapp.entity.user.presentation.profile.ProfileAction;
@@ -62,6 +63,8 @@ public class ProfileSocialAdapterDelegate extends AdapterDelegate<List<BaseProfi
         RecyclerView friendsList;
         @BindView(R.id.list_clubs)
         RecyclerView clubsList;
+        @BindView(R.id.progress)
+        SpinKitView progress;
 
         private ImageContentAdapter friendsAdapter;
         private ImageContentAdapter clubsAdapter;
@@ -94,21 +97,25 @@ public class ProfileSocialAdapterDelegate extends AdapterDelegate<List<BaseProfi
         }
 
         public void bind(ProfileSocialItem item) {
+            if (item.getClubs() == null || item.getFriends() == null) {
+                progress.setVisibility(View.VISIBLE);
+            } else {
+                progress.setVisibility(View.GONE);
+                friendsAdapter = new ImageContentAdapter(R.layout.item_image_content_friends,
+                        R.string.common_no_friends,
+                        imageLoader,
+                        id -> callback.onAction(ProfileAction.FRIEND, id));
+                clubsAdapter = new ImageContentAdapter(R.layout.item_image_content_clubs,
+                        R.string.common_no_clubs,
+                        imageLoader,
+                        id -> callback.onAction(ProfileAction.CLUB, id));
 
-            friendsAdapter = new ImageContentAdapter(R.layout.item_image_content_friends,
-                    R.string.common_no_friends,
-                    imageLoader,
-                    id -> callback.onAction(ProfileAction.FRIEND, id));
-            clubsAdapter = new ImageContentAdapter(R.layout.item_image_content_clubs,
-                    R.string.common_no_clubs,
-                    imageLoader,
-                    id -> callback.onAction(ProfileAction.CLUB, id));
+                friendsList.setAdapter(friendsAdapter);
+                clubsList.setAdapter(clubsAdapter);
 
-            friendsList.setAdapter(friendsAdapter);
-            clubsList.setAdapter(clubsAdapter);
-
-            friendsAdapter.bindItems(item.getFriends());
-            clubsAdapter.bindItems(item.getClubs());
+                friendsAdapter.bindItems(item.getFriends());
+                clubsAdapter.bindItems(item.getClubs());
+            }
         }
     }
 }

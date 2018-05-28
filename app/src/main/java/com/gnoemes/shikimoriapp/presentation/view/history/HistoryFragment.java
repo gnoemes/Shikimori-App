@@ -93,6 +93,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
                 }
             }
         });
+        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.red));
         refreshLayout.setOnRefreshListener(() -> getPresenter().onRefresh());
     }
 

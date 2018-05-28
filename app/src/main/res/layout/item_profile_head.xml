@@ -29,7 +29,7 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:text="@string/common_history"
         android:textAllCaps="true"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/image_avatar"
         app:layout_constraintEnd_toStartOf="@+id/image_avatar"

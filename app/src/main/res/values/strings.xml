@@ -269,6 +269,8 @@
     <string name="history_its_now">только что</string>
     <string name="history_minute_ago">минуту назад</string>
     <string name="common_in_dev">%s в разработке</string>
+    <string name="common_home">Главная</string>
+    <string name="in_dev_description">Просмотр топиков, клубов,\n пользователей в разработке.\nЖдите следующих обновлений ;)</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

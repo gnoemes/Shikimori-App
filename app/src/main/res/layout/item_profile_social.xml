@@ -8,6 +8,18 @@
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progress"
+        style="@style/SpinKitView.Large.ThreeBounce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:SpinKit_Color="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_clubs" />
+
     <TextView
         android:id="@+id/title_friends"
         android:layout_width="wrap_content"

@@ -110,18 +110,24 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void onFriendsClicked() {
+        showNextUpdateMessage();
+    }
+
+    private void showNextUpdateMessage() {
+        getRouter().showSystemMessage("В разработке. Будет добавлено в следующем обновлении ;)");
     }
 
     private void onMessagesClicked() {
+        showNextUpdateMessage();
 
     }
 
     private void onNotificationsClicked() {
-
+        showNextUpdateMessage();
     }
 
     private void onNewsClicked() {
-
+        showNextUpdateMessage();
     }
 
     private void onProfileClicked() {

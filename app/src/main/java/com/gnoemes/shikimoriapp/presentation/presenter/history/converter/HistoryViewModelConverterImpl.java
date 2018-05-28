@@ -51,9 +51,17 @@ public class HistoryViewModelConverterImpl implements HistoryViewModelConverter 
         if (historyList != null && !historyList.isEmpty()) {
             for (UserHistory history : historyList) {
                 boolean hasDate = prevActionDate != null;
-                days = !hasDate || (utils.isSameWeek(history.getActionDate(), prevActionDate) && !utils.isSameDay(history.getActionDate(), prevActionDate) && isHalfWeek(history.getActionDate(), utils.getNowDateTime()));
-                weeks = hasDate && (utils.isSameMonth(history.getActionDate(), prevActionDate) && (!utils.isSameWeek(history.getActionDate(), prevActionDate) || (!isHalfWeek(history.getActionDate(), prevActionDate) && utils.isSameWeek(history.getActionDate()))) && utils.isSameMonth(history.getActionDate()));
-                months = hasDate && (utils.isSameYear(history.getActionDate(), prevActionDate) && !utils.isSameMonth(history.getActionDate(), prevActionDate) && utils.isSameYear(history.getActionDate()));
+                days = !hasDate || (utils.isSameWeek(history.getActionDate(), prevActionDate)
+                        && !utils.isSameDay(history.getActionDate(), prevActionDate)
+                        && isHalfWeek(history.getActionDate(), utils.getNowDateTime()));
+                weeks = hasDate && (utils.isSameMonth(history.getActionDate(), prevActionDate)
+                        && (!utils.isSameWeek(history.getActionDate(), prevActionDate)
+                        || (!isHalfWeek(history.getActionDate(), prevActionDate)
+                        && utils.isSameWeek(history.getActionDate())))
+                        && utils.isSameMonth(history.getActionDate()));
+                months = hasDate && (utils.isSameYear(history.getActionDate(), prevActionDate)
+                        && !utils.isSameMonth(history.getActionDate(), prevActionDate)
+                        && utils.isSameYear(history.getActionDate()));
 
                 group = days || weeks || months || !utils.isSameYear(history.getActionDate(), prevActionDate);
 
