@@ -1,12 +1,14 @@
 package com.gnoemes.shikimoriapp.utils.rx;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.TitleException;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonSyntaxException;
 
 import java.net.ConnectException;
@@ -42,6 +44,9 @@ public class ErrorProcessing<T> {
     @NonNull
     private Throwable throwProcessException(Throwable throwable) throws TitleException,
             NetworkException, ServiceCodeException, ContentException {
+
+        FirebaseCrash.logcat(Log.ERROR, null, throwable.getMessage());
+        FirebaseCrash.report(throwable);
 
         if (throwable instanceof UnknownHostException) {
             throw new NetworkException(resourceProvider.getUnknownHostException());

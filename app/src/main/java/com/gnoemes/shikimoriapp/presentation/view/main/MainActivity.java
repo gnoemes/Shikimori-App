@@ -25,6 +25,7 @@ import com.gnoemes.shikimoriapp.presentation.view.bottom.SocialFragmentContainer
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import javax.inject.Inject;
 
@@ -117,6 +118,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
 
                 @Override
                 protected void replace(Replace command) {
+                    testAnalytics(command.getScreenKey());
                     switch (command.getScreenKey()) {
                         case BottomScreens.FAVORITE:
                             fragmentManager.beginTransaction()
@@ -183,6 +185,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
 
 
         return localNavigator;
+    }
+
+    private void testAnalytics(String screenKey) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, screenKey);
+        analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     @Override

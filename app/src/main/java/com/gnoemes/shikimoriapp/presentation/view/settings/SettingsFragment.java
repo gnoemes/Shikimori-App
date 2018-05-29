@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +22,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private final static String KEY = "IsRestartDialogShowing";
     private MaterialDialog restartDialog;
     private MaterialDialog translationTypeDialog;
+    private FirebaseAnalytics analytics;
+
+    private boolean isDarkTheme;
+    private boolean isAutoTranslation;
 
 
     @Override
@@ -31,7 +36,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-
+        analytics = FirebaseAnalytics.getInstance(getContext());
         restartDialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.attention)
                 .content(R.string.need_restart)
@@ -78,17 +83,23 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return false;
         });
 
-        translationType.setSummary(convertTypeValue(getPreferenceManager().getSharedPreferences().getString(SettingsExtras.TRANSLATION_TYPE, null), types));
+        String translationSummary = convertTypeValue(getPreferenceManager().getSharedPreferences().getString(SettingsExtras.TRANSLATION_TYPE, null), types);
+        translationType.setSummary(translationSummary);
 
         findPreference(getResources().getString(R.string.pref_about_program)).setSummary(BuildConfig.VERSION_NAME);
         findPreference(getResources().getString(R.string.pref_dark_theme)).setOnPreferenceChangeListener((preference, newValue) -> {
             restartDialog.show();
+            isDarkTheme = (boolean) newValue;
             return true;
         });
         findPreference(getResources().getString(R.string.pref_auto_dark_theme)).setOnPreferenceChangeListener((preference, newValue) -> {
             restartDialog.show();
             return true;
         });
+
+        analytics.setUserProperty("theme", String.valueOf(isDarkTheme));
+        analytics.setUserProperty("auto_translation", String.valueOf(isAutoTranslation));
+        analytics.setUserProperty("translationType", translationSummary);
     }
 
     private String convertTypeValue(int position) {
