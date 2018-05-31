@@ -7,9 +7,9 @@
     android:layout_height="48dp"
     android:layout_gravity="bottom"
     android:fitsSystemWindows="true"
-    app:bnbActiveColor="?attr/colorPrimary"
-    app:bnbBackgroundColor="?attr/colorAccent"
+    app:bnbActiveColor="?attr/colorBottom"
+    app:bnbBackgroundColor="?attr/colorBottomAccent"
     app:bnbElevation="4dp"
-    app:bnbInactiveColor="?attr/colorPrimaryDark"
+    app:bnbInactiveColor="?attr/colorBottomDark"
     app:bnbMode="mode_fixed_no_title"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorBackgroundContent"
         android:visibility="invisible"
         tools:visibility="visible">
 
@@ -19,7 +19,7 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_size"
-            android:background="?attr/colorPrimaryDark"
+            android:background="?attr/colorPrimary"
             app:layout_constraintTop_toTopOf="@+id/view_pager"
             app:tabGravity="fill"
             app:tabIndicatorColor="?attr/colorDivider"

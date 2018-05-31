@@ -324,7 +324,7 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
 
                 Drawable selected = DrawableHelper.withContext(getContext())
                         .withDrawable(R.drawable.chip_selected)
-                        .withAttributeColor(R.attr.colorPrimaryDark)
+                        .withAttributeColor(R.attr.colorPrimary)
                         .tint()
                         .get();
 

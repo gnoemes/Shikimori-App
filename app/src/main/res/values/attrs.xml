@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="colorBottom" format="color" />
+    <attr name="colorBottomAccent" format="color" />
+    <attr name="colorBottomDark" format="color" />
     <attr name="colorDivider" format="color" />
     <attr name="colorDividerTransparent" format="color" />
     <attr name="colorAccentTransparent" format="color" />

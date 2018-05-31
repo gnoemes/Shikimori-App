@@ -16,8 +16,8 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="cardViewStyle">@style/CardViewLightStyle</item>
-        <item name="colorDivider">@color/colorBackground</item>
-        <item name="colorDividerTransparent">@color/colorBackgroundTransparent</item>
+        <item name="colorDivider">@color/red</item>
+        <item name="colorDividerTransparent">@color/red_transparent</item>
         <item name="colorAccentTransparent">@color/colorAccentTransparent</item>
         <item name="colorBackgroundContent">#ffffff</item>
         <item name="colorBackgroundWindowInverse">@color/colorBackgroundInverse</item>
@@ -25,6 +25,9 @@
         <item name="colorTextInverse">@color/white</item>
         <item name="colorControlHighlight">@color/gray_transparent</item>
         <item name="colorAction">@color/bittersweet</item>
+        <item name="colorBottom">#fafafa</item>
+        <item name="colorBottomAccent">@color/colorPrimary</item>
+        <item name="colorBottomDark">#c7c7c7</item>
     </style>
 
     <style name="AppThemeDark" parent="BaseAppTheme">
@@ -45,6 +48,9 @@
         <item name="colorTextInverse">@color/black</item>
         <item name="colorControlHighlight">@color/colorAccentTransparentInverse</item>
         <item name="colorAction">@color/colorAccentInverse</item>
+        <item name="colorBottom">@color/colorPrimaryInverse</item>
+        <item name="colorBottomAccent">@color/colorAccentInverse</item>
+        <item name="colorBottomDark">@color/colorPrimaryDarkInverse</item>
     </style>
 
     <style name="PreferenceAppTheme" parent="PreferenceThemeOverlay">

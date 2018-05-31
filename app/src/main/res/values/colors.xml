@@ -22,22 +22,22 @@
     <color name="dark_blue">#070c18</color>
 
     <!--Light Theme Colors-->
-    <color name="colorPrimary">#ff9800</color>
+    <color name="colorPrimary">#ffa726</color>
     <color name="colorPrimaryTransparent">#42ffa726</color>
-    <color name="colorPrimaryDark">#c66900</color>
-    <color name="colorAccent">#ff3d00</color>
+    <color name="colorPrimaryDark">#c77800</color>
+    <color name="colorAccent">#e53935</color>
+    <color name="colorAccentTransparent">#b4e53935</color>
     <color name="colorBackground">#EEEEEE</color>
     <color name="colorBackgroundTransparent">#eeeeee</color>
-    <color name="colorAccentTransparent">#b4f4511e</color>
 
     <!--Dark Theme Colors-->
     <color name="colorPrimaryInverse">#243447</color>
     <color name="colorPrimaryTransparentInverse">#42243447</color>
     <color name="colorPrimaryDarkInverse">#1B2836</color>
     <color name="colorAccentInverse">#FFD200</color>
+    <color name="colorAccentTransparentInverse">#b4ffd200</color>
     <color name="colorBackgroundInverse">#141D26</color>
     <color name="colorBackgroundTransparentInverse">#96141d26</color>
-    <color name="colorAccentTransparentInverse">#b4ffd200</color>
 
 
     <!-- card colors -->
