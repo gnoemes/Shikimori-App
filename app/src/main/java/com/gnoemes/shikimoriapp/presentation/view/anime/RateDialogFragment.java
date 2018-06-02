@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
@@ -93,7 +94,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
                 .canceledOnTouchOutside(true)
                 .onPositive((dialog, which) -> {
                     if (callback != null) {
-                        long id = -1;
+                        long id = Constants.NO_ID;
                         if (rate != null) {
                             id = rate.getId();
                         }

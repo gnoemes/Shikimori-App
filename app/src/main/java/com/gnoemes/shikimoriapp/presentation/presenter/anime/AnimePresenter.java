@@ -35,6 +35,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
@@ -69,7 +70,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private boolean first = true;
     private long animeId;
-    private long rateId;
+    private long rateId = Constants.NO_ID;
     private AnimeDetails currentAnime;
     private EpisodeItem selectedEpisode;
     private UserSettings userSettings;
@@ -244,7 +245,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     //KOTLIN GIVE ME THE POWER PLS
     private void setEpisodeWatched(long animeId, long episodeId) {
         Disposable disposable;
-        if (rateId != 0) {
+        if (rateId != Constants.NO_ID) {
             disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
                     .doOnComplete(this::loadEpisodes)
                     .subscribe(() -> {
@@ -504,7 +505,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     public void onSaveRate(UserRate rate) {
-        if (rate.getId() == -1) {
+        if (rate.getId() == Constants.NO_ID) {
             if (userSettings.getUserBrief() != null) {
                 createRate(rate);
             } else {
