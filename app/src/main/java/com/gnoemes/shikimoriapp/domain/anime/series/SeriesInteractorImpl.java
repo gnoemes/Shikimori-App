@@ -48,6 +48,13 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
+    public Completable setEpisodeWatched(long animeId, long episodeId) {
+        return repository.setEpisodeWatched(animeId, episodeId)
+                .compose(completableErrorHandler)
+                .compose(rxUtils.applyCompleteSchedulers());
+    }
+
+    @Override
     public Completable setEpisodeWatched(long animeId, long episodeId, long rateId) {
         return repository.setEpisodeWatched(animeId, episodeId)
                 .andThen(ratesRepository.onEpisodeWatched(rateId))

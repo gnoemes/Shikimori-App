@@ -2,7 +2,6 @@ package com.gnoemes.shikimoriapp.utils.imageloader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.AttrRes;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +24,7 @@ public class UniversalImageLoader implements ImageLoader {
     }
 
     @Override
-    public void setCircleImage(ImageView imageView, String url, @AttrRes int attrColor) {
+    public void setImageWithPlaceHolder(ImageView imageView, String url, @AttrRes int attrColor) {
         imageLoader.displayImage(url, imageView, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
@@ -36,35 +35,18 @@ public class UniversalImageLoader implements ImageLoader {
                         .tint()
                         .asBitmap();
 
-                imageView.setImageBitmap(new CircleTransformation().transform(bitmap));
+                imageView.setImageBitmap(bitmap);
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                imageView.setImageBitmap(new CircleTransformation().transform(loadedImage));
-            }
-        });
-    }
-
-    @Override
-    public void setCircleImage(ImageView imageView, int drawableRes) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableRes);
-        imageView.setImageBitmap(new CircleTransformation().transform(bitmap));
-    }
-
-    @Override
-    public void setImageWithFit(ImageView imageView, String url) {
-        imageLoader.displayImage(url, imageView, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageBitmap(loadedImage);
             }
         });
     }
 
     @Override
-    public void setImage(ImageView imageView, String url) {
+    public void setImageWithFit(ImageView imageView, String url) {
         imageLoader.displayImage(url, imageView, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

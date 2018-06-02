@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuItem>> {
 
@@ -61,7 +62,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
         ConstraintLayout layout;
 
         @BindView(R.id.image_profile)
-        ImageView avatar;
+        CircleImageView avatar;
 
         @BindView(R.id.text_name)
         TextView userName;
@@ -101,12 +102,12 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
             switch (model.getStatus()) {
                 case GUEST:
                     userName.setText(R.string.common_guest);
-                    imageLoader.setCircleImage(avatar, R.mipmap.ic_launcher);
+                    avatar.setImageResource(R.mipmap.ic_launcher);
                     textHint.setText(R.string.menu_guest_hint);
                     break;
                 case AUTHORIZED:
                     userName.setText(model.getUserName());
-                    imageLoader.setCircleImage(avatar, model.getAvatarUrl(), R.attr.colorPrimary);
+                    imageLoader.setImageWithPlaceHolder(avatar, model.getAvatarUrl(), R.attr.colorPrimary);
                     textHint.setText(R.string.menu_user_hint);
                     break;
             }

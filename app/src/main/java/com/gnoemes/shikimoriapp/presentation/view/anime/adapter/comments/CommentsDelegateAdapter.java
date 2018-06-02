@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseItem>> {
 
@@ -65,7 +65,7 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseItem>> {
         ConstraintLayout layout;
 
         @BindView(R.id.image_avatar)
-        ImageView avatar;
+        CircleImageView avatar;
 
         @BindView(R.id.user_name)
         TextView userName;
@@ -113,7 +113,7 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseItem>> {
             content.setAdapter(null);
 
 
-            imageLoader.setCircleImage(avatar, viewModel.getAvatarUrl(), R.attr.colorPrimary);
+            imageLoader.setImageWithPlaceHolder(avatar, viewModel.getAvatarUrl(), R.attr.colorPrimary);
             avatar.setOnClickListener(v -> callback.onItemClick(viewModel.getUserId()));
 
             if (viewModel.isSummary()) {

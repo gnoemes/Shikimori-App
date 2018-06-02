@@ -16,6 +16,7 @@ import java.util.List;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface AnimeView extends BaseFragmentView {
 
+    @StateStrategyType(SkipStrategy.class)
     void setPage(int i);
 
     @StateStrategyType(AddToEndStrategy.class)

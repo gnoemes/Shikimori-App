@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -40,6 +39,7 @@ import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.LinearStickyHead;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
+import com.gnoemes.shikimoriapp.utils.view.ViewStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -302,7 +302,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     // INNER CLASS
     ///////////////////////////////////////////////////////////////////////////
 
-    class AnimePagerAdapter extends PagerAdapter {
+    public class AnimePagerAdapter extends ViewStatePagerAdapter {
 
 
         private final List<Integer> screens = Arrays.asList(
@@ -330,12 +330,10 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             return screens.size();
         }
 
-        @NonNull
         @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        protected View createView(ViewGroup container, int position) {
             LayoutInflater inflater = LayoutInflater.from(container.getContext());
             ViewGroup layout = (ViewGroup) inflater.inflate(screens.get(position), container, false);
-            container.addView(layout);
             switch (position) {
                 case 0:
                     createCommentsPage(layout);
@@ -350,20 +348,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             return layout;
         }
 
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View) object);
-        }
-
         private void createCommentsPage(ViewGroup layout) {
             commentsList = layout.findViewById(R.id.list_comments);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(layout.getContext());
             commentsList.setLayoutManager(layoutManager);
             commentsList.setAdapter(commentsAdapter);
             commentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -389,15 +376,15 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             animeDetailsList = layout.findViewById(R.id.anime_details_list);
             animeDetailsList.setItemAnimator(new DefaultItemAnimator());
             animeDetailsList.setAdapter(animeAdapter);
-            animeDetailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+            animeDetailsList.setLayoutManager(new LinearLayoutManager(layout.getContext()));
         }
 
         private void createSeriesPage(ViewGroup layout) {
             refreshLayout = layout.findViewById(R.id.refresh_layout);
             seriesList = layout.findViewById(R.id.list);
             refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
-            seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(getContext()));
-            int margin = (int) getResources().getDimension(R.dimen.margin_small);
+            seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(layout.getContext()));
+            int margin = (int) layout.getResources().getDimension(R.dimen.margin_small);
             seriesList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             seriesList.setAdapter(episodeAdapter);
         }

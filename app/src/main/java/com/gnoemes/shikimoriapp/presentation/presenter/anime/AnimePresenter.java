@@ -27,7 +27,9 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubb
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
+import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -202,6 +204,15 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 if (selectedEpisode != null) {
                     onManualSearchTranslation();
                 }
+                break;
+            case ServiceCodeException.TAG:
+                if (((ServiceCodeException) throwable).getServiceCode() == HttpStatusCode.NOT_FOUND) {
+                    //not implemented
+                    //404 returns on increment episode on unexisting rate
+                } else {
+                    super.processErrors(throwable);
+                }
+                break;
             default:
                 super.processErrors(throwable);
         }
@@ -230,12 +241,21 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     }
 
+    //KOTLIN GIVE ME THE POWER PLS
     private void setEpisodeWatched(long animeId, long episodeId) {
-        Disposable disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
-                .doOnComplete(this::loadEpisodes)
-                .subscribe(() -> {
-                }, this::processErrors);
+        Disposable disposable;
+        if (rateId != 0) {
+            disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
+                    .doOnComplete(this::loadEpisodes)
+                    .subscribe(() -> {
+                    }, this::processErrors);
 
+        } else {
+            disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId)
+                    .doOnComplete(this::loadEpisodes)
+                    .subscribe(() -> {
+                    }, this::processErrors);
+        }
         unsubscribeOnDestroy(disposable);
     }
 
