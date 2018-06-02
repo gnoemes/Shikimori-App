@@ -1,28 +1,144 @@
+import org.moallemi.gradle.internal.VersionCodeType
+
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'org.moallemi.advanced-build-version'
 
 android {
+    advancedVersioning {
+        nameOptions {
+            versionMajor 0
+            versionMinor 6
+            versionPatch 11
+        }
+        codeOptions {
+            versionCodeType VersionCodeType.AUTO_INCREMENT_ONE_STEP
+            dependsOnTasks 'debug', 'release', 'beta'
+        }
+
+        outputOptions {
+            renameOutput true
+            nameFormat 'ShikimoriApp-v' + versionName + '-${buildType}'
+        }
+    }
+
+    def appVersionName = advancedVersioning.versionName
+    def appVersionCode = advancedVersioning.versionCode
+
+    println "config code: ${appVersionName}, name: ${appVersionCode}"
+
     compileSdkVersion 27
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.gnoemes.shikimoriapp"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionName appVersionName
+        versionCode appVersionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            versionNameSuffix "-SNAPSHOT"
+        }
+
+        beta {
+            minifyEnabled true
+            shrinkResources true
+            useProguard false
+            versionNameSuffix '-BETA'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+        }
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'ShikimoriClientId', ShikimoriClientId
+        it.buildConfigField 'String', 'ShikimoriClientSecret', ShikimoriClientSecret
+        it.buildConfigField 'String', 'ShikimoriBaseUrl', ShikimoriBaseUrl
+        it.buildConfigField 'String', 'SmotretAnimeBaseUrl', SmotretAnimeBaseUrl
+    }
+    buildToolsVersion '27.0.3'
+    productFlavors {
+    }
+
+
+
+}
+
+
+def supportLibraryVersion = '27.1.1'
+def dagger = '2.15'
+def butterKnife = '8.8.1'
+def okHttp = '3.10.0'
+def retrofit = '2.4.0'
+def gson = '2.8.2'
+def moxy = '1.5.3'
+def rxJava = '2.1.6'
+def storIO = '3.0.0'
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:${supportLibraryVersion}"
+    implementation "com.android.support:exifinterface:${supportLibraryVersion}"
+    implementation "com.android.support:design:${supportLibraryVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibraryVersion}"
+    implementation "com.android.support:preference-v7:${supportLibraryVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "com.google.dagger:dagger-android:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation "io.reactivex.rxjava2:rxjava:${rxJava}"
+    implementation "com.jakewharton:butterknife:${butterKnife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnife}"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
+    implementation "com.google.code.gson:gson:${gson}"
+    implementation "com.arello-mobile:moxy:${moxy}"
+    annotationProcessor "com.arello-mobile:moxy-compiler:${moxy}"
+    implementation "com.arello-mobile:moxy-app-compat:${moxy}"
+    implementation "com.pushtorefresh.storio3:sqlite:${storIO}"
+    implementation "com.pushtorefresh.storio3:sqlite-annotations:${storIO}"
+    annotationProcessor "com.pushtorefresh.storio3:sqlite-annotations-processor:${storIO}"
+    implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
+    implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'net.danlew:android.joda:2.9.9.3'
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+    implementation 'com.milaptank:stv:1.0.0'
+    implementation 'com.allattentionhere:fabulousfilter:0.0.5'
+    implementation 'com.google.android:flexbox:0.3.2'
+    implementation 'com.lapism:searchview:4.0'
+    implementation 'com.pacioianu.david:ink-page-indicator:1.3.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
+        transitive = true
     }
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-}
+apply plugin: 'com.google.gms.google-services'
