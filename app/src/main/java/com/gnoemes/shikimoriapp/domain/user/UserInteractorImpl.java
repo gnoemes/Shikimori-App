@@ -48,11 +48,15 @@ public class UserInteractorImpl implements UserInteractor {
     @Override
     public Single<UserProfile> getUserProfile(long id) {
         return repository.getUserInfo(id)
-                .flatMap(profile -> getMyUser()
+                .flatMap(profile -> repository.getMyUserBrief()
                         .map(userBrief -> {
                             profile.setMe(profile.getId() == userBrief.getId());
                             return profile;
-                        }))
+                        }).onErrorReturn(throwable -> {
+                            profile.setMe(false);
+                            return profile;
+                        })
+                )
                 .compose((SingleErrorHandler<UserProfile>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
