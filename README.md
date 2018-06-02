@@ -20,7 +20,7 @@
 - [ ] :thinking: :thinking: :thinking:
 
 # Лицензия #
-Исходный код распостраняется под лицензией GPL v3.0
+Исходный код распространяется под лицензией GPL v3.0
 
 > Copyright (C) 2017-2018  Danil Duskaev [(gnoemes@gmail.com)](mailto:gnoemes@gmail.com)
 > 
