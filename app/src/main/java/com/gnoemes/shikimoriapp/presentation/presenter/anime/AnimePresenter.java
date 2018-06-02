@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.anime;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.BuildConfig;
@@ -286,7 +287,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Start the video depending on the type of player
      */
     private void onPlayTranslation(Translation translation) {
-        getRouter().showSystemMessage("Выбрано: " + translation.getAuthors());
+        String authors = TextUtils.isEmpty(translation.getAuthors()) ? "Неизвестный автор" : translation.getAuthors();
+        getRouter().showSystemMessage("Выбрано: " + authors);
         //TODO add other players
         switch (userSettings.getPlayerType()) {
             case EMBEDDED:
@@ -405,6 +407,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void onRateClicked() {
         //TODO check authorization and rate if user exist
+        //UPDATED: Can user rate?
     }
 
 
