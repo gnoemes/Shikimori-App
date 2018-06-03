@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavi
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -98,8 +100,14 @@ public class SearchFragmentContainer extends BottomTabContainer {
 
                 @Override
                 protected void setupFragmentTransactionAnimation(Command command, Fragment currentFragment, Fragment nextFragment, FragmentTransaction fragmentTransaction) {
-                    //TODO transactions
-                    super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction);
+                    //TODO shared elements
+
+                    if (currentFragment != null && nextFragment != null) {
+                        Fade fade = new Fade();
+                        fade.setDuration(Constants.FADE_DURATION);
+                        currentFragment.setExitTransition(fade);
+                        nextFragment.setEnterTransition(fade);
+                    }
                 }
             };
         }
