@@ -3,9 +3,11 @@ package com.gnoemes.shikimoriapp.presentation.presenter.search;
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.search.SearchInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
@@ -30,6 +32,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     private TitleResourceProvider resourceProvider;
     private SearchInteractor interactor;
     private AnimeViewModelConverter converter;
+    private AnalyticsInteractor analyticsInteractor;
 
     private SearchPaginator paginator;
     private HashMap<String, List<FilterItem>> filters = new HashMap<>();
@@ -110,10 +113,12 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
 
     public SearchPresenter(@NonNull TitleResourceProvider resourceProvider,
                            @NonNull SearchInteractor interactor,
-                           @NonNull AnimeViewModelConverter converter) {
+                           @NonNull AnimeViewModelConverter converter,
+                           @NonNull AnalyticsInteractor analyticsInteractor) {
         this.resourceProvider = resourceProvider;
         this.interactor = interactor;
         this.converter = converter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
@@ -126,6 +131,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         if (genre == null) {
             paginator.refresh();
         } else {
+            getViewState().addBackButton();
             onGenreSearch();
         }
 
@@ -138,6 +144,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     }
 
     public void onFilterPressed() {
+        analyticsInteractor.logEvent(AnalyticsEvent.FILTER_OPENED);
         getViewState().showFilterDialog(filters);
     }
 
@@ -177,6 +184,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     }
 
     public void onItemClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
@@ -186,6 +194,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     }
 
     public void setSearchQuery(String searhQuery) {
+        analyticsInteractor.logEvent(AnalyticsEvent.MANUAL_SEARCH);
         filters.put(SearchConstants.SEARCH, Collections.singletonList(
                 new FilterItem(SearchConstants.SEARCH, searhQuery, null)));
     }

@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.search;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -324,6 +325,17 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     @Override
     public void onHideLoading() {
         refreshLayout.setRefreshing(false);
+    }
 
+    @Override
+    public void addBackButton() {
+        Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                .withDrawable(R.drawable.ic_arrow_back)
+                .withAttributeColor(R.attr.colorText)
+                .tint()
+                .get();
+
+        toolbar.setNavigationIcon(navigationIcon);
+        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
     }
 }

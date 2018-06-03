@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarAnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarAnimeInteractorImpl;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.similar.SimilarPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
@@ -26,8 +27,9 @@ public interface SimilarModule {
 
     @Provides
     static SimilarPresenter provideSimilarPresenter(SimilarAnimeInteractor interactor,
-                                                    AnimeViewModelConverter converter) {
-        return new SimilarPresenter(interactor, converter);
+                                                    AnimeViewModelConverter converter,
+                                                    AnalyticsInteractor analyticsInteractor) {
+        return new SimilarPresenter(interactor, converter, analyticsInteractor);
     }
 
     @Binds

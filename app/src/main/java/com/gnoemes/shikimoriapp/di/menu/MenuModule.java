@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.menu.MenuPresenter;
@@ -20,8 +21,9 @@ public interface MenuModule {
 
     @Provides
     static MenuPresenter provideMenuPresenter(UserSettingsInteractor interactor,
-                                              UserInteractor userInteractor) {
-        return new MenuPresenter(interactor, userInteractor);
+                                              UserInteractor userInteractor,
+                                              AnalyticsInteractor analyticsInteractor) {
+        return new MenuPresenter(interactor, userInteractor, analyticsInteractor);
     }
 
     @Binds

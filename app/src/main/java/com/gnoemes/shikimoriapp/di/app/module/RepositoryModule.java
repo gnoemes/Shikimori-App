@@ -3,9 +3,11 @@ package com.gnoemes.shikimoriapp.di.app.module;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.impl.RateSyncDbSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.AuthorizationRepository;
+import com.gnoemes.shikimoriapp.data.repository.app.FirebaseAnalyticsRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.TokenSource;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.AuthorizationRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.impl.FirebaseAnalyticsRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.TokenSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
@@ -44,4 +46,8 @@ public interface RepositoryModule {
     @Binds
     @Singleton
     RateSyncDbSource bindRateSyncDbSource(RateSyncDbSourceImpl source);
+
+    @Binds
+    @Singleton
+    FirebaseAnalyticsRepository bindFirebaseAnalyticsRepository(FirebaseAnalyticsRepositoryImpl repository);
 }

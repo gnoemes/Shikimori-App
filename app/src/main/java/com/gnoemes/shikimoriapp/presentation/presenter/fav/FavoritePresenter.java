@@ -3,11 +3,14 @@ package com.gnoemes.shikimoriapp.presentation.presenter.fav;
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -26,6 +29,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     private UserRatesInteractor interactor;
     private UserSettingsInteractor settingsInteractor;
     private AnimeRateViewModelConverter converter;
+    private AnalyticsInteractor analyticsInteractor;
 
     private FavoritePaginator paginator;
 
@@ -95,10 +99,12 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public FavoritePresenter(@NonNull UserRatesInteractor interactor,
                              @NonNull UserSettingsInteractor settingsInteractor,
-                             @NonNull AnimeRateViewModelConverter converter) {
+                             @NonNull AnimeRateViewModelConverter converter,
+                             @NonNull AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.settingsInteractor = settingsInteractor;
         this.converter = converter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
@@ -122,6 +128,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public void onStatusChanged(RateStatus currentStatus) {
         this.currentStatus = currentStatus;
+        analyticsInteractor.logEvent(AnalyticsEvent.FAV_RATE_CHANGED);
         destroyPaginator();
         initPaginator();
     }
@@ -134,7 +141,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     private void setSettings(UserSettings settings) {
-        this.userId = settings.getUserBrief() == null ? -1 : settings.getUserBrief().getId();
+        this.userId = settings.getUserBrief() == null ? Constants.NO_ID : settings.getUserBrief().getId();
         this.settings = settings;
         initPaginator();
     }
@@ -148,6 +155,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void onItemClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 

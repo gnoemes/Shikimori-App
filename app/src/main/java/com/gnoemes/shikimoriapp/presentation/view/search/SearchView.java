@@ -39,4 +39,5 @@ public interface SearchView extends BaseFragmentView {
 
     void onHidePageLoading();
 
+    void addBackButton();
 }

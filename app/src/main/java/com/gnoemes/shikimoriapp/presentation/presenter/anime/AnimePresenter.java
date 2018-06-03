@@ -8,6 +8,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
@@ -25,6 +26,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAc
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
@@ -65,6 +67,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private CommentsViewModelConverter commentsConverter;
     private UserRatesInteractor ratesInteractor;
     private AnimeDetailsResourceProvider resourceProvider;
+    private AnalyticsInteractor analyticsInteractor;
 
     private CommentsPaginator paginator;
 
@@ -132,7 +135,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
                           @NonNull AnimeLinkViewModelConverter linkViewModelConverter,
                           @NonNull CommentsViewModelConverter commentsConverter,
-                          @NonNull AnimeDetailsResourceProvider resourceProvider) {
+                          @NonNull AnimeDetailsResourceProvider resourceProvider,
+                          @NonNull AnalyticsInteractor analyticsInteractor) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;
         this.settingsInteractor = settingsInteractor;
@@ -143,6 +147,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         this.linkViewModelConverter = linkViewModelConverter;
         this.commentsConverter = commentsConverter;
         this.resourceProvider = resourceProvider;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
 
@@ -276,6 +281,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Navigate to translations page with current data
      */
     private void onManualSearchTranslation() {
+        analyticsInteractor.logEvent(AnalyticsEvent.TRANSLATIONS_OPENED);
         getRouter().navigateTo(Screens.TRANSLATIONS, new TranslationNavigationData(
                 selectedEpisode.getId(),
                 userSettings.getTranslationType()));
@@ -319,6 +325,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
                 break;
             case BROWSER:
+                analyticsInteractor.logEvent(AnalyticsEvent.WEB_PLAYER_OPENED);
                 getRouter().navigateTo(Screens.WEB_PLAYER, translation.getEmbedUrl());
                 break;
         }
@@ -365,6 +372,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Route to search page and search animes with clicked genre
      */
     private void onGenreClick(AnimeGenre item) {
+        analyticsInteractor.logEvent(AnalyticsEvent.GENRE_SEARCH);
         getRouter().navigateTo(BottomScreens.SEARCH, item);
     }
 
@@ -374,6 +382,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * @param data UserRate
      */
     private void onAddListClick(UserRate data) {
+        analyticsInteractor.logEvent(AnalyticsEvent.RATE_OPENED);
         getViewState().showRatesDialog(data);
     }
 
@@ -381,6 +390,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Route to related/similar anime list
      */
     private void onSimilarClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.SIMILAR_CLICKED);
         getRouter().navigateTo(Screens.SIMILAR, animeId);
     }
 
@@ -438,6 +448,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     public void onEpisodeOptionAction(EpisodeOptionAction action, EpisodeItem item) {
         switch (action) {
             case WATCH_ONLINE:
+                analyticsInteractor.logEvent(AnalyticsEvent.WATCH_ONLINE_MASTER_CLICKED);
                 onEpisodeClicked(item);
                 break;
         }
@@ -487,6 +498,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Navigate to episodes list
      */
     private void onOnlineClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.WATCH_ONLINE_CLICKED);
         getViewState().setPage(AnimeDetailsPage.SERIES.getPage());
     }
 

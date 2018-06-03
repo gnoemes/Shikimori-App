@@ -3,6 +3,8 @@ package com.gnoemes.shikimoriapp.presentation.presenter.similar;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarAnimeInteractor;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -20,13 +22,16 @@ public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
 
     private SimilarAnimeInteractor animeInteractor;
     private AnimeViewModelConverter converter;
+    private AnalyticsInteractor analyticsInteractor;
 
     private long animeId;
 
     public SimilarPresenter(SimilarAnimeInteractor animeInteractor,
-                            AnimeViewModelConverter converter) {
+                            AnimeViewModelConverter converter,
+                            AnalyticsInteractor analyticsInteractor) {
         this.animeInteractor = animeInteractor;
         this.converter = converter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
@@ -72,6 +77,7 @@ public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
 
 
     public void onAnimeClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 

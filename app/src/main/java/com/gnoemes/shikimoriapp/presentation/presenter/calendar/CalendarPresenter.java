@@ -1,7 +1,9 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.calendar;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.calendar.CalendarInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -21,13 +23,16 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     private CalendarInteractor interactor;
     private CalendarResourceProvider resourceProvider;
     private CalendarViewModelConverter viewModelConverter;
+    private AnalyticsInteractor analyticsInteractor;
 
     public CalendarPresenter(CalendarInteractor interactor,
                              CalendarResourceProvider resourceProvider,
-                             CalendarViewModelConverter viewModelConverter) {
+                             CalendarViewModelConverter viewModelConverter,
+                             AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.resourceProvider = resourceProvider;
         this.viewModelConverter = viewModelConverter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     /**
@@ -45,6 +50,8 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     public void loadCalendarData() {
         getViewState().onShowLoading();
         getViewState().hideNetworkErrorView();
+        analyticsInteractor.logEvent(AnalyticsEvent.CALENDAR_UPDATED);
+
 
         Disposable subscription = interactor.getCalendarData()
                 .doOnEvent((calendarItems, throwable) -> getViewState().onHideLoading())
@@ -85,6 +92,7 @@ public class CalendarPresenter extends BaseNetworkPresenter<CalendarView> {
     }
 
     public void onAnimeClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 }
