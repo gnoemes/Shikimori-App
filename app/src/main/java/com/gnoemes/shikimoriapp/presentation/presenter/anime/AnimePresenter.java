@@ -483,10 +483,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getRouter().navigateTo(Screens.WEB, BuildConfig.ShikimoriBaseUrl + currentAnime.getUrl());
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Comments
-    ///////////////////////////////////////////////////////////////////////////
-
     /**
      * Navigate to episodes list
      */
@@ -519,6 +515,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void updateRate(UserRate rate) {
         Disposable disposable = ratesInteractor.updateRate(rate)
+                .doOnComplete(this::onClearHistory)
                 .subscribe(this::onUpdateSuccess, this::processErrors);
         unsubscribeOnDestroy(disposable);
     }
@@ -551,5 +548,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onUserClicked(long id) {
         getRouter().navigateTo(Screens.PROFILE, id);
+    }
+
+    public void onClearHistoryClicked() {
+        getViewState().showClearHistoryDialog();
+    }
+
+    public void onClearHistory() {
+        Disposable disposable = seriesInteractor.clearHistory(animeId)
+                .subscribe(this::loadEpisodes, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 }

@@ -36,4 +36,10 @@ public interface SeriesInteractor {
      * Get translation by type and order by rating
      */
     Single<Translation> getAutoTranslation(TranslationType type, long episodeId);
+
+    /**
+     * Clear local history
+     */
+    Completable clearHistory(long animeId);
+
 }

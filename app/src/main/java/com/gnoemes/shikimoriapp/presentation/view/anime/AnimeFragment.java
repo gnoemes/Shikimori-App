@@ -142,6 +142,10 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 case R.id.item_open:
                     getPresenter().onOpenBrowserClicked();
                     break;
+                case R.id.item_clear_history:
+                    getPresenter().onClearHistoryClicked();
+                    break;
+
             }
             return false;
         });
@@ -296,6 +300,26 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             }
         });
         dialog.show(getChildFragmentManager(), "RATES");
+    }
+
+    @Override
+    public void showClearHistoryDialog() {
+        new MaterialDialog.Builder(getContext())
+                .content(R.string.clear_episodes_content)
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .negativeColorAttr(R.attr.colorAction)
+                .negativeText(R.string.common_cancel)
+                .onNegative((dialog, which) -> dialog.dismiss())
+                .positiveColorAttr(R.attr.colorAction)
+                .positiveText(R.string.yes)
+                .onPositive((dialog, which) -> getPresenter().onClearHistory())
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
     }
 
     ///////////////////////////////////////////////////////////////////////////

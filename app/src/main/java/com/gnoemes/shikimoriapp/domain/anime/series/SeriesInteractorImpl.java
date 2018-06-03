@@ -79,5 +79,10 @@ public class SeriesInteractorImpl implements SeriesInteractor {
                 .compose(rxUtils.applySingleSchedulers());
     }
 
-
+    @Override
+    public Completable clearHistory(long animeId) {
+        return repository.clearHistory(animeId)
+                .compose(completableErrorHandler)
+                .compose(rxUtils.applyCompleteSchedulers());
+    }
 }

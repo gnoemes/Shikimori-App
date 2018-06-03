@@ -57,4 +57,8 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void showRatesDialog(UserRate data);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showClearHistoryDialog();
+
 }
