@@ -230,8 +230,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * @param episode EpisodeItem
      */
     public void onEpisodeClicked(EpisodeItem episode) {
+        long prevId = selectedEpisode == null ? Constants.NO_ID : selectedEpisode.getId();
         selectedEpisode = episode;
-        if (userSettings.getNeedShowWizard()) {
+        if (userSettings.getNeedShowWizard() && prevId != episode.getId()) {
             getViewState().showSettingsWizard(true);
         } else {
             switch (userSettings.getDubberSettings()) {
@@ -299,10 +300,10 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .build();
 
         Disposable disposable = settingsInteractor.saveUserSettings(settings)
-                .doOnComplete(() -> getRouter().showSystemMessage(resourceProvider.getSuccessMessage()))
                 .doOnComplete(() -> {
                     if (loadEpisode) {
                         onEpisodeClicked(selectedEpisode);
+                        getRouter().showSystemMessage(resourceProvider.getSuccessMessage());
                     }
                 })
                 .subscribe();

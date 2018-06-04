@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
@@ -89,6 +90,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     AnimeDetailsViewModelConverter converter;
 
     private AnimePagerAdapter pagerAdapter;
+    private boolean isCommentsPage;
 
     public static AnimeFragment newInstance(long animeId) {
         Bundle args = new Bundle();
@@ -120,6 +122,12 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                isCommentsPage = AnimeDetailsPage.COMMENTS.isEqualPage(position);
+            }
+        });
 
         int textColor = AttributesHelper.withContext(getContext())
                 .getColor(R.attr.colorText);
@@ -383,11 +391,11 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                     super.onScrolled(recyclerView, dx, dy);
 
                     //TODO fix endless scroll listener (layoutManager.findLastCompletelyVisibleItemPosition returns -1)
-//                    int visibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                    int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                    int visibleItemPosition = layoutManager.findLastVisibleItemPosition();
+//                    int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
                     int itemCount = layoutManager.getItemCount() - 1;
 
-                    if (visibleItemPosition >= itemCount) {
+                    if (visibleItemPosition >= itemCount && isCommentsPage) {
                         getPresenter().loadNextPage();
                     }
 
