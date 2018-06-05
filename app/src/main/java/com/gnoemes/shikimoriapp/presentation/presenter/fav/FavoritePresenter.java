@@ -42,7 +42,9 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     private ViewController<AnimeRate> controller = new ViewController<AnimeRate>() {
         @Override
         public void showEmptyError(boolean show, Throwable throwable) {
-            processErrors(throwable);
+            if (show) {
+                processErrors(throwable);
+            }
         }
 
         @Override
