@@ -22,6 +22,7 @@ import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.FavoritePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.presentation.view.fav.adapter.AnimeRateAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.fav.provider.UserRatesAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -43,6 +44,9 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
 
     @BindView(R.id.list)
     RecyclerView list;
+
+    @BindView(R.id.view_network_error)
+    NetworkErrorView networkErrorView;
 
     @InjectPresenter
     FavoritePresenter presenter;
@@ -215,6 +219,16 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     @Override
     public void onHideLoading() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showNetworkErrorView() {
+        networkErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNetworkErrorView() {
+        networkErrorView.setVisibility(View.GONE);
     }
 
     @Override

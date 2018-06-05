@@ -7,6 +7,8 @@ import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
+import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -40,7 +42,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     private ViewController<AnimeRate> controller = new ViewController<AnimeRate>() {
         @Override
         public void showEmptyError(boolean show, Throwable throwable) {
-
+            processErrors(throwable);
         }
 
         @Override
@@ -123,6 +125,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void onRefresh() {
+
         paginator.refresh();
     }
 
@@ -152,6 +155,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         paginator.setStatus(currentStatus);
         paginator.setUserStatus(settings == null ? UserStatus.AUTHORIZED : settings.getStatus());
         paginator.refresh();
+        getViewState().hideNetworkErrorView();
     }
 
     public void onItemClicked(long id) {
@@ -168,6 +172,28 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     public void onDestroy() {
         destroyPaginator();
         super.onDestroy();
+    }
+
+    /**
+     * Catch errors
+     */
+    @Override
+    protected void processErrors(Throwable throwable) {
+        BaseException baseException = (BaseException) throwable;
+        switch (baseException.getTag()) {
+            case NetworkException.TAG:
+                processNetworkError(throwable);
+                break;
+            default:
+                super.processErrors(throwable);
+        }
+    }
+
+    /**
+     * Catch network errors
+     */
+    private void processNetworkError(Throwable throwable) {
+        getViewState().showNetworkErrorView();
     }
 
     public void setUserId(long userId) {

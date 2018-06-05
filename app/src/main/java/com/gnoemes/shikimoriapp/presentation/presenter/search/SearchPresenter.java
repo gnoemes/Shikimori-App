@@ -72,7 +72,6 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
                     getViewState().insetMore(converter.convertListFrom(list));
                 }
             } else {
-                getViewState().hideList();
                 getViewState().clearList();
             }
         }
@@ -157,7 +156,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
                 break;
             case NetworkException.TAG:
                 getViewState().showNetworkError();
-                getViewState().hideList();
+                getViewState().clearList();
                 break;
             default:
                 super.processErrors(throwable);
@@ -169,7 +168,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         switch (exception.getServiceCode()) {
             case HttpStatusCode.UNPROCESSABLE_ENTITY:
                 getViewState().showEmptyView();
-                getViewState().hideList();
+                getViewState().clearList();
                 break;
         }
     }

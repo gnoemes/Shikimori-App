@@ -26,6 +26,10 @@ public interface FavoriteView extends BaseFragmentView {
     @StateStrategyType(SkipStrategy.class)
     void clearList();
 
+    void showNetworkErrorView();
+
+    void hideNetworkErrorView();
+
     @StateStrategyType(AddToEndStrategy.class)
     void addBackArrow();
 }
