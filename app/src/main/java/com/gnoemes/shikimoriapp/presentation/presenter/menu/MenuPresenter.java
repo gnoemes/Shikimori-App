@@ -2,8 +2,10 @@ package com.gnoemes.shikimoriapp.presentation.presenter.menu;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
@@ -28,13 +30,16 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
 
     private UserSettingsInteractor settingsInteractor;
     private UserInteractor userInteractor;
+    private AnalyticsInteractor analyticsInteractor;
 
     private UserSettings settings;
 
     public MenuPresenter(UserSettingsInteractor settingsInteractor,
-                         UserInteractor userInteractor) {
+                         UserInteractor userInteractor,
+                         AnalyticsInteractor analyticsInteractor) {
         this.settingsInteractor = settingsInteractor;
         this.userInteractor = userInteractor;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
@@ -113,6 +118,7 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void onSettingsClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.SETTINGS_OPENED);
         getRouter().navigateTo(Screens.SETTINGS);
     }
 

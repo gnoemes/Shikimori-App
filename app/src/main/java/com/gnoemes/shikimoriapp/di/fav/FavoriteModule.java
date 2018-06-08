@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.FavoritePresenter;
@@ -22,8 +23,9 @@ public interface FavoriteModule {
     @Provides
     static FavoritePresenter provideFavoritePresenter(UserRatesInteractor interactor,
                                                       UserSettingsInteractor settingsInteractor,
-                                                      AnimeRateViewModelConverter converter) {
-        return new FavoritePresenter(interactor, settingsInteractor, converter);
+                                                      AnimeRateViewModelConverter converter,
+                                                      AnalyticsInteractor analyticsInteractor) {
+        return new FavoritePresenter(interactor, settingsInteractor, converter, analyticsInteractor);
     }
 
     @Binds

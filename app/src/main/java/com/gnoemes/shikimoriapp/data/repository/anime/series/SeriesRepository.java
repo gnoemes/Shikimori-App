@@ -28,4 +28,9 @@ public interface SeriesRepository {
      * Saves episode to history
      */
     Completable setEpisodeWatched(long animeId, long episodeId);
+
+    /**
+     * Clear local history
+     */
+    Completable clearHistory(long animeId);
 }

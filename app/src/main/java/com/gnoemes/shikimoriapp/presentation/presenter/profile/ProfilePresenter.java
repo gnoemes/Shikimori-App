@@ -2,7 +2,12 @@ package com.gnoemes.shikimoriapp.presentation.presenter.profile;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
+import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
+import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserProfile;
@@ -28,14 +33,17 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private UserInteractor interactor;
     private ProfileViewModelConverter converter;
+    private AnalyticsInteractor analyticsInteractor;
 
     private long userId;
     private UserProfile user;
 
     public ProfilePresenter(UserInteractor interactor,
-                            ProfileViewModelConverter converter) {
+                            ProfileViewModelConverter converter,
+                            AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.converter = converter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
@@ -206,6 +214,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     }
 
     private void onAnimeClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
@@ -220,12 +229,13 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     }
 
     private void onHistoryClicked(long id) {
+        analyticsInteractor.logEvent(AnalyticsEvent.USER_HISTORY_CLICKED);
         getRouter().navigateTo(Screens.HISTORY, id);
     }
 
     private void onIgnoreClicked(long id) {
         Disposable disposable = interactor.ignoreUser(id)
-                .doOnSubscribe(disposable1 -> userIgnored())
+                .doOnComplete(this::userIgnored)
                 .subscribe(this::loadUserProfile, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -239,7 +249,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private void onUnIgnoreClicked(long id) {
         Disposable disposable = interactor.unignoreUser(id)
-                .doOnSubscribe(disposable1 -> userUnIgnored())
+                .doOnComplete(this::userUnIgnored)
                 .subscribe(this::loadUserProfile, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -255,7 +265,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private void onAddFriend(long id) {
         Disposable disposable = interactor.addToFriends(id)
-                .doOnSubscribe(disposable1 -> friendAdded())
+                .doOnComplete(this::friendAdded)
                 .subscribe(this::loadUserProfile, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -267,7 +277,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private void onRemoveFriendClicked(long id) {
         Disposable disposable = interactor.deleteFriend(id)
-                .doOnSubscribe(disposable1 -> friendRemoved())
+                .doOnComplete(this::friendRemoved)
                 .subscribe(this::loadUserProfile, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -289,5 +299,22 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     private void onBansClicked(long id) {
         //TODO bans
         getRouter().showSystemMessage("История бананов в разработке");
+    }
+
+
+    @Override
+    protected void processErrors(Throwable throwable) {
+        if (throwable instanceof BaseException) {
+            BaseException exception = (BaseException) throwable;
+            switch (exception.getTag()) {
+                case ServiceCodeException.TAG:
+                    if (((ServiceCodeException) exception).getServiceCode() == HttpStatusCode.UNPROCESSABLE_ENTITY) {
+                        getRouter().showSystemMessage("Для данного действия необходима авторизация");
+                    }
+                    break;
+            }
+        }
+
+        super.processErrors(throwable);
     }
 }

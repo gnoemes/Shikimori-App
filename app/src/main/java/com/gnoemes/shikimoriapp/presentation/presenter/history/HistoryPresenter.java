@@ -2,7 +2,9 @@ package com.gnoemes.shikimoriapp.presentation.presenter.history;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -21,6 +23,7 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
     private UserInteractor interactor;
     private HistoryViewModelConverter converter;
     private HistoryPaginator paginator;
+    private AnalyticsInteractor analyticsInteractor;
 
     private List<UserHistory> prevList;
 
@@ -87,9 +90,11 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
     };
 
     public HistoryPresenter(UserInteractor interactor,
-                            HistoryViewModelConverter converter) {
+                            HistoryViewModelConverter converter,
+                            AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.converter = converter;
+        this.analyticsInteractor = analyticsInteractor;
     }
 
 
@@ -99,6 +104,7 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
 
     public void onItemClicked(long id) {
         //TODO for all types
+        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 

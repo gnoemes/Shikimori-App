@@ -115,13 +115,17 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        webView.onResume();
+        if (webView != null) {
+            webView.onResume();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        webView.onPause();
+        if (webView != null) {
+            webView.onPause();
+        }
     }
 
     private void showSystemUI() {

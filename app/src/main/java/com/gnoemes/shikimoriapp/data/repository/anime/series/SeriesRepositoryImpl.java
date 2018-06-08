@@ -88,4 +88,9 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     public Completable setEpisodeWatched(long animeId, long episodeId) {
         return historyDbSource.episodeWatched(animeId, episodeId);
     }
+
+    @Override
+    public Completable clearHistory(long animeId) {
+        return historyDbSource.clearHistory(animeId);
+    }
 }

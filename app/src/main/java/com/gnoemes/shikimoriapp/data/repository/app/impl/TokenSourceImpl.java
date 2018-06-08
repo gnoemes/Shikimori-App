@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.app.impl;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.app.TokenSource;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.SettingsQualifier;
@@ -43,7 +44,8 @@ public class TokenSourceImpl implements TokenSource {
 
     @Override
     public boolean isTokenExists() {
-        return getPrefs().contains(AppExtras.ARGUMENT_TOKEN);
+        return getPrefs().contains(AppExtras.ARGUMENT_TOKEN) &&
+                !TextUtils.isEmpty(getPrefs().getString(AppExtras.ARGUMENT_TOKEN, ""));
     }
 
 

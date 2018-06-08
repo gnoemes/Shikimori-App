@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.di.calendar;
 
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.calendar.CalendarInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.CalendarPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.converter.CalendarViewModelConverter;
@@ -14,7 +15,8 @@ public interface CalendarPresenterModule {
     @Provides
     static CalendarPresenter bindCalendarPresenter(CalendarInteractor calendarInteractor,
                                                    CalendarResourceProvider resourceProvider,
-                                                   CalendarViewModelConverter converter) {
-        return new CalendarPresenter(calendarInteractor, resourceProvider, converter);
+                                                   CalendarViewModelConverter converter,
+                                                   AnalyticsInteractor analyticsInteractor) {
+        return new CalendarPresenter(calendarInteractor, resourceProvider, converter, analyticsInteractor);
     }
 }

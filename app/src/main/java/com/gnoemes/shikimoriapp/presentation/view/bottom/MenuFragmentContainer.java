@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -13,12 +14,14 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavi
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
@@ -81,6 +84,8 @@ public class MenuFragmentContainer extends BottomTabContainer {
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                         case Screens.SETTINGS:
                             return new Intent(context, SettingsActivity.class);
+                        case Screens.WEB_PLAYER:
+                            return WebPlayerActivity.newIntent(context, (String) data);
                     }
                     return null;
                 }
@@ -97,8 +102,14 @@ public class MenuFragmentContainer extends BottomTabContainer {
 
                 @Override
                 protected void setupFragmentTransactionAnimation(Command command, Fragment currentFragment, Fragment nextFragment, FragmentTransaction fragmentTransaction) {
-                    //TODO transactions
-                    super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction);
+                    //TODO shared elements
+
+                    if (currentFragment != null && nextFragment != null) {
+                        Fade fade = new Fade();
+                        fade.setDuration(Constants.FADE_DURATION);
+                        nextFragment.setEnterTransition(fade);
+                        nextFragment.setExitTransition(fade);
+                    }
                 }
             };
         }

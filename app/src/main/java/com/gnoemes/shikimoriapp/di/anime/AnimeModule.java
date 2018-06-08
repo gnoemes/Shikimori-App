@@ -7,6 +7,7 @@ import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
@@ -43,8 +44,12 @@ public interface AnimeModule {
                                                 EpisodeViewModelConverter modelConverter,
                                                 AnimeLinkViewModelConverter linkViewModelConverter,
                                                 CommentsViewModelConverter commentsViewModelConverter,
-                                                AnimeDetailsResourceProvider resourceProvider) {
-        return new AnimePresenter(interactor, seriesInteractor, settingsInteractor, commentsInteractor, ratesInteractor, converter, modelConverter, linkViewModelConverter, commentsViewModelConverter, resourceProvider);
+                                                AnimeDetailsResourceProvider resourceProvider,
+                                                AnalyticsInteractor analyticsInteractor) {
+        return new AnimePresenter(interactor, seriesInteractor, settingsInteractor,
+                commentsInteractor, ratesInteractor, converter,
+                modelConverter, linkViewModelConverter, commentsViewModelConverter,
+                resourceProvider, analyticsInteractor);
     }
 
     @Binds
