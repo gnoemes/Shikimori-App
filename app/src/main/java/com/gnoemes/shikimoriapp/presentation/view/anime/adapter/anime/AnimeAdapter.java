@@ -15,6 +15,7 @@ public class AnimeAdapter extends ListDelegationAdapter<List<BaseItem>> {
         delegatesManager.addDelegate(new AnimeContentAdapterDelegate());
         delegatesManager.addDelegate(new AnimeDividerAdapterDelegate());
         delegatesManager.addDelegate(new AnimeOtherAdapterDelegate(callback));
+        delegatesManager.addDelegate(new AnimeActionAdapterDelegate(callback));
 
         setItems(new ArrayList<>());
     }

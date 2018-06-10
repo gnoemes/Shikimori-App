@@ -356,7 +356,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case LINKS:
                 onLinksClicked();
                 break;
-            case RELATED:
+            case SIMILAR:
                 onSimilarClicked();
                 break;
             case COMMENTS:
