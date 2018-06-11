@@ -34,4 +34,24 @@ public abstract class BaseAnimeResourceProvider implements AnimeResourceProvider
                 return 0;
         }
     }
+
+    @Override
+    public String getLocalizedType(AnimeType type) {
+        switch (type) {
+            case TV:
+                return getContext().getString(R.string.type_tv_translatable);
+            case OVA:
+                return getContext().getString(R.string.type_ova);
+            case ONA:
+                return getContext().getString(R.string.type_ona);
+            case MUSIC:
+                return getContext().getString(R.string.type_music_translatable);
+            case MOVIE:
+                return getContext().getString(R.string.type_movie_translatable);
+            case SPECIAL:
+                return getContext().getString(R.string.type_special_translatable);
+            default:
+                return null;
+        }
+    }
 }

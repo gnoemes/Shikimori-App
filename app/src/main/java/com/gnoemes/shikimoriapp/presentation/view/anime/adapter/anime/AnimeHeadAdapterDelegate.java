@@ -96,12 +96,6 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         @BindView(R.id.button_online)
         Button buttonOnline;
 
-        @BindView(R.id.btn_related)
-        Button relatedBtn;
-
-        @BindView(R.id.btn_attach)
-        Button linksBtn;
-
         @BindView(R.id.image_add)
         ImageView addImage;
 
@@ -130,18 +124,6 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             adapter = new GenresAdapter();
 
-            Drawable related = DrawableHelper.withContext(itemView.getContext())
-                    .withDrawable(R.drawable.ic_arrange_send_backward)
-                    .withAttributeColor(R.attr.colorText)
-                    .tint()
-                    .get();
-
-            Drawable links = DrawableHelper.withContext(itemView.getContext())
-                    .withDrawable(R.drawable.ic_attachment)
-                    .withAttributeColor(R.attr.colorText)
-                    .tint()
-                    .get();
-
             addEmpty = DrawableHelper.withContext(itemView.getContext())
                     .withDrawable(R.drawable.ic_star_border)
                     .withAttributeColor(R.attr.colorText)
@@ -154,8 +136,6 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                     .tint()
                     .get();
 
-            relatedBtn.setCompoundDrawablesWithIntrinsicBounds(null, related, null, null);
-            linksBtn.setCompoundDrawablesWithIntrinsicBounds(null, links, null, null);
             addImage.setImageDrawable(add);
 
             genresList.setItemAnimator(new DefaultItemAnimator());
@@ -166,8 +146,6 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             genresList.addOnItemTouchListener(new RecyclerItemClickListener(itemView.getContext(), (view, position) ->
                     callback.onAction(AnimeAction.GENRE, adapter.getItemByPosition(position))));
 
-            relatedBtn.setOnClickListener(v -> callback.onAction(AnimeAction.RELATED, null));
-            linksBtn.setOnClickListener(v -> callback.onAction(AnimeAction.LINKS, null));
             buttonOnline.setOnClickListener(v -> callback.onAction(AnimeAction.WATCH_ONLINE, null));
         }
 

@@ -74,6 +74,10 @@
     <string name="type_music" translatable="false">Music</string>
     <string name="type_pattern">%s (%s эп.), %o мин.</string>
 
+    <string name="type_tv_translatable">TV сериал</string>
+    <string name="type_movie_translatable">Фильм</string>
+    <string name="type_special_translatable">Спешл</string>
+    <string name="type_music_translatable">Музыка</string>
 
     <string-array name="types">
         <item>@string/type_tv</item>
@@ -286,6 +290,17 @@
     <string name="clear_episodes">Синхронизировать серии</string>
     <string name="yes">Да</string>
     <string name="clear_episodes_content">Синхронизировать просмотренные эпизоды со списком?</string>
+    <string name="chronology">Порядок просмотра</string>
+    <string name="close">Закрыть</string>
+    <string name="no_chronology">Хронология не указана</string>
+    <string name="type_manga_translatable">Манга</string>
+    <string name="type_novel_translatable">Новела</string>
+    <string name="type_one_shot_translatable">Ваншот</string>
+    <string name="type_doujin_translatable">Додзинси</string>
+    <string name="type_manhua_translatable">Китайский комикс</string>
+    <string name="type_manhwa_translatable">Корейский комикс</string>
+    <string name="related">Связанное</string>
+    <string name="related_not_found">Ничего не найдено</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

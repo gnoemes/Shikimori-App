@@ -29,4 +29,5 @@ public class AppExtras {
     public static final String ARGUMENT_RATE_STATUS = "ARGUMENT_RATE_STATUS";
     public static final String ARGUMENT_ANIME_RATE = "ARGUMENT_ANIME_RATE";
     public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
+    public static final String ARGUMENT_RELATED_DATA = "ARGUMENT_RELATED_DATA";
 }

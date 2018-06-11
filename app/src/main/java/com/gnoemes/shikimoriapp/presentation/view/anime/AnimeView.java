@@ -4,6 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
@@ -54,6 +55,9 @@ public interface AnimeView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void onHidePageLoading();
+
+    @StateStrategyType(SkipStrategy.class)
+    void showChronologyDialog(List<AnimeFranchiseNode> nodes);
 
     @StateStrategyType(SkipStrategy.class)
     void showRatesDialog(UserRate data);

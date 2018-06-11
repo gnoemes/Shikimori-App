@@ -9,6 +9,7 @@ import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
 import com.gnoemes.shikimoriapp.di.history.HistoryModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
+import com.gnoemes.shikimoriapp.di.related.RelatedModule;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchModule;
 import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
@@ -18,6 +19,7 @@ import com.gnoemes.shikimoriapp.presentation.view.bottom.FavoriteFragmentContain
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
+import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
@@ -63,6 +65,10 @@ public interface FavoriteTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = HistoryModule.class)
     HistoryFragment historyFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = RelatedModule.class)
+    RelatedFragment relatedFragmentInjector();
 
     @Binds
     @BottomScope

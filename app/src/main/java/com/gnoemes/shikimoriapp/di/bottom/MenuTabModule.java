@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
 import com.gnoemes.shikimoriapp.di.history.HistoryModule;
 import com.gnoemes.shikimoriapp.di.menu.MenuModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
+import com.gnoemes.shikimoriapp.di.related.RelatedModule;
 import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
 import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
@@ -18,6 +19,7 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
+import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
@@ -57,6 +59,10 @@ public interface MenuTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = {AnimeModule.class})
     AnimeFragment animeFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = RelatedModule.class)
+    RelatedFragment relatedFragmentInjector();
 
     @Binds
     @BottomScope

@@ -19,4 +19,5 @@ public class Screens {
     public static final String SETTINGS = "SETTINGS";
     public static final String PROFILE = "PROFILE";
     public static final String HISTORY = "HISTORY";
+    public static final String RELATED = "RELATED";
 }

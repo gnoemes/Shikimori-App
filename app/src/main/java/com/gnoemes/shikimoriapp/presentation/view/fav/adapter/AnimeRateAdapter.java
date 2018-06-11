@@ -21,7 +21,6 @@ public class AnimeRateAdapter extends ListDelegationAdapter<List<BaseAnimeRateIt
         delegatesManager.addDelegate(new RateAdapterDelegate(imageLoader, resourceProvider, callback));
         delegatesManager.addDelegate(new AnimeRatePlaceholderAdapterDelegate());
         delegatesManager.addDelegate(new AnimeRateProgressAdapterDelegate());
-        delegatesManager.addDelegate(new AnimeRateProgressAdapterDelegate());
 
         setItems(new ArrayList<>());
     }

@@ -1,8 +1,10 @@
 package com.gnoemes.shikimoriapp.data.network;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.AnimeFranchiseResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeLinkResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.related.data.RelatedResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -37,4 +39,9 @@ public interface AnimesApi {
     @GET("/api/animes/{id}/similar")
     Single<List<AnimeResponse>> getSimilarAnimes(@Path("id") long animeId);
 
+    @GET("/api/animes/{id}/related")
+    Single<List<RelatedResponse>> getRelatedItems(@Path("id") long animeId);
+
+    @GET("/api/animes/{id}/franchise")
+    Single<AnimeFranchiseResponse> getFranchise(@Path("id") long animeId);
 }
