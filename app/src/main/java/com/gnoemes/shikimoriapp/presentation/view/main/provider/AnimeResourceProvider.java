@@ -10,4 +10,6 @@ public interface AnimeResourceProvider {
 
     @ColorRes
     int getColorByAnimeType(AnimeType type);
+
+    String getLocalizedType(AnimeType type);
 }

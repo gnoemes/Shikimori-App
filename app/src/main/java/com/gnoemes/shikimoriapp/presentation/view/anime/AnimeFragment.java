@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
@@ -33,6 +34,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDeta
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchiseNodeToStringConverter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -88,6 +90,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Inject
     AnimeDetailsViewModelConverter converter;
+
+    @Inject
+    AnimeFranchiseNodeToStringConverter franchiseConverter;
 
     private AnimePagerAdapter pagerAdapter;
     private boolean isCommentsPage;
@@ -286,8 +291,34 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 .backgroundColorAttr(R.attr.colorBackgroundWindow)
                 .autoDismiss(false)
                 .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
+                .negativeText(R.string.close)
                 .onNegative((dialog, which) -> dialog.dismiss())
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
+    }
+
+    @Override
+    public void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
+
+        List<String> items = franchiseConverter.convertList(nodes);
+
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.chronology)
+                .items(items.toArray(new CharSequence[items.size()]))
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    dialog.dismiss();
+                    if (nodes != null && !nodes.isEmpty()) {
+                        getPresenter().onAnimeClicked(nodes.get(position).getId());
+                    }
+                })
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .negativeText(R.string.close)
+                .negativeColorAttr(R.attr.colorAction)
                 .canceledOnTouchOutside(true)
                 .build()
                 .show();

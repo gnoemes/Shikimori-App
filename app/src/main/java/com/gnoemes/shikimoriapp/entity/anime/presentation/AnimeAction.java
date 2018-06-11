@@ -8,4 +8,6 @@ public enum AnimeAction {
     ADD_TO_LIST,
     RATE,
     GENRE,
+    CHRONOLOGY,
+    RELATED,
 }

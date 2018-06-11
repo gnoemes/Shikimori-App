@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
@@ -39,6 +40,7 @@ import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
+import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
@@ -365,7 +367,28 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case ADD_TO_LIST:
                 onAddListClick((UserRate) data);
                 break;
+            case CHRONOLOGY:
+                onChronologyClicked();
+                break;
+            case RELATED:
+                onRelatedClicked();
+                break;
         }
+    }
+
+    private void onRelatedClicked() {
+        getRouter().navigateTo(Screens.RELATED, new RelatedNavigationData(animeId, Type.ANIME));
+    }
+
+    private void onChronologyClicked() {
+        Disposable disposable = animeInteractor.getFranchiseNodes(animeId)
+                .subscribe(this::showChronologyDialog, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
+        getViewState().showChronologyDialog(nodes);
     }
 
 
@@ -572,5 +595,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .subscribe(this::loadEpisodes, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
+    }
+
+    public void onAnimeClicked(long id) {
+        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 }

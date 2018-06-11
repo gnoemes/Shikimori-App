@@ -16,6 +16,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -23,6 +24,7 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
+import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
@@ -71,6 +73,8 @@ public class SearchFragmentContainer extends BottomTabContainer {
                             return ProfileFragment.newInstance((Long) data);
                         case Screens.HISTORY:
                             return HistoryFragment.newInstance((Long) data);
+                        case Screens.RELATED:
+                            return RelatedFragment.newInstance((RelatedNavigationData) data);
                     }
                     return null;
                 }

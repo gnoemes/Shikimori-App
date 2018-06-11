@@ -8,6 +8,8 @@ import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
@@ -136,4 +138,7 @@ public interface UtilModule {
 
     @Binds
     TargetResponseConverter bindTargetResponseConverter(TargetResponseConverterImpl converter);
+
+    @Binds
+    MangaResponseConverter bindMangaResponseConverter(MangaResponseConverterImpl converter);
 }

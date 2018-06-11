@@ -114,6 +114,10 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getAnimeRate()));
 
         animeItems.add(new DividerItem());
+        animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));
+        animeItems.add(new DividerItem());
+        animeItems.add(new AnimeActionItem(AnimeAction.RELATED));
+        animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.SIMILAR));
         animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.LINKS));

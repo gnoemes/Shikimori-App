@@ -94,6 +94,10 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
                     return R.string.common_links;
                 case SIMILAR:
                     return R.string.common_similar;
+                case CHRONOLOGY:
+                    return R.string.chronology;
+                case RELATED:
+                    return R.string.related;
                 default:
                     return 0;
             }
@@ -105,6 +109,10 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
                     return getDrawable(R.drawable.ic_attachment);
                 case SIMILAR:
                     return getDrawable(R.drawable.ic_arrange_send_backward);
+                case CHRONOLOGY:
+                    return getDrawable(R.drawable.ic_animation_play);
+                case RELATED:
+                    return getDrawable(R.drawable.ic_arrange_bring_to_front);
                 default:
                     return null;
             }
