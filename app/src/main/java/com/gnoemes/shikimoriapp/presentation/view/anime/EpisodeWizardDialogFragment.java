@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
@@ -182,28 +183,37 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
             RadioButton external = layout.findViewById(R.id.btn_external);
             RadioButton browser = layout.findViewById(R.id.btn_browser);
 
-            embedded.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
-                    embedded.setBackgroundColor(backgroundCheckedColor);
-                    selectedPlayer = PlayerType.EMBEDDED;
-                } else {
-                    embedded.setBackgroundColor(backgroundColor);
-                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                }
+            embedded.setOnClickListener(v -> {
+                Toast.makeText(getContext(), "В разработке", Toast.LENGTH_SHORT).show();
+                browser.setChecked(true);
+            });
+            external.setOnClickListener(v -> {
+                Toast.makeText(getContext(), "В разработке", Toast.LENGTH_SHORT).show();
+                browser.setChecked(true);
             });
 
-
-            external.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    external.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
-                    external.setBackgroundColor(backgroundCheckedColor);
-                    selectedPlayer = PlayerType.EXTERNAL;
-                } else {
-                    external.setBackgroundColor(backgroundColor);
-                    external.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                }
-            });
+//            embedded.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//                if (isChecked) {
+//                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
+//                    embedded.setBackgroundColor(backgroundCheckedColor);
+//                    selectedPlayer = PlayerType.EMBEDDED;
+//                } else {
+//                    embedded.setBackgroundColor(backgroundColor);
+//                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//                }
+//            });
+//
+//
+//            external.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//                if (isChecked) {
+//                    external.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
+//                    external.setBackgroundColor(backgroundCheckedColor);
+//                    selectedPlayer = PlayerType.EXTERNAL;
+//                } else {
+//                    external.setBackgroundColor(backgroundColor);
+//                    external.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//                }
+//            });
 
             browser.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
