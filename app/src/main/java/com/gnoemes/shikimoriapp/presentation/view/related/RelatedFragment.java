@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.related;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.gnoemes.shikimoriapp.presentation.view.related.adapter.RelatedAdapter
 import com.gnoemes.shikimoriapp.presentation.view.related.provider.RelatedAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.related.provider.RelatedMangaResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
+import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 
 import java.util.List;
 
@@ -86,6 +88,15 @@ public class RelatedFragment extends BaseFragment<RelatedPresenter, RelatedView>
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.red));
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(adapter);
+
+        Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                .withDrawable(R.drawable.ic_arrow_back)
+                .withAttributeColor(R.attr.colorText)
+                .tint()
+                .get();
+
+        toolbar.setNavigationIcon(navigationIcon);
+        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
     }
 
     ///////////////////////////////////////////////////////////////////////////

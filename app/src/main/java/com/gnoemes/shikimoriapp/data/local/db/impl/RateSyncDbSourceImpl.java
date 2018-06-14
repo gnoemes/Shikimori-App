@@ -5,16 +5,16 @@ import android.util.Log;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.tables.RateSyncTable;
 import com.gnoemes.shikimoriapp.entity.rates.data.RateSyncDao;
-import com.pushtorefresh.storio3.Optional;
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio3.sqlite.operations.delete.DeleteResult;
 import com.pushtorefresh.storio3.sqlite.operations.put.PutResult;
+import com.pushtorefresh.storio3.sqlite.queries.DeleteQuery;
 import com.pushtorefresh.storio3.sqlite.queries.Query;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 public class RateSyncDbSourceImpl implements RateSyncDbSource {
 
@@ -50,14 +50,26 @@ public class RateSyncDbSourceImpl implements RateSyncDbSource {
                         .build())
                 .prepare()
                 .asRxSingle()
-                .map(new Function<Optional<RateSyncDao>, Integer>() {
-                    @Override
-                    public Integer apply(Optional<RateSyncDao> rateSyncDaoOptional) {
-                        if (rateSyncDaoOptional.isPresent()) {
-                            return rateSyncDaoOptional.get().getEpisodes();
-                        }
-                        return 0;
+                .map(rateSyncDaoOptional -> {
+                    if (rateSyncDaoOptional.isPresent()) {
+                        return rateSyncDaoOptional.get().getEpisodes();
                     }
+                    return 0;
                 });
+    }
+
+    @Override
+    public Completable clearHistory(long animeId) {
+        return Completable.fromAction(() -> {
+            DeleteResult deleteResult = storIOSQLite.delete()
+                    .byQuery(DeleteQuery.builder()
+                            .table(RateSyncTable.TABLE)
+                            .where(RateSyncTable.COLUMN_ANIME_ID + " = ?")
+                            .whereArgs(animeId)
+                            .build())
+                    .prepare()
+                    .executeAsBlocking();
+            Log.i("DEVE", "clearHistory: " + deleteResult.numberOfRowsDeleted());
+        });
     }
 }
