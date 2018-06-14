@@ -127,7 +127,6 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void onRefresh() {
-
         paginator.refresh();
     }
 
@@ -166,8 +165,10 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     private void destroyPaginator() {
-        paginator.release();
-        paginator = null;
+        if (paginator != null) {
+            paginator.release();
+            paginator = null;
+        }
     }
 
     @Override
