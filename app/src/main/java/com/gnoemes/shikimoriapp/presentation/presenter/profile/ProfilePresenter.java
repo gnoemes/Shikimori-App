@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.profile;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
+import com.gnoemes.shikimoriapp.domain.app.LogoutInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
@@ -34,16 +35,19 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     private UserInteractor interactor;
     private ProfileViewModelConverter converter;
     private AnalyticsInteractor analyticsInteractor;
+    private LogoutInteractor logoutInteractor;
 
     private long userId;
     private UserProfile user;
 
     public ProfilePresenter(UserInteractor interactor,
                             ProfileViewModelConverter converter,
-                            AnalyticsInteractor analyticsInteractor) {
+                            AnalyticsInteractor analyticsInteractor,
+                            LogoutInteractor logoutInteractor) {
         this.interactor = interactor;
         this.converter = converter;
         this.analyticsInteractor = analyticsInteractor;
+        this.logoutInteractor = logoutInteractor;
     }
 
     @Override
@@ -109,6 +113,10 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
         ProfileHeadItem item = (ProfileHeadItem) baseProfileItem;
         getViewState().setTitle(item.getNickname());
         getViewState().updateHead(item);
+
+        if (item.isMe()) {
+            getViewState().addExitMenu();
+        }
     }
 
     private void loadRateStatuses(UserStats userStats) {
@@ -316,5 +324,17 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
         }
 
         super.processErrors(throwable);
+    }
+
+    public void onExit() {
+        Disposable disposable = logoutInteractor
+                .logout()
+                .subscribe(this::onBackPressed, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    public void onExitPressed() {
+        getViewState().showLogoutDialog();
     }
 }

@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.di.app.module;
 
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractorImpl;
+import com.gnoemes.shikimoriapp.domain.app.LogoutInteractor;
+import com.gnoemes.shikimoriapp.domain.app.LogoutInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
@@ -26,4 +28,8 @@ public interface InteractorModule {
     @Binds
     @Singleton
     AnalyticsInteractor bindAnalyticsInteractor(AnalyticsInteractorImpl interactor);
+
+    @Binds
+    @Singleton
+    LogoutInteractor bindLogoutInteractor(LogoutInteractorImpl interactor);
 }

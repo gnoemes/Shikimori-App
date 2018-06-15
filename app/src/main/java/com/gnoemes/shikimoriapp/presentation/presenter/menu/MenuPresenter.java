@@ -158,6 +158,8 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
 
         if (settings.getStatus() == UserStatus.AUTHORIZED) {
             loadUserProfile();
+        } else {
+            getViewState().updateUser(new MenuProfileViewModel(UserStatus.GUEST, null, null));
         }
     }
 
