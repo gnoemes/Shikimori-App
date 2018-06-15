@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.profile;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.gnoemes.shikimoriapp.entity.user.presentation.profile.BaseProfileItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
@@ -25,4 +26,11 @@ public interface ProfileView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void updateOther(BaseProfileItem item);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void addExitMenu();
+
+    @StateStrategyType(SkipStrategy.class)
+    void showLogoutDialog();
+
 }

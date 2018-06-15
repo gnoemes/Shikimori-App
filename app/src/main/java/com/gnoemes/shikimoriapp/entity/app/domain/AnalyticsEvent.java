@@ -15,7 +15,8 @@ public enum AnalyticsEvent {
     TRANSLATIONS_OPENED("translations_opened"),
     GENRE_SEARCH("genre_search"),
     WEB_PLAYER_OPENED("web_player_opened"),
-    SIMILAR_CLICKED("similar_clicked");
+    SIMILAR_CLICKED("similar_clicked"),
+    ACCOUNT_EXIT("account_exit");
 
     private final String event;
 

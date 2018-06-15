@@ -28,8 +28,11 @@ public class TokenSourceImpl implements TokenSource {
 
     @Override
     public Completable saveToken(Token token) {
-        return Completable.fromAction(() ->
-                getEditor().putString(AppExtras.ARGUMENT_TOKEN, gson.toJson(token)).commit());
+        return Completable.fromAction(() -> {
+            String json = gson.toJson(token).equals("null") ? null : gson.toJson(token);
+            getEditor().putString(AppExtras.ARGUMENT_TOKEN, json).commit();
+        })
+                ;
     }
 
     @Override
@@ -44,8 +47,12 @@ public class TokenSourceImpl implements TokenSource {
 
     @Override
     public boolean isTokenExists() {
+        String token = getPrefs().getString(AppExtras.ARGUMENT_TOKEN, "");
+
         return getPrefs().contains(AppExtras.ARGUMENT_TOKEN) &&
-                !TextUtils.isEmpty(getPrefs().getString(AppExtras.ARGUMENT_TOKEN, ""));
+                !TextUtils.isEmpty(token) &&
+                //auto fix if version < 0.6.17;
+                !token.equals("null");
     }
 
 

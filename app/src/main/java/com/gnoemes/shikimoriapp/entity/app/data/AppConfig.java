@@ -8,7 +8,7 @@ public class AppConfig {
     /**
      * Default timeout for connections
      */
-    public static final int DEFAULT_TIMEOUT = 10;
+    public static final int DEFAULT_TIMEOUT = 15;
 
     /**
      * Default limit for pagination

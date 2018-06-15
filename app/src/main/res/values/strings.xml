@@ -301,6 +301,8 @@
     <string name="type_manhwa_translatable">Корейский комикс</string>
     <string name="related">Связанное</string>
     <string name="related_not_found">Ничего не найдено</string>
+    <string name="account_exit">Выйти из аккаунта</string>
+    <string name="exit_text">Вы уверены, что хотите выйти из аккаунта?</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

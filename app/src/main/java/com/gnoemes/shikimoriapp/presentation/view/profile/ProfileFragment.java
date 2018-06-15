@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -80,6 +81,16 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter, ProfileView>
                 .tint()
                 .get();
 
+        toolbar.inflateMenu(R.menu.menu_profile);
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.item_exit:
+                    getPresenter().onExitPressed();
+                    break;
+            }
+            return false;
+        });
+
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
     }
@@ -125,5 +136,30 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter, ProfileView>
     @Override
     public void updateOther(BaseProfileItem item) {
         adapter.updateOther(item);
+    }
+
+    @Override
+    public void addExitMenu() {
+        toolbar.getMenu().getItem(0).setVisible(true);
+    }
+
+    @Override
+    public void showLogoutDialog() {
+        new MaterialDialog.Builder(getContext())
+                .content(R.string.exit_text)
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .negativeColorAttr(R.attr.colorAction)
+                .negativeText(R.string.common_cancel)
+                .onNegative((dialog, which) -> dialog.dismiss())
+                .positiveColorAttr(R.attr.colorAction)
+                .positiveText(R.string.yes)
+                .onPositive((dialog, which) -> getPresenter().onExit())
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
     }
 }
