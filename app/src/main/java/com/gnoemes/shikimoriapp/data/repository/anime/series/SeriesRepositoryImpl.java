@@ -90,6 +90,12 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     }
 
     @Override
+    public Single<Boolean> isEpisodeWatched(long episodeId) {
+        return historyDbSource.isEpisodeWatched(episodeId);
+    }
+
+
+    @Override
     public Completable clearHistory(long animeId) {
         return historyDbSource.clearHistory(animeId)
                 .andThen(syncDbSource.clearHistory(animeId));

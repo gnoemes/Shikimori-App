@@ -592,7 +592,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onClearHistory() {
         Disposable disposable = seriesInteractor.clearHistory(animeId)
-                .subscribe(this::loadEpisodes, this::processErrors);
+                .subscribe(this::loadAnimeData, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
     }
