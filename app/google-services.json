@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "950611899003",
+    "firebase_url": "https://shikimori-app.firebaseio.com",
+    "project_id": "shikimori-app",
+    "storage_bucket": "shikimori-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950611899003:android:f8b1e62f866c8e63",
+        "android_client_info": {
+          "package_name": "com.gnoemes.shikimoriapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950611899003-d0ghiaiobfotoli61rvtbj33fifav7v5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gnoemes.shikimoriapp",
+            "certificate_hash": "c3bf7dff52d40de6bad54c9a9b578e30b470bcdf"
+          }
+        },
+        {
+          "client_id": "950611899003-83ebh2masgicidokeon576jo24v3vbc5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "950611899003-83ebh2masgicidokeon576jo24v3vbc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApcuDIvR61QSn1d1i03atyVJ5zithJIKA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950611899003-83ebh2masgicidokeon576jo24v3vbc5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
