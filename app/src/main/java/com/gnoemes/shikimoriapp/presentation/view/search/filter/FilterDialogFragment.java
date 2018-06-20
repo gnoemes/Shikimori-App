@@ -67,26 +67,23 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
     @Inject
     DateTimeUtils dateTimeUtils;
 
+    private Drawable unselected;
+    private Drawable selected;
+
+    private int textColor;
+    private int accent;
+
     public static FilterDialogFragment newInstance() {
         return new FilterDialogFragment();
     }
 
     @OnClick(R.id.btn_clear)
     public void onRefreshClick() {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
-
-        Drawable unselected = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.chip_unselected)
-                .withAttributeColor(R.attr.colorDivider)
-                .stroke(2)
-                .get();
-
         for (TextView tv : textViews) {
+            updateUnselected();
             tv.setTag(UNSELECTED);
             tv.setBackground(unselected);
-            tv.setTextColor(typedValue.data);
+            tv.setTextColor(accent);
         }
         appliedFilters.clear();
     }
@@ -112,6 +109,13 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
                 appliedFilters = new HashMap<>();
             }
         }
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
+        accent = typedValue.data;
+        theme.resolveAttribute(R.attr.colorText, typedValue, true);
+        textColor = typedValue.data;
     }
 
     @Override
@@ -252,13 +256,29 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
         }
     }
 
+    private void updateUnselected() {
+        unselected = DrawableHelper.withContext(getContext())
+                .withDrawable(R.drawable.chip_unselected)
+                .withAttributeColor(R.attr.colorDivider)
+                .stroke(2)
+                .get();
+    }
+
+    private void updateSelected() {
+        selected = DrawableHelper.withContext(getContext())
+                .withDrawable(R.drawable.chip_selected)
+                .withAttributeColor(R.attr.colorPrimary)
+                .tint()
+                .get();
+    }
+
     public class FiltersListChipsAdapter extends RecyclerView.Adapter<FiltersListChipsAdapter.ViewHolder> {
 
         private String page;
         private List<Pair<String, List<FilterItem>>> filters;
 
-        public FiltersListChipsAdapter(String page,
-                                       List<Pair<String, List<FilterItem>>> filters) {
+        FiltersListChipsAdapter(String page,
+                                List<Pair<String, List<FilterItem>>> filters) {
             this.page = page;
             this.filters = filters;
         }
@@ -307,29 +327,6 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
                     tvCategory.setText(category);
                 }
 
-
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = getContext().getTheme();
-                theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
-                int accent = typedValue.data;
-                theme.resolveAttribute(R.attr.colorText, typedValue, true);
-                int textColor = typedValue.data;
-
-                Drawable uncelected = DrawableHelper.withContext(getContext())
-                        .withDrawable(R.drawable.chip_unselected)
-                        .withAttributeColor(R.attr.colorDivider)
-                        .stroke(2)
-                        .get();
-                uncelected.mutate();
-
-                Drawable selected = DrawableHelper.withContext(getContext())
-                        .withDrawable(R.drawable.chip_selected)
-                        .withAttributeColor(R.attr.colorPrimary)
-                        .tint()
-                        .get();
-
-                selected.mutate();
-
                 for (int i = 0; i < values.size(); i++) {
                     View subChild = getLayoutInflater().inflate(R.layout.item_filter_chip, null);
                     final TextView tv = subChild.findViewById(R.id.txt_title);
@@ -338,37 +335,38 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
 
                     tv.setOnClickListener(v -> {
                         if (tv.getTag() != null && tv.getTag().equals(SELECTED)) {
+                            updateUnselected();
                             tv.setTag(UNSELECTED);
-                            tv.setBackground(uncelected);
+                            tv.setBackground(unselected);
                             tv.setTextColor(accent);
                             removeFromSelected(page, values.get(finalIndex));
                         } else {
+                            updateSelected();
                             tv.setTag(SELECTED);
                             tv.setBackground(selected);
                             tv.setTextColor(textColor);
                             addToSelected(page, values.get(finalIndex));
                         }
-
-                        tv.invalidate();
                     });
 
                     if (appliedFilters != null
                             && appliedFilters.get(page) != null
                             && appliedFilters.get(page).contains(values.get(i))) {
+                        updateSelected();
                         tv.setTag(SELECTED);
                         tv.setBackground(selected);
                         tv.setTextColor(textColor);
                     } else {
-                        tv.setBackground(uncelected);
+                        updateUnselected();
+                        tv.setBackground(unselected);
                         tv.setTextColor(accent);
                     }
                     textViews.add(tv);
 
                     flexboxLayout.addView(subChild);
-                    subChild.invalidate();
                 }
-
             }
         }
+
     }
 }
