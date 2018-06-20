@@ -9,9 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -29,6 +27,7 @@ import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
+import com.santalu.respinner.ReSpinner;
 
 import java.util.List;
 
@@ -50,6 +49,8 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
 
     @InjectPresenter
     FavoritePresenter presenter;
+
+    private ReSpinner spinner;
 
     public static FavoriteFragment newInstance(Long id) {
         FavoriteFragment fragment = new FavoriteFragment();
@@ -92,37 +93,28 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     @Override
     public void initToolbar() {
         toolbar.setTitle(null);
-        Spinner spinner = new Spinner(getContext());
+        spinner = new ReSpinner(getContext());
         spinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_normal, resourceProvider.getRateStasuses()));
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        getPresenter().onStatusChanged(RateStatus.WATCHING);
-                        break;
-                    case 1:
-                        getPresenter().onStatusChanged(RateStatus.PLANNED);
-                        break;
-                    case 2:
-                        getPresenter().onStatusChanged(RateStatus.REWATCHING);
-                        break;
-                    case 3:
-                        getPresenter().onStatusChanged(RateStatus.COMPLETED);
-                        break;
-                    case 4:
-                        getPresenter().onStatusChanged(RateStatus.ON_HOLD);
-                        break;
-                    case 5:
-                        getPresenter().onStatusChanged(RateStatus.DROPPED);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+        spinner.setOnItemClickListener((parent, view, position, id) -> {
+            switch (position) {
+                case 0:
+                    getPresenter().onStatusChanged(RateStatus.WATCHING);
+                    break;
+                case 1:
+                    getPresenter().onStatusChanged(RateStatus.PLANNED);
+                    break;
+                case 2:
+                    getPresenter().onStatusChanged(RateStatus.REWATCHING);
+                    break;
+                case 3:
+                    getPresenter().onStatusChanged(RateStatus.COMPLETED);
+                    break;
+                case 4:
+                    getPresenter().onStatusChanged(RateStatus.ON_HOLD);
+                    break;
+                case 5:
+                    getPresenter().onStatusChanged(RateStatus.DROPPED);
+                    break;
             }
         });
 
@@ -152,7 +144,6 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-
                 int visibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
                 int itemCount = manager.getItemCount() - 1;
 
@@ -161,6 +152,8 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
                 }
             }
         });
+
+        getPresenter().onRefresh();
     }
 
     @Override
@@ -241,5 +234,33 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
 
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+    }
+
+    @Override
+    public void setSpinnerPosition(RateStatus status) {
+        if (spinner != null) {
+            int position = 0;
+            switch (status) {
+                case WATCHING:
+                    position = 0;
+                    break;
+                case PLANNED:
+                    position = 1;
+                    break;
+                case REWATCHING:
+                    position = 2;
+                    break;
+                case COMPLETED:
+                    position = 3;
+                    break;
+                case ON_HOLD:
+                    position = 4;
+                    break;
+                case DROPPED:
+                    position = 5;
+                    break;
+            }
+            spinner.setSelection(position, false);
+        }
     }
 }

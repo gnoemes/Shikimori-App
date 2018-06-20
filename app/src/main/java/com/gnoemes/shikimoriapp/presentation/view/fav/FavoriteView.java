@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.view.fav;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
@@ -32,4 +33,7 @@ public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void addBackArrow();
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void setSpinnerPosition(RateStatus status);
 }

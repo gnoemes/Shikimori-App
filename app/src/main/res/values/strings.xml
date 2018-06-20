@@ -297,8 +297,8 @@
     <string name="type_novel_translatable">Новела</string>
     <string name="type_one_shot_translatable">Ваншот</string>
     <string name="type_doujin_translatable">Додзинси</string>
-    <string name="type_manhua_translatable">Китайский комикс</string>
-    <string name="type_manhwa_translatable">Корейский комикс</string>
+    <string name="type_manhua_translatable">Маньхуа</string>
+    <string name="type_manhwa_translatable">манхва</string>
     <string name="related">Связанное</string>
     <string name="related_not_found">Ничего не найдено</string>
     <string name="account_exit">Выйти из аккаунта</string>

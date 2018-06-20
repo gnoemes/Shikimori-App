@@ -29,6 +29,8 @@ public interface SeriesRepository {
      */
     Completable setEpisodeWatched(long animeId, long episodeId);
 
+    Single<Boolean> isEpisodeWatched(long episodeId);
+
     /**
      * Clear local history
      */

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -140,7 +141,18 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter, ProfileView>
 
     @Override
     public void addExitMenu() {
-        toolbar.getMenu().getItem(0).setVisible(true);
+        MenuItem item = toolbar.getMenu().getItem(0);
+        item.setVisible(true);
+
+        Drawable icon = DrawableHelper
+                .withContext(getContext())
+                .withDrawable(item.getIcon())
+                .withAttributeColor(R.attr.colorText)
+                .tint()
+                .get();
+
+        item.setIcon(icon);
+
     }
 
     @Override
