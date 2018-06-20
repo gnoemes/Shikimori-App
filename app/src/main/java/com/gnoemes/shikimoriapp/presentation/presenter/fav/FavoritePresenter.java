@@ -8,9 +8,9 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
-import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
@@ -123,15 +123,20 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void loadNextPage() {
-        paginator.loadNewPage();
+        if (paginator != null) {
+            paginator.loadNewPage();
+        }
     }
 
     public void onRefresh() {
-        paginator.refresh();
+        if (paginator != null) {
+            paginator.refresh();
+        }
     }
 
     public void onStatusChanged(RateStatus currentStatus) {
         this.currentStatus = currentStatus;
+        getViewState().setSpinnerPosition(currentStatus);
         analyticsInteractor.logEvent(AnalyticsEvent.FAV_RATE_CHANGED);
         destroyPaginator();
         initPaginator();
@@ -154,7 +159,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         paginator = new FavoritePaginatorImpl(interactor, controller);
         paginator.setId(userId);
         paginator.setStatus(currentStatus);
-        paginator.setUserStatus(settings == null ? UserStatus.AUTHORIZED : settings.getStatus());
+        paginator.setUserStatus(settings == null ? null : settings.getStatus());
         paginator.refresh();
         getViewState().hideNetworkErrorView();
     }
@@ -186,6 +191,9 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         switch (baseException.getTag()) {
             case NetworkException.TAG:
                 processNetworkError(throwable);
+                break;
+            case ContentException.TAG:
+                //not implemented (empty page)
                 break;
             default:
                 super.processErrors(throwable);

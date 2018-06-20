@@ -132,6 +132,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.github.santalu:respinner:1.0.3'
     testImplementation 'org.mockito:mockito-all:1.10.19'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
