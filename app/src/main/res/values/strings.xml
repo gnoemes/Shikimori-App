@@ -244,8 +244,8 @@
     <string name="pref_auto_dark_theme">is_auto_dark</string>
     <string name="pref_dark_theme_summary">Ночной режим позволяет уменьшить утомляемость глаз</string>
     <string name="pref_dark_theme_title">Ночной режим</string>
-    <string name="pref_auto_dark_theme_summary">Включать режим автоматический в ночное время суток</string>
-    <string name="pref_auto_dark_theme_title">Включать автоматический</string>
+    <string name="pref_auto_dark_theme_summary">Включать режим автоматически в ночное время суток</string>
+    <string name="pref_auto_dark_theme_title">Включать автоматически</string>
     <string name="about_program">О программе</string>
     <string name="pref_about_program">about_version</string>
     <string name="attention">Внимание</string>
