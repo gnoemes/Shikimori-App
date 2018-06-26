@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.di.app.module.network;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
-import com.gnoemes.shikimoriapp.utils.net.UserAgentInterceptor;
+import com.gnoemes.shikimoriapp.utils.net.shiki.UserAgentInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

@@ -26,6 +26,7 @@ public class TranslationViewModelConverterImpl implements TranslationViewModelCo
 
     private TranslationViewModel convertTranslation(Translation translation) {
         return new TranslationViewModel(
+                translation.getId(),
                 convertTitle(translation.getTitle()),
                 convertResolution(translation.getWidth(), translation.getHeight()),
                 translation.getQuality(),

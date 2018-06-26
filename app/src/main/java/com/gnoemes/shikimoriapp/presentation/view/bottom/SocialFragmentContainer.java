@@ -17,6 +17,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
@@ -71,6 +72,8 @@ public class SocialFragmentContainer extends BottomTabContainer {
                             return AuthActivity.newIntent(context, (AuthType) data);
                         case Screens.WEB_PLAYER:
                             return WebPlayerActivity.newIntent(context, (String) data);
+                        case Screens.EMBEDDED_PLAYER:
+                            return EmbeddedPlayerActivity.newIntent(context, (Long) data);
                     }
                     return null;
                 }

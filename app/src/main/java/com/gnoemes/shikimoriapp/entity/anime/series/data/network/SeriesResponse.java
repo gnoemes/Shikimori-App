@@ -18,6 +18,8 @@ public class SeriesResponse {
     private int year;
     @SerializedName("type")
     private String type;
+    @SerializedName("titles")
+    private SeriesTitlesResponse titlesResponse;
 
     public long getId() {
         return id;
@@ -41,5 +43,9 @@ public class SeriesResponse {
 
     public List<EpisodeResponse> getEpisodes() {
         return episodes;
+    }
+
+    public SeriesTitlesResponse getTitlesResponse() {
+        return titlesResponse;
     }
 }

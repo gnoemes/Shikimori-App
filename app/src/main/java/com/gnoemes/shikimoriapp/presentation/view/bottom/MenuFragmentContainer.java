@@ -23,6 +23,7 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
@@ -90,6 +91,8 @@ public class MenuFragmentContainer extends BottomTabContainer {
                             return new Intent(context, SettingsActivity.class);
                         case Screens.WEB_PLAYER:
                             return WebPlayerActivity.newIntent(context, (String) data);
+                        case Screens.EMBEDDED_PLAYER:
+                            return EmbeddedPlayerActivity.newIntent(context, (Long) data);
                     }
                     return null;
                 }

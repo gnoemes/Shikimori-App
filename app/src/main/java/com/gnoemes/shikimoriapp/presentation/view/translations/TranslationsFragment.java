@@ -91,7 +91,7 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
 
         refreshLayout.setOnRefreshListener(() -> getPresenter().loadTranslations());
 
-        adapter = new TranslationsAdapter(url -> getPresenter().onTranslationClicked(url));
+        adapter = new TranslationsAdapter(translation -> getPresenter().onTranslationClicked(translation));
 
         int margin = (int) getResources().getDimension(R.dimen.margin_small);
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));

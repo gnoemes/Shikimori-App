@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.utils.net;
+package com.gnoemes.shikimoriapp.utils.net.shiki;
 
 import android.support.annotation.NonNull;
 

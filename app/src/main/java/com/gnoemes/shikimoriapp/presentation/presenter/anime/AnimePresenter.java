@@ -322,7 +322,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         //TODO add other players
         switch (userSettings.getPlayerType()) {
             case EMBEDDED:
-
+                analyticsInteractor.logEvent(AnalyticsEvent.EMBEDDED_PLAYER_OPENED);
+                getRouter().navigateTo(Screens.EMBEDDED_PLAYER, translation.getId());
                 break;
             case EXTERNAL:
 

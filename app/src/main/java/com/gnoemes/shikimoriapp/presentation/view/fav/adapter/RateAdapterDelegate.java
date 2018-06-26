@@ -123,6 +123,8 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>
         }
 
         public void bind(AnimeRateViewModel model) {
+            layout.setOnClickListener(null);
+
             imageLoader.setImageWithFit(animePreview, model.getAnime().getImageOriginalUrl());
             imageWatches.setVisibility(View.GONE);
             watches.setVisibility(View.GONE);

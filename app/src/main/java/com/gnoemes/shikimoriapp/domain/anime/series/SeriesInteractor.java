@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
 
 import java.util.List;
 
@@ -36,6 +37,13 @@ public interface SeriesInteractor {
      * Get translation by type and order by rating
      */
     Single<Translation> getAutoTranslation(TranslationType type, long episodeId);
+
+    Single<TranslationWithSources> getTranslationWithSources(long translationId);
+
+    /**
+     * Get translation by id
+     */
+    Single<Translation> getTranslation(long translationId);
 
     /**
      * Clear local history

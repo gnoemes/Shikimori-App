@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationView
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsView;
@@ -100,21 +101,19 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
     /**
      * Starts video with player from user's settings
-     *
-     * @param url String
      */
-    public void onTranslationClicked(String url) {
+    public void onTranslationClicked(TranslationViewModel translation) {
         //TODO add other players
         switch (settings.getPlayerType()) {
             case BROWSER:
-                getViewState().playVideoOnWeb(url);
+                getViewState().playVideoOnWeb(translation.getUrl());
                 break;
             case EXTERNAL:
 
                 break;
 
             case EMBEDDED:
-
+                getRouter().navigateTo(Screens.EMBEDDED_PLAYER, translation.getId());
                 break;
         }
     }

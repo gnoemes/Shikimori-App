@@ -84,6 +84,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         }
 
         public void bind(AnimeViewModel item) {
+            layout.setOnClickListener(null);
 
             imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
 

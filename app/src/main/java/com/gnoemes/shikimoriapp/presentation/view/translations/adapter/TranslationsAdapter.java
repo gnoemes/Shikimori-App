@@ -100,6 +100,7 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
         }
 
         public void bind(TranslationViewModel translation) {
+            layout.setOnClickListener(null);
 
             titleText.setText(translation.getTitle());
 
@@ -148,7 +149,7 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
 
             layout.setBackground(card);
 
-            layout.setOnClickListener(v -> callback.onTranslationClicked(translation.getUrl()));
+            layout.setOnClickListener(v -> callback.onTranslationClicked(translation));
         }
     }
 }

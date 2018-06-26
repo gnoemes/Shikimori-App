@@ -24,6 +24,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
@@ -90,6 +91,8 @@ public class CalendarFragmentContainer extends BottomTabContainer {
                             return WebPlayerActivity.newIntent(context, (String) data);
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                        case Screens.EMBEDDED_PLAYER:
+                            return EmbeddedPlayerActivity.newIntent(context, (Long) data);
                     }
                     return null;
                 }

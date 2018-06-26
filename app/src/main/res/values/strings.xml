@@ -192,7 +192,7 @@
     <string name="translation_dubber_choose">Выбор даббера:</string>
     <string name="player_in_browser">Smotret-anime.ru</string>
     <string name="player_external">Внешний</string>
-    <string name="player_embedded">Внутренний</string>
+    <string name="player_embedded">Внутренний (BETA)</string>
     <string name="player_choose">Выбор плеера:</string>
     <string name="open_browser">Открыть в браузере</string>
     <string name="quality_tv" translatable="false">TV</string>
@@ -204,7 +204,6 @@
     <string name="auth_dialog_conent">Войдите или зарегистрируйтесь для использования всех возможностей приложения</string>
     <string name="common_sign_up">Регистрация</string>
     <string name="reg_nickname">Никнейм</string>
-    <string name="reg_password">Пароль</string>
     <string name="similar_empty">Ничего не найдено. \n Возможно Вам стоит пересмотреть свои вкусы ;)</string>
     <string name="description_avatar">Аватар</string>
     <string name="description_answer">Ответить</string>

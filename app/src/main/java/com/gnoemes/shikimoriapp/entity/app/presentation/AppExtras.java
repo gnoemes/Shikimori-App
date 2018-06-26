@@ -30,4 +30,6 @@ public class AppExtras {
     public static final String ARGUMENT_ANIME_RATE = "ARGUMENT_ANIME_RATE";
     public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
     public static final String ARGUMENT_RELATED_DATA = "ARGUMENT_RELATED_DATA";
+    public static final String ARGUMENT_TRANSLATION_ID = "ARGUMENT_TRANSLATION_ID";
+    public static final String ARGUMENT_PLAYER_PLAYBACK_POSITION = "ARGUMENT_PLAYER_PLAYBACK_POSITION";
 }
