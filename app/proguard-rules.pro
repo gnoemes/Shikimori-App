@@ -34,6 +34,7 @@
 
 -dontwarn com.google.errorprone.annotations.**
 
+-keep class org.jsoup.**
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
 -keep class android.support.v7.app.** { *; }
