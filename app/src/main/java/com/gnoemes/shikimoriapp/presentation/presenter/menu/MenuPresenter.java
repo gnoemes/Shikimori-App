@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
@@ -60,6 +61,9 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
         items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.FRIENDS, false, 0));
         items.add(new MenuDividerViewModel());
         items.add(new MenuCategoryViewModel(MenuCategory.SETTINGS));
+        items.add(new MenuDividerViewModel());
+        items.add(new MenuCategoryViewModel(MenuCategory.FOUR_PDA));
+        items.add(new MenuCategoryViewModel(MenuCategory.SHIKIMORI_CLUB));
 
         getViewState().showList(items);
     }
@@ -113,6 +117,12 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
                 break;
             case SETTINGS:
                 onSettingsClicked();
+                break;
+            case FOUR_PDA:
+                getRouter().navigateTo(Screens.WEB, Constants.FOUR_PDA_THEME_URL);
+                break;
+            case SHIKIMORI_CLUB:
+                getRouter().navigateTo(Screens.WEB, Constants.SHIKIMORI_CLUB_URL);
                 break;
         }
     }

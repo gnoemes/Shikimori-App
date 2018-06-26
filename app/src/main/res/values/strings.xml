@@ -281,7 +281,7 @@
     <string name="pref_not_choosed_summary">Не выбрано</string>
     <string name="pref_translation_type">TRANSLATION_TYPE</string>
     <string name="pref_auto_translation">TRANSLATION_DUBBER_SETTINGS</string>
-    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматический в зависимости от рейтинга</string>
+    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматически в зависимости от рейтинга</string>
     <string name="pref_auto_translation_title">Автоматический выбор перевода</string>
     <string name="pref_player_type">PLAYER_TYPE</string>
     <string name="pref_player_type_title">Видеоплеер</string>
@@ -302,6 +302,9 @@
     <string name="related_not_found">Ничего не найдено</string>
     <string name="account_exit">Выйти из аккаунта</string>
     <string name="exit_text">Вы уверены, что хотите выйти из аккаунта?</string>
+    <string name="four_pda">Тема на 4pda</string>
+    <string name="app_on_shikimori">Клуб на Шикимори</string>
+    <string name="support">Поддержать</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
