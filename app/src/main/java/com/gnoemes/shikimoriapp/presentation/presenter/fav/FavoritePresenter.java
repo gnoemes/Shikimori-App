@@ -11,6 +11,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
@@ -159,7 +160,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         paginator = new FavoritePaginatorImpl(interactor, controller);
         paginator.setId(userId);
         paginator.setStatus(currentStatus);
-        paginator.setUserStatus(settings == null ? null : settings.getStatus());
+        paginator.setUserStatus(settings == null ? UserStatus.AUTHORIZED : settings.getStatus());
         paginator.refresh();
         getViewState().hideNetworkErrorView();
     }
