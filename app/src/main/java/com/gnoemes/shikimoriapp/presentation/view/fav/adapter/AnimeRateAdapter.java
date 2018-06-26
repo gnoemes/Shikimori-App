@@ -39,7 +39,7 @@ public class AnimeRateAdapter extends ListDelegationAdapter<List<BaseAnimeRateIt
         if (!viewModels.isEmpty() && viewModels.size() - 1 > 0) {
             int prev = getItemCount();
             //Api bug, on pagination previous item returns too
-            items.addAll(viewModels.subList(1, viewModels.size() - 1));
+            items.addAll(viewModels.subList(1, viewModels.size()));
             notifyItemChanged(prev, getItemCount());
         }
     }
