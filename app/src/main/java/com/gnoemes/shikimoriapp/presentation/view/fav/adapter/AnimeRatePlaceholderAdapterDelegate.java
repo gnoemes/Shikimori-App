@@ -33,7 +33,9 @@ public class AnimeRatePlaceholderAdapterDelegate extends AdapterDelegate<List<Ba
 
     @Override
     protected void onBindViewHolder(@NonNull List<BaseAnimeRateItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
-
+        AnimeRatePlaceholder item = (AnimeRatePlaceholder) items.get(position);
+        ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.bind(item);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +47,18 @@ public class AnimeRatePlaceholderAdapterDelegate extends AdapterDelegate<List<Ba
             super(view);
             ButterKnife.bind(this, itemView);
 
-            emptyContentView.setText(R.string.rate_empty);
+
+        }
+
+        public void bind(AnimeRatePlaceholder item) {
+            switch (item.getType()) {
+                case EMPTY:
+                    emptyContentView.setText(R.string.rate_empty);
+                    break;
+                case ERROR:
+                    emptyContentView.setText(R.string.rate_forbidden);
+                    break;
+            }
         }
     }
 }

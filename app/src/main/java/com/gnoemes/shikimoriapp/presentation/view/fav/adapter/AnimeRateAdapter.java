@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.fav.adapter;
 
 import android.support.annotation.NonNull;
 
+import com.gnoemes.shikimoriapp.entity.rates.domain.PlaceholderType;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRateProgressItem;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
@@ -28,7 +29,7 @@ public class AnimeRateAdapter extends ListDelegationAdapter<List<BaseAnimeRateIt
     public void bindItems(List<BaseAnimeRateItem> viewModels) {
         items.clear();
         if (viewModels == null || viewModels.isEmpty()) {
-            items.add(new AnimeRatePlaceholder());
+            items.add(new AnimeRatePlaceholder(PlaceholderType.EMPTY));
         } else {
             items.addAll(viewModels);
         }
