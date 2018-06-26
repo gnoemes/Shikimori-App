@@ -17,7 +17,9 @@ public enum AnalyticsEvent {
     WEB_PLAYER_OPENED("web_player_opened"),
     SIMILAR_CLICKED("similar_clicked"),
     ACCOUNT_EXIT("account_exit"),
-    EMBEDDED_PLAYER_OPENED("embedded_player_opened");
+    EMBEDDED_PLAYER_OPENED("embedded_player_opened"),
+    FOUR_PDA_CLICKED("4pda_topic_opened"),
+    SHIKIMORI_APP_CLUB_CLICKED("shikimori_app_club_clicked");
 
     private final String event;
 

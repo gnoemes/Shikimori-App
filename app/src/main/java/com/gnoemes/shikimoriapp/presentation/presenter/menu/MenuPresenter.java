@@ -97,7 +97,6 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
 
-    //TODO add navigation
     public void onAction(MenuCategory category) {
         switch (category) {
             case PROFILE:
@@ -119,12 +118,22 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
                 onSettingsClicked();
                 break;
             case FOUR_PDA:
-                getRouter().navigateTo(Screens.WEB, Constants.FOUR_PDA_THEME_URL);
+                on4pdaClicked();
                 break;
             case SHIKIMORI_CLUB:
-                getRouter().navigateTo(Screens.WEB, Constants.SHIKIMORI_CLUB_URL);
+                onShikimoriClubClicked();
                 break;
         }
+    }
+
+    private void onShikimoriClubClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.SHIKIMORI_APP_CLUB_CLICKED);
+        getRouter().navigateTo(Screens.WEB, Constants.SHIKIMORI_CLUB_URL);
+    }
+
+    private void on4pdaClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.FOUR_PDA_CLICKED);
+        getRouter().navigateTo(Screens.WEB, Constants.FOUR_PDA_THEME_URL);
     }
 
     private void onSettingsClicked() {
