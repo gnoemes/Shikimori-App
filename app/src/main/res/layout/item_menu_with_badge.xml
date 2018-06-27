@@ -8,6 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="@dimen/margin_normal"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 

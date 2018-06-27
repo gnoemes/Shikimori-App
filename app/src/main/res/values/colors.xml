@@ -46,4 +46,5 @@
     <color name="card_shadow_2">#dddddd</color>
     <color name="card_detailing">#eee</color>
     <color name="player_controls_container">#47000000</color>
+    <color name="blue">#0099BC</color>
 </resources>

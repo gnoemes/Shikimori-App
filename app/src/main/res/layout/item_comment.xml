@@ -5,6 +5,12 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_normal"
+    android:paddingEnd="@dimen/margin_normal"
+    android:paddingLeft="@dimen/margin_normal"
+    android:paddingRight="@dimen/margin_normal"
+    android:paddingStart="@dimen/margin_normal"
+    android:paddingTop="@dimen/margin_small"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 

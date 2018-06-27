@@ -374,6 +374,15 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case RELATED:
                 onRelatedClicked();
                 break;
+            case CLEAR_HISTORY:
+                onClearHistoryClicked();
+                break;
+            case OPEN_IN_BROWSER:
+                onOpenBrowserClicked();
+                break;
+            case SHOW_PLAY_SETTINGS:
+                getViewState().showSettingsWizard(data != null && (boolean) data);
+                break;
         }
     }
 

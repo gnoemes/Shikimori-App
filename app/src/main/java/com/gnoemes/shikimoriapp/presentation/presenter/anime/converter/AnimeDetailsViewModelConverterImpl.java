@@ -100,7 +100,6 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     @Override
     public List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
         List<BaseItem> animeItems = new ArrayList<>();
-        animeItems.add(new DividerItem());
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
                 viewModel.getName(),
                 viewModel.getJpOrEngName(),
@@ -115,10 +114,6 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
 
         animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));
-        animeItems.add(new DividerItem());
-        animeItems.add(new AnimeActionItem(AnimeAction.RELATED));
-        animeItems.add(new DividerItem());
-        animeItems.add(new AnimeActionItem(AnimeAction.SIMILAR));
         animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.LINKS));
         animeItems.add(new DividerItem());

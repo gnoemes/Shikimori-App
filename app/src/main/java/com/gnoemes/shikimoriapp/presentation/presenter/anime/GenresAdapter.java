@@ -25,8 +25,10 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
     }
 
     public void bindItems(List<AnimeGenre> genres) {
-        this.genres = genres;
-        notifyDataSetChanged();
+        if (this.genres.size() != genres.size()) {
+            this.genres = genres;
+            notifyDataSetChanged();
+        }
     }
 
     @NonNull

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,6 +39,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapt
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchiseNodeToStringConverter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -57,6 +62,9 @@ import butterknife.BindView;
 public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         implements AnimeView {
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout layout;
+
     @BindView(R.id.app_bar)
     AppBarLayout appBarLayout;
 
@@ -74,6 +82,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @BindView(R.id.subtitle)
     TextView subtitleView;
+
+    @BindView(R.id.progress_loading)
+    ProgressBar progressBar;
 
     @InjectPresenter
     AnimePresenter presenter;
@@ -98,6 +109,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Inject
     AnimeFranchiseNodeToStringConverter franchiseConverter;
+
+    @Inject
+    RateResourceProvider rateResourceProvider;
 
     private AnimePagerAdapter pagerAdapter;
     private boolean isCommentsPage;
@@ -126,7 +140,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     private void initViews() {
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
-        AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
+        AnimeAdapter animeAdapter = new AnimeAdapter(rateResourceProvider, (action, data) -> getPresenter().onAction(action, data));
         CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader,
                 id -> getPresenter().onUserClicked(id));
 
@@ -151,31 +165,6 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
-        toolbar.inflateMenu(R.menu.menu_anime);
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.item_settings:
-                    showSettingsWizard(false);
-                    break;
-                case R.id.item_open:
-                    getPresenter().onOpenBrowserClicked();
-                    break;
-                case R.id.item_clear_history:
-                    getPresenter().onClearHistoryClicked();
-                    break;
-
-            }
-            return false;
-        });
-
-        Drawable overFlowIcon = toolbar.getOverflowIcon();
-        overFlowIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(overFlowIcon)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        toolbar.setOverflowIcon(overFlowIcon);
 
         appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100))));
     }
@@ -200,12 +189,18 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void onShowLoading() {
-//        progressBar.setVisibility(View.VISIBLE);
+        TransitionManager.beginDelayedTransition(layout, new Fade());
+        progressBar.setVisibility(View.VISIBLE);
+        appBarLayout.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
     }
 
     @Override
     public void onHideLoading() {
-//        progressBar.setVisibility(View.GONE);
+        TransitionManager.beginDelayedTransition(layout, new Fade());
+        progressBar.setVisibility(View.GONE);
+        appBarLayout.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.VISIBLE);
     }
 
     @Override
