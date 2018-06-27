@@ -3,7 +3,8 @@ package com.gnoemes.shikimoriapp.entity.anime.domain;
 public enum AnimeStatus {
     ANONS("anons"),
     ONGOING("ongoing"),
-    RELEASED("released");
+    RELEASED("released"),
+    NONE("none");
 
 
     private final String status;

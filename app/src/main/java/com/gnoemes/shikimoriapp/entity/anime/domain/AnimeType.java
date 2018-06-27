@@ -9,7 +9,8 @@ public enum AnimeType {
     MUSIC("music"),
     TV_13("tv_13"),
     TV_24("tv_24"),
-    TV_48("tv_48");
+    TV_48("tv_48"),
+    NONE("none");
 
 
     private final String type;

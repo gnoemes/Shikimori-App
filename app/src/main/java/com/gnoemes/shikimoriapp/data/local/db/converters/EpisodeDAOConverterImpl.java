@@ -58,6 +58,6 @@ public class EpisodeDAOConverterImpl implements EpisodeDAOConverter {
                 return animeType;
             }
         }
-        return null;
+        return AnimeType.NONE;
     }
 }

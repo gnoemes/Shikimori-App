@@ -69,7 +69,7 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
         } else if (AnimeType.MUSIC.equalsType(type)) {
             return AnimeType.MUSIC;
         } else {
-            throw new IllegalArgumentException(type + " is not valid type");
+            return AnimeType.NONE;
         }
     }
 
@@ -83,7 +83,7 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
         } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
             return AnimeStatus.RELEASED;
         } else {
-            throw new IllegalArgumentException(status + " is not valid status");
+            return AnimeStatus.NONE;
         }
     }
 }
