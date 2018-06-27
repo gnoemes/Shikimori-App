@@ -10,17 +10,23 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="230dp"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/ToolbarTextAppearance"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@style/TransparentText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:expandedTitleMargin="12dp"
+            app:expandedTitleMarginBottom="32dp"
+            app:expandedTitleTextAppearance="@style/ExpandedTextAppearence"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:maxLines="3"
+            app:statusBarScrim="@android:color/transparent">
+
 
             <ImageView
                 android:id="@+id/image_background"
@@ -33,22 +39,41 @@
                 app:layout_collapseMode="parallax"
                 tools:srcCompat="@drawable/test_preview3" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:background="@drawable/scrim_top" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="112dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/scrim_down" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="12dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="ЖИЖА 3: ПРИКЛЮЧЕНИЯ ЖИЖКАНА И СТАДА МЕТРИКОВ" />
+
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/PopupMenuTheme"
                 app:titleTextColor="?attr/colorText" />
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 

@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -44,6 +44,8 @@ import com.gnoemes.shikimoriapp.utils.view.LinearStickyHead;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 import com.gnoemes.shikimoriapp.utils.view.ViewStatePagerAdapter;
 
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +57,9 @@ import butterknife.BindView;
 public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         implements AnimeView {
 
+    @BindView(R.id.app_bar)
+    AppBarLayout appBarLayout;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -64,11 +69,11 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @BindView(R.id.image_background)
     ImageView backgroundImage;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+
+    @BindView(R.id.subtitle)
+    TextView subtitleView;
 
     @InjectPresenter
     AnimePresenter presenter;
@@ -171,8 +176,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 .get();
 
         toolbar.setOverflowIcon(overFlowIcon);
-        progressBar.setSecondaryProgress(R.color.red);
-        progressBar.setIndeterminate(true);
+
+        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100))));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -195,18 +200,19 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void onShowLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHideLoading() {
-        progressBar.setVisibility(View.GONE);
+//        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setAnimeData(AnimeDetailsViewModel model) {
         imageLoader.setImageWithFit(backgroundImage, model.getImageUrl());
-        toolbar.setTitle(model.getName());
+        collapsingToolbarLayout.setTitle(model.getName());
+        subtitleView.setText(model.getJpOrEngName());
         pagerAdapter.setData(converter.convertFromViewModel(model));
     }
 
