@@ -120,7 +120,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
         animeItems.add(new AnimeActionItem(AnimeAction.LINKS));
         animeItems.add(new DividerItem());
 
-        if (viewModel.getVideos() != null) {
+        if (viewModel.getVideos() != null && !viewModel.getVideos().isEmpty()) {
             for (Video video : viewModel.getVideos()) {
                 animeItems.add(new AnimeOtherItem(video.getId(), video.getUrl(), video.getName(), video.getType(), video.getPlayer()));
             }
