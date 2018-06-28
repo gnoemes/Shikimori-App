@@ -307,6 +307,9 @@
     <string name="support">Поддержать</string>
     <string name="rate_forbidden">Пользователь скрыл информацию о статусах просмотра.</string>
     <string name="no_rate">Нет статуса</string>
+    <string name="opening">Опенинг</string>
+    <string name="ending">Эндинг</string>
+    <string name="promo">Промо</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

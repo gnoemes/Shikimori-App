@@ -383,7 +383,14 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case SHOW_PLAY_SETTINGS:
                 getViewState().showSettingsWizard(data != null && (boolean) data);
                 break;
+            case VIDEO:
+                onVideoClicked((String) data);
+                break;
         }
+    }
+
+    private void onVideoClicked(String data) {
+        getRouter().navigateTo(Screens.WEB, data);
     }
 
     private void onRelatedClicked() {
@@ -391,7 +398,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     private void onChronologyClicked() {
+        getViewState().onShowLoading();
         Disposable disposable = animeInteractor.getFranchiseNodes(animeId)
+                .doOnEvent((animeLinkViewModels, throwable) -> getViewState().onHideLoading())
                 .subscribe(this::showChronologyDialog, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -432,7 +441,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load external links
      */
     private void onLinksClicked() {
+        getViewState().onShowLoading();
         Disposable disposable = animeInteractor.getAnimeLinks(animeId)
+                .doOnEvent((animeLinkViewModels, throwable) -> getViewState().onHideLoading())
                 .map(linkViewModelConverter)
                 .subscribe(this::showLinks, this::processErrors);
 

@@ -67,25 +67,38 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            Drawable card = DrawableHelper
-                    .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.card)
-                    .withAttributeColor(R.attr.colorBackgroundContent)
-                    .tint()
-                    .get();
-
-            layout.setBackground(card);
         }
 
 
         public void bind(AnimeActionItem item) {
-            layout.setOnClickListener(v -> callback.onAction(item.getAction(), null));
+            layout.setOnClickListener(null);
+
+            if (item.getAction() == AnimeAction.COMMENTS) {
+                Drawable card = DrawableHelper
+                        .withContext(itemView.getContext())
+                        .withDrawable(R.drawable.card)
+                        .withColor(R.color.bittersweet)
+                        .tint()
+                        .get();
+
+                layout.setBackground(card);
+            } else {
+                Drawable card = DrawableHelper
+                        .withContext(itemView.getContext())
+                        .withDrawable(R.drawable.card)
+                        .withAttributeColor(R.attr.colorBackgroundContent)
+                        .tint()
+                        .get();
+
+                layout.setBackground(card);
+            }
 
             Drawable image = getActionDrawable(item.getAction());
             imageAction.setImageDrawable(image);
 
             textAction.setText(getText(item.getAction()));
+
+            layout.setOnClickListener(v -> callback.onAction(item.getAction(), null));
         }
 
         private int getText(AnimeAction action) {
@@ -98,6 +111,8 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
                     return R.string.chronology;
                 case RELATED:
                     return R.string.related;
+                case COMMENTS:
+                    return R.string.common_comments;
                 default:
                     return 0;
             }

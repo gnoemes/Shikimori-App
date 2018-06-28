@@ -15,6 +15,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 
 import org.joda.time.DateTime;
@@ -54,7 +55,9 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 animeDetails.getDuration(),
                 animeDetails.getScore(),
                 convertDescription(animeDetails.getDescription()),
-                animeDetails.getAnimeRate());
+                animeDetails.getAnimeRate(),
+                animeDetails.getVideos()
+        );
     }
 
     private String convertDescription(String description) {
@@ -114,12 +117,19 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
 
         animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));
-        animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.LINKS));
         animeItems.add(new DividerItem());
+
+        if (viewModel.getVideos() != null) {
+            for (Video video : viewModel.getVideos()) {
+                animeItems.add(new AnimeOtherItem(video.getId(), video.getUrl(), video.getName(), video.getType(), video.getPlayer()));
+            }
+            animeItems.add(new DividerItem());
+        }
+
         animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
         animeItems.add(new DividerItem());
-        animeItems.add(new AnimeOtherItem(viewModel.getId()));
+        animeItems.add(new AnimeActionItem(AnimeAction.COMMENTS));
         animeItems.add(new DividerItem());
         return animeItems;
     }

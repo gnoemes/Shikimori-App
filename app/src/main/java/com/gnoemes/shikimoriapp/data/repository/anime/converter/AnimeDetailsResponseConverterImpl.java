@@ -5,6 +5,9 @@ import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
+import com.gnoemes.shikimoriapp.entity.video.domain.Video;
+import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,36 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 animeDetailsResponse.getScore(),
                 animeDetailsResponse.getDescription(),
                 convertGenres(animeDetailsResponse.getGenres()),
-                rateConverter.convertUserRateResponse(animeDetailsResponse.getRateResponse()));
+                rateConverter.convertUserRateResponse(animeDetailsResponse.getRateResponse()),
+                convertVideos(animeDetailsResponse.getVideoResponses())
+        );
+    }
+
+    private List<Video> convertVideos(List<VideoResponse> videoResponses) {
+        if (videoResponses == null) {
+            return null;
+        }
+
+        List<Video> items = new ArrayList<>();
+
+        for (VideoResponse response : videoResponses) {
+            items.add(new Video(response.getId(),
+                    response.getUrl(),
+                    response.getName(),
+                    comvertVideoType(response.getKind()),
+                    response.getHosting()));
+        }
+
+        return items;
+    }
+
+    private VideoType comvertVideoType(String kind) {
+        for (VideoType videoType : VideoType.values()) {
+            if (videoType.equalsType(kind)) {
+                return videoType;
+            }
+        }
+        return null;
     }
 
 

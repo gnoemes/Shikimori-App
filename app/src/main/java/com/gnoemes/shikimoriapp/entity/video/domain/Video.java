@@ -1,11 +1,8 @@
-package com.gnoemes.shikimoriapp.entity.anime.presentation.delegate;
+package com.gnoemes.shikimoriapp.entity.video.domain;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
-
-public class AnimeOtherItem extends BaseAnimeItem {
-
+public class Video {
     private long id;
     private String url;
     @Nullable
@@ -13,7 +10,7 @@ public class AnimeOtherItem extends BaseAnimeItem {
     private VideoType type;
     private String player;
 
-    public AnimeOtherItem(long id, String url, @Nullable String name, VideoType type, String player) {
+    public Video(long id, String url, @Nullable String name, VideoType type, String player) {
         this.id = id;
         this.url = url;
         this.name = name;
