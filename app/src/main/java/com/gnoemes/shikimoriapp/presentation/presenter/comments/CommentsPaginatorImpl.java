@@ -401,7 +401,6 @@ public class CommentsPaginatorImpl implements CommentsPaginator {
             if (!list.isEmpty()) {
                 currentState = new DATA_STATE();
                 currentData = list;
-                increasePage();
                 viewController.showPageProgress(false);
                 viewController.showList(true, currentData);
                 viewController.showEmptyView(false);
