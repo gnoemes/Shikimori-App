@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
+import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 
 import java.util.List;
@@ -32,12 +33,13 @@ public class AnimeDetailsViewModel {
     private UserRate animeRate;
     @Nullable
     private List<Video> videos;
+    private List<Character> characters;
 
     public AnimeDetailsViewModel(long id, String name, String jpOrEngName, String url,
                                  String imageUrl, String animeType, String animeStatus,
                                  List<AnimeGenre> genres, int episodes, int episodesAired,
                                  String season, int duration, double score, @Nullable String description,
-                                 @Nullable UserRate animeRate, @Nullable List<Video> videos) {
+                                 @Nullable UserRate animeRate, @Nullable List<Video> videos, List<Character> characters) {
         this.id = id;
         this.name = name;
         this.jpOrEngName = jpOrEngName;
@@ -54,6 +56,7 @@ public class AnimeDetailsViewModel {
         this.description = description;
         this.animeRate = animeRate;
         this.videos = videos;
+        this.characters = characters;
     }
 
     public long getId() {
@@ -121,5 +124,9 @@ public class AnimeDetailsViewModel {
     @Nullable
     public List<Video> getVideos() {
         return videos;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
     }
 }

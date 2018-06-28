@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.entity.anime.domain;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
+import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 
 import org.joda.time.DateTime;
@@ -43,12 +44,14 @@ public class AnimeDetails {
     private UserRate animeRate;
     @Nullable
     private List<Video> videos;
+    private List<Character> characters;
 
     public AnimeDetails(long id, long topicId, String name, @Nullable String russianName, AnimeImage animeImage,
                         String url, AnimeType type, @Nullable AnimeStatus status, int episodes,
                         int episodesAired, @Nullable DateTime airedDate, @Nullable DateTime releasedDate,
                         @Nullable List<String> englishNames, @Nullable List<String> japaneseNames, int duration,
-                        double score, @Nullable String description, List<AnimeGenre> animeGenres, @Nullable UserRate animeRate, @Nullable List<Video> videos) {
+                        double score, @Nullable String description, List<AnimeGenre> animeGenres,
+                        @Nullable UserRate animeRate, @Nullable List<Video> videos, List<Character> characters) {
         this.id = id;
         this.topicId = topicId;
         this.name = name;
@@ -69,6 +72,7 @@ public class AnimeDetails {
         this.animeGenres = animeGenres;
         this.animeRate = animeRate;
         this.videos = videos;
+        this.characters = characters;
     }
 
     public long getId() {
@@ -158,5 +162,9 @@ public class AnimeDetails {
     @Nullable
     public List<Video> getVideos() {
         return videos;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
     }
 }

@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeActionItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeCharactersItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
@@ -56,7 +57,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 animeDetails.getScore(),
                 convertDescription(animeDetails.getDescription()),
                 animeDetails.getAnimeRate(),
-                animeDetails.getVideos()
+                animeDetails.getVideos(),
+                animeDetails.getCharacters()
         );
     }
 
@@ -114,6 +116,11 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getGenres(),
                 viewModel.getScore(),
                 viewModel.getAnimeRate()));
+
+        if (viewModel.getCharacters() != null && !viewModel.getCharacters().isEmpty()) {
+            animeItems.add(new DividerItem());
+            animeItems.add(new AnimeCharactersItem(viewModel.getCharacters()));
+        }
 
         animeItems.add(new DividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));

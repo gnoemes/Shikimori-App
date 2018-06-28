@@ -26,6 +26,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
@@ -36,6 +37,7 @@ import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeCharacterAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchiseNodeToStringConverter;
@@ -138,9 +140,10 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     private void initViews() {
+        AnimeCharacterAdapter characterAdapter = new AnimeCharacterAdapter(imageLoader, id -> getPresenter().onAction(AnimeAction.CHARACTER, id));
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
-        AnimeAdapter animeAdapter = new AnimeAdapter(rateResourceProvider, (action, data) -> getPresenter().onAction(action, data));
+        AnimeAdapter animeAdapter = new AnimeAdapter(rateResourceProvider, characterAdapter, (action, data) -> getPresenter().onAction(action, data));
         CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader,
                 id -> getPresenter().onUserClicked(id));
 

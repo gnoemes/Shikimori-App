@@ -5,6 +5,7 @@ import com.gnoemes.shikimoriapp.entity.anime.data.AnimeFranchiseResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeLinkResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.related.data.RelatedResponse;
+import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,7 @@ public interface AnimesApi {
 
     @GET("/api/animes/{id}/franchise")
     Single<AnimeFranchiseResponse> getFranchise(@Path("id") long animeId);
+
+    @GET("/api/animes/{id}/roles")
+    Single<List<RolesResponse>> getRoles(@Path("id") long animeId);
 }

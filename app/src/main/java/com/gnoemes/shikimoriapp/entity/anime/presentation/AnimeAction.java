@@ -14,4 +14,5 @@ public enum AnimeAction {
     OPEN_IN_BROWSER,
     CLEAR_HISTORY,
     VIDEO,
+    CHARACTER,
 }

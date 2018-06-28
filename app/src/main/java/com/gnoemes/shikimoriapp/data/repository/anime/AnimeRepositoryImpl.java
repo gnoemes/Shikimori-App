@@ -47,7 +47,8 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     @Override
     public Single<AnimeDetails> getAnimeDetails(long animeId) {
         return animesApi.getAnimeDetails(animeId)
-                .map(responseConverter)
+                .flatMap(animeDetailsResponse -> animesApi.getRoles(animeId)
+                        .map(rolesResponses -> responseConverter.convertDetailsWithCharacters(animeDetailsResponse, rolesResponses)))
                 .flatMap(animeDetails -> Single.just(animeDetails)
                         .filter(details -> details.getAnimeRate() != null)
                         .flatMapCompletable(anime -> syncDbSource.saveRateEpisodes(

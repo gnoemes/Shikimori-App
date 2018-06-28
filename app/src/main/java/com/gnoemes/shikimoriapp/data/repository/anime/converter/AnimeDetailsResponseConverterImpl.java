@@ -5,6 +5,7 @@ import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
 import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
@@ -21,16 +22,19 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
 
     private AnimeResponseConverter converter;
     private AnimeRateResponseConverter rateConverter;
+    private RolesResponseConverter rolesResponseConverter;
 
     @Inject
     public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
-                                             AnimeRateResponseConverter rateConverter) {
+                                             AnimeRateResponseConverter rateConverter,
+                                             RolesResponseConverter rolesResponseConverter) {
         this.converter = converter;
         this.rateConverter = rateConverter;
+        this.rolesResponseConverter = rolesResponseConverter;
     }
 
     @Override
-    public AnimeDetails apply(AnimeDetailsResponse animeDetailsResponse) {
+    public AnimeDetails convertDetailsWithCharacters(AnimeDetailsResponse animeDetailsResponse, List<RolesResponse> rolesResponses) {
         return new AnimeDetails(animeDetailsResponse.getId(),
                 animeDetailsResponse.getTopicId(),
                 animeDetailsResponse.getName(),
@@ -50,7 +54,8 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 animeDetailsResponse.getDescription(),
                 convertGenres(animeDetailsResponse.getGenres()),
                 rateConverter.convertUserRateResponse(animeDetailsResponse.getRateResponse()),
-                convertVideos(animeDetailsResponse.getVideoResponses())
+                convertVideos(animeDetailsResponse.getVideoResponses()),
+                rolesResponseConverter.convertCharacters(rolesResponses)
         );
     }
 
