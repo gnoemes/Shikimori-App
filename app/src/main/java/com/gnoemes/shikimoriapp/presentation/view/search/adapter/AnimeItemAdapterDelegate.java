@@ -66,6 +66,12 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     }
 
+    @Override
+    protected void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
+        super.onViewRecycled(viewHolder);
+        imageLoader.clearImage(((ViewHolder) viewHolder).animeImage);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.container)
@@ -84,6 +90,8 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         }
 
         public void bind(AnimeViewModel item) {
+            imageLoader.clearImage(animeImage);
+
             layout.setOnClickListener(null);
 
             imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());

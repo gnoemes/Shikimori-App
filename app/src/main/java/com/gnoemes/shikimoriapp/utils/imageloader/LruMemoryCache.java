@@ -2,12 +2,12 @@ package com.gnoemes.shikimoriapp.utils.imageloader;
 
 import android.graphics.Bitmap;
 
-import com.squareup.picasso.Cache;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LruMemoryCache implements Cache {
+public class LruMemoryCache
+//        implements Cache
+{
 
     private final LinkedHashMap<String, Bitmap> map;
     private final int maxSize;
@@ -21,7 +21,7 @@ public class LruMemoryCache implements Cache {
         this.map = new LinkedHashMap<>(0, 0.75f, true);
     }
 
-    @Override
+    //    @Override
     public Bitmap get(String key) {
         if (key == null) {
             throw new NullPointerException("key == null");
@@ -32,7 +32,7 @@ public class LruMemoryCache implements Cache {
         }
     }
 
-    @Override
+    //    @Override
     public void set(String key, Bitmap value) {
         if (key == null || value == null) {
             throw new NullPointerException("key == null || value == null");
@@ -78,22 +78,22 @@ public class LruMemoryCache implements Cache {
         return value.getRowBytes() * value.getHeight();
     }
 
-    @Override
+    //    @Override
     public int size() {
         return size;
     }
 
-    @Override
+    //    @Override
     public int maxSize() {
         return maxSize;
     }
 
-    @Override
+    //    @Override
     public void clear() {
         trimToSize(-1);
     }
 
-    @Override
+    //    @Override
     public void clearKeyUri(String key) {
         if (key == null) {
             throw new NullPointerException("key == null");

@@ -38,8 +38,8 @@ import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverterImpl;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProviderImpl;
+import com.gnoemes.shikimoriapp.utils.imageloader.GlideImageLoaderImpl;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorProcessing;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorResourceProvider;
@@ -83,7 +83,8 @@ public interface UtilModule {
     @Binds
     @Singleton
 //    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
-    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
+//    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
+    ImageLoader bindImageLoader(GlideImageLoaderImpl loader);
 
     @Binds
     @Singleton

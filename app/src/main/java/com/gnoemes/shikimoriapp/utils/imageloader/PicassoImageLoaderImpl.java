@@ -4,8 +4,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import javax.inject.Inject;
 
 /**
@@ -13,11 +11,11 @@ import javax.inject.Inject;
  */
 public class PicassoImageLoaderImpl implements ImageLoader {
 
-    private Picasso picasso;
+//    private Picasso picasso;
 
     @Inject
     public PicassoImageLoaderImpl() {
-        picasso = Picasso.get();
+//        picasso = Picasso.get();
     }
 
     public void setImageWithPlaceHolder(ImageView imageView, @Nullable String url, @DrawableRes int errorImage) {
@@ -34,5 +32,10 @@ public class PicassoImageLoaderImpl implements ImageLoader {
 //                .fit()
 //                .centerCrop()
 //                .into(imageView);
+    }
+
+    @Override
+    public void clearImage(ImageView imageView) {
+
     }
 }

@@ -90,7 +90,7 @@ public class ImageContentAdapter extends RecyclerView.Adapter<ImageContentAdapte
 
         public void bind(ImageContent content) {
             if (!TextUtils.isEmpty(content.getUrl())) {
-                imageLoader.setImageWithFit(imageView, content.getUrl());
+                imageLoader.setImageWithPlaceHolder(imageView, content.getUrl(), 0);
                 placeholder.setVisibility(View.GONE);
                 imageView.setOnClickListener(v -> callback.onItemClick(content.getId()));
             } else {

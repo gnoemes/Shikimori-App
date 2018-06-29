@@ -116,12 +116,13 @@ public class ProfileHeadAdapterDelegate extends AdapterDelegate<List<BaseProfile
 
         public void bind(ProfileHeadItem item) {
             if (item.getId() != 0) {
+                imageLoader.clearImage(avatar);
                 progress.setVisibility(View.GONE);
                 history.setVisibility(View.VISIBLE);
                 bans.setVisibility(View.VISIBLE);
                 sendMessage.setVisibility(View.VISIBLE);
 
-                imageLoader.setImageWithFit(avatar, item.getLargeImage());
+                imageLoader.setImageWithPlaceHolder(avatar, item.getLargeImage(), 0);
 
                 nickname.setText(item.getNickname());
                 lastOnline.setText(item.getLastOnline());
