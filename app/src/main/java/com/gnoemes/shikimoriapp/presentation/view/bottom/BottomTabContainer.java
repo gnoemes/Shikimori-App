@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,7 +22,6 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavi
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
@@ -57,6 +55,7 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 import ru.terrakok.cicerone.commands.Command;
+import ru.terrakok.cicerone.commands.Forward;
 
 /**
  * Tab container for fragments with local routers
@@ -199,12 +198,16 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                 protected void setupFragmentTransactionAnimation(Command command, Fragment currentFragment, Fragment nextFragment, FragmentTransaction fragmentTransaction) {
                     //TODO shared elements
 
-                    if (currentFragment != null && nextFragment != null) {
-                        Fade fade = new Fade();
-                        fade.setDuration(Constants.FADE_DURATION);
-                        nextFragment.setEnterTransition(fade);
-                        nextFragment.setExitTransition(fade);
+                    if (command instanceof Forward) {
+                        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
                     }
+
+//                    if (currentFragment != null && nextFragment != null) {
+//                        AutoTransition fade = new AutoTransition();
+//                        fade.setDuration(Constants.FADE_DURATION);
+//                        nextFragment.setEnterTransition(fade);
+//                        nextFragment.setExitTransition(fade);
+//                    }
                 }
 
                 @Override
