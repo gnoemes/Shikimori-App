@@ -1,11 +1,13 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,7 +224,8 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         }
 
         private void showPopup() {
-            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), optionsView);
+            Context wrapper = new ContextThemeWrapper(itemView.getContext(), R.style.PopupMenuTheme);
+            PopupMenu popupMenu = new PopupMenu(wrapper, optionsView);
             popupMenu.inflate(R.menu.menu_anime);
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
