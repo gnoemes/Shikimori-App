@@ -387,7 +387,14 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case VIDEO:
                 onVideoClicked((String) data);
                 break;
+            case CHARACTER:
+                onCharacterClicked((Long) data);
+                break;
         }
+    }
+
+    private void onCharacterClicked(Long data) {
+        getRouter().navigateTo(Screens.CHARACTER_DETAILS, data);
     }
 
     private void onVideoClicked(String data) {

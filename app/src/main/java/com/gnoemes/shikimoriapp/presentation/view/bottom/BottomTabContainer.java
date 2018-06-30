@@ -28,6 +28,7 @@ import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationDa
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
+import com.gnoemes.shikimoriapp.presentation.view.characters.CharacterDetailsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
@@ -165,6 +166,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return HistoryFragment.newInstance((Long) data);
                         case Screens.RELATED:
                             return RelatedFragment.newInstance((RelatedNavigationData) data);
+                        case Screens.CHARACTER_DETAILS:
+                            return CharacterDetailsFragment.newInstance((Long) data);
                     }
                     return null;
                 }

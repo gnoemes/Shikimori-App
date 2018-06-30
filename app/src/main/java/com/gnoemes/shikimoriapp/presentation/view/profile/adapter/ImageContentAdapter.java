@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.user.presentation.profile.ImageContent;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
@@ -50,7 +51,7 @@ public class ImageContentAdapter extends RecyclerView.Adapter<ImageContentAdapte
                 items.addAll(list);
                 notifyDataSetChanged();
             } else {
-                items.add(new ImageContent(-1, null));
+                items.add(new ImageContent(Constants.NO_ID, null));
             }
         }
     }

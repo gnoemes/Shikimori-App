@@ -14,6 +14,8 @@ import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverter;
@@ -147,4 +149,7 @@ public interface UtilModule {
 
     @Binds
     RolesResponseConverter bindRolesResponseConverter(RolesResponseConverterImpl converter);
+
+    @Binds
+    SeyuResponseConverter bindSeyuResponseConverter(SeyuResponseConverterImpl converter);
 }
