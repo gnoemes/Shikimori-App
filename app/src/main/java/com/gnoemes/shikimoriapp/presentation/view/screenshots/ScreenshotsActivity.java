@@ -50,7 +50,7 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
     ScreenshotsPresenter presenter;
     @Inject
     NavigatorHolder navigatorHolder;
-    private ScrenshotPagerAdapter adapter;
+    private ScreenshotPagerAdapter adapter;
 
     public static Intent newIntent(Context context, ScreenshotNavigationData data) {
         Intent intent = new Intent(context, ScreenshotsActivity.class);
@@ -96,6 +96,13 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
         toolbar.setSubtitle(subtitle);
     }
 
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            getPresenter().updateScreenCounter(position + 1);
+        }
+    };
+
     @Override
     public void initToolbar() {
 
@@ -130,27 +137,28 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
+    protected void onDestroy() {
+        viewPager.removeOnPageChangeListener(pageChangeListener);
+        super.onDestroy();
+    }
+
+    @Override
     public void setScreenshots(List<String> urls) {
         List<Uri> uries = new ArrayList<>();
         for (String s : urls) {
             uries.add(Uri.parse(s));
         }
 
-        adapter = new ScrenshotPagerAdapter(uries);
+        adapter = new ScreenshotPagerAdapter(uries);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                getPresenter().updateScreenCounter(position + 1);
-            }
-        });
+        viewPager.addOnPageChangeListener(pageChangeListener);
     }
 
-    class ScrenshotPagerAdapter extends PagerAdapter {
+    class ScreenshotPagerAdapter extends PagerAdapter {
 
         private final List<Uri> uries;
 
-        ScrenshotPagerAdapter(List<Uri> uries) {
+        ScreenshotPagerAdapter(List<Uri> uries) {
             this.uries = uries;
             BigImageViewer.prefetch(uries.toArray(new Uri[uries.size()]));
         }

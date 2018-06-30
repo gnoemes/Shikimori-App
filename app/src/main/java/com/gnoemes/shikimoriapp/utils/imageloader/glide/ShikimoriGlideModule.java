@@ -11,6 +11,7 @@ import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -32,6 +33,7 @@ public class ShikimoriGlideModule extends AppGlideModule {
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, 50 * 1024 * 1024));
         builder.setDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565));
         builder.setDefaultTransitionOptions(Drawable.class, DrawableTransitionOptions.withCrossFade());
+        builder.setBitmapPool(new LruBitmapPool(5 * 1024 * 1024));
         builder.setLogLevel(Log.DEBUG);
         builder.setMemoryCache(new LruResourceCache(5L * 1024 * 1024));
     }

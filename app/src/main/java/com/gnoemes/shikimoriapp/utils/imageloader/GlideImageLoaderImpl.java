@@ -33,7 +33,7 @@ public class GlideImageLoaderImpl implements ImageLoader {
         GlideApp.with(imageView.getContext())
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .optionalCenterCrop()
+                .centerCrop()
                 .skipMemoryCache(true)
                 .placeholder(0)
                 .error(R.drawable.missing_original)

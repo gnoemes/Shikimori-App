@@ -139,6 +139,28 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         initViews();
     }
 
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            isCommentsPage = AnimeDetailsPage.COMMENTS.isEqualPage(position);
+        }
+    };
+    private AppBarLayout.OnOffsetChangedListener onOffsetChangedListener = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100)));
+        }
+    };
+
+    @Override
+    public void onDestroyView() {
+        viewPager.setAdapter(null);
+        viewPager.removeOnPageChangeListener(pageChangeListener);
+        appBarLayout.removeOnOffsetChangedListener(onOffsetChangedListener);
+        backgroundImage.setOnClickListener(null);
+        super.onDestroyView();
+    }
+
     private void initViews() {
         AnimeCharacterAdapter characterAdapter = new AnimeCharacterAdapter(imageLoader, id -> getPresenter().onAction(AnimeAction.CHARACTER, id));
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
@@ -149,12 +171,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                isCommentsPage = AnimeDetailsPage.COMMENTS.isEqualPage(position);
-            }
-        });
+        viewPager.addOnPageChangeListener(pageChangeListener);
 
         int textColor = AttributesHelper.withContext(getContext())
                 .getColor(R.attr.colorText);
@@ -170,7 +187,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
 
         backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
-        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100))));
+        appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
