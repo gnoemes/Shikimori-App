@@ -12,10 +12,9 @@ import com.gnoemes.shikimoriapp.utils.view.ThemeHelper;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    //TODO can't understand why is settings theme is base app theme
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ThemeHelper.applyTheme(SettingsActivity.this);
+        setTheme(ThemeHelper.applyTheme(SettingsActivity.this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
