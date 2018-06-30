@@ -183,6 +183,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         subtitleView.setText(null);
     }
 
+    public void onStop() {
+        player.setPlayWhenReady(false);
+    }
+
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
         Log.i(TAG, "onTimelineChanged: " + timeline);

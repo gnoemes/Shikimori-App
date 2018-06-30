@@ -79,7 +79,13 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     protected void onStop() {
         super.onStop();
+        playerManager.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
         playerManager.destroy();
+        super.onDestroy();
     }
 
     ///////////////////////////////////////////////////////////////////////////
