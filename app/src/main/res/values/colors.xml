@@ -47,4 +47,5 @@
     <color name="card_detailing">#eee</color>
     <color name="player_controls_container">#47000000</color>
     <color name="blue">#0099BC</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

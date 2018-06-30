@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
+import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 import com.gnoemes.shikimoriapp.utils.rx.SingleErrorHandler;
 
@@ -55,6 +56,13 @@ public class AnimeInteractorImpl implements AnimeInteractor {
     public Single<List<AnimeFranchiseNode>> getFranchiseNodes(long animeId) {
         return animeRepository.getFranchiseNodes(animeId)
                 .compose((SingleErrorHandler<List<AnimeFranchiseNode>>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<List<Screenshot>> getScreenshots(long animeId) {
+        return animeRepository.getScreenshots(animeId)
+                .compose((SingleErrorHandler<List<Screenshot>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 }

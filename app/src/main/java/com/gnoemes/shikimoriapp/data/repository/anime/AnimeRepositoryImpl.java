@@ -6,10 +6,12 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeDetailsResp
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeFranchiseResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
+import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 
 import org.joda.time.DateTimeComparator;
 
@@ -28,6 +30,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     private AnimeListResponseConverter listResponseConverter;
     private AnimeLinkResponseConverter linkReponseConverter;
     private AnimeFranchiseResponseConverter franchiseResponseConverter;
+    private ScreenshotResponseConverter screenshotResponseConverter;
 
     @Inject
     public AnimeRepositoryImpl(AnimesApi animesApi,
@@ -35,13 +38,15 @@ public class AnimeRepositoryImpl implements AnimeRepository {
                                AnimeDetailsResponseConverter responseConverter,
                                AnimeLinkResponseConverter linkReponseConverter,
                                AnimeListResponseConverter listResponseConverter,
-                               AnimeFranchiseResponseConverter franchiseResponseConverter) {
+                               AnimeFranchiseResponseConverter franchiseResponseConverter,
+                               ScreenshotResponseConverter screenshotResponseConverter) {
         this.animesApi = animesApi;
         this.syncDbSource = syncDbSource;
         this.responseConverter = responseConverter;
         this.linkReponseConverter = linkReponseConverter;
         this.listResponseConverter = listResponseConverter;
         this.franchiseResponseConverter = franchiseResponseConverter;
+        this.screenshotResponseConverter = screenshotResponseConverter;
     }
 
     @Override
@@ -76,5 +81,11 @@ public class AnimeRepositoryImpl implements AnimeRepository {
                 .map(franchiseResponseConverter)
                 .flatMap(nodes -> Observable.fromIterable(nodes)
                         .toSortedList((o1, o2) -> DateTimeComparator.getInstance().compare(o1.getDateTime(), o2.getDateTime())));
+    }
+
+    @Override
+    public Single<List<Screenshot>> getScreenshots(long animeId) {
+        return animesApi.getScreenshots(animeId)
+                .map(screenshotResponseConverter);
     }
 }

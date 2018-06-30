@@ -41,6 +41,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
+import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
@@ -535,7 +536,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         this.animeId = animeId;
     }
 
-    public void onOpenBrowserClicked() {
+    private void onOpenBrowserClicked() {
         getRouter().navigateTo(Screens.WEB, BuildConfig.ShikimoriBaseUrl + currentAnime.getUrl());
     }
 
@@ -607,7 +608,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getRouter().navigateTo(Screens.PROFILE, id);
     }
 
-    public void onClearHistoryClicked() {
+    private void onClearHistoryClicked() {
         getViewState().showClearHistoryDialog();
     }
 
@@ -620,5 +621,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onAnimeClicked(long id) {
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
+    }
+
+    public void onBackgroundImageClicked() {
+        getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
     }
 }

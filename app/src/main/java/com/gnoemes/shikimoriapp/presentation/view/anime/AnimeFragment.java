@@ -169,6 +169,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
 
+        backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
         appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100))));
     }
 

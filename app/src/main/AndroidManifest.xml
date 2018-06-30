@@ -46,6 +46,10 @@
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:hardwareAccelerated="true" />
 
+        <activity
+            android:name=".presentation.view.screenshots.ScreenshotsActivity"
+            android:theme="@style/ScreenshotTheme" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="49adb365d3d365dabad78f3110d69bd84e717eea" />

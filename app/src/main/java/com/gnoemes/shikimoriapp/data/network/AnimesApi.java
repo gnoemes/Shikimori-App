@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.entity.anime.data.AnimeLinkResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.related.data.RelatedResponse;
 import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
+import com.gnoemes.shikimoriapp.entity.screenshots.data.ScreenshotResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -48,4 +49,7 @@ public interface AnimesApi {
 
     @GET("/api/animes/{id}/roles")
     Single<List<RolesResponse>> getRoles(@Path("id") long animeId);
+
+    @GET("/api/animes/{id}/screenshots")
+    Single<List<ScreenshotResponse>> getScreenshots(@Path("id") long animeId);
 }

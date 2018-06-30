@@ -24,6 +24,7 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
+import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -36,6 +37,7 @@ import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
+import com.gnoemes.shikimoriapp.presentation.view.screenshots.ScreenshotsActivity;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
@@ -180,6 +182,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return EmbeddedPlayerActivity.newIntent(context, (Long) data);
                         case Screens.SETTINGS:
                             return new Intent(context, SettingsActivity.class);
+                        case Screens.SCREENSHOTS:
+                            return ScreenshotsActivity.newIntent(context, (ScreenshotNavigationData) data);
                     }
                     return null;
                 }
@@ -216,6 +220,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         ((RouterProvider) getActivity()).getLocalNavigator().applyCommands(new Command[]{command});
                     }
                 }
+
+
             };
         }
 
