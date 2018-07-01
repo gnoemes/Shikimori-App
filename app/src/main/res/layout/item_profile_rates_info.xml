@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:background="@drawable/card"
+    android:padding="@dimen/margin_normal"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <Spinner

@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.di.app.module.network;
 import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.network.AuthApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
+import com.gnoemes.shikimoriapp.data.network.CharactersApi;
 import com.gnoemes.shikimoriapp.data.network.CommentsApi;
 import com.gnoemes.shikimoriapp.data.network.UserApi;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
@@ -52,5 +53,11 @@ public interface ApiModule {
     @Provides
     static CommentsApi bindCommentsApi(Retrofit retrofit) {
         return retrofit.create(CommentsApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static CharactersApi bindCharactersApi(Retrofit retrofit) {
+        return retrofit.create(CharactersApi.class);
     }
 }

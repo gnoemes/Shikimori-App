@@ -58,6 +58,12 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>
     }
 
     @Override
+    protected void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
+        super.onViewRecycled(viewHolder);
+        imageLoader.clearImage(((ViewHolder) viewHolder).animePreview);
+    }
+
+    @Override
     protected void onBindViewHolder(@NonNull List<BaseAnimeRateItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         AnimeRateViewModel model = (AnimeRateViewModel) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
@@ -123,6 +129,8 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>
         }
 
         public void bind(AnimeRateViewModel model) {
+            layout.setOnClickListener(null);
+
             imageLoader.setImageWithFit(animePreview, model.getAnime().getImageOriginalUrl());
             imageWatches.setVisibility(View.GONE);
             watches.setVisibility(View.GONE);

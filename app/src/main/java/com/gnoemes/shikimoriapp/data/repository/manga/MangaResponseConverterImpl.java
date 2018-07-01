@@ -1,12 +1,12 @@
 package com.gnoemes.shikimoriapp.data.repository.manga;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaImageResponse;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaResponse;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaImage;
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaStatus;
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,16 +73,9 @@ public class MangaResponseConverterImpl implements MangaResponseConverter {
     @Override
     public MangaImage convertMangaImage(MangaImageResponse image) {
         return new MangaImage(
-                buildUrl(image.getImageOriginalUrl()),
-                buildUrl(image.getImagePreviewUrl()),
-                buildUrl(image.getImageX96Url()),
-                buildUrl(image.getImageX48Url()));
-    }
-
-    private String buildUrl(String url) {
-        if (url.contains("http")) {
-            return url;
-        }
-        return BuildConfig.ShikimoriBaseUrl.concat(url);
+                Utils.appendHostIfNeed(image.getImageOriginalUrl()),
+                Utils.appendHostIfNeed(image.getImagePreviewUrl()),
+                Utils.appendHostIfNeed(image.getImageX96Url()),
+                Utils.appendHostIfNeed(image.getImageX48Url()));
     }
 }

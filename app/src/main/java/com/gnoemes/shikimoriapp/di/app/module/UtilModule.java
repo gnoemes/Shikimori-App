@@ -4,6 +4,8 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverter;
@@ -12,6 +14,8 @@ import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverter;
@@ -36,8 +40,8 @@ import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverterImpl;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.provider.DateTimeResourceProviderImpl;
+import com.gnoemes.shikimoriapp.utils.imageloader.GlideImageLoaderImpl;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorProcessing;
 import com.gnoemes.shikimoriapp.utils.rx.ErrorResourceProvider;
@@ -81,7 +85,8 @@ public interface UtilModule {
     @Binds
     @Singleton
 //    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
-    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
+//    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
+    ImageLoader bindImageLoader(GlideImageLoaderImpl loader);
 
     @Binds
     @Singleton
@@ -141,4 +146,10 @@ public interface UtilModule {
 
     @Binds
     MangaResponseConverter bindMangaResponseConverter(MangaResponseConverterImpl converter);
+
+    @Binds
+    RolesResponseConverter bindRolesResponseConverter(RolesResponseConverterImpl converter);
+
+    @Binds
+    SeyuResponseConverter bindSeyuResponseConverter(SeyuResponseConverterImpl converter);
 }

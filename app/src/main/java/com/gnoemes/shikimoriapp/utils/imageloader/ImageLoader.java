@@ -7,4 +7,6 @@ public interface ImageLoader {
     void setImageWithPlaceHolder(ImageView avatar, String avatarUrl, @AttrRes int color);
 
     void setImageWithFit(ImageView imageView, String url);
+
+    void clearImage(ImageView imageView);
 }

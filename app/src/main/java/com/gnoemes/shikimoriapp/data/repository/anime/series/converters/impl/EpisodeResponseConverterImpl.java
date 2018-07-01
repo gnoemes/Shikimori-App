@@ -32,7 +32,7 @@ public class EpisodeResponseConverterImpl implements EpisodeResponseConverter {
                 return animeType;
             }
         }
-        return null;
+        return AnimeType.NONE;
     }
 
 }

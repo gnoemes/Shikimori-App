@@ -8,4 +8,5 @@ import java.util.List;
 import io.reactivex.functions.Function;
 
 public interface TranslationResponseConverter extends Function<List<TranslationResponse>, List<Translation>> {
+    Translation convertResponse(TranslationResponse response);
 }

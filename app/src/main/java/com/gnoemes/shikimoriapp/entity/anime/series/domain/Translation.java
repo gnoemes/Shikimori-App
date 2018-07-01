@@ -13,11 +13,12 @@ public class Translation {
     private int width;
     private int height;
     private String authors;
+    private String serialTitle;
 
     public Translation(long id, TranslationQuality quality, String title,
                        long priority, TranslationType type, String url,
                        String embedUrl, Episode episode, int width,
-                       int height, String authors) {
+                       int height, String authors, String serialTitle) {
         this.id = id;
         this.quality = quality;
         this.title = title;
@@ -29,6 +30,7 @@ public class Translation {
         this.width = width;
         this.height = height;
         this.authors = authors;
+        this.serialTitle = serialTitle;
     }
 
     public long getId() {
@@ -73,5 +75,9 @@ public class Translation {
 
     public String getAuthors() {
         return authors;
+    }
+
+    public String getSerialTitle() {
+        return serialTitle;
     }
 }

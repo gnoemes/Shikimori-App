@@ -41,6 +41,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
+import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
@@ -322,7 +323,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         //TODO add other players
         switch (userSettings.getPlayerType()) {
             case EMBEDDED:
-
+                analyticsInteractor.logEvent(AnalyticsEvent.EMBEDDED_PLAYER_OPENED);
+                getRouter().navigateTo(Screens.EMBEDDED_PLAYER, translation.getId());
                 break;
             case EXTERNAL:
 
@@ -373,7 +375,30 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case RELATED:
                 onRelatedClicked();
                 break;
+            case CLEAR_HISTORY:
+                onClearHistoryClicked();
+                break;
+            case OPEN_IN_BROWSER:
+                onOpenBrowserClicked();
+                break;
+            case SHOW_PLAY_SETTINGS:
+                getViewState().showSettingsWizard(data != null && (boolean) data);
+                break;
+            case VIDEO:
+                onVideoClicked((String) data);
+                break;
+            case CHARACTER:
+                onCharacterClicked((Long) data);
+                break;
         }
+    }
+
+    private void onCharacterClicked(Long data) {
+        getRouter().navigateTo(Screens.CHARACTER_DETAILS, data);
+    }
+
+    private void onVideoClicked(String data) {
+        getRouter().navigateTo(Screens.WEB, data);
     }
 
     private void onRelatedClicked() {
@@ -381,7 +406,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     private void onChronologyClicked() {
+        getViewState().onShowLoading();
         Disposable disposable = animeInteractor.getFranchiseNodes(animeId)
+                .doOnEvent((animeLinkViewModels, throwable) -> getViewState().onHideLoading())
                 .subscribe(this::showChronologyDialog, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -422,7 +449,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load external links
      */
     private void onLinksClicked() {
+        getViewState().onShowLoading();
         Disposable disposable = animeInteractor.getAnimeLinks(animeId)
+                .doOnEvent((animeLinkViewModels, throwable) -> getViewState().onHideLoading())
                 .map(linkViewModelConverter)
                 .subscribe(this::showLinks, this::processErrors);
 
@@ -514,7 +543,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         this.animeId = animeId;
     }
 
-    public void onOpenBrowserClicked() {
+    private void onOpenBrowserClicked() {
         getRouter().navigateTo(Screens.WEB, BuildConfig.ShikimoriBaseUrl + currentAnime.getUrl());
     }
 
@@ -586,7 +615,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getRouter().navigateTo(Screens.PROFILE, id);
     }
 
-    public void onClearHistoryClicked() {
+    private void onClearHistoryClicked() {
         getViewState().showClearHistoryDialog();
     }
 
@@ -599,5 +628,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onAnimeClicked(long id) {
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
+    }
+
+    public void onBackgroundImageClicked() {
+        getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
     }
 }

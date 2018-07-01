@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.entity.anime.data;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateResponse;
+import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -77,6 +78,9 @@ public class AnimeDetailsResponse {
 
     @SerializedName("user_rate")
     private UserRateResponse rateResponse;
+
+    @SerializedName("videos")
+    private List<VideoResponse> videoResponses;
 
     public long getId() {
         return id;
@@ -159,5 +163,9 @@ public class AnimeDetailsResponse {
 
     public UserRateResponse getRateResponse() {
         return rateResponse;
+    }
+
+    public List<VideoResponse> getVideoResponses() {
+        return videoResponses;
     }
 }

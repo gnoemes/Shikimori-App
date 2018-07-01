@@ -4,7 +4,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,12 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
@@ -32,9 +37,11 @@ import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.AnimePresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeCharacterAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchiseNodeToStringConverter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -43,6 +50,8 @@ import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.LinearStickyHead;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 import com.gnoemes.shikimoriapp.utils.view.ViewStatePagerAdapter;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +64,12 @@ import butterknife.BindView;
 public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         implements AnimeView {
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout layout;
+
+    @BindView(R.id.app_bar)
+    AppBarLayout appBarLayout;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -64,11 +79,14 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @BindView(R.id.image_background)
     ImageView backgroundImage;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+
+    @BindView(R.id.subtitle)
+    TextView subtitleView;
+
+    @BindView(R.id.progress_loading)
+    ProgressBar progressBar;
 
     @InjectPresenter
     AnimePresenter presenter;
@@ -94,6 +112,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @Inject
     AnimeFranchiseNodeToStringConverter franchiseConverter;
 
+    @Inject
+    RateResourceProvider rateResourceProvider;
+
     private AnimePagerAdapter pagerAdapter;
     private boolean isCommentsPage;
 
@@ -118,21 +139,39 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         initViews();
     }
 
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            isCommentsPage = AnimeDetailsPage.COMMENTS.isEqualPage(position);
+        }
+    };
+    private AppBarLayout.OnOffsetChangedListener onOffsetChangedListener = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            subtitleView.setAlpha((float) (1 - Math.abs(verticalOffset / 1.5 / 100)));
+        }
+    };
+
+    @Override
+    public void onDestroyView() {
+        viewPager.setAdapter(null);
+        viewPager.removeOnPageChangeListener(pageChangeListener);
+        appBarLayout.removeOnOffsetChangedListener(onOffsetChangedListener);
+        backgroundImage.setOnClickListener(null);
+        super.onDestroyView();
+    }
+
     private void initViews() {
+        AnimeCharacterAdapter characterAdapter = new AnimeCharacterAdapter(imageLoader, id -> getPresenter().onAction(AnimeAction.CHARACTER, id));
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(item -> getPresenter().onEpisodeClicked(item),
                 (action, item) -> getPresenter().onEpisodeOptionAction(action, item));
-        AnimeAdapter animeAdapter = new AnimeAdapter((action, data) -> getPresenter().onAction(action, data));
+        AnimeAdapter animeAdapter = new AnimeAdapter(rateResourceProvider, characterAdapter, (action, data) -> getPresenter().onAction(action, data));
         CommentsAdapter commentsAdapter = new CommentsAdapter(imageLoader,
                 id -> getPresenter().onUserClicked(id));
 
         pagerAdapter = new AnimePagerAdapter(commentsAdapter, animeAdapter, episodeAdapter);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                isCommentsPage = AnimeDetailsPage.COMMENTS.isEqualPage(position);
-            }
-        });
+        viewPager.addOnPageChangeListener(pageChangeListener);
 
         int textColor = AttributesHelper.withContext(getContext())
                 .getColor(R.attr.colorText);
@@ -146,33 +185,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
-        toolbar.inflateMenu(R.menu.menu_anime);
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.item_settings:
-                    showSettingsWizard(false);
-                    break;
-                case R.id.item_open:
-                    getPresenter().onOpenBrowserClicked();
-                    break;
-                case R.id.item_clear_history:
-                    getPresenter().onClearHistoryClicked();
-                    break;
 
-            }
-            return false;
-        });
-
-        Drawable overFlowIcon = toolbar.getOverflowIcon();
-        overFlowIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(overFlowIcon)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        toolbar.setOverflowIcon(overFlowIcon);
-        progressBar.setSecondaryProgress(R.color.red);
-        progressBar.setIndeterminate(true);
+        backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
+        appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -195,18 +210,25 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void onShowLoading() {
+        TransitionManager.beginDelayedTransition(layout, new Fade());
         progressBar.setVisibility(View.VISIBLE);
+        appBarLayout.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
     }
 
     @Override
     public void onHideLoading() {
+        TransitionManager.beginDelayedTransition(layout, new Fade());
         progressBar.setVisibility(View.GONE);
+        appBarLayout.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setAnimeData(AnimeDetailsViewModel model) {
         imageLoader.setImageWithFit(backgroundImage, model.getImageUrl());
-        toolbar.setTitle(model.getName());
+        collapsingToolbarLayout.setTitle(model.getName());
+        subtitleView.setText(model.getJpOrEngName());
         pagerAdapter.setData(converter.convertFromViewModel(model));
     }
 

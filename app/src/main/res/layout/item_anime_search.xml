@@ -3,17 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:layout_width="173dp"
-    android:layout_height="233dp"
+    android:layout_width="170dp"
+    android:layout_height="230dp"
     android:foreground="?attr/selectableItemBackground"
     android:padding="@dimen/margin_small">
 
     <ImageView
         android:id="@+id/image_anime"
-        android:layout_width="165dp"
-        android:layout_height="225dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/description_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/test_preview2" />
 
     <TextView

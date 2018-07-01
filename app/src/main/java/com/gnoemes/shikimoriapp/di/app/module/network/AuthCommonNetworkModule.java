@@ -6,10 +6,10 @@ import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.AuthCommonApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
-import com.gnoemes.shikimoriapp.utils.net.AuthHolder;
-import com.gnoemes.shikimoriapp.utils.net.ShikiAuthenticator;
-import com.gnoemes.shikimoriapp.utils.net.TokenInterceptor;
-import com.gnoemes.shikimoriapp.utils.net.UserAgentInterceptor;
+import com.gnoemes.shikimoriapp.utils.net.shiki.AuthHolder;
+import com.gnoemes.shikimoriapp.utils.net.shiki.ShikiAuthenticator;
+import com.gnoemes.shikimoriapp.utils.net.shiki.TokenInterceptor;
+import com.gnoemes.shikimoriapp.utils.net.shiki.UserAgentInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

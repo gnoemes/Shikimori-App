@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.fav;
 
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -9,7 +10,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentVi
 
 import java.util.List;
 
-@StateStrategyType(AddToEndStrategy.class)
+@StateStrategyType(AddToEndSingleStrategy.class)
 public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)

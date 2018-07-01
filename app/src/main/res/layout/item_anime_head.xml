@@ -5,73 +5,141 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <TextView
-        android:id="@+id/text_name"
+        android:id="@+id/button_online"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="22sp"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:drawablePadding="@dimen/margin_small"
+        android:focusable="true"
+        android:fontFamily="sans-serif-medium"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/watch_online"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Стальной алхимик: Братство" />
+        tools:drawableStart="@drawable/ic_play_circle_filled"
+        tools:drawableTint="@color/white" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="1dp"
+        android:layout_height="32dp"
+        android:background="?attr/colorDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/compound_rate"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/compound_rate" />
+
+
+    <ImageView
+        android:id="@+id/image_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="?attr/colorText"
+        app:layout_constraintBottom_toBottomOf="@+id/button_online"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/button_online"
+        app:srcCompat="@drawable/ic_dots_vertical" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_end="58dp" />
 
     <TextView
-        android:id="@+id/text_japan_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/compound_rate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/text_name"
-        tools:text="鋼の錬金術師 FULLMETAL ALCHEMIST" />
-
-    <ImageView
-        android:id="@+id/image_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
-        android:contentDescription="@string/description_image"
         android:focusable="true"
-        android:foreground="?attr/actionBarItemBackground"
-        android:tint="@color/colorAccentInverse"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_star_border" />
-
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_online"
+        tools:drawableTint="?attr/colorText"
+        tools:drawableTop="@drawable/ic_star_border"
+        tools:text="Без статуса" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="32dp"
+        android:background="?attr/colorDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/compound_similar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/compound_similar" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="@dimen/margin_small"
-        android:background="?attr/colorAccent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66" />
+
+    <TextView
+        android:id="@+id/compound_similar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:text="@string/common_similar"
+        app:layout_constraintBottom_toBottomOf="@+id/compound_rate"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="@+id/compound_rate"
+        tools:drawableTint="?attr/colorText"
+        tools:drawableTop="@drawable/ic_arrange_send_backward" />
+
+    <TextView
+        android:id="@+id/compound_related"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:text="@string/related"
+        app:layout_constraintBottom_toBottomOf="@+id/compound_similar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_japan_name" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/compound_similar"
+        tools:drawableTint="?attr/colorText"
+        tools:drawableTop="@drawable/ic_arrange_bring_to_front" />
 
     <com.mpt.android.stv.SpannableTextView
         android:id="@+id/text_season"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:padding="@dimen/margin_small"
-        app:layout_constraintTop_toBottomOf="@+id/text_japan_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compound_rate"
         tools:text="Сезон: Весна 2010" />
 
     <com.mpt.android.stv.SpannableTextView
@@ -79,6 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="@+id/text_season"
         app:layout_constraintTop_toBottomOf="@+id/text_season"
         tools:text="Тип: TV (24 эп.), 23 мин." />
 
@@ -87,6 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="@+id/text_type"
         app:layout_constraintTop_toBottomOf="@+id/text_type"
         tools:text="Статус: релиз" />
 
@@ -96,6 +166,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="@+id/text_status"
         app:layout_constraintTop_toBottomOf="@+id/text_status"
         tools:text="Жанр:" />
 
@@ -121,34 +192,25 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_big"
         android:layout_marginRight="@dimen/margin_big"
-        android:layout_marginTop="@dimen/margin_normal"
         app:layout_constraintBaseline_toBaselineOf="@id/text_season"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_japan_name"
-        app:layout_constraintVertical_bias="0.055"
         tools:text="9.53" />
 
-    <Button
-        android:id="@+id/button_online"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:background="?attr/colorPrimary"
-        android:clickable="true"
-        android:drawablePadding="@dimen/margin_small"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="@dimen/margin_normal"
-        android:text="@string/watch_online"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_genres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_genre" />
 
 </android.support.constraint.ConstraintLayout>

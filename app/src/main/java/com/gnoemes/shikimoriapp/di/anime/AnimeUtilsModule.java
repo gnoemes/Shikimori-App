@@ -8,6 +8,8 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkRespons
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotResponseConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
@@ -46,4 +48,7 @@ public interface AnimeUtilsModule {
 
     @Binds
     AnimeFranchiseNodeToStringConverter bindAnimeFranchiseNodeToStringConverter(AnimeFranchiseNodeToStringConverterImpl converter);
+
+    @Binds
+    ScreenshotResponseConverter bindScreenshotResponseConverter(ScreenshotResponseConverterImpl converter);
 }

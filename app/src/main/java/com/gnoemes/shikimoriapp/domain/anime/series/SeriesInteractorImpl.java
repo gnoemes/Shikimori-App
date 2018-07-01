@@ -7,6 +7,7 @@ import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 import com.gnoemes.shikimoriapp.utils.rx.SingleErrorHandler;
@@ -89,6 +90,23 @@ public class SeriesInteractorImpl implements SeriesInteractor {
                 .flatMap(translations -> Observable
                         .fromIterable(translations)
                         .firstOrError())
+                .compose((SingleErrorHandler<Translation>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<TranslationWithSources> getTranslationWithSources(long translationId) {
+        return repository.getTranslation(translationId)
+                .flatMap(translation -> repository.getTranslationVideoRawData(translationId)
+                        .map(playEpisodes -> new TranslationWithSources(translation, playEpisodes)))
+                .compose((SingleErrorHandler<TranslationWithSources>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+
+    @Override
+    public Single<Translation> getTranslation(long translationId) {
+        return repository.getTranslation(translationId)
                 .compose((SingleErrorHandler<Translation>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }

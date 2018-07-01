@@ -85,6 +85,18 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
                     applyIcon(R.drawable.ic_settings);
                     categoryText.setText(R.string.common_settings);
                     break;
+                case FOUR_PDA:
+                    resizeAndApplyIcon(R.drawable.four_pda);
+                    categoryText.setText(R.string.four_pda);
+                    break;
+                case SHIKIMORI_CLUB:
+                    resizeAndApplyIcon(R.drawable.shikimori);
+                    categoryText.setText(R.string.app_on_shikimori);
+                    break;
+                case SUPPORT:
+                    applyIcon(R.drawable.ic_heart);
+                    categoryText.setText(R.string.support);
+                    break;
             }
 
             layout.setOnClickListener(v -> callback.onAction(model.getCategory()));
@@ -96,6 +108,14 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
                     .withDrawable(drawableRes)
                     .withAttributeColor(R.attr.colorText)
                     .tint()
+                    .applyTo(icon);
+        }
+
+        private void resizeAndApplyIcon(@DrawableRes int drawableRes) {
+            DrawableHelper
+                    .withContext(itemView.getContext())
+                    .withDrawable(drawableRes)
+                    .resize(24)
                     .applyTo(icon);
         }
     }

@@ -9,12 +9,17 @@ import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
+import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
+import com.gnoemes.shikimoriapp.entity.rates.domain.PlaceholderType;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
+import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteView;
@@ -159,7 +164,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         paginator = new FavoritePaginatorImpl(interactor, controller);
         paginator.setId(userId);
         paginator.setStatus(currentStatus);
-        paginator.setUserStatus(settings == null ? null : settings.getStatus());
+        paginator.setUserStatus(settings == null ? UserStatus.AUTHORIZED : settings.getStatus());
         paginator.refresh();
         getViewState().hideNetworkErrorView();
     }
@@ -194,6 +199,20 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
                 break;
             case ContentException.TAG:
                 //not implemented (empty page)
+                break;
+            case ServiceCodeException.TAG:
+                processHttpError(throwable);
+                break;
+            default:
+                super.processErrors(throwable);
+        }
+    }
+
+    private void processHttpError(Throwable throwable) {
+        ServiceCodeException exception = (ServiceCodeException) throwable;
+        switch (exception.getServiceCode()) {
+            case HttpStatusCode.FORBIDDED:
+                getViewState().showList(Collections.singletonList(new AnimeRatePlaceholder(PlaceholderType.ERROR)));
                 break;
             default:
                 super.processErrors(throwable);

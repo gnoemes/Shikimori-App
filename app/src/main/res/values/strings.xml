@@ -192,7 +192,7 @@
     <string name="translation_dubber_choose">Выбор даббера:</string>
     <string name="player_in_browser">Smotret-anime.ru</string>
     <string name="player_external">Внешний</string>
-    <string name="player_embedded">Внутренний</string>
+    <string name="player_embedded">Внутренний (BETA)</string>
     <string name="player_choose">Выбор плеера:</string>
     <string name="open_browser">Открыть в браузере</string>
     <string name="quality_tv" translatable="false">TV</string>
@@ -204,7 +204,6 @@
     <string name="auth_dialog_conent">Войдите или зарегистрируйтесь для использования всех возможностей приложения</string>
     <string name="common_sign_up">Регистрация</string>
     <string name="reg_nickname">Никнейм</string>
-    <string name="reg_password">Пароль</string>
     <string name="similar_empty">Ничего не найдено. \n Возможно Вам стоит пересмотреть свои вкусы ;)</string>
     <string name="description_avatar">Аватар</string>
     <string name="description_answer">Ответить</string>
@@ -245,8 +244,8 @@
     <string name="pref_auto_dark_theme">is_auto_dark</string>
     <string name="pref_dark_theme_summary">Ночной режим позволяет уменьшить утомляемость глаз</string>
     <string name="pref_dark_theme_title">Ночной режим</string>
-    <string name="pref_auto_dark_theme_summary">Включать режим автоматический в ночное время суток</string>
-    <string name="pref_auto_dark_theme_title">Включать автоматический</string>
+    <string name="pref_auto_dark_theme_summary">Включать режим автоматически в ночное время суток</string>
+    <string name="pref_auto_dark_theme_title">Включать автоматически</string>
     <string name="about_program">О программе</string>
     <string name="pref_about_program">about_version</string>
     <string name="attention">Внимание</string>
@@ -282,7 +281,7 @@
     <string name="pref_not_choosed_summary">Не выбрано</string>
     <string name="pref_translation_type">TRANSLATION_TYPE</string>
     <string name="pref_auto_translation">TRANSLATION_DUBBER_SETTINGS</string>
-    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматический в зависимости от рейтинга</string>
+    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматически в зависимости от рейтинга</string>
     <string name="pref_auto_translation_title">Автоматический выбор перевода</string>
     <string name="pref_player_type">PLAYER_TYPE</string>
     <string name="pref_player_type_title">Видеоплеер</string>
@@ -303,6 +302,24 @@
     <string name="related_not_found">Ничего не найдено</string>
     <string name="account_exit">Выйти из аккаунта</string>
     <string name="exit_text">Вы уверены, что хотите выйти из аккаунта?</string>
+    <string name="four_pda">Тема на 4pda</string>
+    <string name="app_on_shikimori">Клуб на Шикимори</string>
+    <string name="support">Поддержать</string>
+    <string name="rate_forbidden">Пользователь скрыл информацию о статусах просмотра.</string>
+    <string name="no_rate">Нет статуса</string>
+    <string name="opening">Опенинг</string>
+    <string name="ending">Эндинг</string>
+    <string name="promo">Промо</string>
+    <string name="loading_screenshot_error">Произошла ошибка во время загрузки скриншота</string>
+    <string name="description">Описание</string>
+    <string name="others">Прочие:</string>
+    <string name="on_jp">По-японский:</string>
+    <string name="on_ru">По-русский:</string>
+    <string name="names">Имена</string>
+    <string name="source">Источник</string>
+    <string name="seyu">Сэйю</string>
+    <string name="anime">Аниме</string>
+    <string name="character_info">Информация о персонаже</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

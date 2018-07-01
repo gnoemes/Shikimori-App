@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    android:padding="12dp"
+    android:padding="6dp"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/text_action"
         app:layout_constraintEnd_toStartOf="@+id/text_action"
         app:layout_constraintTop_toTopOf="@+id/text_action"
-        tools:srcCompat="@drawable/ic_arrange_send_backward" />
+        tools:srcCompat="@drawable/ic_attachment" />
 
     <TextView
         android:id="@+id/text_action"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Похожие" />
+        tools:text="Ссылки" />
 
 
 </android.support.constraint.ConstraintLayout>

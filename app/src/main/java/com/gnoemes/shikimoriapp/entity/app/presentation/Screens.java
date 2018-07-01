@@ -20,4 +20,7 @@ public class Screens {
     public static final String PROFILE = "PROFILE";
     public static final String HISTORY = "HISTORY";
     public static final String RELATED = "RELATED";
+    public static final String EMBEDDED_PLAYER = "EMBEDDED_PLAYER";
+    public static final String SCREENSHOTS = "SCREENSHOTS";
+    public static final String CHARACTER_DETAILS = "CHARACTER_DETAILS";
 }

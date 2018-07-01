@@ -7,6 +7,9 @@ public enum MenuCategory {
     MESSAGES(3),
     FRIENDS(4),
     SETTINGS(5),
+    FOUR_PDA(6),
+    SHIKIMORI_CLUB(7),
+    SUPPORT(8)
 
     //TODO SOCIAL LINKS/SOMETHING MORE
     ;

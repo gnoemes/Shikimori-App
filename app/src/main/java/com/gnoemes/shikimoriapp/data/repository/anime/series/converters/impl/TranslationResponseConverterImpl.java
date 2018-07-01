@@ -32,7 +32,8 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
         return translations;
     }
 
-    private Translation convertResponse(TranslationResponse response) {
+    @Override
+    public Translation convertResponse(TranslationResponse response) {
         return new Translation(response.getId(),
                 convertQuality(response.getQuality()),
                 response.getTitle(),
@@ -43,7 +44,9 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
                 converter.convertFrom(response.getEpisodeResponse(), response.getSeriesResponses().getAnimeId()),
                 response.getWidth(),
                 response.getHeight(),
-                response.getAuthors());
+                response.getAuthors(),
+                //TODO multi languages?
+                response.getSeriesResponses().getTitlesResponse().getRu());
     }
 
     private TranslationType convertType(String type) {

@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.AttrRes;
@@ -15,6 +16,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -124,4 +126,23 @@ public class DrawableHelper {
         return bitmap;
     }
 
+    public DrawableHelper resize(int sizeInDp) {
+        int size = (int) convertDpToPixel(sizeInDp);
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        wrappedDrawable = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, size, size, true));
+        return this;
+    }
+
+
+    public DrawableHelper resize(int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        wrappedDrawable = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, (int) convertDpToPixel(width), (int) convertDpToPixel(height), true));
+        return this;
+    }
+
+    private float convertDpToPixel(float dp) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
+    }
 }

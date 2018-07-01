@@ -7,9 +7,13 @@ import com.gnoemes.shikimoriapp.data.local.db.impl.EpisodeDbSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.EpisodeResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.PlayEpisodeConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.PlayEpisodeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.TranslationResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl.EpisodeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl.PlayEpisodeConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl.PlayEpisodeResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl.SeriesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl.TranslationResponseConverterImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
@@ -46,4 +50,11 @@ public interface SeriesModule {
 
     @Binds
     EpisodeViewModelConverter bindEpisodeViewModelConverter(EpisodeViewModelConverterImpl converter);
+
+    @Binds
+    PlayEpisodeConverter bindPlayEpisodeConverter(PlayEpisodeConverterImpl converter);
+
+    @Binds
+    PlayEpisodeResponseConverter bindPlayEpisodeResponseConverter(PlayEpisodeResponseConverterImpl converter);
+
 }

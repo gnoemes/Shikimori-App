@@ -5,22 +5,29 @@ import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 
 public class TranslationViewModel {
 
+    private long id;
     private String title;
     private String resolution;
     private TranslationQuality quality;
     private TranslationType type;
     private String url;
 
-    public TranslationViewModel(String title,
+    public TranslationViewModel(long id,
+                                String title,
                                 String resolution,
                                 TranslationQuality quality,
                                 TranslationType type,
                                 String url) {
+        this.id = id;
         this.title = title;
         this.resolution = resolution;
         this.quality = quality;
         this.type = type;
         this.url = url;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getTitle() {
