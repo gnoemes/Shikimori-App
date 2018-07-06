@@ -6,4 +6,6 @@ import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseNetworkVie
 public interface EmbeddedPlayerView extends BaseNetworkView {
 
     void setPlayerData(TranslationWithSources translation, int position);
+
+    void showSystemMessage(String s);
 }

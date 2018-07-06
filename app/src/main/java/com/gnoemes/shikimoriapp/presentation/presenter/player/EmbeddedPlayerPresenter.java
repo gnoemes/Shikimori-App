@@ -28,8 +28,10 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     }
 
     private void loadTranslation() {
+        getViewState().onShowLoading();
 
         Disposable disposable = seriesInteractor.getTranslationWithSources(translationId)
+                .doOnEvent((translationWithSources, throwable) -> getViewState().onHideLoading())
                 .subscribe(this::setTranslationWithSources, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -37,7 +39,11 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
 
     private void setTranslationWithSources(TranslationWithSources translation) {
         this.current = translation;
-        getViewState().setPlayerData(translation, 0);
+        if (translation.getSources() != null && !translation.getSources().isEmpty()) {
+            getViewState().setPlayerData(translation, 0);
+        } else {
+            getViewState().showSystemMessage("Произошла ошибка во время загрузки видео. Попробуйте воспользоваться другим плеером.");
+        }
     }
 
     public void setTranslationId(long translationId) {

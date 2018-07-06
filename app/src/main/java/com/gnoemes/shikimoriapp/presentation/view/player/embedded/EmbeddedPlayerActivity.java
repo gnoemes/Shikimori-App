@@ -149,6 +149,11 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
+    public void showSystemMessage(String s) {
+        Toast.makeText(EmbeddedPlayerActivity.this, s, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onControlsVisible() {
 
     }
@@ -249,5 +254,15 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         playerManager.setEventListener(this);
 
         playerManager.addMediaSource(source);
+    }
+
+    @Override
+    public void onShowLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onHideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 }
