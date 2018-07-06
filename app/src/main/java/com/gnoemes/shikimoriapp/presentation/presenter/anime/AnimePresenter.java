@@ -183,7 +183,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     @Override
     public void initData() {
         loadAnimeData();
-        getViewState().onShowRefresh();
         loadUserSettings();
         getViewState().setPage(AnimeDetailsPage.INFO.getPage());
         if (!first) {

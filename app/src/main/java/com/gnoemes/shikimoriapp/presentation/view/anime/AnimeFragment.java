@@ -472,7 +472,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             int margin = (int) layout.getResources().getDimension(R.dimen.margin_small);
             seriesList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             seriesList.setAdapter(episodeAdapter);
-            refreshLayout.setRefreshing(true);
+            if (episodeAdapter.getItems().isEmpty()) {
+                refreshLayout.setRefreshing(true);
+            }
         }
 
         public void setData(List<BaseItem> animeItems) {

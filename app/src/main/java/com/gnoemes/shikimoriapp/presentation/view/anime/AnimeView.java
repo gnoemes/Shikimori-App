@@ -44,10 +44,10 @@ public interface AnimeView extends BaseFragmentView {
     @StateStrategyType(SkipStrategy.class)
     void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);
 
-    @StateStrategyType(SkipStrategy.class)
+    @StateStrategyType(AddToEndStrategy.class)
     void onShowRefresh();
 
-    @StateStrategyType(SkipStrategy.class)
+    @StateStrategyType(AddToEndStrategy.class)
     void onHideRefresh();
 
     @StateStrategyType(SkipStrategy.class)
