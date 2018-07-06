@@ -1,11 +1,18 @@
 package com.gnoemes.shikimoriapp.presentation.view.main;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -22,6 +29,8 @@ import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -65,6 +74,34 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initContainers();
+
+        mockMessage();
+    }
+
+    private void mockMessage() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String s = sp.getString("lastLaunch", "");
+        if (TextUtils.isEmpty(s) || new DateTime(s).plusHours(3).isBeforeNow()) {
+            String message = "Наблюдаются проблемы с получением видео из-за новой политики сайта. Встроенный плеер временно отключен. Подробнее в теме на 4PDA.";
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://4pda.ru/forum/index.php?s=&showtopic=903970&view=findpost&p=74831685"));
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "mock_channel")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Внимание")
+                    .setContentText(message)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent);
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (mNotificationManager != null) {
+                mNotificationManager.notify(0, builder.build());
+            }
+            sp.edit().putString("lastLaunch", DateTime.now().toString()).apply();
+        }
     }
 
     @Override
