@@ -183,25 +183,25 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
             RadioButton external = layout.findViewById(R.id.btn_external);
             RadioButton browser = layout.findViewById(R.id.btn_browser);
 
-            embedded.setOnClickListener(v -> {
-                Toast.makeText(getContext(), "Временно отключено", Toast.LENGTH_SHORT).show();
-                browser.setChecked(true);
-            });
+//            embedded.setOnClickListener(v -> {
+//                Toast.makeText(getContext(), "Временно отключено", Toast.LENGTH_SHORT).show();
+//                browser.setChecked(true);
+//            });
             external.setOnClickListener(v -> {
                 Toast.makeText(getContext(), "В разработке", Toast.LENGTH_SHORT).show();
                 browser.setChecked(true);
             });
 
-//            embedded.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//                if (isChecked) {
-//                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
-//                    embedded.setBackgroundColor(backgroundCheckedColor);
-//                    selectedPlayer = PlayerType.EMBEDDED;
-//                } else {
-//                    embedded.setBackgroundColor(backgroundColor);
-//                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-//                }
-//            });
+            embedded.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
+                    embedded.setBackgroundColor(backgroundCheckedColor);
+                    selectedPlayer = PlayerType.EMBEDDED;
+                } else {
+                    embedded.setBackgroundColor(backgroundColor);
+                    embedded.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                }
+            });
 //
 //
 //            external.setOnCheckedChangeListener((buttonView, isChecked) -> {
