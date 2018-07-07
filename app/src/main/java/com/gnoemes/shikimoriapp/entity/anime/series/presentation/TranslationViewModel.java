@@ -2,51 +2,59 @@ package com.gnoemes.shikimoriapp.entity.anime.series.presentation;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationQuality;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 
 public class TranslationViewModel {
 
-    private long id;
-    private String title;
-    private String resolution;
-    private TranslationQuality quality;
+    private long animeId;
+    private int episodeId;
+    private long videoId;
     private TranslationType type;
-    private String url;
+    private TranslationQuality quality;
+    private VideoHosting hosting;
+    private String author;
 
-    public TranslationViewModel(long id,
-                                String title,
-                                String resolution,
-                                TranslationQuality quality,
+    public TranslationViewModel(long animeId,
+                                int episodeId,
+                                long videoId,
                                 TranslationType type,
-                                String url) {
-        this.id = id;
-        this.title = title;
-        this.resolution = resolution;
-        this.quality = quality;
+                                TranslationQuality quality,
+                                VideoHosting hosting,
+                                String author) {
+        this.animeId = animeId;
+        this.episodeId = episodeId;
+        this.videoId = videoId;
         this.type = type;
-        this.url = url;
+        this.quality = quality;
+        this.hosting = hosting;
+        this.author = author;
     }
 
-    public long getId() {
-        return id;
+    public long getAnimeId() {
+        return animeId;
     }
 
-    public String getTitle() {
-        return title;
+    public int getEpisodeId() {
+        return episodeId;
     }
 
-    public String getResolution() {
-        return resolution;
-    }
-
-    public TranslationQuality getQuality() {
-        return quality;
+    public long getVideoId() {
+        return videoId;
     }
 
     public TranslationType getType() {
         return type;
     }
 
-    public String getUrl() {
-        return url;
+    public TranslationQuality getQuality() {
+        return quality;
+    }
+
+    public VideoHosting getHosting() {
+        return hosting;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 }

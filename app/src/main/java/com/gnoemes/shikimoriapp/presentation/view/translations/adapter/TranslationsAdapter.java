@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
+import com.gnoemes.shikimoriapp.utils.Utils;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 
 import java.util.ArrayList;
@@ -60,14 +61,11 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
         @BindView(R.id.text_title)
         TextView titleText;
 
-        @BindView(R.id.text_resolution)
-        TextView resolutionText;
+//        @BindView(R.id.label_quality)
+//        TextView qualityLabel;
 
-        @BindView(R.id.label_quality)
-        TextView qualityLabel;
-
-        @BindView(R.id.text_language)
-        TextView languageText;
+        @BindView(R.id.text_hosting)
+        TextView hosting;
 
         private Drawable tv;
         private Drawable dvd;
@@ -97,42 +95,6 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
                     .withColor(R.color.light_teal)
                     .tint()
                     .get();
-        }
-
-        public void bind(TranslationViewModel translation) {
-            layout.setOnClickListener(null);
-
-            titleText.setText(translation.getTitle());
-
-            resolutionText.setText(translation.getResolution());
-
-            switch (translation.getQuality()) {
-                case TV:
-                    qualityLabel.setText(R.string.quality_tv);
-                    qualityLabel.setBackground(tv);
-                    break;
-                case DVD:
-                    qualityLabel.setText(R.string.quality_dvd);
-                    qualityLabel.setBackground(dvd);
-                    break;
-                case BD:
-                    qualityLabel.setText(R.string.quality_bd);
-                    qualityLabel.setBackground(bd);
-                    break;
-            }
-
-            switch (translation.getType()) {
-                case VOICE_RU:
-                    languageText.setText(R.string.ru);
-                    break;
-                case SUB_RU:
-                    languageText.setText(R.string.ru);
-                    break;
-                case RAW:
-                    languageText.setText(R.string.jp);
-                    break;
-            }
-
 
             Drawable card = DrawableHelper
                     .withContext(itemView.getContext())
@@ -142,6 +104,32 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
                     .get();
 
             layout.setBackground(card);
+        }
+
+        public void bind(TranslationViewModel translation) {
+            layout.setOnClickListener(null);
+
+            String type = translation.getType() == null ? "" : translation.getType().getType();
+            String title = String.format("%s %s", Utils.firstUpperCase(type), translation.getAuthor());
+
+            titleText.setText(title);
+
+            hosting.setText(translation.getHosting().getSynonymType());
+
+//            switch (translation.getQuality()) {
+//                case TV:
+//                    qualityLabel.setText(R.string.quality_tv);
+//                    qualityLabel.setBackground(tv);
+//                    break;
+//                case DVD:
+//                    qualityLabel.setText(R.string.quality_dvd);
+//                    qualityLabel.setBackground(dvd);
+//                    break;
+//                case BD:
+//                    qualityLabel.setText(R.string.quality_bd);
+//                    qualityLabel.setBackground(bd);
+//                    break;
+//            }
 
             layout.setOnClickListener(v -> callback.onTranslationClicked(translation));
         }

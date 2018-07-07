@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.di.app.qualifiers.SettingsQualifier;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
@@ -56,10 +53,6 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     private void saveSettings(UserSettings userSettings) {
         saveUserStatus(userSettings.getStatus());
         saveUserBrief(userSettings.getUserBrief());
-        saveWizardFlag(userSettings.getNeedShowWizard());
-        saveTranslationType(userSettings.getTranslationType());
-        saveTranslationDubberSettings(userSettings.getDubberSettings());
-        savePlayerType(userSettings.getPlayerType());
         saveTheme(userSettings.getTheme());
 
         emitSettings();
@@ -68,10 +61,6 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     private UserSettings getUserSettings() {
         return new UserSettings(getUserStatus(),
                 getUserBrief(),
-                getWizardFlag(),
-                getTranslationType(),
-                getTranslationDubberSettings(),
-                getPlayerType(),
                 getTheme());
     }
 
@@ -100,50 +89,6 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         } catch (JsonSyntaxException e) {
             return null;
         }
-    }
-
-    private void saveWizardFlag(@Nullable Boolean needShowWizard) {
-        if (needShowWizard == null) {
-            return;
-        }
-        getEditor().putBoolean(SettingsExtras.WATCH_WIZARD, needShowWizard).commit();
-    }
-
-    private boolean getWizardFlag() {
-        return getPrefs().getBoolean(SettingsExtras.WATCH_WIZARD, true);
-    }
-
-    private void saveTranslationType(@Nullable TranslationType type) {
-        if (type == null) {
-            return;
-        }
-        getEditor().putString(SettingsExtras.TRANSLATION_TYPE, type.getType()).commit();
-    }
-
-    private TranslationType getTranslationType() {
-        return converter.convertTranslationType(getPrefs().getString(SettingsExtras.TRANSLATION_TYPE, "voiceRu"));
-    }
-
-    private void saveTranslationDubberSettings(@Nullable TranslationDubberSettings settings) {
-        if (settings == null) {
-            return;
-        }
-        getEditor().putBoolean(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, settings.getBoolean()).commit();
-    }
-
-    private TranslationDubberSettings getTranslationDubberSettings() {
-        return converter.convertTranslationDubberSettings(getPrefs().getBoolean(SettingsExtras.TRANSLATION_DUBBER_SETTINGS, true) ? TranslationDubberSettings.AUTO.toString() : TranslationDubberSettings.MANUAL.toString());
-    }
-
-    private void savePlayerType(@Nullable PlayerType type) {
-        if (type == null) {
-            return;
-        }
-        getEditor().putString(SettingsExtras.PLAYER_TYPE, type.toString()).commit();
-    }
-
-    private PlayerType getPlayerType() {
-        return converter.convertPlayerType(getPrefs().getString(SettingsExtras.PLAYER_TYPE, "embedded"));
     }
 
     private void saveTheme(@Nullable Boolean isLightTheme) {

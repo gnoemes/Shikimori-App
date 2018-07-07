@@ -112,6 +112,8 @@ public class SeriesResponseConverterImpl implements SeriesResponseConverter {
                 types.add(TranslationType.SUB_RU);
             } else if (TranslationType.RAW.isEqualType(s)) {
                 types.add(TranslationType.RAW);
+            } else if (TranslationType.VOICE_RU.isEqualType(s)) {
+                types.add(TranslationType.VOICE_RU);
             }
         }
         return types;

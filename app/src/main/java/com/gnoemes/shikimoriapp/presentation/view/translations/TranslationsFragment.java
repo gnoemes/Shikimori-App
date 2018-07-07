@@ -56,8 +56,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     public static TranslationsFragment newInstance(TranslationNavigationData data) {
         TranslationsFragment fragment = new TranslationsFragment();
         Bundle args = new Bundle();
-        args.putLong(AppExtras.ARGUMENT_EPISODE_ID, data.getEpisodeId());
+        args.putInt(AppExtras.ARGUMENT_EPISODE_ID, data.getEpisodeId());
         args.putSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE, data.getType());
+        args.putLong(AppExtras.ARGUMENT_ANIME_ID, data.getAnimeId());
+        args.putLong(AppExtras.ARGUMENT_ANIME_RATE_ID, data.getRateId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,8 +71,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
             if (getParentFragment() != null) {
                 presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
             }
-            presenter.setEpisodeId(getArguments().getLong(AppExtras.ARGUMENT_EPISODE_ID));
+            presenter.setEpisodeId(getArguments().getInt(AppExtras.ARGUMENT_EPISODE_ID));
             presenter.setCurrentTranslation((TranslationType) getArguments().getSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE));
+            presenter.setAnimeId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_ID));
+            presenter.setRateId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_RATE_ID));
         }
 
         return presenter;

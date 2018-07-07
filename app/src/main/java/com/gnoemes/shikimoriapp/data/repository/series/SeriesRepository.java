@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.data.repository.series;
 
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
@@ -23,14 +22,7 @@ public interface SeriesRepository {
     /**
      * Get translations by episodeId
      */
-    Single<List<Translation>> getTranslations(TranslationType type, long episodeId);
-
-    /**
-     * Get translation by id
-     */
-    Single<Translation> getTranslation(long translationId);
-
-    Single<List<PlayEpisode>> getTranslationVideoRawData(long translationId);
+    Single<List<Translation>> getTranslations(TranslationType type, long animeId, int episodeId);
 
     /**
      * Saves episode to history

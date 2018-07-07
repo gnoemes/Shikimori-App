@@ -19,27 +19,23 @@ public class TranslationViewModelConverterImpl implements TranslationViewModelCo
         List<TranslationViewModel> viewModels = new ArrayList<>();
 
         for (Translation translation : translations) {
-            viewModels.add(convertTranslation(translation));
+            if (translation.isValid()) {
+                viewModels.add(convertTranslation(translation));
+            }
         }
         return viewModels;
     }
 
     private TranslationViewModel convertTranslation(Translation translation) {
         return new TranslationViewModel(
-                translation.getId(),
-                convertTitle(translation.getTitle()),
-                convertResolution(translation.getWidth(), translation.getHeight()),
-                translation.getQuality(),
+                translation.getAnimeId(),
+                translation.getEpisodeId(),
+                translation.getVideoId(),
                 translation.getType(),
-                translation.getEmbedUrl());
+                translation.getQuality(),
+                translation.getHosting(),
+                translation.getAuthor()
+        );
     }
 
-    private String convertTitle(String title) {
-        String converted = title.substring(title.lastIndexOf('/')).replaceFirst("/", "");
-        return converted.charAt(0) == ' ' ? converted.replaceFirst(" ", "") : converted;
-    }
-
-    private String convertResolution(int width, int height) {
-        return String.format("%sx%s", String.valueOf(width), String.valueOf(height));
-    }
 }

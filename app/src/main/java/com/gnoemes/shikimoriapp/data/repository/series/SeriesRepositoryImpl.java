@@ -7,7 +7,7 @@ import com.gnoemes.shikimoriapp.data.local.db.HistoryDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.SeriesResponseConverter;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.TranslationResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
@@ -24,6 +24,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 
     private VideoApi api;
     private SeriesResponseConverter responseConverter;
+    private TranslationResponseConverter translationResponseConverter;
     private EpisodeDbSource episodeDbSource;
     private HistoryDbSource historyDbSource;
     private RateSyncDbSource syncDbSource;
@@ -31,11 +32,13 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     @Inject
     public SeriesRepositoryImpl(@NonNull VideoApi api,
                                 @NonNull SeriesResponseConverter responseConverter,
+                                @NonNull TranslationResponseConverter translationResponseConverter,
                                 @NonNull EpisodeDbSource episodeDbSource,
                                 @NonNull HistoryDbSource historyDbSource,
                                 @NonNull RateSyncDbSource syncDbSource) {
         this.api = api;
         this.responseConverter = responseConverter;
+        this.translationResponseConverter = translationResponseConverter;
         this.episodeDbSource = episodeDbSource;
         this.historyDbSource = historyDbSource;
         this.syncDbSource = syncDbSource;
@@ -68,33 +71,17 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     }
 
     /**
-     * Get sorted by rating translations
+     * Get translations
      */
     @Override
-    public Single<List<Translation>> getTranslations(TranslationType type, long episodeId) {
-//        return api.getEpisodeTranslations(type.getType(), episodeId)
-//                .map(TranslationListResponse::getTranslationResponses)
-//                .map(translationResponseConverter)
-//                .flatMap(translations -> Observable.fromIterable(translations)
-//                        .toSortedList((o1, o2) -> Long.compare(o2.getPriority(), o1.getPriority())));
-        return null;
+    public Single<List<Translation>> getTranslations(TranslationType type, long animeId, int episodeId) {
+        return api.getAnimeVideoInfo(animeId, episodeId)
+                .map(document -> translationResponseConverter.convert(animeId, episodeId, document))
+                .flatMap(translations -> Observable.fromIterable(translations)
+                        .filter(translation -> translation.getType() == type || type == TranslationType.ALL)
+                        .toList());
     }
 
-    @Override
-    public Single<Translation> getTranslation(long translationId) {
-//        return api.getTranslation(translationId)
-//                .map(TranslationResponseData::getResponse)
-//                .map(response -> translationResponseConverter.convertResponse(response));
-        return null;
-    }
-
-    @Override
-    public Single<List<PlayEpisode>> getTranslationVideoRawData(long translationId) {
-//        return api.getPlayerHTMLPage(translationId)
-//                .map(ResponseBody::string)
-//                .map(playEpisodeConverter);
-        return null;
-    }
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {

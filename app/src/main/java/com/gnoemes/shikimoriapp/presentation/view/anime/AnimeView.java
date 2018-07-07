@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
@@ -39,7 +40,7 @@ public interface AnimeView extends BaseFragmentView {
     void hideErrorView();
 
     @StateStrategyType(SkipStrategy.class)
-    void showSettingsWizard(boolean loadEpisode);
+    void showPlayWizard(List<TranslationType> translationTypes);
 
     @StateStrategyType(SkipStrategy.class)
     void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);

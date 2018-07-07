@@ -57,6 +57,7 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
         return new EpisodeItem(episode.getId(),
                 episode.getAnimeId(),
                 episode.getRawHostings(),
+                episode.getTypes(),
                 episode.isWatched());
     }
 }

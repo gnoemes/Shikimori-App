@@ -2,7 +2,6 @@ package com.gnoemes.shikimoriapp.presentation.presenter.anime;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.BuildConfig;
@@ -21,15 +20,11 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationDubberSettings;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
-import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
@@ -208,11 +203,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
             case NetworkException.TAG:
                 getViewState().showErrorView();
                 break;
-            case ContentException.TAG:
-                if (selectedEpisode != null) {
-                    onManualSearchTranslation();
-                }
-                break;
             case ServiceCodeException.TAG:
                 if (((ServiceCodeException) throwable).getServiceCode() == HttpStatusCode.NOT_FOUND) {
                     //not implemented
@@ -232,107 +222,18 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * @param episode EpisodeItem
      */
     public void onEpisodeClicked(EpisodeItem episode) {
-        long prevId = selectedEpisode == null ? Constants.NO_ID : selectedEpisode.getId();
         selectedEpisode = episode;
-        if (userSettings.getNeedShowWizard() && prevId != episode.getId()) {
-            getViewState().showSettingsWizard(true);
-        } else {
-            switch (userSettings.getDubberSettings()) {
-                case AUTO:
-                    onAutoLoadTranslation();
-                    break;
-                case MANUAL:
-                    onManualSearchTranslation();
-                    break;
-            }
-            setEpisodeWatched(episode.getAnimeId(), episode.getId());
-        }
-
-    }
-
-    //KOTLIN GIVE ME THE POWER PLS
-    private void setEpisodeWatched(long animeId, long episodeId) {
-        Disposable disposable;
-        if (rateId != Constants.NO_ID) {
-            disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId, rateId)
-                    .doOnComplete(this::loadEpisodes)
-                    .subscribe(() -> {
-                    }, this::processErrors);
-
-        } else {
-            disposable = seriesInteractor.setEpisodeWatched(animeId, episodeId)
-                    .doOnComplete(this::loadEpisodes)
-                    .subscribe(() -> {
-                    }, this::processErrors);
-        }
-        unsubscribeOnDestroy(disposable);
-    }
-
-    /**
-     * Load most rated translation with selected type
-     */
-    private void onAutoLoadTranslation() {
-        Disposable disposable = seriesInteractor
-                .getAutoTranslation(userSettings.getTranslationType(), selectedEpisode.getId())
-                .subscribe(this::onPlayTranslation, this::processErrors);
-
-        unsubscribeOnDestroy(disposable);
-    }
-
-
-    /**
-     * Navigate to translations page with current data
-     */
-    private void onManualSearchTranslation() {
-        analyticsInteractor.logEvent(AnalyticsEvent.TRANSLATIONS_OPENED);
-        getRouter().navigateTo(Screens.TRANSLATIONS, new TranslationNavigationData(
-                selectedEpisode.getId(),
-                userSettings.getTranslationType()));
+        getViewState().showPlayWizard(episode.getTranslationTypes());
     }
 
     /**
      * Wizard callback with user selected settings
      */
-    public void onSettingsSelected(boolean loadEpisode, TranslationType type, TranslationDubberSettings chooseSettings, PlayerType playerType, boolean alwaysShow) {
-        UserSettings settings = new UserSettings.Builder()
-                .setIsNeedShowWizard(alwaysShow)
-                .setDubberSettings(chooseSettings)
-                .setPlayerType(playerType)
-                .setTranslationType(type)
-                .build();
-
-        Disposable disposable = settingsInteractor.saveUserSettings(settings)
-                .doOnComplete(() -> {
-                    if (loadEpisode) {
-                        onEpisodeClicked(selectedEpisode);
-                        getRouter().showSystemMessage(resourceProvider.getSuccessMessage());
-                    }
-                })
-                .subscribe();
-
-        unsubscribeOnDestroy(disposable);
-    }
-
-    /**
-     * Start the video depending on the type of player
-     */
-    private void onPlayTranslation(Translation translation) {
-        String authors = TextUtils.isEmpty(translation.getAuthors()) ? "Неизвестный автор" : translation.getAuthors();
-        getRouter().showSystemMessage("Выбрано: " + authors);
-        //TODO add other players
-        switch (userSettings.getPlayerType()) {
-            case EMBEDDED:
-                analyticsInteractor.logEvent(AnalyticsEvent.EMBEDDED_PLAYER_OPENED);
-                getRouter().navigateTo(Screens.EMBEDDED_PLAYER, translation.getId());
-                break;
-            case EXTERNAL:
-
-                break;
-            case BROWSER:
-                analyticsInteractor.logEvent(AnalyticsEvent.WEB_PLAYER_OPENED);
-                getRouter().navigateTo(Screens.WEB_PLAYER, translation.getEmbedUrl());
-                break;
-        }
+    public void onTranslationTypeChoosed(TranslationType type) {
+        analyticsInteractor.logEvent(AnalyticsEvent.TRANSLATIONS_OPENED);
+        getRouter().navigateTo(Screens.TRANSLATIONS,
+                new TranslationNavigationData(animeId, selectedEpisode.getId(), rateId, type)
+        );
     }
 
     /**
@@ -379,9 +280,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 break;
             case OPEN_IN_BROWSER:
                 onOpenBrowserClicked();
-                break;
-            case SHOW_PLAY_SETTINGS:
-                getViewState().showSettingsWizard(data != null && (boolean) data);
                 break;
             case VIDEO:
                 onVideoClicked((String) data);

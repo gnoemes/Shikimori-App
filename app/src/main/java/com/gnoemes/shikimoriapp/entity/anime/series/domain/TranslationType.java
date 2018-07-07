@@ -8,7 +8,6 @@ public enum TranslationType {
     RAW("оригинал"),
     ALL(null);
 
-
     @Nullable
     private final String type;
 

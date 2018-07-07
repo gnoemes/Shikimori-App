@@ -7,8 +7,6 @@ import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSource
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerView;
 
-import io.reactivex.disposables.Disposable;
-
 @InjectViewState
 public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayerView> {
 
@@ -30,11 +28,11 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     private void loadTranslation() {
         getViewState().onShowLoading();
 
-        Disposable disposable = seriesInteractor.getTranslationWithSources(translationId)
-                .doOnEvent((translationWithSources, throwable) -> getViewState().onHideLoading())
-                .subscribe(this::setTranslationWithSources, this::processErrors);
-
-        unsubscribeOnDestroy(disposable);
+//        Disposable disposable = seriesInteractor.getTranslationWithSources(translationId)
+//                .doOnEvent((translationWithSources, throwable) -> getViewState().onHideLoading())
+//                .subscribe(this::setTranslationWithSources, this::processErrors);
+//
+//        unsubscribeOnDestroy(disposable);
     }
 
     private void setTranslationWithSources(TranslationWithSources translation) {

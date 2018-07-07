@@ -380,8 +380,6 @@
         <item>Русская озвучка</item>
         <item>Русские субтитры</item>
         <item>Оригинал</item>
-        <item>Английская озвучка</item>
-        <item>Английские субтитры</item>
     </string-array>
 
     <string-array name="rate_stasuses">

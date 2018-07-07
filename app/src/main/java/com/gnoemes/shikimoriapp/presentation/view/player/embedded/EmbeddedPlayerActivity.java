@@ -225,8 +225,8 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void setPlayerData(TranslationWithSources translation, int position) {
-        playerManager.setTitle(translation.getTranslation().getSerialTitle());
-        playerManager.setSubtitle(translation.getTranslation().getEpisode().getEpisodeFull());
+//        playerManager.setTitle(translation.getTranslation().getSerialTitle());
+//        playerManager.setSubtitle(translation.getTranslation().getEpisode().getEpisodeFull());
 
         Format subtitlesFormat = Format.createTextSampleFormat(
                 null,
