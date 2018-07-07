@@ -3,8 +3,8 @@ package com.gnoemes.shikimoriapp.di.app.module.network;
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.VideoApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
+import com.gnoemes.shikimoriapp.utils.net.parser.PlayShikimoriConverterFactory;
 
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -30,9 +30,6 @@ public interface VideoNetworkModule {
                                             @VideoApi ConnectionSpec spec) {
         return new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .connectionSpecs(Collections.singletonList(spec))
-                .followSslRedirects(true)
-                .followRedirects(true)
                 .connectTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .build();
@@ -41,7 +38,7 @@ public interface VideoNetworkModule {
     @Provides
     @Singleton
     @VideoApi
-    static Retrofit.Builder provideRetrofitBuilder(Converter.Factory factory, @VideoApi OkHttpClient client) {
+    static Retrofit.Builder provideRetrofitBuilder(@VideoApi Converter.Factory factory, @VideoApi OkHttpClient client) {
         return new Retrofit.Builder()
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -52,7 +49,7 @@ public interface VideoNetworkModule {
     @Singleton
     @VideoApi
     static Retrofit provideRetrofit(@VideoApi Retrofit.Builder builder) {
-        return builder.baseUrl(BuildConfig.SmotretAnimeBaseUrl).build();
+        return builder.baseUrl(BuildConfig.PlaySkihimoriBaseUrl).build();
     }
 
 
@@ -68,5 +65,12 @@ public interface VideoNetworkModule {
                         CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
                         CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    @VideoApi
+    static Converter.Factory provideFactory() {
+        return new PlayShikimoriConverterFactory();
     }
 }

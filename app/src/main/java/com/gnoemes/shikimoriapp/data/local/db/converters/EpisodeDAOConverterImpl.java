@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.data.local.db.converters;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.EpisodeDAO;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,7 @@ public class EpisodeDAOConverterImpl implements EpisodeDAOConverter {
         for (Episode episode : episodes) {
             daos.add(EpisodeDAO.newEpisode(
                     episode.getId(),
-                    episode.getSeriesId(),
                     episode.getAnimeId(),
-                    episode.getEpisodeFull(),
-                    episode.getEpisode(),
-                    episode.getType().toString(),
-                    episode.getViews(),
                     episode.isWatched()));
         }
 
@@ -40,13 +35,10 @@ public class EpisodeDAOConverterImpl implements EpisodeDAOConverter {
 
         for (EpisodeDAO dao : daoList) {
             episodes.add(new Episode(dao.getId(),
-                    dao.getSeriesId(),
                     dao.getAnimeId(),
-                    dao.getEpisodeFull(),
-                    dao.getEpisode(),
-                    convertType(dao.getType()),
                     null,
-                    dao.getViews(),
+                    null,
+                    null,
                     dao.getWatched() == 1));
         }
         return episodes;

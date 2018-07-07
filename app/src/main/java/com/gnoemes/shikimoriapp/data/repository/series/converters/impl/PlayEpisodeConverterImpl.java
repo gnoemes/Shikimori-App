@@ -1,7 +1,7 @@
-package com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl;
+package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
-import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.PlayEpisodeConverter;
-import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.PlayEpisodeResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
 import com.gnoemes.shikimoriapp.utils.net.parser.JsoupHtmlHelper;
 

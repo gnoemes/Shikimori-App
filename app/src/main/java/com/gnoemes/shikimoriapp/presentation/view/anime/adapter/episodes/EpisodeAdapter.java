@@ -15,6 +15,7 @@ public class EpisodeAdapter extends ListDelegationAdapter<List<BaseEpisodeItem>>
         delegatesManager.addDelegate(new EpisodesAdapterDelegate(callback));
         delegatesManager.addDelegate(new EpisodeOptionsAdapterDelegate(optionCallback));
         delegatesManager.addDelegate(new EpisodePlaceHolderAdapterDelegate());
+        delegatesManager.addDelegate(new EpisodeErrorAdapterDelegate());
 
         setItems(new ArrayList<>());
     }

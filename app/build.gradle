@@ -68,17 +68,13 @@ android {
         it.buildConfigField 'String', 'ShikimoriClientId', ShikimoriClientId
         it.buildConfigField 'String', 'ShikimoriClientSecret', ShikimoriClientSecret
         it.buildConfigField 'String', 'ShikimoriBaseUrl', ShikimoriBaseUrl
-        it.buildConfigField 'String', 'SmotretAnimeBaseUrl', SmotretAnimeBaseUrl
+        it.buildConfigField 'String', 'PlaySkihimoriBaseUrl', PlaySkihimoriBaseUrl
     }
     buildToolsVersion '27.0.3'
     productFlavors {
 
     }
-
-
-
 }
-
 
 def supportLibraryVersion = '27.1.1'
 def dagger = '2.15'

@@ -293,8 +293,6 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
             RadioButton voiceRu = layout.findViewById(R.id.btn_sound_ru);
             RadioButton subRu = layout.findViewById(R.id.btn_sub_ru);
             RadioButton raw = layout.findViewById(R.id.btn_raw);
-            RadioButton voiceEn = layout.findViewById(R.id.btn_sound_en);
-            RadioButton subEn = layout.findViewById(R.id.btn_sub_en);
 
             voiceRu.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
@@ -329,28 +327,6 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                 }
             });
 
-            voiceEn.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    voiceEn.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
-                    voiceEn.setBackgroundColor(backgroundCheckedColor);
-                    selectedType = TranslationType.VOICE_EN;
-                } else {
-                    voiceEn.setBackgroundColor(backgroundColor);
-                    voiceEn.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                }
-            });
-
-            subEn.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    subEn.setCompoundDrawablesWithIntrinsicBounds(null, null, accept, null);
-                    subEn.setBackgroundColor(backgroundCheckedColor);
-                    selectedType = TranslationType.SUB_EN;
-                } else {
-                    subEn.setBackgroundColor(backgroundColor);
-                    subEn.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                }
-            });
-
             if (selectedType == null) {
                 radioGroup.check(R.id.btn_sound_ru);
                 selectedType = TranslationType.VOICE_RU;
@@ -365,15 +341,9 @@ public class EpisodeWizardDialogFragment extends MvpAppCompatDialogFragment {
                     case RAW:
                         radioGroup.check(R.id.btn_raw);
                         break;
-                    case VOICE_EN:
-                        radioGroup.check(R.id.btn_sound_en);
-                        break;
-                    case SUB_EN:
-                        radioGroup.check(R.id.btn_sub_en);
-                        break;
                 }
-            }
 
+            }
         }
 
         @Override

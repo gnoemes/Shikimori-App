@@ -2,12 +2,12 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 
 import android.support.annotation.NonNull;
 
-import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
+import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 import com.gnoemes.shikimoriapp.utils.rx.SingleErrorHandler;
@@ -42,9 +42,9 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
-    public Single<List<Episode>> getEpisodes(long animeId) {
-        return repository.getAnimeEpisodes(animeId)
-                .compose((SingleErrorHandler<List<Episode>>) singleErrorHandler)
+    public Single<Series> getEpisodes(long animeId) {
+        return repository.getAnimeSeries(animeId)
+                .compose((SingleErrorHandler<Series>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 

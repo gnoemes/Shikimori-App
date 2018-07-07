@@ -131,12 +131,6 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
                 case RAW:
                     languageText.setText(R.string.jp);
                     break;
-                case VOICE_EN:
-                    languageText.setText(R.string.en);
-                    break;
-                case SUB_EN:
-                    languageText.setText(R.string.en);
-                    break;
             }
 
 

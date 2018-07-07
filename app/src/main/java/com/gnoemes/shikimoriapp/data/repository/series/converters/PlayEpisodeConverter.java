@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.data.repository.anime.series.converters;
+package com.gnoemes.shikimoriapp.data.repository.series.converters;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
 

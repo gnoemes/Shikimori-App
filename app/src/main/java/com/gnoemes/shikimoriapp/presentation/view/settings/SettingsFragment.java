@@ -110,10 +110,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return TranslationType.SUB_RU.getType();
             case 2:
                 return TranslationType.RAW.getType();
-            case 3:
-                return TranslationType.VOICE_EN.getType();
-            case 4:
-                return TranslationType.SUB_EN.getType();
         }
         return TranslationType.VOICE_RU.getType();
     }
@@ -125,10 +121,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return types.get(1);
         } else if (TranslationType.RAW.isEqualType(type)) {
             return types.get(2);
-        } else if (TranslationType.VOICE_EN.isEqualType(type)) {
-            return types.get(3);
-        } else if (TranslationType.SUB_EN.isEqualType(type)) {
-            return types.get(4);
         } else {
             return getResources().getString(R.string.pref_not_choosed_summary);
         }

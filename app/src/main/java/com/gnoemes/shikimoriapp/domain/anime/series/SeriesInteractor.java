@@ -1,9 +1,9 @@
 package com.gnoemes.shikimoriapp.domain.anime.series;
 
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
+import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface SeriesInteractor {
     /**
      * Get episodes
      */
-    Single<List<Episode>> getEpisodes(long animeId);
+    Single<Series> getEpisodes(long animeId);
 
     /**
      * Episode was Watched
