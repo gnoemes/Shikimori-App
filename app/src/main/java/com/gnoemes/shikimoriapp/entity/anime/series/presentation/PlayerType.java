@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 public enum PlayerType {
     EMBEDDED("embedded"),
     EXTERNAL("external"),
-    BROWSER("browser"),;
+    WEB("browser"),;
 
     private final String type;
 

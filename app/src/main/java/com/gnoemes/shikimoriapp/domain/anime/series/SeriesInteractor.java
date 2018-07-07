@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 
 import java.util.List;
@@ -37,4 +38,13 @@ public interface SeriesInteractor {
      */
     Completable clearHistory(long animeId);
 
+    /**
+     * Returns url of video
+     */
+    Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId);
+
+    /**
+     * Returns url of video
+     */
+    Single<PlayVideo> getVideo(long animeId, int episodeId);
 }

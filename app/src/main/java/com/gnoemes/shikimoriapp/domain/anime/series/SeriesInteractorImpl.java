@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
@@ -88,5 +89,19 @@ public class SeriesInteractorImpl implements SeriesInteractor {
         return repository.clearHistory(animeId)
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId) {
+        return repository.getVideo(animeId, episodeId, videoId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId) {
+        return repository.getVideo(animeId, episodeId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
     }
 }

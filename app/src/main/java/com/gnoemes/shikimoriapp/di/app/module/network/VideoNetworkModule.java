@@ -1,5 +1,10 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
+import android.content.Context;
+
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.VideoApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
@@ -13,6 +18,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
+import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,9 +33,10 @@ public interface VideoNetworkModule {
     @Singleton
     @VideoApi
     static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor,
-                                            @VideoApi ConnectionSpec spec) {
+                                            @VideoApi CookieJar cookieJar) {
         return new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .cookieJar(cookieJar)
                 .connectTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
                 .build();
@@ -72,5 +79,12 @@ public interface VideoNetworkModule {
     @VideoApi
     static Converter.Factory provideFactory() {
         return new PlayShikimoriConverterFactory();
+    }
+
+    @Provides
+    @Singleton
+    @VideoApi
+    static CookieJar provideCookieJar(Context context) {
+        return new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
     }
 }

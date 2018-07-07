@@ -25,6 +25,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -178,7 +179,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.AUTHORIZATION:
                             return AuthActivity.newIntent(context, (AuthType) data);
                         case Screens.WEB_PLAYER:
-                            return WebPlayerActivity.newIntent(context, (String) data);
+                            return WebPlayerActivity.newIntent(context, (PlayVideoNavigationData) data);
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                         case Screens.EMBEDDED_PLAYER:

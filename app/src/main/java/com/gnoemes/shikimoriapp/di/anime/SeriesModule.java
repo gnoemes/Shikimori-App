@@ -8,10 +8,12 @@ import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.TranslationResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayEpisodeConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayEpisodeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayVideoResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.SeriesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.TranslationResponseConverterImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
@@ -51,5 +53,8 @@ public interface SeriesModule {
 
     @Binds
     PlayEpisodeResponseConverter bindPlayEpisodeResponseConverter(PlayEpisodeResponseConverterImpl converter);
+
+    @Binds
+    PlayVideoResponseConverter bindPlayVideoResponseConverter(PlayVideoResponseConverterImpl converter);
 
 }

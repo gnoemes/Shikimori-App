@@ -13,6 +13,7 @@ public class TranslationViewModel {
     private TranslationQuality quality;
     private VideoHosting hosting;
     private String author;
+    private int episodesSize;
 
     public TranslationViewModel(long animeId,
                                 int episodeId,
@@ -20,7 +21,8 @@ public class TranslationViewModel {
                                 TranslationType type,
                                 TranslationQuality quality,
                                 VideoHosting hosting,
-                                String author) {
+                                String author,
+                                int episodesSize) {
         this.animeId = animeId;
         this.episodeId = episodeId;
         this.videoId = videoId;
@@ -28,6 +30,7 @@ public class TranslationViewModel {
         this.quality = quality;
         this.hosting = hosting;
         this.author = author;
+        this.episodesSize = episodesSize;
     }
 
     public long getAnimeId() {
@@ -56,5 +59,9 @@ public class TranslationViewModel {
 
     public String getAuthor() {
         return author;
+    }
+
+    public int getEpisodesSize() {
+        return episodesSize;
     }
 }

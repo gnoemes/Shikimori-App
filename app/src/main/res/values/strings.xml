@@ -190,7 +190,7 @@
     <string name="translation_auto">Автоматический</string>
     <string name="translation_manual">В ручную</string>
     <string name="translation_dubber_choose">Выбор даббера:</string>
-    <string name="player_in_browser">Smotret-anime.ru</string>
+    <string name="player_in_browser">Веб-плеер</string>
     <string name="player_external">Внешний</string>
     <string name="player_embedded">Внутренний (BETA)</string>
     <string name="player_choose">Выбор плеера:</string>
@@ -399,6 +399,12 @@
         <item>@string/rate_completed_with_count</item>
         <item>@string/rate_on_hold_with_count</item>
         <item>@string/rate_dropped_with_count</item>
+    </string-array>
+
+    <string-array name="players">
+        <item>@string/player_in_browser</item>
+        <item>@string/player_embedded</item>
+        <item>@string/player_external</item>
     </string-array>
 
 </resources>

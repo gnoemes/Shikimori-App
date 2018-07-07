@@ -12,6 +12,7 @@ public class Translation {
     private VideoHosting hosting;
     private String author;
     private boolean isValid;
+    private int episodesSize;
 
     public Translation(long animeId,
                        int episodeId,
@@ -20,7 +21,8 @@ public class Translation {
                        TranslationQuality quality,
                        VideoHosting hosting,
                        String author,
-                       boolean isValid) {
+                       boolean isValid,
+                       int episodesSize) {
         this.animeId = animeId;
         this.episodeId = episodeId;
         this.videoId = videoId;
@@ -29,6 +31,7 @@ public class Translation {
         this.hosting = hosting;
         this.author = author;
         this.isValid = isValid;
+        this.episodesSize = episodesSize;
     }
 
     public long getAnimeId() {
@@ -61,5 +64,9 @@ public class Translation {
 
     public boolean isValid() {
         return isValid;
+    }
+
+    public int getEpisodesSize() {
+        return episodesSize;
     }
 }

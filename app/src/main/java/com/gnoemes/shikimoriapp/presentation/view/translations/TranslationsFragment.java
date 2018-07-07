@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
@@ -72,7 +73,7 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
                 presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
             }
             presenter.setEpisodeId(getArguments().getInt(AppExtras.ARGUMENT_EPISODE_ID));
-            presenter.setCurrentTranslation((TranslationType) getArguments().getSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE));
+            presenter.setCurrentTranslationType((TranslationType) getArguments().getSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE));
             presenter.setAnimeId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_ID));
             presenter.setRateId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_RATE_ID));
         }
@@ -175,6 +176,38 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     public void showErrorView() {
         recyclerView.setVisibility(View.GONE);
         networkErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showPlayerDialog() {
+        new MaterialDialog.Builder(getContext())
+                .items(R.array.players)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        getPresenter().onPlay(convertPlayer(position));
+                    }
+
+                    private PlayerType convertPlayer(int position) {
+                        switch (position) {
+                            case 0:
+                                return PlayerType.WEB;
+                            case 1:
+                                return PlayerType.EMBEDDED;
+                            case 2:
+                                return PlayerType.EXTERNAL;
+                        }
+                        return null;
+                    }
+                })
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
     }
 
     @Override

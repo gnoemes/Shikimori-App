@@ -50,7 +50,7 @@ public class SeriesResponseConverterImpl implements SeriesResponseConverter {
         }
 
 
-        return new Series(error, !TextUtils.isEmpty(error), episodes);
+        return new Series(error, !TextUtils.isEmpty(error), episodes, episodes.size());
     }
 
     private Episode convertEpisode(long animeId, Element e) {

@@ -32,4 +32,8 @@ public interface TranslationsView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void playVideoOnWeb(String url);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showPlayerDialog();
+
 }

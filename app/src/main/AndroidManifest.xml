@@ -32,8 +32,7 @@
         <activity
             android:name=".presentation.view.player.WebPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="landscape" />
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".presentation.view.auth.AuthActivity"
             android:screenOrientation="portrait"

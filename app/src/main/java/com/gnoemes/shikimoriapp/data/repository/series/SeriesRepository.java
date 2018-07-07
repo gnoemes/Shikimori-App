@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.data.repository.series;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 
 import java.util.List;
@@ -35,4 +36,15 @@ public interface SeriesRepository {
      * Clear local history
      */
     Completable clearHistory(long animeId);
+
+    /**
+     * Returns base web embedded player url
+     */
+    Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId);
+
+    /**
+     * Returns base web embedded player url
+     */
+    Single<PlayVideo> getVideo(long animeId, int episodeId);
+
 }

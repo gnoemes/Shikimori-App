@@ -3,10 +3,13 @@ package com.gnoemes.shikimoriapp.presentation.presenter.translations;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsView;
@@ -23,7 +26,8 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     private TitleResourceProvider resourceProvider;
     private TranslationViewModelConverter converter;
 
-    private TranslationType currentTranslation;
+    private TranslationType currentTranslationType;
+    private TranslationViewModel currentTranslation;
     private int episodeId;
     private long animeId;
     private long rateId;
@@ -50,7 +54,7 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
         getViewState().hideEmptyView();
         getViewState().hideErrorView();
 
-        Disposable disposable = interactor.getEpisodeTranslations(currentTranslation, animeId, episodeId)
+        Disposable disposable = interactor.getEpisodeTranslations(currentTranslationType, animeId, episodeId)
                 .doOnEvent((translations, throwable) -> getViewState().onHideLoading())
                 .map(converter)
                 .subscribe(this::setList, this::processErrors);
@@ -62,7 +66,7 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      * Sets type to ALL and call {@link #loadTranslations()}
      */
     public void onFindAll() {
-        setCurrentTranslation(TranslationType.ALL);
+        setCurrentTranslationType(TranslationType.ALL);
         loadTranslations();
     }
 
@@ -70,7 +74,7 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      * Sets type from user's choice and call {@link #loadTranslations()}
      */
     public void onTypeClicked(TranslationType type) {
-        setCurrentTranslation(type);
+        setCurrentTranslationType(type);
         loadTranslations();
     }
 
@@ -78,7 +82,41 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      * Starts video with player from user's settings
      */
     public void onTranslationClicked(TranslationViewModel translation) {
+        this.currentTranslation = translation;
+        getViewState().showPlayerDialog();
+    }
 
+    public void onPlay(PlayerType type) {
+        switch (type) {
+            case WEB:
+                onPlayWeb();
+                break;
+            case EMBEDDED:
+                onPlayEmbedded();
+                break;
+            case EXTERNAL:
+
+                break;
+        }
+        setEpisodeWatched(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId());
+    }
+
+    private void onPlayEmbedded() {
+        getRouter().navigateTo(Screens.EMBEDDED_PLAYER, new PlayVideoNavigationData(
+                currentTranslation.getAnimeId(),
+                currentTranslation.getEpisodeId(),
+                currentTranslation.getVideoId(),
+                currentTranslation.getEpisodesSize()
+        ));
+    }
+
+    private void onPlayWeb() {
+        getRouter().navigateTo(Screens.WEB_PLAYER, new PlayVideoNavigationData(
+                currentTranslation.getAnimeId(),
+                currentTranslation.getEpisodeId(),
+                currentTranslation.getVideoId(),
+                currentTranslation.getEpisodesSize()
+        ));
     }
 
     //KOTLIN GIVE ME THE POWER PLS
@@ -135,8 +173,8 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      *
      * @param currentTranslation {@link TranslationType}
      */
-    public void setCurrentTranslation(TranslationType currentTranslation) {
-        this.currentTranslation = currentTranslation;
+    public void setCurrentTranslationType(TranslationType currentTranslation) {
+        this.currentTranslationType = currentTranslation;
     }
 
     /**

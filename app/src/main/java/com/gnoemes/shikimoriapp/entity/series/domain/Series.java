@@ -9,12 +9,14 @@ public class Series {
     List<Episode> episodes;
     @Nullable
     private String errorMessage;
+    private int episodesSize;
     private boolean hasError;
 
-    public Series(@Nullable String errorMessage, boolean hasError, List<Episode> episodes) {
+    public Series(@Nullable String errorMessage, boolean hasError, List<Episode> episodes, int episodesSize) {
         this.errorMessage = errorMessage;
         this.hasError = hasError;
         this.episodes = episodes;
+        this.episodesSize = episodesSize;
     }
 
     @Nullable
@@ -28,5 +30,9 @@ public class Series {
 
     public List<Episode> getEpisodes() {
         return episodes;
+    }
+
+    public int getEpisodesSize() {
+        return episodesSize;
     }
 }

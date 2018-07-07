@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
+import com.gnoemes.shikimoriapp.data.repository.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.TranslationResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationQuality;
@@ -28,27 +29,32 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
     private static final String VIDEO_HOSTING_QUERY = "video-hosting";
     private static final String AUTHOR_QUERY = "video-author";
 
+    private SeriesResponseConverter seriesResponseConverter;
+
     @Inject
-    public TranslationResponseConverterImpl() {
+    public TranslationResponseConverterImpl(SeriesResponseConverter seriesResponseConverter) {
+        this.seriesResponseConverter = seriesResponseConverter;
     }
 
     @Override
     public List<Translation> convert(long animeId, int episodeId, Document document) {
         List<Translation> translations = new ArrayList<>();
 
+        int episodesSize = seriesResponseConverter.apply(animeId, document).getEpisodesSize();
+
         Element all = document.select(ALL_QUERY).first();
 
         if (all != null) {
             Elements group = all.select(TRANSLATIONS_QUERY);
             for (Element e : group) {
-                translations.add(convertTranslation(animeId, episodeId, e));
+                translations.add(convertTranslation(animeId, episodeId, e, episodesSize));
             }
         }
 
         return translations;
     }
 
-    private Translation convertTranslation(long animeId, int episodeId, Element e) {
+    private Translation convertTranslation(long animeId, int episodeId, Element e, int episodesSize) {
 
         long videoId = Long.parseLong(e.attr(VIDEO_ID_QUERY));
         boolean isRejected = e.getElementsByClass(REJECTED_QUERY).first() != null;
@@ -60,7 +66,7 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
         VideoHosting hosting = convertHosting(e.getElementsByClass(VIDEO_HOSTING_QUERY).text());
         String author = e.getElementsByClass(AUTHOR_QUERY).text();
 
-        return new Translation(animeId, episodeId, videoId, translationType, quality, hosting, author, !isRejected && !isBroken && !isBanned);
+        return new Translation(animeId, episodeId, videoId, translationType, quality, hosting, author, !isRejected && !isBroken && !isBanned, episodesSize);
     }
 
     private VideoHosting convertHosting(String text) {

@@ -6,10 +6,12 @@ import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.HistoryDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.TranslationResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     private VideoApi api;
     private SeriesResponseConverter responseConverter;
     private TranslationResponseConverter translationResponseConverter;
+    private PlayVideoResponseConverter playVideoResponseConverter;
     private EpisodeDbSource episodeDbSource;
     private HistoryDbSource historyDbSource;
     private RateSyncDbSource syncDbSource;
@@ -33,12 +36,14 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     public SeriesRepositoryImpl(@NonNull VideoApi api,
                                 @NonNull SeriesResponseConverter responseConverter,
                                 @NonNull TranslationResponseConverter translationResponseConverter,
+                                @NonNull PlayVideoResponseConverter playVideoResponseConverter,
                                 @NonNull EpisodeDbSource episodeDbSource,
                                 @NonNull HistoryDbSource historyDbSource,
                                 @NonNull RateSyncDbSource syncDbSource) {
         this.api = api;
         this.responseConverter = responseConverter;
         this.translationResponseConverter = translationResponseConverter;
+        this.playVideoResponseConverter = playVideoResponseConverter;
         this.episodeDbSource = episodeDbSource;
         this.historyDbSource = historyDbSource;
         this.syncDbSource = syncDbSource;
@@ -67,7 +72,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                             return episode;
                                         }))
                                 .toList())
-                        .map(episodes -> new Series(series.getErrorMessage(), series.isHasError(), episodes)));
+                        .map(episodes -> new Series(series.getErrorMessage(), series.isHasError(), episodes, series.getEpisodesSize())));
     }
 
     /**
@@ -80,6 +85,18 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                 .flatMap(translations -> Observable.fromIterable(translations)
                         .filter(translation -> translation.getType() == type || type == TranslationType.ALL)
                         .toList());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId) {
+        return api.getAnimeVideoInfo(animeId, episodeId, videoId)
+                .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId) {
+        return api.getAnimeVideoInfo(animeId, episodeId)
+                .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
     }
 
 

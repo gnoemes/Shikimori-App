@@ -34,7 +34,8 @@ public class TranslationViewModelConverterImpl implements TranslationViewModelCo
                 translation.getType(),
                 translation.getQuality(),
                 translation.getHosting(),
-                translation.getAuthor()
+                translation.getAuthor(),
+                translation.getEpisodesSize()
         );
     }
 
