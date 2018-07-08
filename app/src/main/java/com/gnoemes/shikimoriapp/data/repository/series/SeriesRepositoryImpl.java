@@ -66,7 +66,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                         .flatMapCompletable(episode -> historyDbSource.episodeWatched(animeId, episode.getId()))
                                         .toSingleDefault(episodes)))
                         .flatMap(episodes -> Observable.fromIterable(episodes)
-                                .flatMapSingle(episode -> historyDbSource.isEpisodeWatched(episode.getId())
+                                .flatMapSingle(episode -> historyDbSource.isEpisodeWatched(animeId, episode.getId())
                                         .map(isWatched -> {
                                             episode.setWatched(isWatched);
                                             return episode;
@@ -99,6 +99,33 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
     }
 
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId) {
+        return api.getAnimeVideoInfo(animeId, episodeId, videoId)
+                .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
+                .flatMap(playVideo -> api.getVideoSource(playVideo.getUrl())
+                        .map(document -> playVideoResponseConverter
+                                .convertDependsOnHosting(
+                                        playVideo.getAnimeId(),
+                                        playVideo.getEpisodeId(),
+                                        playVideo.getHosting(),
+                                        playVideo.getTitle(),
+                                        document)));
+    }
+
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId) {
+        return api.getAnimeVideoInfo(animeId, episodeId)
+                .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
+                .flatMap(playVideo -> api.getVideoSource(playVideo.getUrl())
+                        .map(document -> playVideoResponseConverter
+                                .convertDependsOnHosting(
+                                        playVideo.getAnimeId(),
+                                        playVideo.getEpisodeId(),
+                                        playVideo.getHosting(),
+                                        playVideo.getTitle(),
+                                        document)));
+    }
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {
@@ -106,8 +133,8 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     }
 
     @Override
-    public Single<Boolean> isEpisodeWatched(long episodeId) {
-        return historyDbSource.isEpisodeWatched(episodeId);
+    public Single<Boolean> isEpisodeWatched(long animeId, long episodeId) {
+        return historyDbSource.isEpisodeWatched(animeId, episodeId);
     }
 
 

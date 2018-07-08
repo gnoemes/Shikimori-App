@@ -7,7 +7,7 @@ public interface HistoryDbSource {
 
     Completable episodeWatched(long animeId, long episodeId);
 
-    Single<Boolean> isEpisodeWatched(long episodeId);
+    Single<Boolean> isEpisodeWatched(long animeId, long episodeId);
 
     Completable clearHistory(long animeId);
 }

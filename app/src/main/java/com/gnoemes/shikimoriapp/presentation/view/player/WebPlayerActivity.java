@@ -188,7 +188,7 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
     @Override
     public void onBackPressed() {
         webView.destroy();
-        super.onBackPressed();
+        super.finish();
     }
 
     @Override

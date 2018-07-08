@@ -30,7 +30,10 @@ public interface SeriesRepository {
      */
     Completable setEpisodeWatched(long animeId, long episodeId);
 
-    Single<Boolean> isEpisodeWatched(long episodeId);
+    /**
+     * Checks is episode watched
+     */
+    Single<Boolean> isEpisodeWatched(long animeId, long episodeId);
 
     /**
      * Clear local history
@@ -47,4 +50,13 @@ public interface SeriesRepository {
      */
     Single<PlayVideo> getVideo(long animeId, int episodeId);
 
+    /**
+     * Returns video source
+     */
+    Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId);
+
+    /**
+     * Returns video source
+     */
+    Single<PlayVideo> getVideoSource(long animeId, int episodeId);
 }

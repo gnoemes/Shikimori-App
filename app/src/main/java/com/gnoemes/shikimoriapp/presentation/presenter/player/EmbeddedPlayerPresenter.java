@@ -2,59 +2,77 @@ package com.gnoemes.shikimoriapp.presentation.presenter.player;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerView;
+
+import io.reactivex.disposables.Disposable;
 
 @InjectViewState
 public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayerView> {
 
     private SeriesInteractor seriesInteractor;
 
-    private long translationId;
-    private TranslationWithSources current;
+    private long animeId;
+    private int currentEpisode;
+    private long videoId;
+    private int episodesSize;
 
     public EmbeddedPlayerPresenter(SeriesInteractor seriesInteractor) {
         this.seriesInteractor = seriesInteractor;
     }
 
     @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        loadTranslation();
+    public void initData() {
+        super.initData();
+        loadVideo();
     }
 
-    private void loadTranslation() {
+    private void loadVideo() {
         getViewState().onShowLoading();
-
-//        Disposable disposable = seriesInteractor.getTranslationWithSources(translationId)
-//                .doOnEvent((translationWithSources, throwable) -> getViewState().onHideLoading())
-//                .subscribe(this::setTranslationWithSources, this::processErrors);
-//
-//        unsubscribeOnDestroy(disposable);
-    }
-
-    private void setTranslationWithSources(TranslationWithSources translation) {
-        this.current = translation;
-        if (translation.getSources() != null && !translation.getSources().isEmpty()) {
-            getViewState().setPlayerData(translation, 0);
+        if (videoId != Constants.NO_ID) {
+            loadVideoWithId();
         } else {
-            getViewState().showSystemMessage("Произошла ошибка во время загрузки видео. Попробуйте воспользоваться другим плеером.");
+            loadVideoWithoutId();
         }
     }
 
-    public void setTranslationId(long translationId) {
-        this.translationId = translationId;
+    private void loadVideoWithoutId() {
+        Disposable disposable = seriesInteractor.getVideoSource(animeId, currentEpisode)
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::updateVideo, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 
-    public void onResolutionChanged(int newResolution) {
-        int position = 0;
-        for (PlayEpisode episode : current.getSources()) {
-            if (episode.getResolution() == newResolution) {
-                getViewState().setPlayerData(current, position);
-            }
-            position++;
+    private void loadVideoWithId() {
+        Disposable disposable = seriesInteractor.getVideoSource(animeId, currentEpisode, videoId)
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::updateVideo, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void updateVideo(PlayVideo playVideo) {
+        getViewState().playOrAddNewVideo(playVideo);
+    }
+
+    public void loadNextEpisode() {
+        currentEpisode += 1;
+        videoId = Constants.NO_ID;
+        if (currentEpisode <= episodesSize) {
+            loadVideo();
         }
     }
+
+
+    public void setPlayData(PlayVideoNavigationData data) {
+        this.animeId = data.getAnimeId();
+        this.episodesSize = data.getEpisodesSize();
+        this.currentEpisode = data.getEpisodeId();
+        this.videoId = data.getVideoId();
+    }
+
 }

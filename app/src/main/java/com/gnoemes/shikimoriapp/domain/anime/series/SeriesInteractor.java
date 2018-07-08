@@ -39,12 +39,22 @@ public interface SeriesInteractor {
     Completable clearHistory(long animeId);
 
     /**
-     * Returns url of video
+     * Returns url of embedded video
      */
     Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId);
 
     /**
-     * Returns url of video
+     * Returns url of embedded video
      */
     Single<PlayVideo> getVideo(long animeId, int episodeId);
+
+    /**
+     * Returns video source
+     */
+    Single<PlayVideo> getVideoSource(long animeId, int currentEpisode);
+
+    /**
+     * Returns video source
+     */
+    Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId);
 }

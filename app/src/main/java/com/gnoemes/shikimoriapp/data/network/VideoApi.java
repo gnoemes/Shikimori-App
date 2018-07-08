@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Api for video hosting
@@ -31,14 +31,8 @@ public interface VideoApi {
     Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode);
 
     /**
-     * Get html source from vk hosting
+     * Get html source from hosting
      */
-    @GET("http://vk.com/video_ext.php")
-    Single<Document> getVkVideoInfo(@Query("oid") long oid, @Query("id") long id, @Query("hash") String hash);
-
-    /**
-     * Get html source from sibnet hosting
-     */
-    @GET("http://video.sibnet.ru/shell.php")
-    Single<Document> getSibnetVideoInfo(@Query("videoid") long videoId);
+    @GET
+    Single<Document> getVideoSource(@Url String url);
 }

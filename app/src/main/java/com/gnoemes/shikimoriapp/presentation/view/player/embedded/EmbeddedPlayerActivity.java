@@ -16,7 +16,9 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.player.EmbeddedPlayerPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.utils.view.PlayerManager;
@@ -51,9 +53,9 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     private PlayerManager playerManager;
     private boolean hasSubtitles;
 
-    public static Intent newIntent(Context context, long translationId) {
+    public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
-        intent.putExtra(AppExtras.ARGUMENT_TRANSLATION_ID, translationId);
+        intent.putExtra(AppExtras.ARGUMENT_PLAY_VIDEO_DATA, data);
         return intent;
     }
 
@@ -62,7 +64,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         presenter = presenterProvider.get();
 
         if (getIntent() != null) {
-            presenter.setTranslationId(getIntent().getLongExtra(AppExtras.ARGUMENT_TRANSLATION_ID, Constants.NO_ID));
+            presenter.setPlayData((PlayVideoNavigationData) getIntent().getSerializableExtra(AppExtras.ARGUMENT_PLAY_VIDEO_DATA));
         }
 
         return presenter;
@@ -118,7 +120,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onResolutionChanged(int newResolution) {
-        getPresenter().onResolutionChanged(newResolution);
+
     }
 
     @Override
@@ -221,6 +223,39 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void initToolbar() {
         //not implemented
+    }
+
+    @Override
+    public void playOrAddNewVideo(PlayVideo playVideo) {
+        playerManager.setTitle(playVideo.getTitle());
+        playerManager.setSubtitle(String.format(getResources().getString(R.string.episode_list_format), playVideo.getEpisodeId()));
+
+//        List<Integer> resolutions = new ArrayList<>();
+//        if (playVideo.isHasExtra()) {
+//            for (int i = 0; i < playVideo.getExtra().getQualities().size(); i++) {
+//                VideoQuality quality = playVideo.getExtra().getQualities().get(i);
+//                urls[i] = quality.getUrl();
+//                resolutions.add(quality.getResolution());
+//            }
+//        }
+
+        String url = null;
+        if (playVideo.isHasExtra() && playVideo.getExtra() != null) {
+            VideoExtra extra = playVideo.getExtra();
+            if (extra.getQualities() != null && !extra.getQualities().isEmpty()) {
+                url = extra.getQualities().get(0).getUrl();
+            }
+        }
+
+
+        MediaSource source = PlayerManager.MediaSourceHelper
+                .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
+                .withVideoUrls(url)
+                .get();
+
+        playerManager.setEventListener(this);
+
+        playerManager.addMediaSource(source);
     }
 
     @Override

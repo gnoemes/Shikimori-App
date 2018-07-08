@@ -2,12 +2,16 @@ package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoQuality;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -16,6 +20,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
 
     private static final String URL_QUERY = "div.video-link a";
     private static final String HREF_QUERY = "href";
+    private static final String TITLE_QUERY = "a.b-link>span[itemprop]";
 
     private static final String SMOTRET_ANIME_REGEX = "https?://smotret-anime\\.ru/";
     private static final String SIBNET_REGEX = "https?://video\\.sibnet\\.ru/";
@@ -35,34 +40,117 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
 
         Elements elements = document.select(URL_QUERY);
         String url = null;
+        Element titleElem = document.select(TITLE_QUERY).last();
+        String title = titleElem == null ? null : titleElem.text();
 
         for (Element e : elements) {
             url = e.attr(HREF_QUERY);
         }
 
 
-        return new PlayVideo(animeId, episodeId, convertHosting(url), url);
+        return new PlayVideo(animeId, episodeId, convertHosting(url), title, url, false, null);
     }
 
     private VideoHosting convertHosting(String url) {
-        if (Pattern.matches(SMOTRET_ANIME_REGEX, url)) {
+        if (Pattern.compile(SMOTRET_ANIME_REGEX).matcher(url).find()) {
             return VideoHosting.SMOTRET_ANIME;
-        } else if (Pattern.matches(SIBNET_REGEX, url)) {
+        } else if (Pattern.compile(SIBNET_REGEX).matcher(url).find()) {
             return VideoHosting.SIBNET;
-        } else if (Pattern.matches(VK_REGEX, url)) {
+        } else if (Pattern.compile(VK_REGEX).matcher(url).find()) {
             return VideoHosting.VK;
-        } else if (Pattern.matches(YOUTUBE_REGEX, url)) {
+        } else if (Pattern.compile(YOUTUBE_REGEX).matcher(url).find()) {
             return VideoHosting.YOUTUBE;
-        } else if (Pattern.matches(OK_REGEX, url)) {
+        } else if (Pattern.compile(OK_REGEX).matcher(url).find()) {
             return VideoHosting.OK;
-        } else if (Pattern.matches(RUTUBE_REGEX, url)) {
+        } else if (Pattern.compile(RUTUBE_REGEX).matcher(url).find()) {
             return VideoHosting.RUTUBE;
-        } else if (Pattern.matches(SOVET_ROMANTICA_REGEX, url)) {
+        } else if (Pattern.compile(SOVET_ROMANTICA_REGEX).matcher(url).find()) {
             return VideoHosting.SOVET_ROMANTICA;
-        } else if (Pattern.matches(ANIMEDIA_REGEX, url)) {
+        } else if (Pattern.compile(ANIMEDIA_REGEX).matcher(url).find()) {
             return VideoHosting.ANIMEDIA;
         }
 
         return VideoHosting.UNKNOWN;
+    }
+
+    @Override
+    public PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String title, Document document) {
+        switch (hosting) {
+            case YOUTUBE:
+                return convertYoutubeSource(animeId, episodeId, document);
+            case OK:
+                return convertOkSource(animeId, episodeId, document);
+            case VK:
+                return convertVkSource(animeId, episodeId, title, document);
+            case MY_VI:
+                return convertMyViSource(animeId, episodeId, document);
+            case RUTUBE:
+                return convertRutubeSource(animeId, episodeId, document);
+            case SIBNET:
+                return convertSibnetSource(animeId, episodeId, document);
+            case MAIL_RU:
+                return convertMailRuSource(animeId, episodeId, document);
+            case ANIMEDIA:
+                return convertAnimediaSource(animeId, episodeId, document);
+            case SMOTRET_ANIME:
+                return convertSmotretAnimeSource(animeId, episodeId, document);
+            case SOVET_ROMANTICA:
+                return convertSovetRomanticaSource(animeId, episodeId, document);
+            default:
+                return convertUnknownSource(animeId, episodeId);
+        }
+    }
+
+    private PlayVideo convertUnknownSource(long animeId, int episodeId) {
+        return null;
+    }
+
+    private PlayVideo convertSovetRomanticaSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertSmotretAnimeSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertAnimediaSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertMailRuSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertSibnetSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertRutubeSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertMyViSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertVkSource(long animeId, int episodeId, String title, Document document) {
+        String QUALITIES_QUERY = "video#video_player>source~[type=video/mp4]";
+        List<VideoQuality> qualities = new ArrayList<>();
+
+        for (Element e : document.select(QUALITIES_QUERY)) {
+            String src = e.attr("src");
+            int res = Integer.parseInt("2");
+            qualities.add(new VideoQuality(res, src));
+        }
+
+        return new PlayVideo(animeId, episodeId, VideoHosting.VK, title, null, !qualities.isEmpty(), new VideoExtra(qualities));
+    }
+
+    private PlayVideo convertOkSource(long animeId, int episodeId, Document document) {
+        return null;
+    }
+
+    private PlayVideo convertYoutubeSource(long animeId, int episodeId, Document document) {
+        return null;
     }
 }

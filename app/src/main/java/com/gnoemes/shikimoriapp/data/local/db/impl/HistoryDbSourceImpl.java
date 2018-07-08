@@ -34,14 +34,14 @@ public class HistoryDbSourceImpl implements HistoryDbSource {
     }
 
     @Override
-    public Single<Boolean> isEpisodeWatched(long episodeId) {
+    public Single<Boolean> isEpisodeWatched(long animeId, long episodeId) {
         return Single.fromCallable(() -> storIOSQLite
                 .get()
                 .numberOfResults()
                 .withQuery(Query.builder()
                         .table(HistoryTable.TABLE)
-                        .where(HistoryTable.COLUMN_EPISODE + " = ?")
-                        .whereArgs(episodeId)
+                        .where(HistoryTable.COLUMN_EPISODE + " = ? AND " + HistoryTable.COLUMN_ANIME_ID + " = ?")
+                        .whereArgs(episodeId, animeId)
                         .build())
                 .prepare()
                 .executeAsBlocking()).map(integer -> integer != null && integer != 0);
@@ -50,7 +50,8 @@ public class HistoryDbSourceImpl implements HistoryDbSource {
     @Override
     public Completable clearHistory(long animeId) {
         return Completable.fromAction(() -> {
-            DeleteResult deleteResult = storIOSQLite.delete()
+            DeleteResult deleteResult = storIOSQLite
+                    .delete()
                     .byQuery(DeleteQuery.builder()
                             .table(HistoryTable.TABLE)
                             .where(HistoryTable.COLUMN_ANIME_ID + " = ?")

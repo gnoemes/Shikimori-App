@@ -179,27 +179,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     }
 
     @Override
-    public void showPlayerDialog() {
+    public void showPlayerDialog(List<PlayerType> players) {
         new MaterialDialog.Builder(getContext())
-                .items(R.array.players)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        getPresenter().onPlay(convertPlayer(position));
-                    }
-
-                    private PlayerType convertPlayer(int position) {
-                        switch (position) {
-                            case 0:
-                                return PlayerType.WEB;
-                            case 1:
-                                return PlayerType.EMBEDDED;
-                            case 2:
-                                return PlayerType.EXTERNAL;
-                        }
-                        return null;
-                    }
-                })
+                .items(players.size() == 1 ? R.array.players_single : R.array.players)
+                .itemsCallback((dialog, itemView, position, text) -> getPresenter().onPlay(players.get(position)))
                 .autoDismiss(true)
                 .titleColorAttr(R.attr.colorText)
                 .contentColorAttr(R.attr.colorText)

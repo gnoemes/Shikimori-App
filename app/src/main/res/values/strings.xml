@@ -407,4 +407,8 @@
         <item>@string/player_external</item>
     </string-array>
 
+    <string-array name="players_single">
+        <item>@string/player_in_browser</item>
+    </string-array>
+
 </resources>

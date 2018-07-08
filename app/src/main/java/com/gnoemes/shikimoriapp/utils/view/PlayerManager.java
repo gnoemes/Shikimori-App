@@ -3,7 +3,6 @@ package com.gnoemes.shikimoriapp.utils.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,7 +22,6 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
@@ -61,8 +59,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private TextView subtitleView;
     private ReSpinner resolutionSpinner;
     private DefaultTimeBar videoProgress;
-
-    private boolean isFirst;
 
     private PlayerControllerEventListener eventListener;
 
@@ -118,36 +114,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource);
-
-        //TODO убрать костыль
-        {
-            if (source instanceof ConcatenatingMediaSource) {
-                ConcatenatingMediaSource mediaSource = (ConcatenatingMediaSource) source;
-                if (mediaSource.getSize() > 1) {
-                    player.seekTo(C.TIME_END_OF_SOURCE);
-                    isFirst = true;
-                    if (eventListener != null) {
-                        eventListener.onShitHappens();
-                    }
-                }
-
-            }
-
-            source.addEventListener(new Handler(), new DefaultMediaSourceEventListener() {
-
-                @Override
-                public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
-                    super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
-
-                    if (windowIndex != 0 && isFirst) {
-                        playerView.postDelayed(() -> player.seekTo(C.POSITION_UNSET), 1500);
-                        isFirst = false;
-                    }
-                }
-
-            });
-        }
-
     }
 
     public void setTitle(@Nullable String title) {

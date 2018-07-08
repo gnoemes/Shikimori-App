@@ -49,7 +49,7 @@ public class SeriesInteractorImpl implements SeriesInteractor {
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {
-        return repository.isEpisodeWatched(episodeId)
+        return repository.isEpisodeWatched(animeId, episodeId)
                 .flatMapCompletable(isWatched -> {
                     if (!isWatched) {
                         return repository.setEpisodeWatched(animeId, episodeId);
@@ -63,7 +63,7 @@ public class SeriesInteractorImpl implements SeriesInteractor {
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId, long rateId) {
-        return repository.isEpisodeWatched(episodeId)
+        return repository.isEpisodeWatched(animeId, episodeId)
                 .flatMapCompletable(isWatched -> {
                     if (!isWatched) {
                         return repository.setEpisodeWatched(animeId, episodeId)
@@ -101,6 +101,20 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     @Override
     public Single<PlayVideo> getVideo(long animeId, int episodeId) {
         return repository.getVideo(animeId, episodeId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId) {
+        return repository.getVideoSource(animeId, episodeId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId) {
+        return repository.getVideoSource(animeId, episodeId, videoId)
                 .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }

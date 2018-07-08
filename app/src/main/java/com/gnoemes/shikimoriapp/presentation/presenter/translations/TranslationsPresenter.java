@@ -9,12 +9,16 @@ import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsView;
 import com.gnoemes.shikimoriapp.presentation.view.translations.converter.TranslationViewModelConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -83,7 +87,15 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      */
     public void onTranslationClicked(TranslationViewModel translation) {
         this.currentTranslation = translation;
-        getViewState().showPlayerDialog();
+
+        List<PlayerType> players = new ArrayList<>();
+        players.add(PlayerType.WEB);
+        if (translation.getHosting() == VideoHosting.VK) {
+            players.add(PlayerType.EMBEDDED);
+            players.add(PlayerType.EXTERNAL);
+        }
+
+        getViewState().showPlayerDialog(players);
     }
 
     public void onPlay(PlayerType type) {
@@ -95,10 +107,35 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
                 onPlayEmbedded();
                 break;
             case EXTERNAL:
-
+                onPlayExternal();
                 break;
         }
         setEpisodeWatched(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId());
+    }
+
+    private void onPlayExternal() {
+        getViewState().onShowLoading();
+
+        Disposable disposable = interactor.getVideoSource(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId(), currentTranslation.getVideoId())
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::playExternal, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void playExternal(PlayVideo playVideo) {
+        //TODO refactor, add quality chooser
+
+        if (playVideo.isHasExtra() && playVideo.getExtra() != null) {
+            VideoExtra extra = playVideo.getExtra();
+            if (extra.getQualities() != null && !extra.getQualities().isEmpty()) {
+                getRouter().navigateTo(Screens.EXTERNAL_PLAYER, extra.getQualities().get(0).getUrl());
+            } else {
+                getRouter().showSystemMessage("Произошла ошибка во время загрузки видео.");
+            }
+        } else {
+            getRouter().showSystemMessage("Произошла ошибка во время загрузки видео.");
+        }
     }
 
     private void onPlayEmbedded() {

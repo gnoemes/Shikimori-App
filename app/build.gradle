@@ -10,7 +10,7 @@ android {
         nameOptions {
             versionMajor 0
             versionMinor 7
-            versionPatch 1
+            versionPatch 2
         }
         codeOptions {
             versionCodeType VersionCodeType.AUTO_INCREMENT_ONE_STEP
@@ -111,7 +111,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation "com.squareup.okhttp3:okhttp:$okHttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:3.0.0-RC1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:3.9.0"
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation "com.google.code.gson:gson:${gson}"
     implementation "com.arello-mobile:moxy:${moxy}"

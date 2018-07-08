@@ -27,10 +27,11 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
         if (newVersion <= 2) {
             db.execSQL(EpisodeTable.dropTableQuery());
-            db.execSQL(EpisodeTable.getCreateTableQuery());
             db.execSQL(HistoryTable.dropTableQuery());
-            db.execSQL(HistoryTable.getCreateTableQuery());
             db.execSQL(RateSyncTable.dropTableQuery());
+
+            db.execSQL(EpisodeTable.getCreateTableQuery());
+            db.execSQL(HistoryTable.getCreateTableQuery());
             db.execSQL(RateSyncTable.getCreateTableQuery());
         }
     }

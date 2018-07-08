@@ -191,6 +191,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
         appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
+
+        getPresenter().onEpisodesRefresh();
     }
 
     ///////////////////////////////////////////////////////////////////////////

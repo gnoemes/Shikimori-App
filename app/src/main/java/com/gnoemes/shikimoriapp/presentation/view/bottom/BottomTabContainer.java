@@ -183,11 +183,15 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                         case Screens.EMBEDDED_PLAYER:
-                            return EmbeddedPlayerActivity.newIntent(context, (Long) data);
+                            return EmbeddedPlayerActivity.newIntent(context, (PlayVideoNavigationData) data);
                         case Screens.SETTINGS:
                             return new Intent(context, SettingsActivity.class);
                         case Screens.SCREENSHOTS:
                             return ScreenshotsActivity.newIntent(context, (ScreenshotNavigationData) data);
+                        case Screens.EXTERNAL_PLAYER:
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                            intent.setDataAndType(Uri.parse((String) data), "video/*");
+                            return intent;
                     }
                     return null;
                 }
