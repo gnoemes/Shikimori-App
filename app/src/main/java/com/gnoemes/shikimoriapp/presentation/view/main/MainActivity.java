@@ -74,8 +74,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initContainers();
-
-        mockMessage();
     }
 
     private void mockMessage() {
