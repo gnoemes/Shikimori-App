@@ -14,7 +14,6 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryWithBadgeViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuDividerViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuProfileViewModel;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
@@ -54,11 +53,11 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
         List<BaseMenuItem> items = new ArrayList<>();
 
         items.add(new MenuProfileViewModel(UserStatus.GUEST, null, null));
-        items.add(new MenuDividerViewModel());
-        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NEWS, false, 0));
-        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NOTIFICATIONS, false, 0));
-        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.MESSAGES, false, 0));
-        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.FRIENDS, false, 0));
+//        items.add(new MenuDividerViewModel());
+//        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NEWS, false, 0));
+//        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NOTIFICATIONS, false, 0));
+//        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.MESSAGES, false, 0));
+//        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.FRIENDS, false, 0));
         items.add(new MenuDividerViewModel());
         items.add(new MenuCategoryViewModel(MenuCategory.SETTINGS));
         items.add(new MenuDividerViewModel());

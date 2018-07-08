@@ -306,7 +306,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private void onBansClicked(long id) {
         //TODO bans
-        getRouter().showSystemMessage("История бананов в разработке");
+        getRouter().showSystemMessage("История банов в разработке");
     }
 
 
