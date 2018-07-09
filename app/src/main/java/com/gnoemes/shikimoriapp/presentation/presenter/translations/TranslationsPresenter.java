@@ -54,9 +54,9 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      * Load translations with current type
      */
     public void loadTranslations() {
-        getViewState().onShowLoading();
         getViewState().hideEmptyView();
         getViewState().hideErrorView();
+        getViewState().onShowLoading();
 
         Disposable disposable = interactor.getEpisodeTranslations(currentTranslationType, animeId, episodeId)
                 .doOnEvent((translations, throwable) -> getViewState().onHideLoading())
