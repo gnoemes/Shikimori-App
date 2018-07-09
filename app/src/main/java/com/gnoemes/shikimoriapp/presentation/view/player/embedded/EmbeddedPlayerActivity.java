@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -247,15 +248,18 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
             }
         }
 
+        if (!TextUtils.isEmpty(url)) {
+            MediaSource source = PlayerManager.MediaSourceHelper
+                    .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
+                    .withVideoUrls(url)
+                    .get();
 
-        MediaSource source = PlayerManager.MediaSourceHelper
-                .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
-                .withVideoUrls(url)
-                .get();
+            playerManager.setEventListener(this);
 
-        playerManager.setEventListener(this);
-
-        playerManager.addMediaSource(source);
+            playerManager.addMediaSource(source);
+        } else {
+            Toast.makeText(EmbeddedPlayerActivity.this, "Произошла ошибка во время загрузки видео. Попробуйте воспользоваться веб-плеером", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
