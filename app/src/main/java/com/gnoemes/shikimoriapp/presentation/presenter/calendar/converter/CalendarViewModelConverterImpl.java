@@ -31,13 +31,13 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
         DateTime groupDate = calendarItems.get(0) == null ? null : calendarItems.get(0).getNextEpisodeDate();
 
         for (CalendarItem item : calendarItems) {
-            animeList.add(convertAnimeViewModel(item));
 
             if (!dateTimeUtils.isSameDay(groupDate, item.getNextEpisodeDate())) {
-                list.add(new CalendarItemViewModel(item.getNextEpisodeDate(), animeList));
+                list.add(new CalendarItemViewModel(groupDate, animeList));
                 animeList = new ArrayList<>();
             }
 
+            animeList.add(convertAnimeViewModel(item));
             groupDate = item.getNextEpisodeDate();
         }
 
