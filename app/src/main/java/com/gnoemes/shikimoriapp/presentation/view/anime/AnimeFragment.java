@@ -45,6 +45,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchise
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.utils.Utils;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
@@ -89,6 +90,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @BindView(R.id.progress_loading)
     ProgressBar progressBar;
+
+    @BindView(R.id.view_network_error)
+    NetworkErrorView networkErrorView;
 
     @InjectPresenter
     AnimePresenter presenter;
@@ -192,6 +196,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
         appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
 
+        networkErrorView.setText(R.string.common_error_message_without_pull);
+
         getPresenter().onEpisodesRefresh();
     }
 
@@ -269,12 +275,16 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showErrorView() {
+        networkErrorView.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
+        appBarLayout.setExpanded(false);
     }
 
     @Override
     public void hideErrorView() {
+        networkErrorView.setVisibility(View.GONE);
         viewPager.setVisibility(View.VISIBLE);
+        appBarLayout.setExpanded(true);
     }
 
     @Override

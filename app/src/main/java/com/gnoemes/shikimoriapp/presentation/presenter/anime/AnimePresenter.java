@@ -165,7 +165,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void loadEpisodes() {
         getViewState().onShowRefresh();
-        getViewState().hideErrorView();
 
         Disposable disposable = seriesInteractor.getEpisodes(animeId)
                 .doOnEvent((episodes, throwable) -> getViewState().onHideRefresh())
@@ -366,6 +365,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Load anime detail data
      */
     private void loadAnimeData() {
+        getViewState().hideErrorView();
         getViewState().onShowLoading();
 
         Disposable disposable = animeInteractor.loadAnimeDetails(animeId)
@@ -528,6 +528,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     public void onBackgroundImageClicked() {
-        getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
+        if (currentAnime != null) {
+            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
+        }
     }
 }
