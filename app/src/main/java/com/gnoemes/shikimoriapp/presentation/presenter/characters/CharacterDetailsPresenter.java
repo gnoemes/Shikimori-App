@@ -5,6 +5,10 @@ import android.text.TextUtils;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.roles.CharacterInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
+import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterDetails;
@@ -40,14 +44,49 @@ public class CharacterDetailsPresenter extends BaseNetworkPresenter<CharacterDet
 
     private void loadCharacter() {
         getViewState().onShowLoading();
+        getViewState().hideError();
+        getViewState().hideNetworkError();
 
         Disposable disposable = interactor.getCharacterDetails(characterId)
-                .doOnSuccess(characterDetails -> currentCharacter = characterDetails)
+                .map(this::setCurrentCharacter)
                 .doOnEvent((characterDetails, throwable) -> getViewState().onHideLoading())
                 .map(viewModelConverter)
                 .subscribe(this::setData, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
+    }
+
+    private CharacterDetails setCurrentCharacter(CharacterDetails characterDetails) {
+        this.currentCharacter = characterDetails;
+        return characterDetails;
+    }
+
+    @Override
+    protected void processErrors(Throwable throwable) {
+        BaseException baseException = (BaseException) throwable;
+        switch (baseException.getTag()) {
+            case NetworkException.TAG:
+                processNetworkError(throwable);
+                break;
+            case ServiceCodeException.TAG:
+                processServiceError((ServiceCodeException) throwable);
+            default:
+                super.processErrors(throwable);
+        }
+    }
+
+    private void processServiceError(ServiceCodeException throwable) {
+        switch (throwable.getServiceCode()) {
+            case HttpStatusCode.UNPROCESSABLE_ENTITY:
+                getViewState().showError();
+                break;
+            default:
+                super.processErrors(throwable);
+        }
+    }
+
+    private void processNetworkError(Throwable throwable) {
+        getViewState().showNetworkError();
     }
 
     public void onRelatedItemClicked(CharacterRelatedType type, long id) {
@@ -65,15 +104,19 @@ public class CharacterDetailsPresenter extends BaseNetworkPresenter<CharacterDet
     }
 
     public void onOpenInBrowserClicked() {
-        getRouter().navigateTo(Screens.WEB, currentCharacter.getUrl());
+        if (currentCharacter != null) {
+            getRouter().navigateTo(Screens.WEB, currentCharacter.getUrl());
+        }
     }
 
     public void onOpenSourceClicked() {
-        String source = currentCharacter.getDescriptionSource();
-        if (TextUtils.isEmpty(source)) {
-            getRouter().showSystemMessage("Источник не найден");
-        } else {
-            getRouter().navigateTo(Screens.WEB, source);
+        if (currentCharacter != null) {
+            String source = currentCharacter.getDescriptionSource();
+            if (TextUtils.isEmpty(source)) {
+                getRouter().showSystemMessage("Источник не найден");
+            } else {
+                getRouter().navigateTo(Screens.WEB, source);
+            }
         }
     }
 

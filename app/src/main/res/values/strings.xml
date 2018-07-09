@@ -21,6 +21,7 @@
     <string name="common_studio">Студия</string>
     <string name="common_loading">Загрузка</string>
     <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
+    <string name="common_error_message_without_pull">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.</string>
     <string name="common_description">Описание</string>
     <string name="common_cancel">Отмена</string>
     <string name="common_next">Далее</string>
@@ -57,6 +58,7 @@
     <string name="error_json">Json syntax error</string>
     <string name="error_unknown">Unknown Error</string>
     <string name="error_no_data">Нет данных</string>
+    <string name="error_unprocessable">Произошла ошибка во время получения данных.</string>
     <string name="description_image">Изображение</string>
     <string name="description_progress">progress</string>
     <string name="description_clear">Сброс фильтров</string>

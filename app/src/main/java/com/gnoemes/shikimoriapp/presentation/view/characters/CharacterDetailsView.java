@@ -7,4 +7,12 @@ import java.util.List;
 
 public interface CharacterDetailsView extends BaseFragmentView {
     void setData(List<BaseItem> baseItems);
+
+    void showError();
+
+    void hideError();
+
+    void showNetworkError();
+
+    void hideNetworkError();
 }
