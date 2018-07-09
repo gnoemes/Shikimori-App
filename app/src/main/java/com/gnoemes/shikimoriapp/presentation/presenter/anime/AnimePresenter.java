@@ -230,9 +230,11 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     public void onTranslationTypeChoosed(TranslationType type) {
         analyticsInteractor.logEvent(AnalyticsEvent.TRANSLATIONS_OPENED);
-        getRouter().navigateTo(Screens.TRANSLATIONS,
-                new TranslationNavigationData(animeId, selectedEpisode.getId(), rateId, type)
-        );
+        if (selectedEpisode != null) {
+            getRouter().navigateTo(Screens.TRANSLATIONS,
+                    new TranslationNavigationData(animeId, selectedEpisode.getId(), rateId, type)
+            );
+        }
     }
 
     /**

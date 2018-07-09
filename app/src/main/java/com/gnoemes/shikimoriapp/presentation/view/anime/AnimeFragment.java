@@ -197,6 +197,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
 
         networkErrorView.setText(R.string.common_error_message_without_pull);
+        networkErrorView.setVisibility(View.GONE);
 
         getPresenter().onEpisodesRefresh();
     }

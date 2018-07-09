@@ -221,6 +221,8 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        paginator.release();
+        if (paginator != null) {
+            paginator.release();
+        }
     }
 }

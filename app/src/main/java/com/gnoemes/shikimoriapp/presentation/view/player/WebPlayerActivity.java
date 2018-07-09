@@ -194,12 +194,21 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
     @Override
     protected void onDestroy() {
         Log.i("DEVE", "onDestroy: ");
-        layout.removeAllViews();
-        webView.setWebViewClient(null);
-        client = null;
-        decorView.destroyDrawingCache();
+        if (layout != null) {
+            layout.removeAllViews();
+        }
+
+        if (decorView != null) {
+            decorView.destroyDrawingCache();
+        }
+
+        if (webView != null) {
+            webView.setWebViewClient(null);
+            client = null;
+            webView.destroy();
+        }
+
         decorView = null;
-        webView.destroy();
         webView = null;
         windowCallback = null;
         super.onDestroy();
