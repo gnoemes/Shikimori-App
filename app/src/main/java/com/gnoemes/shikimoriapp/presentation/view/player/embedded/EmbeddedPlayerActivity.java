@@ -135,7 +135,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onNetworkError() {
-        Toast.makeText(getApplicationContext(), "Превышено количество запросов на сервер. Попробуйте выбрать другой перевод или плеер.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.", Toast.LENGTH_LONG).show();
     }
 
     @Override
