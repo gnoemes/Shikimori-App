@@ -3,70 +3,50 @@ package com.gnoemes.shikimoriapp.presentation.view.player;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
-import com.gnoemes.shikimoriapp.presentation.presenter.player.WebPlayerPresenter;
-import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.utils.view.VideoWebChromeClient;
 
-import javax.inject.Inject;
+import java.util.regex.Pattern;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ru.terrakok.cicerone.Navigator;
-import ru.terrakok.cicerone.NavigatorHolder;
-
-public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlayerView>
-        implements WebPlayerView {
+public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
     private FrameLayout layout;
     private VideoWebChromeClient client;
     private View decorView;
 
-    @BindView(R.id.constraint)
-    ConstraintLayout container;
+//    @BindView(R.id.constraint)
+//    ConstraintLayout container;
+//
+//    @BindView(R.id.progress_loading)
+//    ProgressBar progressBar;
 
-    @BindView(R.id.progress_loading)
-    ProgressBar progressBar;
-
-    @Inject
-    NavigatorHolder navigatorHolder;
-
-    @InjectPresenter
-    WebPlayerPresenter presenter;
-
-    public static Intent newIntent(Context context, PlayVideoNavigationData data) {
+    public static Intent newIntent(Context context, String url) {
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            return intent;
+//        } else {
         Intent intent = new Intent(context, WebPlayerActivity.class);
-        intent.putExtra(AppExtras.ARGUMENT_PLAY_VIDEO_DATA, data);
+        intent.putExtra(AppExtras.ARGUMENT_URL, url);
         return intent;
-    }
-
-    @ProvidePresenter
-    WebPlayerPresenter providePresenter() {
-        presenter = presenterProvider.get();
-
-        if (getIntent() != null) {
-            presenter.setPlayData((PlayVideoNavigationData) getIntent().getSerializableExtra(AppExtras.ARGUMENT_PLAY_VIDEO_DATA));
-        }
-
-        return presenter;
+//        }
     }
 
     private WindowCallback windowCallback = new WindowCallback() {
@@ -98,7 +78,8 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_web_player);
+
         layout = findViewById(R.id.frame);
         webView = new WebView(getApplicationContext());
         layout.addView(webView);
@@ -108,10 +89,31 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebChromeClient(client);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                    if (Pattern.compile("https?://vk\\.com/").matcher(url).find()) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return super.shouldOverrideUrlLoading(view, url);
+                }
+            }
+        });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -119,6 +121,18 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
 
         //fix fullscreen mode on 4.4
         webView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
+
+        if (getIntent() != null) {
+            String url = getIntent().getStringExtra(AppExtras.ARGUMENT_URL);
+            if (!TextUtils.isEmpty(url)) {
+                webView.loadUrl(url);
+            } else {
+                showError();
+            }
+        } else {
+            super.finish();
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -152,29 +166,8 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
         }
     }
 
-    @Override
     public void showError() {
         Toast.makeText(WebPlayerActivity.this, "Произошла ошибка во время загрузки видео", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected int getLayoutActivity() {
-        return R.layout.activity_web_player;
-    }
-
-    @Override
-    protected Navigator getNavigator() {
-        return null;
-    }
-
-    @Override
-    protected NavigatorHolder getNavigatorHolder() {
-        return navigatorHolder;
-    }
-
-    @Override
-    protected WebPlayerPresenter getPresenter() {
-        return presenter;
     }
 
     private void showSystemUI() {
@@ -187,7 +180,6 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
 
     @Override
     public void onBackPressed() {
-        webView.destroy();
         super.finish();
     }
 
@@ -212,31 +204,6 @@ public class WebPlayerActivity extends BaseActivity<WebPlayerPresenter, WebPlaye
         webView = null;
         windowCallback = null;
         super.onDestroy();
-    }
-
-    @Override
-    public void playVideo(String url) {
-        webView.loadUrl(url);
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public void initToolbar() {
-
-    }
-
-    @Override
-    public void onShowLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onHideLoading() {
-        progressBar.setVisibility(View.GONE);
     }
 
     public interface WindowCallback {

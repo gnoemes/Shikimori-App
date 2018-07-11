@@ -148,12 +148,17 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     }
 
     private void onPlayWeb() {
-        getRouter().navigateTo(Screens.WEB_PLAYER, new PlayVideoNavigationData(
-                currentTranslation.getAnimeId(),
-                currentTranslation.getEpisodeId(),
-                currentTranslation.getVideoId(),
-                currentTranslation.getEpisodesSize()
-        ));
+        getViewState().onShowLoading();
+
+        Disposable disposable = interactor.getVideo(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId(), currentTranslation.getVideoId())
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::playWeb, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void playWeb(PlayVideo playVideo) {
+        getRouter().navigateTo(Screens.WEB_PLAYER, playVideo.getUrl());
     }
 
     //KOTLIN GIVE ME THE POWER PLS

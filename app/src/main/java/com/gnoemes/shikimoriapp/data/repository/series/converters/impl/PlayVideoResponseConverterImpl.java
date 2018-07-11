@@ -30,6 +30,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     private static final String OK_REGEX = "https?://ok\\.ru/";
     private static final String SOVET_ROMANTICA_REGEX = "https?://sovetromantica\\.com/";
     private static final String ANIMEDIA_REGEX = "https?://online\\.animedia\\.tv/";
+    private static final String MAIL_RU = "https?://mail\\.ru/";
 
     @Inject
     public PlayVideoResponseConverterImpl() {
@@ -68,6 +69,8 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
             return VideoHosting.SOVET_ROMANTICA;
         } else if (Pattern.compile(ANIMEDIA_REGEX).matcher(url).find()) {
             return VideoHosting.ANIMEDIA;
+        } else if (Pattern.compile(MAIL_RU).matcher(url).find()) {
+            return VideoHosting.MAIL_RU;
         }
 
         return VideoHosting.UNKNOWN;

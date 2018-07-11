@@ -179,7 +179,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.AUTHORIZATION:
                             return AuthActivity.newIntent(context, (AuthType) data);
                         case Screens.WEB_PLAYER:
-                            return WebPlayerActivity.newIntent(context, (PlayVideoNavigationData) data);
+                            return WebPlayerActivity.newIntent(context, (String) data);
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                         case Screens.EMBEDDED_PLAYER:
@@ -191,7 +191,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.EXTERNAL_PLAYER:
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                             intent.setDataAndType(Uri.parse((String) data), "video/*");
-                            return intent;
+                            return Intent.createChooser(intent, "Открыть в");
                     }
                     return null;
                 }
