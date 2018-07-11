@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -14,24 +14,17 @@ import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
-import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.player.EmbeddedPlayerPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.utils.view.PlayerManager;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.MimeTypes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -141,14 +134,8 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
-    public void onShitHappens() {
-        if (hasSubtitles)
-            Toast.makeText(getApplicationContext(), "Внимание, субтитры текущего перевода временно не поддерживаются в данном плеере", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onNetworkError() {
-        Toast.makeText(getApplicationContext(), "Превышено количество запросов на сервер. \n Попробуйте выбрать другой перевод.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Превышено количество запросов на сервер. Попробуйте выбрать другой перевод или плеер.", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -159,6 +146,11 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onControlsVisible() {
 
+    }
+
+    @Override
+    public void onAlternativeSource() {
+        getPresenter().onAlternativeSource();
     }
 
     @Override
@@ -227,31 +219,30 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
-    public void playOrAddNewVideo(PlayVideo playVideo) {
+    public void playOrAddNewVideo(PlayVideo playVideo, int position) {
         playerManager.setTitle(playVideo.getTitle());
         playerManager.setSubtitle(String.format(getResources().getString(R.string.episode_list_format), playVideo.getEpisodeId()));
 
 //        List<Integer> resolutions = new ArrayList<>();
 //        if (playVideo.isHasExtra()) {
 //            for (int i = 0; i < playVideo.getExtra().getQualities().size(); i++) {
-//                VideoQuality quality = playVideo.getExtra().getQualities().get(i);
+//                VideoTrack quality = playVideo.getExtra().getQualities().get(i);
 //                urls[i] = quality.getUrl();
 //                resolutions.add(quality.getResolution());
 //            }
 //        }
 
-        String url = null;
-        if (playVideo.isHasExtra() && playVideo.getExtra() != null) {
-            VideoExtra extra = playVideo.getExtra();
-            if (extra.getQualities() != null && !extra.getQualities().isEmpty()) {
-                url = extra.getQualities().get(0).getUrl();
+        VideoTrack track = null;
+        if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
+            track = playVideo.getTracks().get(position);
             }
-        }
 
-        if (!TextUtils.isEmpty(url)) {
+        if (track != null) {
+            Log.i("DEVE", "playOrAddNewVideo: " + track.getUrl());
             MediaSource source = PlayerManager.MediaSourceHelper
                     .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
-                    .withVideoUrls(url)
+                    .withFormat(track.getFormat())
+                    .withVideoUrls(track.getUrl())
                     .get();
 
             playerManager.setEventListener(this);
@@ -260,39 +251,6 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         } else {
             Toast.makeText(EmbeddedPlayerActivity.this, "Произошла ошибка во время загрузки видео. Попробуйте воспользоваться веб-плеером", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void setPlayerData(TranslationWithSources translation, int position) {
-//        playerManager.setTitle(translation.getTranslation().getSerialTitle());
-//        playerManager.setSubtitle(translation.getTranslation().getEpisode().getEpisodeFull());
-
-        Format subtitlesFormat = Format.createTextSampleFormat(
-                null,
-                MimeTypes.TEXT_VTT,
-                Format.NO_VALUE,
-                null,
-                null
-        );
-
-        PlayEpisode episode = translation.getSources().get(position);
-
-        hasSubtitles = episode.HasSubtitles();
-
-        MediaSource source = PlayerManager.MediaSourceHelper
-                .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
-                .withSubtitles(episode.HasSubtitles() ? episode.getSubtitles() : null, subtitlesFormat)
-                .withVideoUrls(episode.getVideoUrls().toArray(new String[episode.getVideoUrls().size()]))
-                .get();
-
-        List<Integer> res = new ArrayList<>();
-        for (PlayEpisode playEpisode : translation.getSources()) {
-            res.add(playEpisode.getResolution());
-        }
-        playerManager.addResolutions(res);
-        playerManager.setEventListener(this);
-
-        playerManager.addMediaSource(source);
     }
 
     @Override

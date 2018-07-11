@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.translations;
 
+import android.text.TextUtils;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
@@ -10,7 +12,6 @@ import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
-import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -90,7 +91,8 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
         List<PlayerType> players = new ArrayList<>();
         players.add(PlayerType.WEB);
-        if (translation.getHosting() == VideoHosting.VK) {
+        if (translation.getHosting() == VideoHosting.VK ||
+                translation.getHosting() == VideoHosting.SIBNET) {
             players.add(PlayerType.EMBEDDED);
             players.add(PlayerType.EXTERNAL);
         }
@@ -125,14 +127,8 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
     private void playExternal(PlayVideo playVideo) {
         //TODO refactor, add quality chooser
-
-        if (playVideo.isHasExtra() && playVideo.getExtra() != null) {
-            VideoExtra extra = playVideo.getExtra();
-            if (extra.getQualities() != null && !extra.getQualities().isEmpty()) {
-                getRouter().navigateTo(Screens.EXTERNAL_PLAYER, extra.getQualities().get(0).getUrl());
-            } else {
-                getRouter().showSystemMessage("Произошла ошибка во время загрузки видео.");
-            }
+        if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
+            getRouter().navigateTo(Screens.EXTERNAL_PLAYER, playVideo.getTracks().get(0).getUrl());
         } else {
             getRouter().showSystemMessage("Произошла ошибка во время загрузки видео.");
         }
@@ -158,7 +154,9 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     }
 
     private void playWeb(PlayVideo playVideo) {
-        getRouter().navigateTo(Screens.WEB_PLAYER, playVideo.getUrl());
+        if (!TextUtils.isEmpty(playVideo.getSourceUrl())) {
+            getRouter().navigateTo(Screens.WEB_PLAYER, playVideo.getSourceUrl());
+        }
     }
 
     //KOTLIN GIVE ME THE POWER PLS

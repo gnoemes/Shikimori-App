@@ -103,7 +103,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     public Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId) {
         return api.getAnimeVideoInfo(animeId, episodeId, videoId)
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
-                .flatMap(playVideo -> api.getVideoSource(playVideo.getUrl())
+                .flatMap(playVideo -> api.getVideoSource(playVideo.getSourceUrl())
                         .map(document -> playVideoResponseConverter
                                 .convertDependsOnHosting(
                                         playVideo.getAnimeId(),
@@ -117,7 +117,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     public Single<PlayVideo> getVideoSource(long animeId, int episodeId) {
         return api.getAnimeVideoInfo(animeId, episodeId)
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
-                .flatMap(playVideo -> api.getVideoSource(playVideo.getUrl())
+                .flatMap(playVideo -> api.getVideoSource(playVideo.getSourceUrl())
                         .map(document -> playVideoResponseConverter
                                 .convertDependsOnHosting(
                                         playVideo.getAnimeId(),

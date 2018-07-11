@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerView;
@@ -19,6 +20,9 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     private int currentEpisode;
     private long videoId;
     private int episodesSize;
+
+    private int currentTrack;
+    private PlayVideo currentVideo;
 
     public EmbeddedPlayerPresenter(SeriesInteractor seriesInteractor) {
         this.seriesInteractor = seriesInteractor;
@@ -56,7 +60,16 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     }
 
     private void updateVideo(PlayVideo playVideo) {
-        getViewState().playOrAddNewVideo(playVideo);
+        this.currentVideo = playVideo;
+        getViewState().playOrAddNewVideo(playVideo, currentTrack);
+    }
+
+    public void onAlternativeSource() {
+        if (currentVideo.getHosting() == VideoHosting.SIBNET) {
+            if (currentVideo.getTracks() != null && currentVideo.getTracks().size() == 2) {
+                getViewState().playOrAddNewVideo(currentVideo, 1);
+            }
+        }
     }
 
     public void loadNextEpisode() {
@@ -74,5 +87,4 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         this.currentEpisode = data.getEpisodeId();
         this.videoId = data.getVideoId();
     }
-
 }

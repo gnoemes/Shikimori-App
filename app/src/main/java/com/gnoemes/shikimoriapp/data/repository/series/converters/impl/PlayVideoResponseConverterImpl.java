@@ -1,10 +1,14 @@
 package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.data.SibnetVideoResponse;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
-import com.gnoemes.shikimoriapp.entity.series.domain.VideoExtra;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoFormat;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
-import com.gnoemes.shikimoriapp.entity.series.domain.VideoQuality;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -48,8 +52,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
             url = e.attr(HREF_QUERY);
         }
 
-
-        return new PlayVideo(animeId, episodeId, convertHosting(url), title, url, false, null);
+        return new PlayVideo(animeId, episodeId, convertHosting(url), title, url);
     }
 
     private VideoHosting convertHosting(String url) {
@@ -90,7 +93,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
             case RUTUBE:
                 return convertRutubeSource(animeId, episodeId, document);
             case SIBNET:
-                return convertSibnetSource(animeId, episodeId, document);
+                return convertSibnetSource(animeId, episodeId, title, document);
             case MAIL_RU:
                 return convertMailRuSource(animeId, episodeId, document);
             case ANIMEDIA:
@@ -124,7 +127,39 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
         return null;
     }
 
-    private PlayVideo convertSibnetSource(long animeId, int episodeId, Document document) {
+    private PlayVideo convertSibnetSource(long animeId, int episodeId, String title, Document document) {
+        Elements scripts = document.getElementsByTag("script");
+        List<VideoTrack> tracks = new ArrayList<>();
+        String json = null;
+
+
+        for (Element script : scripts) {
+            if (Pattern.compile("(?:player.src)(.+?)(?:,)").matcher(script.data()).find()) {
+                String src = script.data().substring(script.data().indexOf("player.src"));
+                json = src.substring(src.indexOf("["), src.indexOf("]") + 1);
+            }
+        }
+
+        List<SibnetVideoResponse> videoResponses = new Gson().fromJson(json, new TypeToken<List<SibnetVideoResponse>>() {
+        }.getType());
+
+        if (videoResponses != null) {
+            for (SibnetVideoResponse response : videoResponses) {
+                if (response != null) {
+                    tracks.add(new VideoTrack((int) Constants.NO_ID, "http://video.sibnet.ru/" + response.getUrl(), convertVideoFormat(response.getType())));
+                }
+            }
+        }
+
+        return new PlayVideo(animeId, episodeId, VideoHosting.SIBNET, title, tracks);
+    }
+
+    private VideoFormat convertVideoFormat(String type) {
+        for (VideoFormat format : VideoFormat.values()) {
+            if (format.isEqualType(type)) {
+                return format;
+            }
+        }
         return null;
     }
 
@@ -138,15 +173,17 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
 
     private PlayVideo convertVkSource(long animeId, int episodeId, String title, Document document) {
         String QUALITIES_QUERY = "video#video_player>source~[type=video/mp4]";
-        List<VideoQuality> qualities = new ArrayList<>();
+        List<VideoTrack> tracks = new ArrayList<>();
+        Pattern resolutionPattern = Pattern.compile("\\.(\\d+)\\.");
 
         for (Element e : document.select(QUALITIES_QUERY)) {
             String src = e.attr("src");
-            int res = Integer.parseInt("2");
-            qualities.add(new VideoQuality(res, src));
+//            int res = resolutionPattern.matcher(src).find() ? Integer.parseInt(resolutionPattern.matcher(src).group().replaceAll("\\.", "")) : (int) Constants.NO_ID;
+            int res = 720;
+            tracks.add(new VideoTrack(res, src, VideoFormat.MP4));
         }
 
-        return new PlayVideo(animeId, episodeId, VideoHosting.VK, title, null, !qualities.isEmpty(), new VideoExtra(qualities));
+        return new PlayVideo(animeId, episodeId, VideoHosting.VK, title, tracks);
     }
 
     private PlayVideo convertOkSource(long animeId, int episodeId, Document document) {

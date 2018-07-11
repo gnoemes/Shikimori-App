@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.entity.series.domain;
 
 import android.support.annotation.Nullable;
 
+import java.util.List;
+
 public class PlayVideo {
 
     private long animeId;
@@ -9,19 +11,24 @@ public class PlayVideo {
     private VideoHosting hosting;
     private String title;
     @Nullable
-    private String url;
-    private boolean hasExtra;
+    private String sourceUrl;
     @Nullable
-    private VideoExtra extra;
+    private List<VideoTrack> tracks;
 
-    public PlayVideo(long animeId, int episodeId, VideoHosting hosting, String title, @Nullable String url, boolean hasExtra, @Nullable VideoExtra extra) {
+    public PlayVideo(long animeId, int episodeId, VideoHosting hosting, String title, @Nullable List<VideoTrack> tracks) {
         this.animeId = animeId;
         this.episodeId = episodeId;
         this.hosting = hosting;
         this.title = title;
-        this.url = url;
-        this.hasExtra = hasExtra;
-        this.extra = extra;
+        this.tracks = tracks;
+    }
+
+    public PlayVideo(long animeId, int episodeId, VideoHosting hosting, String title, @Nullable String sourceUrl) {
+        this.animeId = animeId;
+        this.episodeId = episodeId;
+        this.hosting = hosting;
+        this.title = title;
+        this.sourceUrl = sourceUrl;
     }
 
     public long getAnimeId() {
@@ -41,16 +48,12 @@ public class PlayVideo {
     }
 
     @Nullable
-    public String getUrl() {
-        return url;
-    }
-
-    public boolean isHasExtra() {
-        return hasExtra;
+    public String getSourceUrl() {
+        return sourceUrl;
     }
 
     @Nullable
-    public VideoExtra getExtra() {
-        return extra;
+    public List<VideoTrack> getTracks() {
+        return tracks;
     }
 }

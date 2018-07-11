@@ -9,8 +9,6 @@ import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationDa
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerView;
 
-import io.reactivex.disposables.Disposable;
-
 @InjectViewState
 public class WebPlayerPresenter extends BaseNetworkPresenter<WebPlayerView> {
 
@@ -33,13 +31,13 @@ public class WebPlayerPresenter extends BaseNetworkPresenter<WebPlayerView> {
     }
 
     private void loadVideo() {
-        getViewState().onShowLoading();
-        Disposable disposable = interactor.getVideo(animeid, currentEpisode, videoId)
-                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
-                .map(PlayVideo::getUrl)
-                .subscribe(this::updateVideo, this::processErrors);
-
-        unsubscribeOnDestroy(disposable);
+//        getViewState().onShowLoading();
+//        Disposable disposable = interactor.getVideo(animeid, currentEpisode, videoId)
+//                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+//                .map(PlayVideo::getUrl)
+//                .subscribe(this::updateVideo, this::processErrors);
+//
+//        unsubscribeOnDestroy(disposable);
     }
 
     private void updateVideo(String url) {
