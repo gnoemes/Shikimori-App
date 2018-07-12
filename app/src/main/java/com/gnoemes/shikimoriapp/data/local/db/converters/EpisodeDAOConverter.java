@@ -1,7 +1,7 @@
 package com.gnoemes.shikimoriapp.data.local.db.converters;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.EpisodeDAO;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
 
 import java.util.List;
 

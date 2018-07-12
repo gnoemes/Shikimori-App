@@ -3,9 +3,9 @@ package com.gnoemes.shikimoriapp.utils.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoFormat;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -23,12 +23,14 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.source.ads.AdsMediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
@@ -61,8 +63,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private TextView subtitleView;
     private ReSpinner resolutionSpinner;
     private DefaultTimeBar videoProgress;
-
-    private boolean isFirst;
 
     private PlayerControllerEventListener eventListener;
 
@@ -118,36 +118,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource);
-
-        //TODO убрать костыль
-        {
-            if (source instanceof ConcatenatingMediaSource) {
-                ConcatenatingMediaSource mediaSource = (ConcatenatingMediaSource) source;
-                if (mediaSource.getSize() > 1) {
-                    player.seekTo(C.TIME_END_OF_SOURCE);
-                    isFirst = true;
-                    if (eventListener != null) {
-                        eventListener.onShitHappens();
-                    }
-                }
-
-            }
-
-            source.addEventListener(new Handler(), new DefaultMediaSourceEventListener() {
-
-                @Override
-                public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
-                    super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
-
-                    if (windowIndex != 0 && isFirst) {
-                        playerView.postDelayed(() -> player.seekTo(C.POSITION_UNSET), 1500);
-                        isFirst = false;
-                    }
-                }
-
-            });
-        }
-
     }
 
     public void setTitle(@Nullable String title) {
@@ -248,11 +218,18 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         switch (error.type) {
             case ExoPlaybackException.TYPE_SOURCE:
                 if (error.getSourceException() instanceof HttpDataSource.InvalidResponseCodeException) {
-                    HttpDataSource.InvalidResponseCodeException exception = (HttpDataSource.InvalidResponseCodeException) error.getSourceException();
-                    if (exception.responseCode == HttpStatusCode.TOO_MANY_REQUESTS) {
-                        if (eventListener != null) {
-                            eventListener.onNetworkError();
-                        }
+//                    HttpDataSource.InvalidResponseCodeException exception = (HttpDataSource.InvalidResponseCodeException) error.getSourceException();
+////                    if (exception.responseCode == HttpStatusCode.FORBIDDED) {
+////                        if (eventListener != null) {
+////                            eventListener.onAlternativeSource();
+////                        }
+////                    } else {
+////                        if (eventListener != null) {
+////                            eventListener.onNetworkError();
+////                        }
+////                    }
+                    if (eventListener != null) {
+                        eventListener.onNetworkError();
                     }
                 }
                 break;
@@ -304,14 +281,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
         void onEnded();
 
-        void onShitHappens();
-
         void onNetworkError();
+
+        void onAlternativeSource();
     }
 
     public static class MediaSourceHelper {
 
         private DataSource.Factory factory;
+        private VideoFormat format;
         private MediaSource videoSource;
         private List<MediaSource> videoSources;
         @Nullable
@@ -326,11 +304,18 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             return new MediaSourceHelper(factory);
         }
 
+        public MediaSourceHelper withFormat(VideoFormat format) {
+            this.format = format;
+            return this;
+        }
+
         public MediaSourceHelper withVideoUrls(@NonNull String... urls) {
 
             for (String url : urls) {
-                videoSources.add(new ExtractorMediaSource.Factory(factory)
-                        .createMediaSource(Uri.parse(url)));
+                if (!TextUtils.isEmpty(url)) {
+                    videoSources.add(getMediaSourceFactory()
+                            .createMediaSource(Uri.parse(url)));
+                }
             }
 
             videoSource = new ConcatenatingMediaSource(videoSources.toArray(new MediaSource[videoSources.size()]));
@@ -349,12 +334,21 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
         public MediaSource get() {
             //TODO REMOVE
-            if (subtitlesSource == null || videoSources.size() > 1) {
-                return videoSource;
-            }
-
-            return new MergingMediaSource(videoSource, subtitlesSource);
+            return videoSource;
+//            return new MergingMediaSource(videoSource, subtitlesSource);
         }
 
+        public AdsMediaSource.MediaSourceFactory getMediaSourceFactory() {
+            switch (format) {
+                case MP4:
+                    return new ExtractorMediaSource.Factory(factory);
+                case HLS:
+                    return new HlsMediaSource.Factory(factory);
+                case DASH:
+                    return new DashMediaSource.Factory(new DefaultDashChunkSource.Factory(factory), factory);
+                default:
+                    throw new IllegalArgumentException(format.getType() + " format not implemented");
+            }
+        }
     }
 }

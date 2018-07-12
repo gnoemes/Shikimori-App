@@ -3,7 +3,9 @@ package com.gnoemes.shikimoriapp.presentation.view.anime.converter;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeOptionsItem;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeErrorItem;
+import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
     }
 
     @Override
-    public List<BaseEpisodeItem> apply(List<Episode> episodes) {
+    public List<BaseEpisodeItem> apply(Series series) {
         List<BaseEpisodeItem> items = new ArrayList<>();
 
         boolean isFirst = true;
@@ -27,7 +29,7 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
         boolean flag = true;
 
         //TODO wrong logic
-        for (Episode episode : episodes) {
+        for (Episode episode : series.getEpisodes()) {
             EpisodeItem item = convertEpisode(episode);
             items.add(item);
             if (!episode.isWatched() && flag) {
@@ -40,21 +42,22 @@ public class EpisodeViewModelConverterImpl implements EpisodeViewModelConverter 
         }
 
         if (!items.isEmpty()) {
-            currentItem = currentItem == null ? convertEpisode(episodes.get(episodes.size() - 1)) : currentItem;
+            currentItem = currentItem == null ? convertEpisode(series.getEpisodes().get(series.getEpisodes().size() - 1)) : currentItem;
             items.add(0, new EpisodeOptionsItem(isFirst, currentItem));
         }
+
+        if (series.isHasError()) {
+            items.add(new EpisodeErrorItem(series.getErrorMessage()));
+        }
+
         return items;
     }
 
     private EpisodeItem convertEpisode(Episode episode) {
         return new EpisodeItem(episode.getId(),
-                episode.getSeriesId(),
                 episode.getAnimeId(),
-                episode.getEpisodeFull(),
-                episode.getEpisode(),
-                episode.getType(),
-                episode.getDate(),
-                episode.getViews(),
+                episode.getRawHostings(),
+                episode.getTypes(),
                 episode.isWatched());
     }
 }

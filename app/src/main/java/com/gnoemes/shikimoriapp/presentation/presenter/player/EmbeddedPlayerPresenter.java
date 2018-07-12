@@ -2,8 +2,10 @@ package com.gnoemes.shikimoriapp.presentation.presenter.player;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerView;
 
@@ -14,43 +16,75 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
 
     private SeriesInteractor seriesInteractor;
 
-    private long translationId;
-    private TranslationWithSources current;
+    private long animeId;
+    private int currentEpisode;
+    private long videoId;
+    private int episodesSize;
+
+    private int currentTrack;
+    private PlayVideo currentVideo;
 
     public EmbeddedPlayerPresenter(SeriesInteractor seriesInteractor) {
         this.seriesInteractor = seriesInteractor;
     }
 
     @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        loadTranslation();
+    public void initData() {
+        super.initData();
+        loadVideo();
     }
 
-    private void loadTranslation() {
+    private void loadVideo() {
+        getViewState().onShowLoading();
+        if (videoId != Constants.NO_ID) {
+            loadVideoWithId();
+        } else {
+            loadVideoWithoutId();
+        }
+    }
 
-        Disposable disposable = seriesInteractor.getTranslationWithSources(translationId)
-                .subscribe(this::setTranslationWithSources, this::processErrors);
+    private void loadVideoWithoutId() {
+        Disposable disposable = seriesInteractor.getVideoSource(animeId, currentEpisode)
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::updateVideo, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
     }
 
-    private void setTranslationWithSources(TranslationWithSources translation) {
-        this.current = translation;
-        getViewState().setPlayerData(translation, 0);
+    private void loadVideoWithId() {
+        Disposable disposable = seriesInteractor.getVideoSource(animeId, currentEpisode, videoId)
+                .doOnEvent((playVideo, throwable) -> getViewState().onHideLoading())
+                .subscribe(this::updateVideo, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 
-    public void setTranslationId(long translationId) {
-        this.translationId = translationId;
+    private void updateVideo(PlayVideo playVideo) {
+        this.currentVideo = playVideo;
+        getViewState().playOrAddNewVideo(playVideo, currentTrack);
     }
 
-    public void onResolutionChanged(int newResolution) {
-        int position = 0;
-        for (PlayEpisode episode : current.getSources()) {
-            if (episode.getResolution() == newResolution) {
-                getViewState().setPlayerData(current, position);
+    public void onAlternativeSource() {
+        if (currentVideo.getHosting() == VideoHosting.SIBNET) {
+            if (currentVideo.getTracks() != null && currentVideo.getTracks().size() == 2) {
+                getViewState().playOrAddNewVideo(currentVideo, 1);
             }
-            position++;
         }
+    }
+
+    public void loadNextEpisode() {
+        currentEpisode += 1;
+        videoId = Constants.NO_ID;
+        if (currentEpisode <= episodesSize) {
+            loadVideo();
+        }
+    }
+
+
+    public void setPlayData(PlayVideoNavigationData data) {
+        this.animeId = data.getAnimeId();
+        this.episodesSize = data.getEpisodesSize();
+        this.currentEpisode = data.getEpisodeId();
+        this.videoId = data.getVideoId();
     }
 }

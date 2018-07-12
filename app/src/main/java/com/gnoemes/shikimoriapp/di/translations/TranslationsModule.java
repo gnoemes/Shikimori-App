@@ -6,7 +6,6 @@ import com.gnoemes.shikimoriapp.di.anime.SeriesModule;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
-import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.translations.TranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
@@ -29,10 +28,9 @@ public interface TranslationsModule {
 
     @Provides
     static TranslationsPresenter provideTranslationsPresenter(SeriesInteractor interactor,
-                                                              UserSettingsInteractor settingsInteractor,
                                                               TitleResourceProvider resourceProvider,
                                                               TranslationViewModelConverter converter) {
-        return new TranslationsPresenter(interactor, settingsInteractor, resourceProvider, converter);
+        return new TranslationsPresenter(interactor, resourceProvider, converter);
     }
 
     @Binds

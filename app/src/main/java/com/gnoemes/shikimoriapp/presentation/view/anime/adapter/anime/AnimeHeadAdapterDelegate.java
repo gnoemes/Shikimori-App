@@ -229,16 +229,12 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             popupMenu.inflate(R.menu.menu_anime);
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.item_settings:
-                        callback.onAction(AnimeAction.SHOW_PLAY_SETTINGS, false);
-                        break;
                     case R.id.item_open:
                         callback.onAction(AnimeAction.OPEN_IN_BROWSER, null);
                         break;
                     case R.id.item_clear_history:
                         callback.onAction(AnimeAction.CLEAR_HISTORY, null);
                         break;
-
                 }
                 return false;
             });

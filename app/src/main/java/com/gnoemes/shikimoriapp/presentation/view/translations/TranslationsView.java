@@ -4,6 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
@@ -32,4 +33,8 @@ public interface TranslationsView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void playVideoOnWeb(String url);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showPlayerDialog(List<PlayerType> players);
+
 }

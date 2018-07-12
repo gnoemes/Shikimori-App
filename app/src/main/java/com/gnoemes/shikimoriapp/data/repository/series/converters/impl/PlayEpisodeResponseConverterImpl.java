@@ -1,10 +1,10 @@
-package com.gnoemes.shikimoriapp.data.repository.anime.series.converters.impl;
+package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
-import com.gnoemes.shikimoriapp.data.repository.anime.series.converters.PlayEpisodeResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.network.PlayEpisodeResponse;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.PlayEpisode;
 import com.google.gson.Gson;
@@ -42,6 +42,6 @@ public class PlayEpisodeResponseConverterImpl implements PlayEpisodeResponseConv
         return new PlayEpisode(response.getResolution(),
                 !TextUtils.isEmpty(subtitles),
                 response.getUrls(),
-                BuildConfig.SmotretAnimeBaseUrl + subtitles.replaceFirst("/", ""));
+                BuildConfig.PlaySkihimoriBaseUrl + subtitles.replaceFirst("/", ""));
     }
 }

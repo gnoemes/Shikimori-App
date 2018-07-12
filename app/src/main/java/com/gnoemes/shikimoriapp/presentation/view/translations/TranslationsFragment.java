@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
@@ -56,8 +57,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     public static TranslationsFragment newInstance(TranslationNavigationData data) {
         TranslationsFragment fragment = new TranslationsFragment();
         Bundle args = new Bundle();
-        args.putLong(AppExtras.ARGUMENT_EPISODE_ID, data.getEpisodeId());
+        args.putInt(AppExtras.ARGUMENT_EPISODE_ID, data.getEpisodeId());
         args.putSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE, data.getType());
+        args.putLong(AppExtras.ARGUMENT_ANIME_ID, data.getAnimeId());
+        args.putLong(AppExtras.ARGUMENT_ANIME_RATE_ID, data.getRateId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,8 +72,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
             if (getParentFragment() != null) {
                 presenter.setLocalRouter(((RouterProvider) getParentFragment()).getLocalRouter());
             }
-            presenter.setEpisodeId(getArguments().getLong(AppExtras.ARGUMENT_EPISODE_ID));
-            presenter.setCurrentTranslation((TranslationType) getArguments().getSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE));
+            presenter.setEpisodeId(getArguments().getInt(AppExtras.ARGUMENT_EPISODE_ID));
+            presenter.setCurrentTranslationType((TranslationType) getArguments().getSerializable(AppExtras.ARGUMENT_TRANSLATION_TYPE));
+            presenter.setAnimeId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_ID));
+            presenter.setRateId(getArguments().getLong(AppExtras.ARGUMENT_ANIME_RATE_ID));
         }
 
         return presenter;
@@ -171,6 +176,21 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     public void showErrorView() {
         recyclerView.setVisibility(View.GONE);
         networkErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showPlayerDialog(List<PlayerType> players) {
+        new MaterialDialog.Builder(getContext())
+                .items(players.size() == 1 ? R.array.players_single : R.array.players)
+                .itemsCallback((dialog, itemView, position, text) -> getPresenter().onPlay(players.get(position)))
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
     }
 
     @Override

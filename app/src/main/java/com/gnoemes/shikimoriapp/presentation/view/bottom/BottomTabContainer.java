@@ -25,6 +25,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
+import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -182,11 +183,15 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.WEB:
                             return new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                         case Screens.EMBEDDED_PLAYER:
-                            return EmbeddedPlayerActivity.newIntent(context, (Long) data);
+                            return EmbeddedPlayerActivity.newIntent(context, (PlayVideoNavigationData) data);
                         case Screens.SETTINGS:
                             return new Intent(context, SettingsActivity.class);
                         case Screens.SCREENSHOTS:
                             return ScreenshotsActivity.newIntent(context, (ScreenshotNavigationData) data);
+                        case Screens.EXTERNAL_PLAYER:
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                            intent.setDataAndType(Uri.parse((String) data), "video/*");
+                            return Intent.createChooser(intent, "Открыть в");
                     }
                     return null;
                 }

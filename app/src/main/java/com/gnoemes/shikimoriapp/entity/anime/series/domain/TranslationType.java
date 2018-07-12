@@ -3,13 +3,10 @@ package com.gnoemes.shikimoriapp.entity.anime.series.domain;
 import android.support.annotation.Nullable;
 
 public enum TranslationType {
-    VOICE_RU("voiceRu"),
-    SUB_RU("subRu"),
-    RAW("raw"),
-    VOICE_EN("voiceEn"),
-    SUB_EN("subEn"),
+    VOICE_RU("озвучка"),
+    SUB_RU("субтитры"),
+    RAW("оригинал"),
     ALL(null);
-
 
     @Nullable
     private final String type;

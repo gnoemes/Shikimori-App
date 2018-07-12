@@ -10,7 +10,6 @@ public enum AnimeAction {
     GENRE,
     CHRONOLOGY,
     RELATED,
-    SHOW_PLAY_SETTINGS,
     OPEN_IN_BROWSER,
     CLEAR_HISTORY,
     VIDEO,

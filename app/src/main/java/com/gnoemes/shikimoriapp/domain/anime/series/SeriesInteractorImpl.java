@@ -2,12 +2,12 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 
 import android.support.annotation.NonNull;
 
-import com.gnoemes.shikimoriapp.data.repository.anime.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationWithSources;
+import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
+import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 import com.gnoemes.shikimoriapp.utils.rx.SingleErrorHandler;
@@ -17,7 +17,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class SeriesInteractorImpl implements SeriesInteractor {
@@ -42,15 +41,15 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
-    public Single<List<Episode>> getEpisodes(long animeId) {
-        return repository.getAnimeEpisodes(animeId)
-                .compose((SingleErrorHandler<List<Episode>>) singleErrorHandler)
+    public Single<Series> getEpisodes(long animeId) {
+        return repository.getAnimeSeries(animeId)
+                .compose((SingleErrorHandler<Series>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {
-        return repository.isEpisodeWatched(episodeId)
+        return repository.isEpisodeWatched(animeId, episodeId)
                 .flatMapCompletable(isWatched -> {
                     if (!isWatched) {
                         return repository.setEpisodeWatched(animeId, episodeId);
@@ -64,7 +63,7 @@ public class SeriesInteractorImpl implements SeriesInteractor {
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId, long rateId) {
-        return repository.isEpisodeWatched(episodeId)
+        return repository.isEpisodeWatched(animeId, episodeId)
                 .flatMapCompletable(isWatched -> {
                     if (!isWatched) {
                         return repository.setEpisodeWatched(animeId, episodeId)
@@ -78,43 +77,45 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     }
 
     @Override
-    public Single<List<Translation>> getEpisodeTranslations(TranslationType type, long episodeId) {
-        return repository.getTranslations(type, episodeId)
+    public Single<List<Translation>> getEpisodeTranslations(TranslationType type, long animeId, int episodeId) {
+        return repository.getTranslations(type, animeId, episodeId)
                 .compose((SingleErrorHandler<List<Translation>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 
-    @Override
-    public Single<Translation> getAutoTranslation(TranslationType type, long episodeId) {
-        return repository.getTranslations(type, episodeId)
-                .flatMap(translations -> Observable
-                        .fromIterable(translations)
-                        .firstOrError())
-                .compose((SingleErrorHandler<Translation>) singleErrorHandler)
-                .compose(rxUtils.applySingleSchedulers());
-    }
-
-    @Override
-    public Single<TranslationWithSources> getTranslationWithSources(long translationId) {
-        return repository.getTranslation(translationId)
-                .flatMap(translation -> repository.getTranslationVideoRawData(translationId)
-                        .map(playEpisodes -> new TranslationWithSources(translation, playEpisodes)))
-                .compose((SingleErrorHandler<TranslationWithSources>) singleErrorHandler)
-                .compose(rxUtils.applySingleSchedulers());
-    }
-
-
-    @Override
-    public Single<Translation> getTranslation(long translationId) {
-        return repository.getTranslation(translationId)
-                .compose((SingleErrorHandler<Translation>) singleErrorHandler)
-                .compose(rxUtils.applySingleSchedulers());
-    }
 
     @Override
     public Completable clearHistory(long animeId) {
         return repository.clearHistory(animeId)
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId) {
+        return repository.getVideo(animeId, episodeId, videoId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideo(long animeId, int episodeId) {
+        return repository.getVideo(animeId, episodeId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId) {
+        return repository.getVideoSource(animeId, episodeId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
+
+    @Override
+    public Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId) {
+        return repository.getVideoSource(animeId, episodeId, videoId)
+                .compose((SingleErrorHandler<PlayVideo>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
     }
 }

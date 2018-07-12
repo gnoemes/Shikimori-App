@@ -2,30 +2,21 @@ package com.gnoemes.shikimoriapp.presentation.view.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
-import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private final static String KEY = "IsRestartDialogShowing";
     private MaterialDialog restartDialog;
-    private MaterialDialog translationTypeDialog;
     private FirebaseAnalytics analytics;
 
     private boolean isDarkTheme;
-    private boolean isAutoTranslation;
 
 
     @Override
@@ -60,32 +51,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         }
 
-        List<String> types = Arrays.asList(getResources().getStringArray(R.array.translations_type));
-        Preference translationType = findPreference(getResources().getString(R.string.pref_translation_type));
-        translationType.setOnPreferenceClickListener(preference -> {
-            translationTypeDialog = new MaterialDialog.Builder(getContext())
-                    .title(R.string.pref_translation_type_title)
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        translationType.setSummary(types.get(position));
-                        getPreferenceManager().getSharedPreferences().edit().putString(SettingsExtras.TRANSLATION_TYPE, convertTypeValue(position)).apply();
-                    })
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .items(types)
-                    .canceledOnTouchOutside(true)
-                    .itemsColorAttr(R.attr.colorText)
-                    .build();
-
-            translationTypeDialog.show();
-            return false;
-        });
-
-        String translationSummary = convertTypeValue(getPreferenceManager().getSharedPreferences().getString(SettingsExtras.TRANSLATION_TYPE, null), types);
-        translationType.setSummary(translationSummary);
-
         findPreference(getResources().getString(R.string.pref_about_program)).setSummary(BuildConfig.VERSION_NAME);
         findPreference(getResources().getString(R.string.pref_dark_theme)).setOnPreferenceChangeListener((preference, newValue) -> {
             restartDialog.show();
@@ -98,40 +63,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
 
         analytics.setUserProperty("theme", String.valueOf(isDarkTheme));
-        analytics.setUserProperty("auto_translation", String.valueOf(isAutoTranslation));
-        analytics.setUserProperty("translationType", translationSummary);
-    }
-
-    private String convertTypeValue(int position) {
-        switch (position) {
-            case 0:
-                return TranslationType.VOICE_RU.getType();
-            case 1:
-                return TranslationType.SUB_RU.getType();
-            case 2:
-                return TranslationType.RAW.getType();
-            case 3:
-                return TranslationType.VOICE_EN.getType();
-            case 4:
-                return TranslationType.SUB_EN.getType();
-        }
-        return TranslationType.VOICE_RU.getType();
-    }
-
-    private String convertTypeValue(@Nullable String type, List<String> types) {
-        if (TranslationType.VOICE_RU.isEqualType(type)) {
-            return types.get(0);
-        } else if (TranslationType.SUB_RU.isEqualType(type)) {
-            return types.get(1);
-        } else if (TranslationType.RAW.isEqualType(type)) {
-            return types.get(2);
-        } else if (TranslationType.VOICE_EN.isEqualType(type)) {
-            return types.get(3);
-        } else if (TranslationType.SUB_EN.isEqualType(type)) {
-            return types.get(4);
-        } else {
-            return getResources().getString(R.string.pref_not_choosed_summary);
-        }
     }
 
     @Override

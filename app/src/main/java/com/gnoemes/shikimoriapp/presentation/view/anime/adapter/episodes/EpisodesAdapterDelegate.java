@@ -65,15 +65,12 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
         @BindView(R.id.image_arrow)
         ImageView arrow;
 
+        @BindView(R.id.text_hostings)
+        TextView hostings;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        public void bind(EpisodeItem episode) {
-            watchedBadge.setVisibility(View.GONE);
-
-            episodeName.setText(episode.getEpisodeFull());
 
             DrawableHelper
                     .withContext(itemView.getContext())
@@ -81,6 +78,26 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
                     .withAttributeColor(R.attr.colorAccent)
                     .tint()
                     .applyTo(arrow);
+
+            Drawable card = DrawableHelper
+                    .withContext(itemView.getContext())
+                    .withDrawable(R.drawable.card)
+                    .withAttributeColor(R.attr.colorBackgroundContent)
+                    .tint()
+                    .get();
+
+            layout.setBackground(card);
+
+        }
+
+        public void bind(EpisodeItem episode) {
+            watchedBadge.setVisibility(View.GONE);
+            layout.setOnClickListener(null);
+            hostings.setText(null);
+            episodeName.setText(null);
+
+            episodeName.setText(String.format(itemView.getContext().getString(R.string.episode_list_format), episode.getId()));
+            hostings.setText(episode.getHostings());
 
             if (episode.isWatched()) {
                 DrawableHelper
@@ -91,15 +108,6 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
                         .applyTo(watchedBadge);
                 watchedBadge.setVisibility(View.VISIBLE);
             }
-
-            Drawable card = DrawableHelper
-                    .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.card)
-                    .withAttributeColor(R.attr.colorBackgroundContent)
-                    .tint()
-                    .get();
-
-            layout.setBackground(card);
 
             layout.setOnClickListener(v -> callback.onEpisodePicked(episode));
         }

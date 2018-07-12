@@ -3,25 +3,27 @@ package com.gnoemes.shikimoriapp.presentation.view.player;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.utils.view.VideoWebChromeClient;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.regex.Pattern;
 
-//TODO fix SSL/ PREVIEW_MAGE /Security exceptions
 public class WebPlayerActivity extends MvpAppCompatActivity {
 
     private WebView webView;
@@ -29,10 +31,22 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
     private VideoWebChromeClient client;
     private View decorView;
 
+//    @BindView(R.id.constraint)
+//    ConstraintLayout container;
+//
+//    @BindView(R.id.progress_loading)
+//    ProgressBar progressBar;
+
     public static Intent newIntent(Context context, String url) {
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            return intent;
+//        } else {
         Intent intent = new Intent(context, WebPlayerActivity.class);
         intent.putExtra(AppExtras.ARGUMENT_URL, url);
         return intent;
+//        }
     }
 
     private WindowCallback windowCallback = new WindowCallback() {
@@ -75,10 +89,31 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebChromeClient(client);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                    if (Pattern.compile("https?://vk\\.com/").matcher(url).find()) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return super.shouldOverrideUrlLoading(view, url);
+                }
+            }
+        });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -89,12 +124,15 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 
         if (getIntent() != null) {
             String url = getIntent().getStringExtra(AppExtras.ARGUMENT_URL);
-            Map<String, String> map = new HashMap<>();
-            map.put("Access-Control-Allow-Origin", "https://smotret-anime.ru");
-            webView.loadUrl(url, map);
+            if (!TextUtils.isEmpty(url)) {
+                webView.loadUrl(url);
+            } else {
+                showError();
+            }
         } else {
-            finish();
+            super.finish();
         }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -128,6 +166,10 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         }
     }
 
+    public void showError() {
+        Toast.makeText(WebPlayerActivity.this, "Произошла ошибка во время загрузки видео", Toast.LENGTH_LONG).show();
+    }
+
     private void showSystemUI() {
         decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
@@ -138,19 +180,27 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        webView.destroy();
-        super.onBackPressed();
+        super.finish();
     }
 
     @Override
     protected void onDestroy() {
         Log.i("DEVE", "onDestroy: ");
-        layout.removeAllViews();
-        webView.setWebViewClient(null);
-        client = null;
-        decorView.destroyDrawingCache();
+        if (layout != null) {
+            layout.removeAllViews();
+        }
+
+        if (decorView != null) {
+            decorView.destroyDrawingCache();
+        }
+
+        if (webView != null) {
+            webView.setWebViewClient(null);
+            client = null;
+            webView.destroy();
+        }
+
         decorView = null;
-        webView.destroy();
         webView = null;
         windowCallback = null;
         super.onDestroy();

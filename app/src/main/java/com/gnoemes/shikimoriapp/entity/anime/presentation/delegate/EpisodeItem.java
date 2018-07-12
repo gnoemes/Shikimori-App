@@ -1,64 +1,43 @@
 package com.gnoemes.shikimoriapp.entity.anime.presentation.delegate;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 
-import org.joda.time.DateTime;
+import java.util.List;
 
 public class EpisodeItem extends BaseEpisodeItem {
 
-    private long id;
-    private long seriesId;
+    private int id;
     private long animeId;
-    private String episodeFull;
-    private float episode;
-    private AnimeType type;
-    private DateTime date;
-    private long views;
+    private String hostings;
+    private List<TranslationType> translationTypes;
     private boolean isWatched;
 
-    public EpisodeItem(long id, long seriesId, long animeId,
-                       String episodeFull, float episode, AnimeType type,
-                       DateTime date, long views, boolean isWatched) {
+    public EpisodeItem(int id,
+                       long animeId,
+                       String hostings,
+                       List<TranslationType> translationTypes,
+                       boolean isWatched) {
         this.id = id;
-        this.seriesId = seriesId;
         this.animeId = animeId;
-        this.episodeFull = episodeFull;
-        this.episode = episode;
-        this.type = type;
-        this.views = views;
+        this.hostings = hostings;
+        this.translationTypes = translationTypes;
         this.isWatched = isWatched;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
-    }
-
-    public long getSeriesId() {
-        return seriesId;
     }
 
     public long getAnimeId() {
         return animeId;
     }
 
-    public String getEpisodeFull() {
-        return episodeFull;
+    public String getHostings() {
+        return hostings;
     }
 
-    public float getEpisode() {
-        return episode;
-    }
-
-    public AnimeType getType() {
-        return type;
-    }
-
-    public DateTime getDate() {
-        return date;
-    }
-
-    public long getViews() {
-        return views;
+    public List<TranslationType> getTranslationTypes() {
+        return translationTypes;
     }
 
     public boolean isWatched() {

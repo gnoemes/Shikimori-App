@@ -19,6 +19,10 @@ public class JsoupHtmlHelper {
         return new JsoupHtmlHelper(Jsoup.parse(html));
     }
 
+    public static JsoupHtmlHelper withDocument(@NonNull Document doc) {
+        return new JsoupHtmlHelper(doc);
+    }
+
     public JsoupHtmlHelper withAttr(String attr) {
         this.attr = attr;
         return this;

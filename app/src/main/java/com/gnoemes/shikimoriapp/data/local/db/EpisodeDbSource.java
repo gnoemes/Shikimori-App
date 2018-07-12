@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.data.local.db;
 
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface EpisodeDbSource {
 
     Single<List<Episode>> getEpisodes(long animeId);
 
-    Completable setEpisodeWatched(long episodeId);
+    Completable setEpisodeWatched(int episodeId);
 }

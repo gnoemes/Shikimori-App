@@ -12,6 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
+    <com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView
+        android:id="@+id/view_network_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentView
+        android:id="@+id/view_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"

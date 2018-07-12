@@ -22,6 +22,8 @@ import com.gnoemes.shikimoriapp.presentation.presenter.characters.CharacterDetai
 import com.gnoemes.shikimoriapp.presentation.view.characters.adapter.CharacterDetailsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentView;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 
@@ -42,6 +44,12 @@ public class CharacterDetailsFragment extends BaseFragment<CharacterDetailsPrese
 
     @BindView(R.id.list)
     RecyclerView recyclerView;
+
+    @BindView(R.id.view_network_error)
+    NetworkErrorView networkErrorView;
+
+    @BindView(R.id.view_empty)
+    EmptyContentView emptyContentView;
 
     @InjectPresenter
     CharacterDetailsPresenter presenter;
@@ -112,6 +120,9 @@ public class CharacterDetailsFragment extends BaseFragment<CharacterDetailsPrese
 
             return false;
         });
+
+        emptyContentView.setText(R.string.error_unprocessable);
+        networkErrorView.setText(R.string.common_error_message_without_pull);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -149,5 +160,25 @@ public class CharacterDetailsFragment extends BaseFragment<CharacterDetailsPrese
         TransitionManager.beginDelayedTransition(layout, new Fade());
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showError() {
+        emptyContentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        emptyContentView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNetworkError() {
+        networkErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNetworkError() {
+        networkErrorView.setVisibility(View.GONE);
     }
 }

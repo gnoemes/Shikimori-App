@@ -1,14 +1,11 @@
 package com.gnoemes.shikimoriapp.data.network;
 
-import com.gnoemes.shikimoriapp.entity.anime.data.SeriesDataResponse;
-import com.gnoemes.shikimoriapp.entity.anime.series.data.network.TranslationListResponse;
-import com.gnoemes.shikimoriapp.entity.anime.series.data.network.TranslationResponseData;
+import org.jsoup.nodes.Document;
 
 import io.reactivex.Single;
-import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Api for video hosting
@@ -16,26 +13,26 @@ import retrofit2.http.Query;
 public interface VideoApi {
 
     /**
-     * Get series of anime by MyAnimeList id
+     * Get html page of specific video
      */
-    @GET("/api/series")
-    Single<SeriesDataResponse> getAnimeSeriesById(@Query("myAnimeListId") long animeId);
+    @GET("/animes/z{animeId}/video_online/{episode}/{videoId}")
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode, @Path("videoId") long videoId);
 
     /**
-     * Get translations of episode
+     * Get html page of anime (information about episodes hostings etc)
      */
-    @GET("/api/translations")
-    Single<TranslationListResponse> getEpisodeTranslations(@Query("type") String type, @Query("episodeId") long id);
+    @GET("/animes/z{animeId}/video_online/")
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId);
 
     /**
-     * Get translation by id
+     * Get html page of anime with default video
      */
-    @GET("/api/translations")
-    Single<TranslationResponseData> getTranslation(@Query("id") long translationId);
+    @GET("/animes/z{animeId}/video_online/{episode}")
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode);
 
     /**
-     * Get html page of embedded player
+     * Get html source from hosting
      */
-    @GET("/translations/embed/{id}")
-    Single<ResponseBody> getPlayerHTMLPage(@Path("id") long translationId);
+    @GET
+    Single<Document> getVideoSource(@Url String url);
 }

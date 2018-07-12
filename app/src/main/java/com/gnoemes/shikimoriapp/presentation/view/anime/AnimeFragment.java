@@ -31,6 +31,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
@@ -44,6 +45,8 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchise
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
+import com.gnoemes.shikimoriapp.utils.Utils;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -88,6 +91,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @BindView(R.id.progress_loading)
     ProgressBar progressBar;
 
+    @BindView(R.id.view_network_error)
+    NetworkErrorView networkErrorView;
+
     @InjectPresenter
     AnimePresenter presenter;
 
@@ -115,6 +121,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @Inject
     RateResourceProvider rateResourceProvider;
 
+    private MaterialDialog translationTypeDialog;
     private AnimePagerAdapter pagerAdapter;
     private boolean isCommentsPage;
 
@@ -188,6 +195,11 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         backgroundImage.setOnClickListener(v -> getPresenter().onBackgroundImageClicked());
         appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
+
+        networkErrorView.setText(R.string.common_error_message_without_pull);
+        networkErrorView.setVisibility(View.GONE);
+
+        getPresenter().onEpisodesRefresh();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -264,12 +276,16 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showErrorView() {
+        networkErrorView.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
+        appBarLayout.setExpanded(false);
     }
 
     @Override
     public void hideErrorView() {
+        networkErrorView.setVisibility(View.GONE);
         viewPager.setVisibility(View.VISIBLE);
+        appBarLayout.setExpanded(true);
     }
 
     @Override
@@ -283,11 +299,29 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     }
 
     @Override
-    public void showSettingsWizard(boolean loadEpisode) {
-        EpisodeWizardDialogFragment dialog = EpisodeWizardDialogFragment.newInstance();
-        dialog.setCallback((type, chooseSettings, playerType, isAlways) ->
-                getPresenter().onSettingsSelected(loadEpisode, type, chooseSettings, playerType, isAlways));
-        dialog.show(getChildFragmentManager(), "WIZARD");
+    public void showPlayWizard(List<TranslationType> types) {
+
+        if (translationTypeDialog == null || !translationTypeDialog.isShowing()) {
+            String[] translationTypes = new String[types.size()];
+            for (int i = 0; i < translationTypes.length; i++) {
+                translationTypes[i] = Utils.firstUpperCase(types.get(i).getType());
+            }
+
+            translationTypeDialog = new MaterialDialog.Builder(getContext())
+                    .dividerColor(R.attr.colorAccent)
+                    .items(translationTypes)
+                    .itemsColorAttr(R.attr.colorText)
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .buttonRippleColorAttr(R.attr.colorAccentTransparent)
+                    .autoDismiss(true)
+                    .canceledOnTouchOutside(true)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        getPresenter().onTranslationTypeChoosed(types.get(position));
+                    })
+                    .build();
+
+            translationTypeDialog.show();
+        }
     }
 
     @Override
@@ -472,6 +506,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             int margin = (int) layout.getResources().getDimension(R.dimen.margin_small);
             seriesList.addItemDecoration(new VerticalSpaceItemDecoration(margin));
             seriesList.setAdapter(episodeAdapter);
+            if (episodeAdapter.getItems().isEmpty()) {
+                refreshLayout.setRefreshing(true);
+            }
         }
 
         public void setData(List<BaseItem> animeItems) {

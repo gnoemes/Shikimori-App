@@ -39,4 +39,13 @@ public class NetworkErrorView extends BaseView {
         imageView.setVisibility(visibility);
         textView.setVisibility(visibility);
     }
+
+
+    public void setText(String text) {
+        textView.setText(text);
+    }
+
+    public void setText(int stringRes) {
+        textView.setText(stringRes);
+    }
 }

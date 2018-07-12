@@ -61,7 +61,8 @@ public class RateSyncDbSourceImpl implements RateSyncDbSource {
     @Override
     public Completable clearHistory(long animeId) {
         return Completable.fromAction(() -> {
-            DeleteResult deleteResult = storIOSQLite.delete()
+            DeleteResult deleteResult = storIOSQLite
+                    .delete()
                     .byQuery(DeleteQuery.builder()
                             .table(RateSyncTable.TABLE)
                             .where(RateSyncTable.COLUMN_ANIME_ID + " = ?")
@@ -69,7 +70,7 @@ public class RateSyncDbSourceImpl implements RateSyncDbSource {
                             .build())
                     .prepare()
                     .executeAsBlocking();
-            Log.i("DEVE", "clearHistory: " + deleteResult.numberOfRowsDeleted());
+            Log.i("DEVE", "clearHistoryRate: " + deleteResult.numberOfRowsDeleted());
         });
     }
 }

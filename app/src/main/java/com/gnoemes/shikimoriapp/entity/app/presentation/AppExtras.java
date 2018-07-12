@@ -35,4 +35,6 @@ public class AppExtras {
     public static final String ARGUMENT_NAME = "ARGUMENT_NAME";
     public static final String ARGUMENT_SHOW_FLAG = "ARGUMENT_SHOW_FLAG";
     public static final String ARGUMENT_CHARACTER_ID = "ARGUMENT_CHARACTER_ID";
+    public static final String ARGUMENT_ANIME_RATE_ID = "ARGUMENT_ANIME_RATE_ID";
+    public static final String ARGUMENT_PLAY_VIDEO_DATA = "ARGUMENT_PLAY_VIDEO_DATA";
 }

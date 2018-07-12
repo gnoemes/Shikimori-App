@@ -94,7 +94,7 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
                 buttonText = itemView.getResources().getString(R.string.watch_continue);
 
             }
-            nextEpisode.setText(optionsItem.getEpisodeItem().getEpisodeFull());
+            nextEpisode.setText(String.format(itemView.getContext().getString(R.string.episode_list_format), optionsItem.getEpisodeItem().getId()));
 
             continueBtn.setText(buttonText);
 

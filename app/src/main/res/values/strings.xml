@@ -21,6 +21,7 @@
     <string name="common_studio">Студия</string>
     <string name="common_loading">Загрузка</string>
     <string name="common_error_message">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.\n Потяните, что бы обновить</string>
+    <string name="common_error_message_without_pull">Похоже, что у Вас отсуствует интернет-соединение или произошла ошибка.</string>
     <string name="common_description">Описание</string>
     <string name="common_cancel">Отмена</string>
     <string name="common_next">Далее</string>
@@ -57,6 +58,7 @@
     <string name="error_json">Json syntax error</string>
     <string name="error_unknown">Unknown Error</string>
     <string name="error_no_data">Нет данных</string>
+    <string name="error_unprocessable">Произошла ошибка во время получения данных.</string>
     <string name="description_image">Изображение</string>
     <string name="description_progress">progress</string>
     <string name="description_clear">Сброс фильтров</string>
@@ -190,7 +192,7 @@
     <string name="translation_auto">Автоматический</string>
     <string name="translation_manual">В ручную</string>
     <string name="translation_dubber_choose">Выбор даббера:</string>
-    <string name="player_in_browser">Smotret-anime.ru</string>
+    <string name="player_in_browser">Веб-плеер</string>
     <string name="player_external">Внешний</string>
     <string name="player_embedded">Внутренний (BETA)</string>
     <string name="player_choose">Выбор плеера:</string>
@@ -320,6 +322,7 @@
     <string name="seyu">Сэйю</string>
     <string name="anime">Аниме</string>
     <string name="character_info">Информация о персонаже</string>
+    <string name="episode_list_format">%d серия</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -379,8 +382,6 @@
         <item>Русская озвучка</item>
         <item>Русские субтитры</item>
         <item>Оригинал</item>
-        <item>Английская озвучка</item>
-        <item>Английские субтитры</item>
     </string-array>
 
     <string-array name="rate_stasuses">
@@ -400,6 +401,16 @@
         <item>@string/rate_completed_with_count</item>
         <item>@string/rate_on_hold_with_count</item>
         <item>@string/rate_dropped_with_count</item>
+    </string-array>
+
+    <string-array name="players">
+        <item>@string/player_in_browser</item>
+        <item>@string/player_embedded</item>
+        <item>@string/player_external</item>
+    </string-array>
+
+    <string-array name="players_single">
+        <item>@string/player_in_browser</item>
     </string-array>
 
 </resources>

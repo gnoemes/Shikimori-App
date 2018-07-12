@@ -1,83 +1,72 @@
 package com.gnoemes.shikimoriapp.entity.anime.series.domain;
 
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
+
 public class Translation {
 
-    private long id;
-    private TranslationQuality quality;
-    private String title;
-    private long priority;
+    private long animeId;
+    private int episodeId;
+    private long videoId;
     private TranslationType type;
-    private String url;
-    private String embedUrl;
-    private Episode episode;
-    private int width;
-    private int height;
-    private String authors;
-    private String serialTitle;
+    private TranslationQuality quality;
+    private VideoHosting hosting;
+    private String author;
+    private boolean isValid;
+    private int episodesSize;
 
-    public Translation(long id, TranslationQuality quality, String title,
-                       long priority, TranslationType type, String url,
-                       String embedUrl, Episode episode, int width,
-                       int height, String authors, String serialTitle) {
-        this.id = id;
-        this.quality = quality;
-        this.title = title;
-        this.priority = priority;
+    public Translation(long animeId,
+                       int episodeId,
+                       long videoId,
+                       TranslationType type,
+                       TranslationQuality quality,
+                       VideoHosting hosting,
+                       String author,
+                       boolean isValid,
+                       int episodesSize) {
+        this.animeId = animeId;
+        this.episodeId = episodeId;
+        this.videoId = videoId;
         this.type = type;
-        this.url = url;
-        this.embedUrl = embedUrl;
-        this.episode = episode;
-        this.width = width;
-        this.height = height;
-        this.authors = authors;
-        this.serialTitle = serialTitle;
+        this.quality = quality;
+        this.hosting = hosting;
+        this.author = author;
+        this.isValid = isValid;
+        this.episodesSize = episodesSize;
     }
 
-    public long getId() {
-        return id;
+    public long getAnimeId() {
+        return animeId;
     }
 
-    public TranslationQuality getQuality() {
-        return quality;
+    public int getEpisodeId() {
+        return episodeId;
     }
 
-    public long getPriority() {
-        return priority;
+    public long getVideoId() {
+        return videoId;
     }
 
     public TranslationType getType() {
         return type;
     }
 
-    public String getUrl() {
-        return url;
+    public TranslationQuality getQuality() {
+        return quality;
     }
 
-    public String getEmbedUrl() {
-        return embedUrl;
+    public VideoHosting getHosting() {
+        return hosting;
     }
 
-    public Episode getEpisode() {
-        return episode;
+    public String getAuthor() {
+        return author;
     }
 
-    public int getWidth() {
-        return width;
+    public boolean isValid() {
+        return isValid;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthors() {
-        return authors;
-    }
-
-    public String getSerialTitle() {
-        return serialTitle;
+    public int getEpisodesSize() {
+        return episodesSize;
     }
 }

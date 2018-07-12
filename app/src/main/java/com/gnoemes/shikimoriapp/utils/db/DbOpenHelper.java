@@ -12,7 +12,7 @@ import com.gnoemes.shikimoriapp.data.local.db.tables.RateSyncTable;
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     public DbOpenHelper(@NonNull Context context) {
-        super(context, "shikimori_db", null, 1);
+        super(context, "shikimori_db", null, 2);
     }
 
     @Override
@@ -25,5 +25,14 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if (newVersion <= 2) {
+            db.execSQL(EpisodeTable.dropTableQuery());
+            db.execSQL(HistoryTable.dropTableQuery());
+            db.execSQL(RateSyncTable.dropTableQuery());
+
+            db.execSQL(EpisodeTable.getCreateTableQuery());
+            db.execSQL(HistoryTable.getCreateTableQuery());
+            db.execSQL(RateSyncTable.getCreateTableQuery());
+        }
     }
 }

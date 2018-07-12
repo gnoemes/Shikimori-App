@@ -6,7 +6,7 @@ import com.gnoemes.shikimoriapp.data.local.db.EpisodeDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.converters.EpisodeDAOConverter;
 import com.gnoemes.shikimoriapp.data.local.db.tables.EpisodeTable;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.EpisodeDAO;
-import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
+import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio3.sqlite.operations.put.PutResults;
 import com.pushtorefresh.storio3.sqlite.queries.Query;
@@ -63,10 +63,9 @@ public class EpisodeDbSourceImpl implements EpisodeDbSource {
     }
 
     @Override
-    public Completable setEpisodeWatched(long episodeId) {
+    public Completable setEpisodeWatched(int episodeId) {
         return Completable.fromAction(() -> {
-            EpisodeDAO dao = EpisodeDAO.newEpisode(episodeId, null, null,
-                    null, null, null, null, true);
+            EpisodeDAO dao = EpisodeDAO.newEpisode(episodeId, null, true);
             storIOSQLite.put()
                     .object(dao)
                     .prepare()
