@@ -322,6 +322,8 @@
     <string name="seyu">Сэйю</string>
     <string name="anime">Аниме</string>
     <string name="character_info">Информация о персонаже</string>
+    <string name="player_fast_forward_time">+10 сек.</string>
+    <string name="player_rewind_time">-10 сек.</string>
     <string name="episode_list_format">%d серия</string>
 
     <plurals name="days_ago">

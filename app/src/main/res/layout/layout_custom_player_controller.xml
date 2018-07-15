@@ -17,18 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--<ImageButton-->
-        <!--android:id="@+id/exo_prev"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="32dp"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:minHeight="44dp"-->
-        <!--android:minWidth="44dp"-->
-        <!--android:visibility="gone"-->
-        <!--app:srcCompat="@drawable/exo_controls_previous"-->
-        <!--tools:ignore="ContentDescription,RtlHardcoded"-->
-        <!--tools:visibility="visible" />-->
+        <ImageButton
+            android:id="@+id/exo_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="36dp"
+            android:background="@android:color/transparent"
+            android:minHeight="44dp"
+            android:minWidth="44dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/exo_controls_previous"
+            tools:ignore="ContentDescription,RtlHardcoded"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/exo_pause"
@@ -53,18 +53,89 @@
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
 
-        <!--<ImageButton-->
-        <!--android:id="@+id/exo_next"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="32dp"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:minHeight="44dp"-->
-        <!--android:minWidth="44dp"-->
-        <!--android:visibility="gone"-->
-        <!--app:srcCompat="@drawable/exo_controls_next"-->
-        <!--tools:ignore="ContentDescription,RtlHardcoded"-->
-        <!--tools:visibility="visible" />-->
+        <ImageButton
+            android:id="@+id/exo_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:background="@android:color/transparent"
+            android:minHeight="44dp"
+            android:minWidth="44dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/exo_controls_next"
+            tools:ignore="ContentDescription,RtlHardcoded"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rewind"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fastForward"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="44dp"
+            android:layout_marginRight="44dp"
+            android:layout_marginTop="26dp"
+            app:srcCompat="@drawable/exo_controls_rewind" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="44dp"
+            android:layout_marginRight="44dp"
+            android:gravity="center"
+            android:text="@string/player_rewind_time"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <LinearLayout
+        android:id="@+id/fastForward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="26dp"
+            app:srcCompat="@drawable/exo_controls_fastforward" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
+            android:gravity="center"
+            android:text="@string/player_fast_forward_time"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <LinearLayout

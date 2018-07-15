@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.utils.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -7,17 +8,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoFormat;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -25,7 +27,6 @@ import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
@@ -36,7 +37,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
@@ -62,7 +62,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private TextView titleView;
     private TextView subtitleView;
     private ReSpinner resolutionSpinner;
-    private DefaultTimeBar videoProgress;
+
+    private LinearLayout fastForward;
+    private LinearLayout rewind;
+
+    private boolean isPlaying;
+    private int controlsVisibility;
+
+    private GestureDetector detector;
+    private ExoPlayerGestureListener gestureListener;
 
     private PlayerControllerEventListener eventListener;
 
@@ -75,12 +83,14 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         initControls();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initControls() {
         backBtn = playerView.findViewById(R.id.back);
         titleView = playerView.findViewById(R.id.controls_title);
         subtitleView = playerView.findViewById(R.id.controls_subtitle);
         resolutionSpinner = playerView.findViewById(R.id.spinner_resolution);
-        videoProgress = playerView.findViewById(R.id.exo_progress);
+        fastForward = playerView.findViewById(R.id.fastForward);
+        rewind = playerView.findViewById(R.id.rewind);
 
         playerView.setShowMultiWindowTimeBar(true);
 
@@ -98,6 +108,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 .get();
         resolutionSpinner.setBackground(rateBackground);
 
+        gestureListener = new ExoPlayerGestureListener();
+
+        detector = new GestureDetector(context, gestureListener);
+        playerView.setOnTouchListener(gestureListener);
     }
 
     private void initPlayer() {
@@ -112,6 +126,59 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         player.addListener(this);
         playerView.setPlayer(player);
         playerView.setControllerVisibilityListener(this);
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public boolean isControlsVisible() {
+        return controlsVisibility == 0;
+    }
+
+    public void onFastForward() {
+        seek(10000);
+        fastForward.setVisibility(View.VISIBLE);
+        fastForward.performClick();
+        fastForward.postDelayed(() -> fastForward.setVisibility(View.INVISIBLE), 750);
+    }
+
+    public void onRewind() {
+        seek(-10000);
+        rewind.setVisibility(View.VISIBLE);
+        rewind.performClick();
+        rewind.postDelayed(() -> rewind.setVisibility(View.INVISIBLE), 750);
+    }
+
+    public void seek(long pos) {
+        if (player != null) {
+            if (pos >= 0 || player.getCurrentPosition() != 0) {
+                pos = pos + player.getCurrentPosition();
+
+                if (pos < 0) {
+                    pos = 0;
+                }
+
+                player.seekTo(pos);
+            }
+        }
+    }
+
+
+    private void showControls() {
+        playerView.showController();
+    }
+
+    private void hideControls() {
+        playerView.hideController();
+    }
+
+    private void toggleControlsVisibility() {
+        if (!isControlsVisible()) {
+            hideControls();
+        } else {
+            showControls();
+        }
     }
 
     public void addMediaSource(MediaSource source) {
@@ -180,24 +247,28 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 if (eventListener != null) {
                     eventListener.onEnded();
                 }
+                isPlaying = false;
                 break;
             case com.google.android.exoplayer2.Player.STATE_BUFFERING:
                 Log.d(TAG, "BUFFERING state");
                 if (eventListener != null) {
                     eventListener.onLoading();
                 }
+                isPlaying = false;
                 break;
             case com.google.android.exoplayer2.Player.STATE_READY:
                 Log.d(TAG, "READY state");
                 if (eventListener != null) {
                     eventListener.onReady();
                 }
+                isPlaying = player.getPlayWhenReady();
                 break;
             case com.google.android.exoplayer2.Player.STATE_ENDED:
                 Log.d(TAG, "ENDED state");
                 if (eventListener != null) {
                     eventListener.onEnded();
                 }
+                isPlaying = false;
                 break;
         }
     }
@@ -263,9 +334,11 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                     break;
             }
         }
+        controlsVisibility = visibility;
     }
 
     public interface PlayerControllerEventListener {
+
 
         void onControlsVisible();
 
@@ -292,8 +365,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         private VideoFormat format;
         private MediaSource videoSource;
         private List<MediaSource> videoSources;
-        @Nullable
-        private MediaSource subtitlesSource;
 
         public MediaSourceHelper(DataSource.Factory factory) {
             this.factory = factory;
@@ -322,23 +393,11 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             return this;
         }
 
-        public MediaSourceHelper withSubtitles(@Nullable String url, Format format) {
-            if (url == null) {
-                return this;
-            } else {
-                subtitlesSource = new SingleSampleMediaSource.Factory(factory)
-                        .createMediaSource(Uri.parse(url), format, C.TIME_UNSET);
-                return this;
-            }
-        }
-
         public MediaSource get() {
-            //TODO REMOVE
             return videoSource;
-//            return new MergingMediaSource(videoSource, subtitlesSource);
         }
 
-        public AdsMediaSource.MediaSourceFactory getMediaSourceFactory() {
+        private AdsMediaSource.MediaSourceFactory getMediaSourceFactory() {
             switch (format) {
                 case MP4:
                     return new ExtractorMediaSource.Factory(factory);
@@ -351,4 +410,30 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             }
         }
     }
+
+    private class ExoPlayerGestureListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+//            if (!isPlaying()) {
+//                return false;
+//            }
+
+            if (e.getX() > ((float) (playerView.getWidth() / 2))) {
+                onFastForward();
+            } else {
+                onRewind();
+            }
+
+            return true;
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return detector.onTouchEvent(event);
+        }
+
+    }
 }
+

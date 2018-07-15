@@ -15,7 +15,7 @@
         app:controller_layout_id="@layout/layout_custom_player_controller"
         app:fastforward_increment="10000"
         app:rewind_increment="10000"
-        app:show_timeout="3500"
+        app:show_timeout="2000"
         app:shutter_background_color="@android:color/transparent"
         app:use_controller="true" />
 
