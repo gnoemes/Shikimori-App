@@ -45,7 +45,6 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Inject
     NavigatorHolder navigatorHolder;
     private PlayerManager playerManager;
-    private boolean hasSubtitles;
 
     public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
@@ -135,7 +134,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onNetworkError() {
-        Toast.makeText(getApplicationContext(), "Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.", Toast.LENGTH_LONG).show();
+        getPresenter().onNetworkError();
     }
 
     @Override
@@ -156,6 +155,16 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onControlsHidden() {
         enterFullscreen();
+    }
+
+    @Override
+    public void loadPrevEpisode() {
+        getPresenter().loadPrevEpisode();
+    }
+
+    @Override
+    public void loadNextEpisode() {
+        getPresenter().loadNextEpisode();
     }
 
     private void exitFullScreen() {
@@ -219,11 +228,31 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
-    public void playOrAddNewVideo(PlayVideo playVideo, int position) {
+    public void disableNextButton() {
+        playerManager.disableNextButton();
+    }
+
+    @Override
+    public void disablePrevButton() {
+        playerManager.disablePrevButton();
+    }
+
+    @Override
+    public void enableNextButton() {
+        playerManager.enableNextButton();
+    }
+
+    @Override
+    public void enablePrevButton() {
+        playerManager.enablePrevButton();
+    }
+
+    @Override
+    public void updateInformation(PlayVideo playVideo) {
         playerManager.setTitle(playVideo.getTitle());
         playerManager.setSubtitle(String.format(getResources().getString(R.string.episode_list_format), playVideo.getEpisodeId()));
 
-//        List<Integer> resolutions = new ArrayList<>();
+        //        List<Integer> resolutions = new ArrayList<>();
 //        if (playVideo.isHasExtra()) {
 //            for (int i = 0; i < playVideo.getExtra().getQualities().size(); i++) {
 //                VideoTrack quality = playVideo.getExtra().getQualities().get(i);
@@ -231,26 +260,20 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 //                resolutions.add(quality.getResolution());
 //            }
 //        }
+    }
 
-        VideoTrack track = null;
-        if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
-            track = playVideo.getTracks().get(position);
-            }
+    @Override
+    public void playOrAddNewVideo(VideoTrack videoTrack) {
+        Log.i("DEVE", "playOrAddNewVideo: " + videoTrack.getUrl());
+        MediaSource source = PlayerManager.MediaSourceHelper
+                .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
+                .withFormat(videoTrack.getFormat())
+                .withVideoUrls(videoTrack.getUrl())
+                .get();
 
-        if (track != null) {
-            Log.i("DEVE", "playOrAddNewVideo: " + track.getUrl());
-            MediaSource source = PlayerManager.MediaSourceHelper
-                    .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
-                    .withFormat(track.getFormat())
-                    .withVideoUrls(track.getUrl())
-                    .get();
+        playerManager.setEventListener(this);
 
-            playerManager.setEventListener(this);
-
-            playerManager.addMediaSource(source);
-        } else {
-            Toast.makeText(EmbeddedPlayerActivity.this, "Произошла ошибка во время загрузки видео. Попробуйте воспользоваться веб-плеером", Toast.LENGTH_LONG).show();
-        }
+        playerManager.addMediaSource(source);
     }
 
     @Override

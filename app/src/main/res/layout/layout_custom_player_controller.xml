@@ -18,14 +18,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/exo_prev"
+            android:id="@+id/prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="36dp"
             android:background="@android:color/transparent"
             android:minHeight="44dp"
             android:minWidth="44dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:srcCompat="@drawable/exo_controls_previous"
             tools:ignore="ContentDescription,RtlHardcoded"
             tools:visibility="visible" />
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:minHeight="44dp"
+            android:minHeight="60dp"
             android:minWidth="44dp"
             android:visibility="gone"
             app:srcCompat="@drawable/exo_controls_play"
@@ -54,14 +54,14 @@
             tools:visibility="visible" />
 
         <ImageButton
-            android:id="@+id/exo_next"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:background="@android:color/transparent"
             android:minHeight="44dp"
             android:minWidth="44dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:srcCompat="@drawable/exo_controls_next"
             tools:ignore="ContentDescription,RtlHardcoded"
             tools:visibility="visible" />

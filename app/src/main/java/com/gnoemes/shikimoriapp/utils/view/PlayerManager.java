@@ -12,6 +12,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,10 +64,12 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private TextView subtitleView;
     private ReSpinner resolutionSpinner;
 
+    private ImageButton nextBtn;
+    private ImageButton prevBtn;
+
     private LinearLayout fastForward;
     private LinearLayout rewind;
 
-    private boolean isPlaying;
     private int controlsVisibility;
 
     private GestureDetector detector;
@@ -91,8 +94,20 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         resolutionSpinner = playerView.findViewById(R.id.spinner_resolution);
         fastForward = playerView.findViewById(R.id.fastForward);
         rewind = playerView.findViewById(R.id.rewind);
+        nextBtn = playerView.findViewById(R.id.next);
+        prevBtn = playerView.findViewById(R.id.prev);
 
-        playerView.setShowMultiWindowTimeBar(true);
+        nextBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.loadNextEpisode();
+            }
+        });
+
+        prevBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.loadPrevEpisode();
+            }
+        });
 
         backBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -129,28 +144,30 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return player.getPlaybackState() != Player.STATE_ENDED
+                && player.getPlaybackState() != Player.STATE_IDLE
+                && player.getPlayWhenReady();
     }
 
-    public boolean isControlsVisible() {
+    private boolean isControlsVisible() {
         return controlsVisibility == 0;
     }
 
-    public void onFastForward() {
+    private void onFastForward() {
         seek(10000);
         fastForward.setVisibility(View.VISIBLE);
         fastForward.performClick();
         fastForward.postDelayed(() -> fastForward.setVisibility(View.INVISIBLE), 750);
     }
 
-    public void onRewind() {
+    private void onRewind() {
         seek(-10000);
         rewind.setVisibility(View.VISIBLE);
         rewind.performClick();
         rewind.postDelayed(() -> rewind.setVisibility(View.INVISIBLE), 750);
     }
 
-    public void seek(long pos) {
+    private void seek(long pos) {
         if (player != null) {
             if (pos >= 0 || player.getCurrentPosition() != 0) {
                 pos = pos + player.getCurrentPosition();
@@ -164,6 +181,25 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         }
     }
 
+    public void disableNextButton() {
+        nextBtn.setAlpha(0.3f);
+        nextBtn.setEnabled(false);
+    }
+
+    public void enableNextButton() {
+        nextBtn.setAlpha(1f);
+        nextBtn.setEnabled(true);
+    }
+
+    public void disablePrevButton() {
+        prevBtn.setAlpha(0.3f);
+        prevBtn.setEnabled(false);
+    }
+
+    public void enablePrevButton() {
+        prevBtn.setAlpha(1f);
+        prevBtn.setEnabled(true);
+    }
 
     private void showControls() {
         playerView.showController();
@@ -182,6 +218,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     public void addMediaSource(MediaSource source) {
+        mediaSource.clear();
         mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource);
@@ -247,28 +284,24 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 if (eventListener != null) {
                     eventListener.onEnded();
                 }
-                isPlaying = false;
                 break;
             case com.google.android.exoplayer2.Player.STATE_BUFFERING:
                 Log.d(TAG, "BUFFERING state");
                 if (eventListener != null) {
                     eventListener.onLoading();
                 }
-                isPlaying = false;
                 break;
             case com.google.android.exoplayer2.Player.STATE_READY:
                 Log.d(TAG, "READY state");
                 if (eventListener != null) {
                     eventListener.onReady();
                 }
-                isPlaying = player.getPlayWhenReady();
                 break;
             case com.google.android.exoplayer2.Player.STATE_ENDED:
                 Log.d(TAG, "ENDED state");
                 if (eventListener != null) {
                     eventListener.onEnded();
                 }
-                isPlaying = false;
                 break;
         }
     }
@@ -357,6 +390,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void onNetworkError();
 
         void onAlternativeSource();
+
+        void loadPrevEpisode();
+
+        void loadNextEpisode();
     }
 
     public static class MediaSourceHelper {

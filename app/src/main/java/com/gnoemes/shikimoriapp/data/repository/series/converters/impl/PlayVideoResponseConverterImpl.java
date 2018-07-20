@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -108,23 +109,23 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     private PlayVideo convertUnknownSource(long animeId, int episodeId) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSovetRomanticaSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSmotretAnimeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertAnimediaSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertMailRuSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSibnetSource(long animeId, int episodeId, String title, Document document) {
@@ -164,11 +165,11 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     private PlayVideo convertRutubeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertMyViSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertVkSource(long animeId, int episodeId, String title, Document document) {
@@ -187,10 +188,10 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     private PlayVideo convertOkSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertYoutubeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 }

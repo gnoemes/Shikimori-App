@@ -139,7 +139,8 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
                 currentTranslation.getAnimeId(),
                 currentTranslation.getEpisodeId(),
                 currentTranslation.getVideoId(),
-                currentTranslation.getEpisodesSize()
+                currentTranslation.getEpisodesSize(),
+                rateId
         ));
     }
 

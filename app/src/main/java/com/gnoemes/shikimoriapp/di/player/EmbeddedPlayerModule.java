@@ -7,6 +7,8 @@ import com.gnoemes.shikimoriapp.di.base.modules.BaseActivityModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.ActivityScope;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.player.EmbeddedPlayerPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.player.provider.EmbeddedPlayerResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.player.provider.EmbeddedPlayerResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 
 import dagger.Binds;
@@ -17,9 +19,13 @@ import dagger.Provides;
 public interface EmbeddedPlayerModule {
 
     @Provides
-    static EmbeddedPlayerPresenter provideEmbeddedPlayerPresenter(SeriesInteractor interactor) {
-        return new EmbeddedPlayerPresenter(interactor);
+    static EmbeddedPlayerPresenter provideEmbeddedPlayerPresenter(SeriesInteractor interactor,
+                                                                  EmbeddedPlayerResourceProvider resourceProvider) {
+        return new EmbeddedPlayerPresenter(interactor, resourceProvider);
     }
+
+    @Binds
+    EmbeddedPlayerResourceProvider bindEmbeddedPlayerResourceProvider(EmbeddedPlayerResourceProviderImpl provider);
 
     @Binds
     @ActivityScope
