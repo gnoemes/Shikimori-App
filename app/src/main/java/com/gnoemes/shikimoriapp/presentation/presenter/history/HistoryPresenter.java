@@ -129,8 +129,10 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
     }
 
     private void destroyPaginator() {
-        paginator.release();
-        paginator = null;
+        if (paginator != null) {
+            paginator.release();
+            paginator = null;
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.player.embedded;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -69,6 +70,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         ButterKnife.bind(this);
         initUiFlags();
         playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     @Override

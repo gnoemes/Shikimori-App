@@ -299,7 +299,7 @@
     <string name="type_one_shot_translatable">Ваншот</string>
     <string name="type_doujin_translatable">Додзинси</string>
     <string name="type_manhua_translatable">Маньхуа</string>
-    <string name="type_manhwa_translatable">манхва</string>
+    <string name="type_manhwa_translatable">Манхва</string>
     <string name="related">Связанное</string>
     <string name="related_not_found">Ничего не найдено</string>
     <string name="account_exit">Выйти из аккаунта</string>
@@ -315,8 +315,8 @@
     <string name="loading_screenshot_error">Произошла ошибка во время загрузки скриншота</string>
     <string name="description">Описание</string>
     <string name="others">Прочие:</string>
-    <string name="on_jp">По-японский:</string>
-    <string name="on_ru">По-русский:</string>
+    <string name="on_jp">По-японски:</string>
+    <string name="on_ru">По-русски:</string>
     <string name="names">Имена</string>
     <string name="source">Источник</string>
     <string name="seyu">Сэйю</string>
