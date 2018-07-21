@@ -98,6 +98,8 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
                 getViewState().playVideo(track, true);
                 currentTrack = 0;
             }
+        } else {
+            getViewState().showSystemMessage(resourceProvider.getNetworkError());
         }
     }
 
