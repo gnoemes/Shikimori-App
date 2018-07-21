@@ -20,6 +20,8 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.presentation.presenter.translations.TranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -30,6 +32,7 @@ import com.gnoemes.shikimoriapp.presentation.view.translations.adapter.Translati
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -159,6 +162,30 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     public void showTranslations(List<TranslationViewModel> translations) {
         recyclerView.setVisibility(View.VISIBLE);
         adapter.bindItems(translations);
+    }
+
+    @Override
+    public void showQualityDialog(List<VideoTrack> tracks) {
+        List<String> resolutions = new ArrayList<>();
+
+        for (VideoTrack track : tracks) {
+            if (track.getResolution() != Constants.NO_ID) {
+                resolutions.add(String.valueOf(track.getResolution()));
+            }
+        }
+
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.quality_title)
+                .items(resolutions)
+                .itemsCallback((dialog, itemView, position, text) -> getPresenter().onQualityForExternalChoosed(tracks.get(position)))
+                .autoDismiss(true)
+                .titleColorAttr(R.attr.colorText)
+                .contentColorAttr(R.attr.colorText)
+                .alwaysCallSingleChoiceCallback()
+                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                .canceledOnTouchOutside(true)
+                .build()
+                .show();
     }
 
     @Override

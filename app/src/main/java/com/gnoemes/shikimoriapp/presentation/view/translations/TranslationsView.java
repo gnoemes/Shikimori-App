@@ -6,6 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
 import java.util.List;
@@ -37,4 +38,6 @@ public interface TranslationsView extends BaseFragmentView {
     @StateStrategyType(SkipStrategy.class)
     void showPlayerDialog(List<PlayerType> players);
 
+    @StateStrategyType(SkipStrategy.class)
+    void showQualityDialog(List<VideoTrack> tracks);
 }
