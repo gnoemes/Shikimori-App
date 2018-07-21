@@ -192,8 +192,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     }
 
     private void onCharactersClicked(long id) {
-        //TODO add
-        getRouter().showSystemMessage("Просмотр персонажей в разработке");
+        getRouter().navigateTo(Screens.CHARACTER_DETAILS, id);
     }
 
     private void onProducersClicked(long id) {
