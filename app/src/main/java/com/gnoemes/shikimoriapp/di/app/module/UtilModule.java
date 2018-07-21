@@ -28,6 +28,8 @@ import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryRespon
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
@@ -152,4 +154,7 @@ public interface UtilModule {
 
     @Binds
     SeyuResponseConverter bindSeyuResponseConverter(SeyuResponseConverterImpl converter);
+
+    @Binds
+    RateStatusCountConverter bindRateStatusCountConverter(RateStatusCountConverterImpl converter);
 }

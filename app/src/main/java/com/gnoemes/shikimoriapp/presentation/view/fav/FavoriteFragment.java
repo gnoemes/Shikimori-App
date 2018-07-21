@@ -145,6 +145,9 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
             switch (item.getItemId()) {
                 case R.id.item_shuffle_play:
                     getPresenter().onRandomOpen();
+                    //Prevent double click
+                    shuffleItem.setEnabled(false);
+                    toolbar.postDelayed(() -> shuffleItem.setEnabled(true), 300);
                     break;
             }
             return true;
@@ -283,6 +286,13 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
                     break;
             }
             spinner.setSelection(position, false);
+        }
+    }
+
+    @Override
+    public void updateRateItems(List<String> rates) {
+        if (getContext() != null) {
+            spinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_normal, rates));
         }
     }
 }

@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
+import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
@@ -22,6 +23,7 @@ import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
+import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverter;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteView;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
 
@@ -36,8 +38,10 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     private UserRatesInteractor interactor;
     private UserSettingsInteractor settingsInteractor;
+    private UserInteractor userInteractor;
     private AnimeRateViewModelConverter converter;
     private AnalyticsInteractor analyticsInteractor;
+    private RateStatusCountConverter statusCountConverter;
 
     private FavoritePaginator paginator;
 
@@ -109,11 +113,15 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public FavoritePresenter(@NonNull UserRatesInteractor interactor,
                              @NonNull UserSettingsInteractor settingsInteractor,
+                             @NonNull UserInteractor userInteractor,
                              @NonNull AnimeRateViewModelConverter converter,
+                             @NonNull RateStatusCountConverter statusCountConverter,
                              @NonNull AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.settingsInteractor = settingsInteractor;
+        this.userInteractor = userInteractor;
         this.converter = converter;
+        this.statusCountConverter = statusCountConverter;
         this.analyticsInteractor = analyticsInteractor;
     }
 
@@ -124,8 +132,24 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
             loadUserSettings();
         } else {
             getViewState().addBackArrow();
+            loadUserProfile();
             initPaginator();
         }
+    }
+
+    private void loadUserProfile() {
+        if (userId != null && userId != Constants.NO_ID) {
+            Disposable disposable = userInteractor.getUserProfile(userId)
+                    .map(statusCountConverter)
+                    .subscribe(this::updateRateStatusCount, this::processErrors);
+
+            unsubscribeOnDestroy(disposable);
+        }
+    }
+
+    private void updateRateStatusCount(List<String> rates) {
+        getViewState().updateRateItems(rates);
+        getViewState().setSpinnerPosition(currentStatus);
     }
 
     public void loadNextPage() {
@@ -137,6 +161,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     public void onRefresh() {
         if (paginator != null) {
             paginator.refresh();
+            loadUserProfile();
         }
     }
 
@@ -149,7 +174,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void onRandomOpen() {
-        Disposable disposable = interactor.getUserRates(userId, /* page */1, Constants.MAX_LIMIT, currentStatus, settings.getStatus())
+        Disposable disposable = interactor.getUserRates(userId, /* page */1, Constants.MAX_LIMIT, currentStatus, settings == null ? UserStatus.AUTHORIZED : settings.getStatus())
                 .subscribe(this::openRandomAnime, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
@@ -174,6 +199,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     private void setSettings(UserSettings settings) {
         this.userId = settings.getUserBrief() == null ? Constants.NO_ID : settings.getUserBrief().getId();
         this.settings = settings;
+        loadUserProfile();
         initPaginator();
     }
 

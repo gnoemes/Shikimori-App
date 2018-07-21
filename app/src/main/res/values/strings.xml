@@ -223,12 +223,12 @@
     <string name="rate_completed">Просмотрено</string>
     <string name="rate_on_hold">Отложено</string>
     <string name="rate_dropped">Брошено</string>
-    <string name="rate_watching_with_count">Смотрю(%s)</string>
-    <string name="rate_planned_with_count">Запланировано(%s)</string>
-    <string name="rate_rewatch_with_count">Пересматриваю(%s)</string>
-    <string name="rate_completed_with_count">Просмотрено(%s)</string>
-    <string name="rate_on_hold_with_count">Отложено(%s)</string>
-    <string name="rate_dropped_with_count">Брошено(%s)</string>
+    <string name="rate_watching_with_count">Смотрю (%s)</string>
+    <string name="rate_planned_with_count">Запланировано (%s)</string>
+    <string name="rate_rewatch_with_count">Пересматриваю (%s)</string>
+    <string name="rate_completed_with_count">Просмотрено (%s)</string>
+    <string name="rate_on_hold_with_count">Отложено (%s)</string>
+    <string name="rate_dropped_with_count">Брошено (%s)</string>
     <string name="common_anime_rates">Список аниме</string>
     <string name="rate_rewatches">Повторные просмотры</string>
     <string name="rate_rating">Оценка:</string>
@@ -400,8 +400,17 @@
         <item>@string/rate_dropped</item>
     </string-array>
 
-    <string-array name="rate_stasuses_with_count">
+    <string-array name="rate_stasuses_with_count_and_title">
         <item>@string/common_anime_rates</item>
+        <item>@string/rate_watching_with_count</item>
+        <item>@string/rate_planned_with_count</item>
+        <item>@string/rate_rewatch_with_count</item>
+        <item>@string/rate_completed_with_count</item>
+        <item>@string/rate_on_hold_with_count</item>
+        <item>@string/rate_dropped_with_count</item>
+    </string-array>
+
+    <string-array name="rate_stasuses_with_count">
         <item>@string/rate_watching_with_count</item>
         <item>@string/rate_planned_with_count</item>
         <item>@string/rate_rewatch_with_count</item>

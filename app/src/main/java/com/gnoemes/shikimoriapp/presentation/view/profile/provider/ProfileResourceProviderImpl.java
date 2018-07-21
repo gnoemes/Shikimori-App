@@ -20,6 +20,6 @@ public class ProfileResourceProviderImpl implements ProfileResourceProvider {
 
     @Override
     public List<String> getRates() {
-        return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses_with_count));
+        return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses_with_count_and_title));
     }
 }
