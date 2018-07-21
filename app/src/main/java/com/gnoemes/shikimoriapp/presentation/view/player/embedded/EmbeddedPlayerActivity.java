@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
@@ -26,6 +27,9 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -115,7 +119,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onResolutionChanged(int newResolution) {
-
+        getPresenter().onResolutionChanged(newResolution);
     }
 
     @Override
@@ -250,23 +254,26 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
-    public void updateInformation(PlayVideo playVideo) {
+    public void updateInformation(PlayVideo playVideo, int currentTrack) {
         playerManager.setTitle(playVideo.getTitle());
         playerManager.setSubtitle(String.format(getResources().getString(R.string.episode_list_format), playVideo.getEpisodeId()));
 
-        //        List<Integer> resolutions = new ArrayList<>();
-//        if (playVideo.isHasExtra()) {
-//            for (int i = 0; i < playVideo.getExtra().getQualities().size(); i++) {
-//                VideoTrack quality = playVideo.getExtra().getQualities().get(i);
-//                urls[i] = quality.getUrl();
-//                resolutions.add(quality.getResolution());
-//            }
-//        }
+        List<Integer> resolutions = new ArrayList<>();
+
+        if (playVideo.getTracks() != null) {
+            for (VideoTrack track : playVideo.getTracks()) {
+                if (track.getResolution() != Constants.NO_ID) {
+                    resolutions.add(track.getResolution());
+                }
+            }
+        }
+
+        playerManager.setResolutions(resolutions, currentTrack);
     }
 
     @Override
-    public void playOrAddNewVideo(VideoTrack videoTrack) {
-        Log.i("DEVE", "playOrAddNewVideo: " + videoTrack.getUrl());
+    public void playVideo(VideoTrack videoTrack, boolean isNeedReset) {
+        Log.i("DEVE", "playVideo: " + videoTrack.getUrl());
         MediaSource source = PlayerManager.MediaSourceHelper
                 .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
                 .withFormat(videoTrack.getFormat())
@@ -275,7 +282,11 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
         playerManager.setEventListener(this);
 
-        playerManager.addMediaSource(source);
+        if (isNeedReset) {
+            playerManager.addMediaSource(source);
+        } else {
+            playerManager.updateTrack(source);
+        }
     }
 
     @Override

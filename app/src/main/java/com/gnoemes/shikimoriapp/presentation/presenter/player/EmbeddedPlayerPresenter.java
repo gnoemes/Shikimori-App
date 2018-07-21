@@ -12,8 +12,8 @@ import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresent
 import com.gnoemes.shikimoriapp.presentation.presenter.player.provider.EmbeddedPlayerResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import io.reactivex.disposables.Disposable;
 
@@ -30,7 +30,7 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     private long rateId;
 
     private int currentTrack;
-    private List<PlayVideo> videos = new ArrayList<>();
+    private Set<PlayVideo> videos = new HashSet<>();
 
     public EmbeddedPlayerPresenter(SeriesInteractor seriesInteractor,
                                    EmbeddedPlayerResourceProvider resourceProvider) {
@@ -94,8 +94,22 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
             VideoTrack track = playVideo.getTracks().get(currentTrack);
             if (track != null) {
-                getViewState().updateInformation(playVideo);
-                getViewState().playOrAddNewVideo(track);
+                getViewState().updateInformation(playVideo, currentTrack);
+                getViewState().playVideo(track, true);
+                currentTrack = 0;
+            }
+        }
+    }
+
+    private void updateVideo(PlayVideo playVideo, boolean isNeedReset) {
+        videos.add(playVideo);
+
+        if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
+            VideoTrack track = playVideo.getTracks().get(currentTrack);
+            if (track != null) {
+                getViewState().updateInformation(playVideo, currentTrack);
+                getViewState().playVideo(track, isNeedReset);
+                currentTrack = 0;
             }
         }
     }
@@ -103,7 +117,7 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
     public void onAlternativeSource() {
 //        if (currentVideo.getHosting() == VideoHosting.SIBNET) {
 //            if (currentVideo.getTracks() != null && currentVideo.getTracks().size() == 2) {
-////                getViewState().playOrAddNewVideo(currentVideo, 1);
+////                getViewState().playVideo(currentVideo, 1);
 //            }
 //        }
     }
@@ -150,6 +164,21 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         unsubscribeOnDestroy(disposable);
     }
 
+    public void onResolutionChanged(int newResolution) {
+        PlayVideo video = getVideoByEpisode(currentEpisode);
+
+        if (video != null && video.getTracks() != null) {
+            int i = 0;
+            for (VideoTrack track : video.getTracks()) {
+                if (track.getResolution() == newResolution) {
+                    currentTrack = i;
+                    updateVideo(video, false);
+                    break;
+                }
+                i++;
+            }
+        }
+    }
 
     private PlayVideo getVideoByEpisode(int currentEpisode) {
         for (PlayVideo playVideo : videos) {
@@ -188,5 +217,4 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         this.videoId = data.getVideoId();
         this.rateId = data.getRateId();
     }
-
 }

@@ -8,9 +8,9 @@ public interface EmbeddedPlayerView extends BaseNetworkView {
 
     void showSystemMessage(String s);
 
-    void updateInformation(PlayVideo playVideo);
+    void updateInformation(PlayVideo playVideo, int currentTrack);
 
-    void playOrAddNewVideo(VideoTrack track);
+    void playVideo(VideoTrack track, boolean isNeedReset);
 
     void disableNextButton();
 

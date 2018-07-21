@@ -224,6 +224,13 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         player.prepare(mediaSource);
     }
 
+    public void updateTrack(MediaSource source) {
+        mediaSource.clear();
+        mediaSource.addMediaSource(source);
+        player.setPlayWhenReady(true);
+        player.prepare(mediaSource, false, false);
+    }
+
     public void setTitle(@Nullable String title) {
         titleView.setText(title);
     }
@@ -236,18 +243,25 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         this.eventListener = eventListener;
     }
 
-    public void addResolutions(List<Integer> resolutions) {
-        List<String> items = new ArrayList<>();
-        for (int resolution : resolutions) {
-            items.add(String.valueOf(resolution));
-        }
-
-        resolutionSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.item_spinner_player, items));
-        resolutionSpinner.setOnItemClickListener((parent, view, position, id) -> {
-            if (eventListener != null) {
-                eventListener.onResolutionChanged(resolutions.get(position));
+    public void setResolutions(List<Integer> resolutions, int currentTrack) {
+        if (resolutions.isEmpty()) {
+            resolutionSpinner.setVisibility(View.GONE);
+        } else {
+            resolutionSpinner.setVisibility(View.VISIBLE);
+            List<String> items = new ArrayList<>();
+            for (int resolution : resolutions) {
+                items.add(String.valueOf(resolution));
             }
-        });
+
+            resolutionSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.item_spinner_player, items));
+            resolutionSpinner.setOnItemClickListener((parent, view, position, id) -> {
+                if (eventListener != null) {
+                    eventListener.onResolutionChanged(resolutions.get(position));
+                }
+            });
+
+            resolutionSpinner.setSelection(currentTrack, false);
+        }
     }
 
     public void destroy() {
