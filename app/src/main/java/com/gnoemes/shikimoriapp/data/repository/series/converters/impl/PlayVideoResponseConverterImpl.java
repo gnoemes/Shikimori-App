@@ -38,7 +38,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     private static final String OK_REGEX = "https?://ok\\.ru/";
     private static final String SOVET_ROMANTICA_REGEX = "https?://sovetromantica\\.com/";
     private static final String ANIMEDIA_REGEX = "https?://online\\.animedia\\.tv/";
-    private static final String MAIL_RU = "https?://mail\\.ru/";
+    private static final String MAIL_RU = "https?://my\\.mail\\.ru/";
 
     @Inject
     public PlayVideoResponseConverterImpl() {

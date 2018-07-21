@@ -27,6 +27,7 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewMod
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.disposables.Disposable;
 
@@ -145,6 +146,22 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         analyticsInteractor.logEvent(AnalyticsEvent.FAV_RATE_CHANGED);
         destroyPaginator();
         initPaginator();
+    }
+
+    public void onRandomOpen() {
+        Disposable disposable = interactor.getUserRates(userId, /* page */1, Constants.MAX_LIMIT, currentStatus, settings.getStatus())
+                .subscribe(this::openRandomAnime, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void openRandomAnime(List<AnimeRate> rates) {
+        if (!rates.isEmpty()) {
+            Random random = new Random();
+            int randomInt = random.nextInt(rates.size());
+            long animeId = rates.get(randomInt).getAnime().getId();
+            onItemClicked(animeId);
+        }
     }
 
     private void loadUserSettings() {
