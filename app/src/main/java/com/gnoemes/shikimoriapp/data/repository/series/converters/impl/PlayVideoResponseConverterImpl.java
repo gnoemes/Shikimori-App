@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 
+import android.util.Log;
+
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
 import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.series.data.SibnetVideoResponse;
@@ -16,6 +18,8 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -34,7 +38,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     private static final String OK_REGEX = "https?://ok\\.ru/";
     private static final String SOVET_ROMANTICA_REGEX = "https?://sovetromantica\\.com/";
     private static final String ANIMEDIA_REGEX = "https?://online\\.animedia\\.tv/";
-    private static final String MAIL_RU = "https?://mail\\.ru/";
+    private static final String MAIL_RU = "https?://my\\.mail\\.ru/";
 
     @Inject
     public PlayVideoResponseConverterImpl() {
@@ -108,23 +112,23 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     private PlayVideo convertUnknownSource(long animeId, int episodeId) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSovetRomanticaSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSmotretAnimeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertAnimediaSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertMailRuSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertSibnetSource(long animeId, int episodeId, String title, Document document) {
@@ -164,33 +168,36 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     private PlayVideo convertRutubeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertMyViSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertVkSource(long animeId, int episodeId, String title, Document document) {
-        String QUALITIES_QUERY = "video#video_player>source~[type=video/mp4]";
+        String QUALITIES_QUERY = "video#video_player>source[type=video/mp4]";
         List<VideoTrack> tracks = new ArrayList<>();
         Pattern resolutionPattern = Pattern.compile("\\.(\\d+)\\.");
 
         for (Element e : document.select(QUALITIES_QUERY)) {
             String src = e.attr("src");
-//            int res = resolutionPattern.matcher(src).find() ? Integer.parseInt(resolutionPattern.matcher(src).group().replaceAll("\\.", "")) : (int) Constants.NO_ID;
-            int res = 720;
+            Matcher matcher = resolutionPattern.matcher(src);
+            int res = matcher.find()
+                    ? Integer.parseInt(src.substring(matcher.start(), matcher.end()).replaceAll("\\.", ""))
+                    : (int) Constants.NO_ID;
             tracks.add(new VideoTrack(res, src, VideoFormat.MP4));
+            Log.i("VideoSourceConverter", "vkConverter src: " + src + "\nvkConverter res: " + res);
         }
 
         return new PlayVideo(animeId, episodeId, VideoHosting.VK, title, tracks);
     }
 
     private PlayVideo convertOkSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 
     private PlayVideo convertYoutubeSource(long animeId, int episodeId, Document document) {
-        return null;
+        throw new NoSuchElementException();
     }
 }

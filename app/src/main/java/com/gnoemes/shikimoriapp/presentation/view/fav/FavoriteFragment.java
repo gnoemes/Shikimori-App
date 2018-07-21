@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -127,6 +128,30 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         spinner.setBackground(rateBackground);
 
         toolbar.addView(spinner);
+
+        toolbar.inflateMenu(R.menu.menu_favorite);
+
+        MenuItem shuffleItem = toolbar.getMenu().getItem(0);
+        Drawable shuffleIcon = DrawableHelper
+                .withContext(getContext())
+                .withDrawable(shuffleItem.getIcon())
+                .withAttributeColor(R.attr.colorText)
+                .tint()
+                .get();
+
+        shuffleItem.setIcon(shuffleIcon);
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.item_shuffle_play:
+                    getPresenter().onRandomOpen();
+                    //Prevent double click
+                    shuffleItem.setEnabled(false);
+                    toolbar.postDelayed(() -> shuffleItem.setEnabled(true), 300);
+                    break;
+            }
+            return true;
+        });
     }
 
     private void initList() {
@@ -261,6 +286,13 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
                     break;
             }
             spinner.setSelection(position, false);
+        }
+    }
+
+    @Override
+    public void updateRateItems(List<String> rates) {
+        if (getContext() != null) {
+            spinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_normal, rates));
         }
     }
 }

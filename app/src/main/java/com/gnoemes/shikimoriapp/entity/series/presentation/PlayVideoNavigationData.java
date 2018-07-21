@@ -8,12 +8,14 @@ public class PlayVideoNavigationData implements Serializable {
     private int episodeId;
     private long videoId;
     private int episodes;
+    private long rateId;
 
-    public PlayVideoNavigationData(long animeId, int episodeId, long videoId, int episodes) {
+    public PlayVideoNavigationData(long animeId, int episodeId, long videoId, int episodes, long rateId) {
         this.animeId = animeId;
         this.episodeId = episodeId;
         this.videoId = videoId;
         this.episodes = episodes;
+        this.rateId = rateId;
     }
 
     public long getAnimeId() {
@@ -30,5 +32,9 @@ public class PlayVideoNavigationData implements Serializable {
 
     public int getEpisodesSize() {
         return episodes;
+    }
+
+    public long getRateId() {
+        return rateId;
     }
 }

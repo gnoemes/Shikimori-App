@@ -6,6 +6,7 @@
     android:background="?attr/colorPrimary"
     android:gravity="start"
     android:padding="8dp"
+    android:fontFamily="sans-serif-condensed"
     android:textColor="?attr/colorText"
     android:textSize="18sp"
     tools:text="Просмотрено" />

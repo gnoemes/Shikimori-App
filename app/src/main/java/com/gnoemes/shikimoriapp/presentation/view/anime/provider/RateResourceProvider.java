@@ -9,4 +9,7 @@ public interface RateResourceProvider {
     List<String> getRateStasuses();
 
     String getLocalizedStatus(RateStatus status);
+
+    List<String> getRatesWithCount();
+
 }

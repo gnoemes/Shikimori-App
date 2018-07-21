@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.player.embedded;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -15,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
@@ -25,6 +27,9 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,7 +50,6 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Inject
     NavigatorHolder navigatorHolder;
     private PlayerManager playerManager;
-    private boolean hasSubtitles;
 
     public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
@@ -70,6 +74,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         ButterKnife.bind(this);
         initUiFlags();
         playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
@@ -114,7 +119,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onResolutionChanged(int newResolution) {
-
+        getPresenter().onResolutionChanged(newResolution);
     }
 
     @Override
@@ -135,7 +140,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onNetworkError() {
-        Toast.makeText(getApplicationContext(), "Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.", Toast.LENGTH_LONG).show();
+        getPresenter().onNetworkError();
     }
 
     @Override
@@ -156,6 +161,16 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onControlsHidden() {
         enterFullscreen();
+    }
+
+    @Override
+    public void loadPrevEpisode() {
+        getPresenter().loadPrevEpisode();
+    }
+
+    @Override
+    public void loadNextEpisode() {
+        getPresenter().loadNextEpisode();
     }
 
     private void exitFullScreen() {
@@ -219,37 +234,58 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
-    public void playOrAddNewVideo(PlayVideo playVideo, int position) {
+    public void disableNextButton() {
+        playerManager.disableNextButton();
+    }
+
+    @Override
+    public void disablePrevButton() {
+        playerManager.disablePrevButton();
+    }
+
+    @Override
+    public void enableNextButton() {
+        playerManager.enableNextButton();
+    }
+
+    @Override
+    public void enablePrevButton() {
+        playerManager.enablePrevButton();
+    }
+
+    @Override
+    public void updateInformation(PlayVideo playVideo, int currentTrack) {
         playerManager.setTitle(playVideo.getTitle());
         playerManager.setSubtitle(String.format(getResources().getString(R.string.episode_list_format), playVideo.getEpisodeId()));
 
-//        List<Integer> resolutions = new ArrayList<>();
-//        if (playVideo.isHasExtra()) {
-//            for (int i = 0; i < playVideo.getExtra().getQualities().size(); i++) {
-//                VideoTrack quality = playVideo.getExtra().getQualities().get(i);
-//                urls[i] = quality.getUrl();
-//                resolutions.add(quality.getResolution());
-//            }
-//        }
+        List<Integer> resolutions = new ArrayList<>();
 
-        VideoTrack track = null;
-        if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
-            track = playVideo.getTracks().get(position);
+        if (playVideo.getTracks() != null) {
+            for (VideoTrack track : playVideo.getTracks()) {
+                if (track.getResolution() != Constants.NO_ID) {
+                    resolutions.add(track.getResolution());
+                }
             }
+        }
 
-        if (track != null) {
-            Log.i("DEVE", "playOrAddNewVideo: " + track.getUrl());
-            MediaSource source = PlayerManager.MediaSourceHelper
-                    .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
-                    .withFormat(track.getFormat())
-                    .withVideoUrls(track.getUrl())
-                    .get();
+        playerManager.setResolutions(resolutions, currentTrack);
+    }
 
-            playerManager.setEventListener(this);
+    @Override
+    public void playVideo(VideoTrack videoTrack, boolean isNeedReset) {
+        Log.i("DEVE", "playVideo: " + videoTrack.getUrl());
+        MediaSource source = PlayerManager.MediaSourceHelper
+                .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
+                .withFormat(videoTrack.getFormat())
+                .withVideoUrls(videoTrack.getUrl())
+                .get();
 
+        playerManager.setEventListener(this);
+
+        if (isNeedReset) {
             playerManager.addMediaSource(source);
         } else {
-            Toast.makeText(EmbeddedPlayerActivity.this, "Произошла ошибка во время загрузки видео. Попробуйте воспользоваться веб-плеером", Toast.LENGTH_LONG).show();
+            playerManager.updateTrack(source);
         }
     }
 

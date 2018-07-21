@@ -60,6 +60,8 @@ public class AnimeOtherAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                 return R.string.ending;
             case OPENING:
                 return R.string.opening;
+            case OTHER:
+                return R.string.other;
             default:
                 return 0;
         }

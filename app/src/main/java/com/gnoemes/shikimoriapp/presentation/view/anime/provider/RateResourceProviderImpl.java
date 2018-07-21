@@ -25,6 +25,11 @@ public class RateResourceProviderImpl implements RateResourceProvider {
     }
 
     @Override
+    public List<String> getRatesWithCount() {
+        return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses_with_count));
+    }
+
+    @Override
     public String getLocalizedStatus(RateStatus status) {
         switch (status) {
             case WATCHING:

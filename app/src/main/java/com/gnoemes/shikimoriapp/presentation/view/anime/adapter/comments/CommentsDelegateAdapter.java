@@ -16,7 +16,6 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentContentViewModel;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentViewModel;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.imageloader.UniversalImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -103,8 +102,6 @@ public class CommentsDelegateAdapter extends AdapterDelegate<List<BaseItem>> {
 
             content.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             content.setItemAnimator(new DefaultItemAnimator());
-
-            imageLoader = new UniversalImageLoader(itemView.getContext());
         }
 
 

@@ -223,12 +223,12 @@
     <string name="rate_completed">Просмотрено</string>
     <string name="rate_on_hold">Отложено</string>
     <string name="rate_dropped">Брошено</string>
-    <string name="rate_watching_with_count">Смотрю(%s)</string>
-    <string name="rate_planned_with_count">Запланировано(%s)</string>
-    <string name="rate_rewatch_with_count">Пересматриваю(%s)</string>
-    <string name="rate_completed_with_count">Просмотрено(%s)</string>
-    <string name="rate_on_hold_with_count">Отложено(%s)</string>
-    <string name="rate_dropped_with_count">Брошено(%s)</string>
+    <string name="rate_watching_with_count">Смотрю (%s)</string>
+    <string name="rate_planned_with_count">Запланировано (%s)</string>
+    <string name="rate_rewatch_with_count">Пересматриваю (%s)</string>
+    <string name="rate_completed_with_count">Просмотрено (%s)</string>
+    <string name="rate_on_hold_with_count">Отложено (%s)</string>
+    <string name="rate_dropped_with_count">Брошено (%s)</string>
     <string name="common_anime_rates">Список аниме</string>
     <string name="rate_rewatches">Повторные просмотры</string>
     <string name="rate_rating">Оценка:</string>
@@ -299,7 +299,7 @@
     <string name="type_one_shot_translatable">Ваншот</string>
     <string name="type_doujin_translatable">Додзинси</string>
     <string name="type_manhua_translatable">Маньхуа</string>
-    <string name="type_manhwa_translatable">манхва</string>
+    <string name="type_manhwa_translatable">Манхва</string>
     <string name="related">Связанное</string>
     <string name="related_not_found">Ничего не найдено</string>
     <string name="account_exit">Выйти из аккаунта</string>
@@ -315,14 +315,21 @@
     <string name="loading_screenshot_error">Произошла ошибка во время загрузки скриншота</string>
     <string name="description">Описание</string>
     <string name="others">Прочие:</string>
-    <string name="on_jp">По-японский:</string>
-    <string name="on_ru">По-русский:</string>
+    <string name="on_jp">По-японски:</string>
+    <string name="on_ru">По-русски:</string>
     <string name="names">Имена</string>
     <string name="source">Источник</string>
     <string name="seyu">Сэйю</string>
     <string name="anime">Аниме</string>
     <string name="character_info">Информация о персонаже</string>
+    <string name="player_fast_forward_time">+10 сек.</string>
+    <string name="player_rewind_time">-10 сек.</string>
     <string name="episode_list_format">%d серия</string>
+    <string name="other">Другое</string>
+    <string name="player_hosting_error">Видео находится на неподдерживаемом хостинге. Авто-переключение недоступно.</string>
+    <string name="player_network_error">Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.</string>
+    <string name="quality_title">Выберите качество</string>
+    <string name="favorite_open_random">Открыть случайное</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -393,8 +400,17 @@
         <item>@string/rate_dropped</item>
     </string-array>
 
-    <string-array name="rate_stasuses_with_count">
+    <string-array name="rate_stasuses_with_count_and_title">
         <item>@string/common_anime_rates</item>
+        <item>@string/rate_watching_with_count</item>
+        <item>@string/rate_planned_with_count</item>
+        <item>@string/rate_rewatch_with_count</item>
+        <item>@string/rate_completed_with_count</item>
+        <item>@string/rate_on_hold_with_count</item>
+        <item>@string/rate_dropped_with_count</item>
+    </string-array>
+
+    <string-array name="rate_stasuses_with_count">
         <item>@string/rate_watching_with_count</item>
         <item>@string/rate_planned_with_count</item>
         <item>@string/rate_rewatch_with_count</item>

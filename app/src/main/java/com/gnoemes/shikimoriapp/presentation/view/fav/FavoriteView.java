@@ -37,4 +37,7 @@ public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void setSpinnerPosition(RateStatus status);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void updateRateItems(List<String> rates);
 }

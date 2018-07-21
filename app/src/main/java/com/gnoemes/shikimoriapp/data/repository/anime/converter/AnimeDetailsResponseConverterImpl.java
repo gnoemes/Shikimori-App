@@ -83,7 +83,7 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 return videoType;
             }
         }
-        return null;
+        return VideoType.OTHER;
     }
 
 

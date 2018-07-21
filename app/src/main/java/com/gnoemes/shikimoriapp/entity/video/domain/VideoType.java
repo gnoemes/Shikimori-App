@@ -3,7 +3,8 @@ package com.gnoemes.shikimoriapp.entity.video.domain;
 public enum VideoType {
     OPENING("op"),
     ENDING("ed"),
-    PROMO("pv"),;
+    PROMO("pv"),
+    OTHER("other");
 
     private final String type;
 

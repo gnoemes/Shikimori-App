@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.utils.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -7,17 +8,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoFormat;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -25,7 +28,6 @@ import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
@@ -36,7 +38,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
@@ -62,7 +63,17 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private TextView titleView;
     private TextView subtitleView;
     private ReSpinner resolutionSpinner;
-    private DefaultTimeBar videoProgress;
+
+    private ImageButton nextBtn;
+    private ImageButton prevBtn;
+
+    private LinearLayout fastForward;
+    private LinearLayout rewind;
+
+    private int controlsVisibility;
+
+    private GestureDetector detector;
+    private ExoPlayerGestureListener gestureListener;
 
     private PlayerControllerEventListener eventListener;
 
@@ -75,14 +86,28 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         initControls();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initControls() {
         backBtn = playerView.findViewById(R.id.back);
         titleView = playerView.findViewById(R.id.controls_title);
         subtitleView = playerView.findViewById(R.id.controls_subtitle);
         resolutionSpinner = playerView.findViewById(R.id.spinner_resolution);
-        videoProgress = playerView.findViewById(R.id.exo_progress);
+        fastForward = playerView.findViewById(R.id.fastForward);
+        rewind = playerView.findViewById(R.id.rewind);
+        nextBtn = playerView.findViewById(R.id.next);
+        prevBtn = playerView.findViewById(R.id.prev);
 
-        playerView.setShowMultiWindowTimeBar(true);
+        nextBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.loadNextEpisode();
+            }
+        });
+
+        prevBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.loadPrevEpisode();
+            }
+        });
 
         backBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -98,6 +123,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 .get();
         resolutionSpinner.setBackground(rateBackground);
 
+        gestureListener = new ExoPlayerGestureListener();
+
+        detector = new GestureDetector(context, gestureListener);
+        playerView.setOnTouchListener(gestureListener);
     }
 
     private void initPlayer() {
@@ -114,10 +143,92 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         playerView.setControllerVisibilityListener(this);
     }
 
+    public boolean isPlaying() {
+        return player.getPlaybackState() != Player.STATE_ENDED
+                && player.getPlaybackState() != Player.STATE_IDLE
+                && player.getPlayWhenReady();
+    }
+
+    private boolean isControlsVisible() {
+        return controlsVisibility == 0;
+    }
+
+    private void onFastForward() {
+        seek(10000);
+        fastForward.setVisibility(View.VISIBLE);
+        fastForward.performClick();
+        fastForward.postDelayed(() -> fastForward.setVisibility(View.INVISIBLE), 750);
+    }
+
+    private void onRewind() {
+        seek(-10000);
+        rewind.setVisibility(View.VISIBLE);
+        rewind.performClick();
+        rewind.postDelayed(() -> rewind.setVisibility(View.INVISIBLE), 750);
+    }
+
+    private void seek(long pos) {
+        if (player != null) {
+            if (pos >= 0 || player.getCurrentPosition() != 0) {
+                pos = pos + player.getCurrentPosition();
+
+                if (pos < 0) {
+                    pos = 0;
+                }
+
+                player.seekTo(pos);
+            }
+        }
+    }
+
+    public void disableNextButton() {
+        nextBtn.setAlpha(0.3f);
+        nextBtn.setEnabled(false);
+    }
+
+    public void enableNextButton() {
+        nextBtn.setAlpha(1f);
+        nextBtn.setEnabled(true);
+    }
+
+    public void disablePrevButton() {
+        prevBtn.setAlpha(0.3f);
+        prevBtn.setEnabled(false);
+    }
+
+    public void enablePrevButton() {
+        prevBtn.setAlpha(1f);
+        prevBtn.setEnabled(true);
+    }
+
+    private void showControls() {
+        playerView.showController();
+    }
+
+    private void hideControls() {
+        playerView.hideController();
+    }
+
+    private void toggleControlsVisibility() {
+        if (!isControlsVisible()) {
+            hideControls();
+        } else {
+            showControls();
+        }
+    }
+
     public void addMediaSource(MediaSource source) {
+        mediaSource.clear();
         mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource);
+    }
+
+    public void updateTrack(MediaSource source) {
+        mediaSource.clear();
+        mediaSource.addMediaSource(source);
+        player.setPlayWhenReady(true);
+        player.prepare(mediaSource, false, false);
     }
 
     public void setTitle(@Nullable String title) {
@@ -132,18 +243,25 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         this.eventListener = eventListener;
     }
 
-    public void addResolutions(List<Integer> resolutions) {
-        List<String> items = new ArrayList<>();
-        for (int resolution : resolutions) {
-            items.add(String.valueOf(resolution));
-        }
-
-        resolutionSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.item_spinner_player, items));
-        resolutionSpinner.setOnItemClickListener((parent, view, position, id) -> {
-            if (eventListener != null) {
-                eventListener.onResolutionChanged(resolutions.get(position));
+    public void setResolutions(List<Integer> resolutions, int currentTrack) {
+        if (resolutions.isEmpty()) {
+            resolutionSpinner.setVisibility(View.GONE);
+        } else {
+            resolutionSpinner.setVisibility(View.VISIBLE);
+            List<String> items = new ArrayList<>();
+            for (int resolution : resolutions) {
+                items.add(String.valueOf(resolution));
             }
-        });
+
+            resolutionSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.item_spinner_player, items));
+            resolutionSpinner.setOnItemClickListener((parent, view, position, id) -> {
+                if (eventListener != null) {
+                    eventListener.onResolutionChanged(resolutions.get(position));
+                }
+            });
+
+            resolutionSpinner.setSelection(currentTrack, false);
+        }
     }
 
     public void destroy() {
@@ -263,9 +381,11 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                     break;
             }
         }
+        controlsVisibility = visibility;
     }
 
     public interface PlayerControllerEventListener {
+
 
         void onControlsVisible();
 
@@ -284,6 +404,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void onNetworkError();
 
         void onAlternativeSource();
+
+        void loadPrevEpisode();
+
+        void loadNextEpisode();
     }
 
     public static class MediaSourceHelper {
@@ -292,8 +416,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         private VideoFormat format;
         private MediaSource videoSource;
         private List<MediaSource> videoSources;
-        @Nullable
-        private MediaSource subtitlesSource;
 
         public MediaSourceHelper(DataSource.Factory factory) {
             this.factory = factory;
@@ -322,23 +444,11 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             return this;
         }
 
-        public MediaSourceHelper withSubtitles(@Nullable String url, Format format) {
-            if (url == null) {
-                return this;
-            } else {
-                subtitlesSource = new SingleSampleMediaSource.Factory(factory)
-                        .createMediaSource(Uri.parse(url), format, C.TIME_UNSET);
-                return this;
-            }
-        }
-
         public MediaSource get() {
-            //TODO REMOVE
             return videoSource;
-//            return new MergingMediaSource(videoSource, subtitlesSource);
         }
 
-        public AdsMediaSource.MediaSourceFactory getMediaSourceFactory() {
+        private AdsMediaSource.MediaSourceFactory getMediaSourceFactory() {
             switch (format) {
                 case MP4:
                     return new ExtractorMediaSource.Factory(factory);
@@ -351,4 +461,30 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             }
         }
     }
+
+    private class ExoPlayerGestureListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+//            if (!isPlaying()) {
+//                return false;
+//            }
+
+            if (e.getX() > ((float) (playerView.getWidth() / 2))) {
+                onFastForward();
+            } else {
+                onRewind();
+            }
+
+            return true;
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return detector.onTouchEvent(event);
+        }
+
+    }
 }
+
