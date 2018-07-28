@@ -71,6 +71,10 @@ public class CharacterHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>
         TextView titleJpView;
         @BindView(R.id.title_other)
         TextView titleOtherView;
+        @BindView(R.id.divider1)
+        View descriptionDividerView;
+        @BindView(R.id.title_description)
+        TextView titleDescriptionView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -118,7 +122,9 @@ public class CharacterHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>
             }
 
             if (TextUtils.isEmpty(item.getDescription())) {
-                descriptionView.setText(R.string.error_no_data);
+                descriptionView.setVisibility(View.GONE);
+                descriptionDividerView.setVisibility(View.GONE);
+                titleDescriptionView.setVisibility(View.GONE);
             } else {
                 descriptionView.setText(item.getDescription());
             }
