@@ -38,6 +38,7 @@ public class AuthActivity extends BaseActivity<AuthPresenter, AuthView> implemen
 
     private static final String PATTERN = "https?://(?:www\\.)?shikimori\\.org/oauth/authorize/(?:.*)";
     private static final String SIGN_UP_URL = "https://shikimori.org/users/sign_up";
+    private static final String SIGN_IN_URL = "https://shikimori.org/users/sign_in";
     @BindView(R.id.web_view)
     WebView webView;
     @BindView(R.id.progress_bar)
@@ -115,7 +116,7 @@ public class AuthActivity extends BaseActivity<AuthPresenter, AuthView> implemen
 
     @Override
     public void onSignIn() {
-        webView.loadUrl(AppConfig.AUTH_URL);
+        webView.loadUrl(SIGN_IN_URL);
 
         webView.setWebViewClient(new WebViewClient() {
 
@@ -158,7 +159,9 @@ public class AuthActivity extends BaseActivity<AuthPresenter, AuthView> implemen
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 progressBar.setVisibility(View.VISIBLE);
-
+                if (url.equals(BuildConfig.ShikimoriBaseUrl)) {
+                    view.loadUrl(AppConfig.AUTH_URL);
+                }
                 Log.i("DEVE", "onPageStarted: " + url);
             }
 
