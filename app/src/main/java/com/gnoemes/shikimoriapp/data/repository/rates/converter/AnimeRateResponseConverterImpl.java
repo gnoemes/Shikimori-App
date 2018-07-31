@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.rates.converter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
@@ -61,6 +62,16 @@ public class AnimeRateResponseConverterImpl implements AnimeRateResponseConverte
                 response.getRewatches(),
                 userBriefResponseConverter.apply(response.getUserBriefResponse()),
                 animeResponseConverter.convertFrom(response.getAnimeResponse()));
+    }
+
+    @Override
+    public UserRate convertLocalSyncRate(UserRate rate, Integer count) {
+        return new UserRate(rate.getId(),
+                rate.getStatus(),
+                rate.getScore(),
+                rate.getText(),
+                TextUtils.isEmpty(rate.getEpisodes()) ? String.valueOf(count) : rate.getEpisodes(),
+                rate.getRewatches());
     }
 
     @Override

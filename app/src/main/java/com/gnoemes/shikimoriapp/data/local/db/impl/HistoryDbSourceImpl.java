@@ -48,6 +48,21 @@ public class HistoryDbSourceImpl implements HistoryDbSource {
     }
 
     @Override
+    public Single<Integer> getWatchedEpisodesCount(long animeId) {
+        return Single.fromCallable(() -> storIOSQLite
+                .get()
+                .numberOfResults()
+                .withQuery(Query.builder()
+                        .table(HistoryTable.TABLE)
+                        .where(HistoryTable.COLUMN_ANIME_ID + " = ?")
+                        .whereArgs(animeId)
+                        .build())
+                .prepare()
+                .executeAsBlocking())
+                .onErrorReturnItem(0);
+    }
+
+    @Override
     public Completable clearHistory(long animeId) {
         return Completable.fromAction(() -> {
             DeleteResult deleteResult = storIOSQLite

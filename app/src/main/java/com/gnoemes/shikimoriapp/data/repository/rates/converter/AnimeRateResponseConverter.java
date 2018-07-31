@@ -20,4 +20,6 @@ public interface AnimeRateResponseConverter extends Function<List<AnimeRateRespo
     UserRateCreateRequest convertCreateRequest(long targetId, Type type, UserRate rate, long userId);
 
     UserRateUpdateRequest convertUpdateRequest(UserRate rate);
+
+    UserRate convertLocalSyncRate(UserRate rate, Integer count);
 }
