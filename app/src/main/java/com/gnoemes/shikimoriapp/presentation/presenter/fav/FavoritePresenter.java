@@ -54,6 +54,8 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         public void showEmptyError(boolean show, Throwable throwable) {
             if (show) {
                 processErrors(throwable);
+            } else {
+                getViewState().hideNetworkErrorView();
             }
         }
 
