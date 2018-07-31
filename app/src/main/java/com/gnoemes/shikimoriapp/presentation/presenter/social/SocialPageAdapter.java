@@ -24,9 +24,9 @@ public class SocialPageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return TopicListFragment.newInstance(ForumType.MY_CLUBS);
-            case 1:
                 return TopicListFragment.newInstance(ForumType.NEWS);
+            case 1:
+                return TopicListFragment.newInstance(ForumType.MY_CLUBS);
             case 2:
                 return ForumsFragment.newInstance();
             default:
@@ -39,9 +39,9 @@ public class SocialPageAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return resourceProvider.getMyClubsTitle();
-            case 1:
                 return resourceProvider.getNewsTitle();
+            case 1:
+                return resourceProvider.getMyClubsTitle();
             case 2:
                 return resourceProvider.getForumTitle();
             default:
