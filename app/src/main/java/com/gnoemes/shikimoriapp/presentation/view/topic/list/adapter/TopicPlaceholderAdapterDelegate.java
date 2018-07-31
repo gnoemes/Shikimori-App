@@ -46,9 +46,7 @@ public class TopicPlaceholderAdapterDelegate extends AdapterDelegate<List<BaseIt
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            emptyContentView.setText(R.string.episode_nothing);
-
+            emptyContentView.setText(R.string.topic_list_empty);
         }
-
     }
 }
