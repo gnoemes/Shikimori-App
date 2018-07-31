@@ -19,4 +19,6 @@ public interface EmbeddedPlayerView extends BaseNetworkView {
     void enableNextButton();
 
     void enablePrevButton();
+
+    void exitWithSystemMessage(String error);
 }

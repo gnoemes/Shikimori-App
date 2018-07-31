@@ -149,6 +149,12 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
+    public void exitWithSystemMessage(String error) {
+        Toast.makeText(EmbeddedPlayerActivity.this, error, Toast.LENGTH_LONG).show();
+        super.finish();
+    }
+
+    @Override
     public void onControlsVisible() {
 
     }
