@@ -87,7 +87,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
         @Override
         public void showEmptyView(boolean show) {
-            //not implemented
+            if (show) {
+                getViewState().showComments(Collections.emptyList());
+            }
         }
 
         @Override
