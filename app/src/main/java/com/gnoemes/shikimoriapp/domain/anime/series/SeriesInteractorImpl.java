@@ -2,10 +2,14 @@ package com.gnoemes.shikimoriapp.domain.anime.series;
 
 import android.support.annotation.NonNull;
 
+import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.data.repository.series.SeriesRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
@@ -23,6 +27,7 @@ public class SeriesInteractorImpl implements SeriesInteractor {
 
     private SeriesRepository repository;
     private UserRatesRepository ratesRepository;
+    private UserSettingsRepository settingsRepository;
     private SingleErrorHandler singleErrorHandler;
     private CompletableErrorHandler completableErrorHandler;
     private RxUtils rxUtils;
@@ -30,11 +35,13 @@ public class SeriesInteractorImpl implements SeriesInteractor {
     @Inject
     public SeriesInteractorImpl(@NonNull SeriesRepository repository,
                                 @NonNull UserRatesRepository ratesRepository,
+                                @NonNull UserSettingsRepository settingsRepository,
                                 @NonNull SingleErrorHandler singleErrorHandler,
                                 @NonNull CompletableErrorHandler completableErrorHandler,
                                 @NonNull RxUtils rxUtils) {
         this.repository = repository;
         this.ratesRepository = ratesRepository;
+        this.settingsRepository = settingsRepository;
         this.singleErrorHandler = singleErrorHandler;
         this.completableErrorHandler = completableErrorHandler;
         this.rxUtils = rxUtils;
@@ -47,16 +54,27 @@ public class SeriesInteractorImpl implements SeriesInteractor {
                 .compose(rxUtils.applySingleSchedulers());
     }
 
+
+    /**
+     * Set episode watched and create rate if auto_status enabled
+     */
+    //TODO refactor, decomposite
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {
-        return repository.isEpisodeWatched(animeId, episodeId)
-                .flatMapCompletable(isWatched -> {
-                    if (!isWatched) {
-                        return repository.setEpisodeWatched(animeId, episodeId);
-                    } else {
-                        return Completable.complete();
-                    }
-                })
+        return settingsRepository.getUserSettings()
+                .flatMapCompletable(setting -> repository.isEpisodeWatched(animeId, episodeId)
+                        .flatMapCompletable(isWatched -> {
+                            if (!isWatched) {
+                                return repository.setEpisodeWatched(animeId, episodeId)
+                                        .toSingleDefault(setting)
+                                        .filter(UserSettings::getAutoStatus)
+                                        .filter(settings -> settings.getUserBrief() != null)
+                                        .flatMapCompletable(settings ->
+                                                ratesRepository.createRate(animeId, Type.ANIME, UserRate.getStartWatching(), settings.getUserBrief().getId()));
+                            } else {
+                                return Completable.complete();
+                            }
+                        }))
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
     }
