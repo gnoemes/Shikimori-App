@@ -5,6 +5,7 @@ import com.gnoemes.shikimoriapp.data.network.AuthApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
 import com.gnoemes.shikimoriapp.data.network.CharactersApi;
 import com.gnoemes.shikimoriapp.data.network.CommentsApi;
+import com.gnoemes.shikimoriapp.data.network.TopicApi;
 import com.gnoemes.shikimoriapp.data.network.UserApi;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.AuthCommonApi;
@@ -59,5 +60,11 @@ public interface ApiModule {
     @Provides
     static CharactersApi bindCharactersApi(Retrofit retrofit) {
         return retrofit.create(CharactersApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static TopicApi bindTopicApi(@AuthCommonApi Retrofit retrofit) {
+        return retrofit.create(TopicApi.class);
     }
 }

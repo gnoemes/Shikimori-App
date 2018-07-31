@@ -3,8 +3,10 @@ package com.gnoemes.shikimoriapp.entity.roles.domain;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
 
-public class Character {
+public class Character extends LinkedContent {
 
     private long id;
     private String name;
@@ -15,6 +17,7 @@ public class Character {
 
     public Character(long id, String name, @Nullable String russianName,
                      AnimeImage animeImage, String url) {
+        super(id, LinkedType.CHARACTER, animeImage.getImageOriginalUrl());
         this.id = id;
         this.name = name;
         this.russianName = russianName;

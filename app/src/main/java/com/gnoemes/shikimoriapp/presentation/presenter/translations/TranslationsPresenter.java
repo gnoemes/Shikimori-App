@@ -10,7 +10,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationView
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;

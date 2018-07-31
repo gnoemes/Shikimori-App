@@ -3,9 +3,10 @@ package com.gnoemes.shikimoriapp.entity.roles.data;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
+import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse;
 import com.google.gson.annotations.SerializedName;
 
-public class CharacterResponse {
+public class CharacterResponse extends LinkedContentResponse {
 
     @SerializedName("id")
     private long id;

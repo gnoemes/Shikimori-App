@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.entity.main.presentation;
+package com.gnoemes.shikimoriapp.entity.main.domain;
 
 public class Constants {
 

@@ -20,7 +20,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.presentation.presenter.translations.TranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;

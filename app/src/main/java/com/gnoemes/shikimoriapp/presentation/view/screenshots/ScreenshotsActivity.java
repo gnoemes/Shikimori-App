@@ -24,7 +24,7 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.github.piasy.biv.view.BigImageView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.screenshots.ScreenshotsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseSwipeBackActivity;

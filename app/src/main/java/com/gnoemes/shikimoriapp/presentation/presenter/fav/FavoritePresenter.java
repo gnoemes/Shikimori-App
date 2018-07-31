@@ -16,7 +16,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.ServiceCodeException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.PlaceholderType;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;

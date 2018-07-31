@@ -20,6 +20,11 @@
     <color name="brown">#491600</color>
     <color name="transparent">#00000000</color>
     <color name="dark_blue">#070c18</color>
+    <color name="orange">#ff8a3c</color>
+    <color name="orange_light">#f7b42c</color>
+    <color name="green">#1fd52f</color>
+    <color name="pink_light">#f477ad</color>
+
 
     <!--Light Theme Colors-->
     <color name="colorPrimary">#ffa726</color>

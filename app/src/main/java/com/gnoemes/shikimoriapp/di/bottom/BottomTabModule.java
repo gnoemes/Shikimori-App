@@ -9,6 +9,7 @@ import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.di.calendar.CalendarModule;
 import com.gnoemes.shikimoriapp.di.characters.CharacterModule;
 import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
+import com.gnoemes.shikimoriapp.di.forums.ForumsModule;
 import com.gnoemes.shikimoriapp.di.history.HistoryModule;
 import com.gnoemes.shikimoriapp.di.menu.MenuModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
@@ -17,12 +18,14 @@ import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchModule;
 import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
 import com.gnoemes.shikimoriapp.di.social.SocialModule;
+import com.gnoemes.shikimoriapp.di.topic.TopicListModule;
 import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.characters.CharacterDetailsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.forums.ForumsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
@@ -31,6 +34,7 @@ import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
+import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 
 import javax.inject.Named;
@@ -93,6 +97,14 @@ public interface BottomTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = CharacterModule.class)
     CharacterDetailsFragment characterDetailsFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = TopicListModule.class)
+    TopicListFragment topicListFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = ForumsModule.class)
+    ForumsFragment forumsFragmentInjector();
 
     @Binds
     @Named(BaseFragmentModule.FRAGMENT)

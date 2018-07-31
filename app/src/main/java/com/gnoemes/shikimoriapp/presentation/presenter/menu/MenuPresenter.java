@@ -10,7 +10,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;

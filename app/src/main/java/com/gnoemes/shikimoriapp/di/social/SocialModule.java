@@ -13,14 +13,15 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {BaseChildFragmentModule.class})
+@Module(includes = {BaseChildFragmentModule.class,
+        SocialUtilModule.class
+})
 public interface SocialModule {
 
     @Provides
     static SocialPresenter provideSocialPresenter() {
         return new SocialPresenter();
     }
-
 
     @Binds
     @Named(BaseChildFragmentModule.CHILD_FRAGMENT)

@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.roles.data.CharacterResponse;
@@ -24,7 +26,7 @@ public class RolesResponseConverterImpl implements RolesResponseConverter {
 
         for (RolesResponse response : responses) {
             if (response.getCharacterResponse() != null) {
-                items.add(convertCharacterResponse(response.getCharacterResponse()));
+                items.add(convertResponse(response.getCharacterResponse()));
             }
         }
 
@@ -32,7 +34,11 @@ public class RolesResponseConverterImpl implements RolesResponseConverter {
         return items;
     }
 
-    private Character convertCharacterResponse(CharacterResponse response) {
+    @Override
+    public Character convertResponse(@Nullable CharacterResponse response) {
+        if (response == null) {
+            return null;
+        }
         return new Character(response.getId(),
                 response.getName(),
                 response.getRussianName(),

@@ -75,7 +75,7 @@ public class ProfileViewModelConverterImpl implements ProfileViewModelConverter 
         }
 
         for (Club club : clubsList) {
-            clubs.add(new ImageContent(club.getId(), urlBuilder(club.getSmallLogoUrl())));
+            clubs.add(new ImageContent(club.getId(), urlBuilder(club.getImage().getOriginal())));
         }
 
         return new ProfileSocialItem(friends, clubs);

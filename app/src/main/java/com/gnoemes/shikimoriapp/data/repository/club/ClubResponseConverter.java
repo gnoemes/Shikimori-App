@@ -8,4 +8,5 @@ import java.util.List;
 import io.reactivex.functions.Function;
 
 public interface ClubResponseConverter extends Function<List<ClubResponse>, List<Club>> {
+    Club convertResponse(ClubResponse response);
 }

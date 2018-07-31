@@ -36,6 +36,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
 
     @BindView(R.id.toolbar)
+    @Nullable
     protected Toolbar toolbar;
 
     @Inject
@@ -75,7 +76,9 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
         if (getView() != null) {
             unbinder = ButterKnife.bind(this, getView());
         }
-        toolbar.setVisibility(android.view.View.VISIBLE);
+        if (toolbar != null) {
+            toolbar.setVisibility(android.view.View.VISIBLE);
+        }
     }
 
     /**
@@ -154,12 +157,16 @@ public abstract class BaseFragment<Presenter extends BasePresenter, View extends
 
     @Override
     public void setTitle(String title) {
-        toolbar.setTitle(title);
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
     }
 
     @Override
     public void setTitle(int stringRes) {
-        toolbar.setTitle(stringRes);
+        if (toolbar != null) {
+            toolbar.setTitle(stringRes);
+        }
     }
 
     @Override

@@ -24,4 +24,5 @@ public class Screens {
     public static final String SCREENSHOTS = "SCREENSHOTS";
     public static final String CHARACTER_DETAILS = "CHARACTER_DETAILS";
     public static final String EXTERNAL_PLAYER = "EXTERNAL_PLAYER";
+    public static final String TOPICS_LIST = "TOPICS_LIST";
 }

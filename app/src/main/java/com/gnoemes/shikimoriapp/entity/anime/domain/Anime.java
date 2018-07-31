@@ -2,12 +2,15 @@ package com.gnoemes.shikimoriapp.entity.anime.domain;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+
 import org.joda.time.DateTime;
 
 /**
  * Anime model
  */
-public class Anime {
+public class Anime extends LinkedContent {
 
     private long id;
 
@@ -36,6 +39,7 @@ public class Anime {
     public Anime(long id, String name, @Nullable String russianName, AnimeImage animeImage,
                  String url, AnimeType type, AnimeStatus status, int episodes,
                  int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
+        super(id, LinkedType.ANIME, animeImage.getImageOriginalUrl());
         this.id = id;
         this.name = name;
         this.russianName = russianName;

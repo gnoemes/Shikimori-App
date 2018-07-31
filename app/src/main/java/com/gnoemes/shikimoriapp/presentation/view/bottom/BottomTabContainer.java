@@ -21,6 +21,7 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
@@ -44,6 +45,7 @@ import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
+import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
@@ -169,6 +171,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return RelatedFragment.newInstance((RelatedNavigationData) data);
                         case Screens.CHARACTER_DETAILS:
                             return CharacterDetailsFragment.newInstance((Long) data);
+                        case Screens.TOPICS_LIST:
+                            return TopicListFragment.newInstance((ForumType) data);
                     }
                     return null;
                 }

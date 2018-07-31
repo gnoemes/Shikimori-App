@@ -2,9 +2,12 @@ package com.gnoemes.shikimoriapp.entity.manga.domain;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
+import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+
 import org.joda.time.DateTime;
 
-public class Manga {
+public class Manga extends LinkedContent {
 
 
     private long id;
@@ -25,6 +28,7 @@ public class Manga {
                  MangaImage image, String url, MangaType type,
                  MangaStatus status, int volume, int chapters,
                  DateTime airedDate, @Nullable DateTime releasedDate) {
+        super(id, LinkedType.MANGA, image.getImageOriginalUrl());
         this.id = id;
         this.name = name;
         this.russianName = russianName;

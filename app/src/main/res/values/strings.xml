@@ -330,6 +330,26 @@
     <string name="player_network_error">Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.</string>
     <string name="quality_title">Выберите качество</string>
     <string name="favorite_open_random">Открыть случайное</string>
+    <string name="common_details">Подробнее</string>
+    <string name="common_new">новое</string>
+    <string name="forum_site">Сайт</string>
+    <string name="forum_club">Клуб</string>
+    <string name="forum_games">Игры</string>
+    <string name="forum_cosplay">Косплей</string>
+    <string name="forum_review">Рецензия</string>
+    <string name="forum_news">Новость</string>
+    <string name="forum_collection">Коллекция</string>
+    <string name="forum_all">Все в подряд</string>
+    <string name="forum_my_clubs">Мои клубы</string>
+    <string name="forum_contests">Турниры</string>
+    <string name="forum_reviews">Обзоры</string>
+    <string name="forum_animanga">Аниме и манга</string>
+    <string name="forum_vn">Визуальные новеллы</string>
+    <string name="common_forum">Форум</string>
+    <string name="topic_tag_new_episode">Новый эпизод</string>
+    <string name="forum_off_topic">Оффтопик</string>
+    <string name="episodes_banned">Забанено законами РФ</string>
+    <string name="forum_my_feed">Моя лента</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
