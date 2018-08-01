@@ -283,7 +283,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         MediaSource source = PlayerManager.MediaSourceHelper
                 .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
                 .withFormat(videoTrack.getFormat())
-                .withVideoUrls(videoTrack.getUrl())
+                .withVideoUrl(videoTrack.getUrl())
                 .get();
 
         playerManager.setEventListener(this);
