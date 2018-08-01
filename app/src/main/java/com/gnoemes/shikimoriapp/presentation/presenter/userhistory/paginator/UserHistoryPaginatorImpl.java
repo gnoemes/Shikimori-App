@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.presenter.history.paginator;
+package com.gnoemes.shikimoriapp.presentation.presenter.userhistory.paginator;
 
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;

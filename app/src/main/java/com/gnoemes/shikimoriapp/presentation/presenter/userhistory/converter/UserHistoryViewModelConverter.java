@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.presenter.history.converter;
+package com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter;
 
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;

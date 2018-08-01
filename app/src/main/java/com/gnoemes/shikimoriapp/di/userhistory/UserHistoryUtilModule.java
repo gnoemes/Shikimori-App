@@ -1,7 +1,7 @@
 package com.gnoemes.shikimoriapp.di.userhistory;
 
-import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.UserHistoryViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.UserHistoryViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter.UserHistoryViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter.UserHistoryViewModelConverterImpl;
 
 import dagger.Binds;
 import dagger.Module;

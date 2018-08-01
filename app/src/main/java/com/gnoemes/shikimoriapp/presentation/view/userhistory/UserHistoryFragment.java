@@ -14,7 +14,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.UserHistoryPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.UserHistoryPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter.UserHistoryAdapter;

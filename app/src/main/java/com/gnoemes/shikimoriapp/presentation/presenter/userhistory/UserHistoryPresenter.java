@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.presenter.history;
+package com.gnoemes.shikimoriapp.presentation.presenter.userhistory;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
@@ -9,9 +9,9 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.UserHistoryViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.UserHistoryPaginator;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.UserHistoryPaginatorImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter.UserHistoryViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.paginator.UserHistoryPaginator;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.paginator.UserHistoryPaginatorImpl;
 import com.gnoemes.shikimoriapp.presentation.view.userhistory.UserHistoryView;
 
 import java.util.Collections;

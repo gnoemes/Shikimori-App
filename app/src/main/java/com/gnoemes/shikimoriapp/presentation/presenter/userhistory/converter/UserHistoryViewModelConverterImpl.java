@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.presenter.history.converter;
+package com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;

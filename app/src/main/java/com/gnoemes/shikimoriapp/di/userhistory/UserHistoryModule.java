@@ -6,8 +6,8 @@ import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.UserHistoryPresenter;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.UserHistoryViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.UserHistoryPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter.UserHistoryViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.userhistory.UserHistoryFragment;
 
 import javax.inject.Named;
