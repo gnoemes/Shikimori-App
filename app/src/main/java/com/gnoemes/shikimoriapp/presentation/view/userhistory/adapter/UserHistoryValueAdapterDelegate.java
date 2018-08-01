@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -23,11 +23,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HistoryValueAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class UserHistoryValueAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private DefaultItemCallback callback;
 
-    public HistoryValueAdapterDelegate(DefaultItemCallback callback) {
+    public UserHistoryValueAdapterDelegate(DefaultItemCallback callback) {
         this.callback = callback;
     }
 

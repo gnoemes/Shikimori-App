@@ -21,15 +21,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class HistoryViewModelConverterImpl implements HistoryViewModelConverter {
+public class UserHistoryViewModelConverterImpl implements UserHistoryViewModelConverter {
 
     private static final int HALF_WEEK = 2;
     private DateTimeConverter converter;
     private DateTimeUtils utils;
 
     @Inject
-    public HistoryViewModelConverterImpl(DateTimeConverter converter,
-                                         DateTimeUtils utils) {
+    public UserHistoryViewModelConverterImpl(DateTimeConverter converter,
+                                             DateTimeUtils utils) {
         this.converter = converter;
         this.utils = utils;
     }

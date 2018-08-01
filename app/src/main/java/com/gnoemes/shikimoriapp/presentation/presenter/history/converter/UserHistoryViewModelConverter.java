@@ -5,7 +5,7 @@ import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
 
 import java.util.List;
 
-public interface HistoryViewModelConverter {
+public interface UserHistoryViewModelConverter {
 
     List<BaseItem> convertFrom(List<UserHistory> prevList, List<UserHistory> historyList);
 }

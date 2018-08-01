@@ -9,20 +9,20 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.HistoryViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.HistoryPaginator;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.HistoryPaginatorImpl;
-import com.gnoemes.shikimoriapp.presentation.view.history.HistoryView;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.UserHistoryViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.UserHistoryPaginator;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.paginator.UserHistoryPaginatorImpl;
+import com.gnoemes.shikimoriapp.presentation.view.userhistory.UserHistoryView;
 
 import java.util.Collections;
 import java.util.List;
 
 @InjectViewState
-public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
+public class UserHistoryPresenter extends BaseNetworkPresenter<UserHistoryView> {
 
     private UserInteractor interactor;
-    private HistoryViewModelConverter converter;
-    private HistoryPaginator paginator;
+    private UserHistoryViewModelConverter converter;
+    private UserHistoryPaginator paginator;
     private AnalyticsInteractor analyticsInteractor;
 
     private List<UserHistory> prevList;
@@ -89,9 +89,9 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
         }
     };
 
-    public HistoryPresenter(UserInteractor interactor,
-                            HistoryViewModelConverter converter,
-                            AnalyticsInteractor analyticsInteractor) {
+    public UserHistoryPresenter(UserInteractor interactor,
+                                UserHistoryViewModelConverter converter,
+                                AnalyticsInteractor analyticsInteractor) {
         this.interactor = interactor;
         this.converter = converter;
         this.analyticsInteractor = analyticsInteractor;
@@ -119,7 +119,7 @@ public class HistoryPresenter extends BaseNetworkPresenter<HistoryView> {
     }
 
     private void initPaginator() {
-        paginator = new HistoryPaginatorImpl(interactor, controller);
+        paginator = new UserHistoryPaginatorImpl(interactor, controller);
         paginator.setId(id);
         paginator.refresh();
     }

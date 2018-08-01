@@ -34,7 +34,6 @@ import com.gnoemes.shikimoriapp.presentation.view.characters.CharacterDetailsFra
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
-import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
@@ -47,6 +46,7 @@ import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
 import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
+import com.gnoemes.shikimoriapp.presentation.view.userhistory.UserHistoryFragment;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
 import javax.inject.Inject;
@@ -166,7 +166,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.PROFILE:
                             return ProfileFragment.newInstance((Long) data);
                         case Screens.HISTORY:
-                            return HistoryFragment.newInstance((Long) data);
+                            return UserHistoryFragment.newInstance((Long) data);
                         case Screens.RELATED:
                             return RelatedFragment.newInstance((RelatedNavigationData) data);
                         case Screens.CHARACTER_DETAILS:

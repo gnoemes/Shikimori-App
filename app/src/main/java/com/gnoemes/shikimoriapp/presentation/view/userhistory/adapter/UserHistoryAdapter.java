@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter;
 
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
@@ -9,12 +9,12 @@ import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryAdapter extends ListDelegationAdapter<List<BaseItem>> {
+public class UserHistoryAdapter extends ListDelegationAdapter<List<BaseItem>> {
 
-    public HistoryAdapter(DefaultItemCallback callback) {
-        delegatesManager.addDelegate(new HistoryDividerAdapterDelegate());
-        delegatesManager.addDelegate(new HistoryDateAdapterDelegate());
-        delegatesManager.addDelegate(new HistoryValueAdapterDelegate(callback));
+    public UserHistoryAdapter(DefaultItemCallback callback) {
+        delegatesManager.addDelegate(new UserHistoryDividerAdapterDelegate());
+        delegatesManager.addDelegate(new UserHistoryDateAdapterDelegate());
+        delegatesManager.addDelegate(new UserHistoryValueAdapterDelegate(callback));
         delegatesManager.addDelegate(new ProgressItemAdapterDelegate());
 
         setItems(new ArrayList<>());

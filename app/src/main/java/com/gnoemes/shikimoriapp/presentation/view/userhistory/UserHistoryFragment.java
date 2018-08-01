@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,18 +14,18 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
-import com.gnoemes.shikimoriapp.presentation.presenter.history.HistoryPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.UserHistoryPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
-import com.gnoemes.shikimoriapp.presentation.view.history.adapter.HistoryAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter.UserHistoryAdapter;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
-        implements HistoryView {
+public class UserHistoryFragment extends BaseFragment<UserHistoryPresenter, UserHistoryView>
+        implements UserHistoryView {
 
     @BindView(R.id.list)
     RecyclerView list;
@@ -33,11 +33,11 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     SwipeRefreshLayout refreshLayout;
 
     @InjectPresenter
-    HistoryPresenter presenter;
-    private HistoryAdapter adapter;
+    UserHistoryPresenter presenter;
+    private UserHistoryAdapter adapter;
 
-    public static HistoryFragment newInstance(long id) {
-        HistoryFragment fragment = new HistoryFragment();
+    public static UserHistoryFragment newInstance(long id) {
+        UserHistoryFragment fragment = new UserHistoryFragment();
         Bundle args = new Bundle();
         args.putLong(AppExtras.ARGUMENT_USER_ID, id);
         fragment.setArguments(args);
@@ -45,7 +45,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     }
 
     @ProvidePresenter
-    HistoryPresenter providePresenter() {
+    UserHistoryPresenter providePresenter() {
         presenter = presenterProvider.get();
 
         if (getParentFragment() != null) {
@@ -77,7 +77,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
 
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        adapter = new HistoryAdapter(id -> getPresenter().onItemClicked(id));
+        adapter = new UserHistoryAdapter(id -> getPresenter().onItemClicked(id));
         list.setLayoutManager(manager);
         list.setAdapter(adapter);
         list.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -102,7 +102,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    protected HistoryPresenter getPresenter() {
+    protected UserHistoryPresenter getPresenter() {
         return presenter;
     }
 

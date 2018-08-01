@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
@@ -10,7 +10,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentVi
 import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface HistoryView extends BaseFragmentView {
+public interface UserHistoryView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void showList(List<BaseItem> items);

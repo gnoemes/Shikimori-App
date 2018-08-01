@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
 import java.util.List;
 
-public class HistoryDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class UserHistoryDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {

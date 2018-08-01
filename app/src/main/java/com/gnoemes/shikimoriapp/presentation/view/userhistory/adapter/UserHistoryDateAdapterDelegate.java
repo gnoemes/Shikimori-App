@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HistoryDateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class UserHistoryDateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {

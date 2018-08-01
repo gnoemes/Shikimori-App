@@ -10,7 +10,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
-public class HistoryPaginatorImpl implements HistoryPaginator {
+public class UserHistoryPaginatorImpl implements UserHistoryPaginator {
 
     private UserInteractor interactor;
     private ViewController<UserHistory> viewController;
@@ -24,7 +24,7 @@ public class HistoryPaginatorImpl implements HistoryPaginator {
 
     private Disposable disposable;
 
-    public HistoryPaginatorImpl(UserInteractor interactor, ViewController<UserHistory> viewController) {
+    public UserHistoryPaginatorImpl(UserInteractor interactor, ViewController<UserHistory> viewController) {
         this.interactor = interactor;
         this.viewController = viewController;
     }
