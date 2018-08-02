@@ -81,6 +81,10 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
             icon.setImageDrawable(null);
 
             switch (model.getCategory()) {
+                case HISTORY:
+                    applyIcon(R.drawable.ic_history);
+                    categoryText.setText(R.string.common_history);
+                    break;
                 case SETTINGS:
                     applyIcon(R.drawable.ic_settings);
                     categoryText.setText(R.string.common_settings);

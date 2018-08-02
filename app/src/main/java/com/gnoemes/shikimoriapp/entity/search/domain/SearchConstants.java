@@ -18,6 +18,7 @@ public class SearchConstants {
     public static final String SCORE = "score";
     public static final String SEASON = "season";
     public static final String ORDER = "order";
+    public static final String IDS = "ids";
 
     ////////////////////////////////////////////////////////////////////
     // Values

@@ -5,62 +5,85 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="@dimen/margin_normal"
-    android:foreground="?attr/selectableItemBackgroundBorderless"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
+    <ImageView
+        android:id="@+id/image_anime"
+        android:layout_width="130dp"
+        android:layout_height="180dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/description_image"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Судьба/Начало 2" />
+        tools:srcCompat="@drawable/test_preview2" />
 
-    <TextView
-        android:id="@+id/description"
+    <View
+        android:id="@+id/view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="изменена оценка с 10 на 9" />
+        android:background="?attr/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_anime"
+        app:layout_constraintTop_toBottomOf="@+id/anime_title" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/anime_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="end"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/title"
-        tools:text="5 часов назад" />
+        app:layout_constraintStart_toEndOf="@+id/image_anime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/text_season"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/margin_small"
+        app:layout_constraintBottom_toTopOf="@+id/text_anime_type"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        tools:text="Сезон: Весна 2010" />
+
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/text_anime_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_small"
+        app:layout_constraintBottom_toTopOf="@+id/text_status"
+        app:layout_constraintStart_toStartOf="@+id/text_season"
+        app:layout_constraintTop_toBottomOf="@+id/text_season"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="Тип: TV (24 эп.), 23 мин." />
+
+    <com.mpt.android.stv.SpannableTextView
+        android:id="@+id/text_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:padding="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_anime_type"
+        app:layout_constraintTop_toBottomOf="@+id/text_anime_type"
+        tools:text="Статус: релиз" />
+
 
 </android.support.constraint.ConstraintLayout>

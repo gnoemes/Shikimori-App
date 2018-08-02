@@ -53,6 +53,10 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
         List<BaseMenuItem> items = new ArrayList<>();
 
         items.add(new MenuProfileViewModel(UserStatus.GUEST, null, null));
+
+        items.add(new MenuDividerViewModel());
+        items.add(new MenuCategoryViewModel(MenuCategory.HISTORY));
+
 //        items.add(new MenuDividerViewModel());
 //        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NEWS, false, 0));
 //        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NOTIFICATIONS, false, 0));
@@ -122,7 +126,15 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
             case SHIKIMORI_CLUB:
                 onShikimoriClubClicked();
                 break;
+            case HISTORY:
+                onHistoryClicked();
+                break;
         }
+    }
+
+    private void onHistoryClicked() {
+        analyticsInteractor.logEvent(AnalyticsEvent.HISTORY_CLICKED);
+        getRouter().navigateTo(Screens.HISTORY);
     }
 
     private void onShikimoriClubClicked() {

@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.di.calendar.CalendarModule;
 import com.gnoemes.shikimoriapp.di.characters.CharacterModule;
 import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
 import com.gnoemes.shikimoriapp.di.forums.ForumsModule;
+import com.gnoemes.shikimoriapp.di.history.HistoryModule;
 import com.gnoemes.shikimoriapp.di.menu.MenuModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
 import com.gnoemes.shikimoriapp.di.related.RelatedModule;
@@ -26,6 +27,7 @@ import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.characters.CharacterDetailsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.forums.ForumsFragment;
+import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
@@ -88,7 +90,7 @@ public interface BottomTabModule {
 
     @BottomChildScope
     @ContributesAndroidInjector(modules = UserHistoryModule.class)
-    UserHistoryFragment historyFragmentInjector();
+    UserHistoryFragment userHistoryFragmentInjector();
 
     @BottomChildScope
     @ContributesAndroidInjector(modules = RelatedModule.class)
@@ -105,6 +107,10 @@ public interface BottomTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = ForumsModule.class)
     ForumsFragment forumsFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = HistoryModule.class)
+    HistoryFragment historyFragmentInjector();
 
     @Binds
     @Named(BaseFragmentModule.FRAGMENT)

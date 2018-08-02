@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.anime;
 
+import com.gnoemes.shikimoriapp.data.local.db.HistoryDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeDetailsResponseConverter;
@@ -11,10 +12,12 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
+import com.gnoemes.shikimoriapp.entity.anime.series.data.db.HistoryDao;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 
 import org.joda.time.DateTimeComparator;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +29,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
 
     private AnimesApi animesApi;
     private RateSyncDbSource syncDbSource;
+    private HistoryDbSource historyDbSource;
     private AnimeDetailsResponseConverter responseConverter;
     private AnimeListResponseConverter listResponseConverter;
     private AnimeLinkResponseConverter linkReponseConverter;
@@ -35,6 +39,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     @Inject
     public AnimeRepositoryImpl(AnimesApi animesApi,
                                RateSyncDbSource syncDbSource,
+                               HistoryDbSource historyDbSource,
                                AnimeDetailsResponseConverter responseConverter,
                                AnimeLinkResponseConverter linkReponseConverter,
                                AnimeListResponseConverter listResponseConverter,
@@ -42,6 +47,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
                                ScreenshotResponseConverter screenshotResponseConverter) {
         this.animesApi = animesApi;
         this.syncDbSource = syncDbSource;
+        this.historyDbSource = historyDbSource;
         this.responseConverter = responseConverter;
         this.linkReponseConverter = linkReponseConverter;
         this.listResponseConverter = listResponseConverter;
@@ -87,5 +93,14 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     public Single<List<Screenshot>> getScreenshots(long animeId) {
         return animesApi.getScreenshots(animeId)
                 .map(screenshotResponseConverter);
+    }
+
+    @Override
+    public Single<LinkedHashSet<Long>> getLocalWatchedAnimeIds() {
+        return historyDbSource.getWatchedAnimes()
+                .flatMap(historyDaos -> Observable.fromIterable(historyDaos)
+                        .map(HistoryDao::getAnimeId)
+                        .toList())
+                .map(LinkedHashSet::new);
     }
 }

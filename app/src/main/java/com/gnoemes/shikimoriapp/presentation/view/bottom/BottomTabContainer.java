@@ -34,6 +34,7 @@ import com.gnoemes.shikimoriapp.presentation.view.characters.CharacterDetailsFra
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
+import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
@@ -165,7 +166,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return SimilarFragment.newInstance((Long) data);
                         case Screens.PROFILE:
                             return ProfileFragment.newInstance((Long) data);
-                        case Screens.HISTORY:
+                        case Screens.USER_HISTORY:
                             return UserHistoryFragment.newInstance((Long) data);
                         case Screens.RELATED:
                             return RelatedFragment.newInstance((RelatedNavigationData) data);
@@ -173,6 +174,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return CharacterDetailsFragment.newInstance((Long) data);
                         case Screens.TOPICS_LIST:
                             return TopicListFragment.newInstance((ForumType) data);
+                        case Screens.HISTORY:
+                            return HistoryFragment.newInstance();
                     }
                     return null;
                 }

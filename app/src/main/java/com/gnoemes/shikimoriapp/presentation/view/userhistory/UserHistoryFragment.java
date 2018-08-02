@@ -108,7 +108,7 @@ public class UserHistoryFragment extends BaseFragment<UserHistoryPresenter, User
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_history;
+        return R.layout.fragment_user_history;
     }
 
     ///////////////////////////////////////////////////////////////////////////

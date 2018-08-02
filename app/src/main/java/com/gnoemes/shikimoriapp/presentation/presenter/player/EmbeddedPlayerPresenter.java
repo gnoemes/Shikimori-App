@@ -69,7 +69,6 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         } else {
             loadVideoWithoutId();
         }
-        setEpisodeWatched();
     }
 
     private void loadVideoWithoutId() {
@@ -97,6 +96,7 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
                 getViewState().updateInformation(playVideo, currentTrack);
                 getViewState().playVideo(track, true);
                 currentTrack = 0;
+                setEpisodeWatched();
             }
         } else {
             getViewState().exitWithSystemMessage(resourceProvider.getNetworkError());

@@ -237,7 +237,7 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
 
     private void onHistoryClicked(long id) {
         analyticsInteractor.logEvent(AnalyticsEvent.USER_HISTORY_CLICKED);
-        getRouter().navigateTo(Screens.HISTORY, id);
+        getRouter().navigateTo(Screens.USER_HISTORY, id);
     }
 
     private void onIgnoreClicked(long id) {

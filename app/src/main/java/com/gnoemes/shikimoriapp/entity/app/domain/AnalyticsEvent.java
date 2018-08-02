@@ -19,7 +19,8 @@ public enum AnalyticsEvent {
     ACCOUNT_EXIT("account_exit"),
     EMBEDDED_PLAYER_OPENED("embedded_player_opened"),
     FOUR_PDA_CLICKED("4pda_topic_opened"),
-    SHIKIMORI_APP_CLUB_CLICKED("shikimori_app_club_clicked");
+    SHIKIMORI_APP_CLUB_CLICKED("shikimori_app_club_clicked"),
+    HISTORY_CLICKED("history_clicked");
 
     private final String event;
 

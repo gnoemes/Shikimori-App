@@ -41,7 +41,7 @@ public class UserHistoryValueAdapterDelegate extends AdapterDelegate<List<BaseIt
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_history, parent, false);
+                .inflate(R.layout.item_user_history, parent, false);
         return new ViewHolder(itemView);
     }
 
