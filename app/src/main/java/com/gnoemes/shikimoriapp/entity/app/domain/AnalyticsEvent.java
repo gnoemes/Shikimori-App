@@ -20,7 +20,8 @@ public enum AnalyticsEvent {
     EMBEDDED_PLAYER_OPENED("embedded_player_opened"),
     FOUR_PDA_CLICKED("4pda_topic_opened"),
     SHIKIMORI_APP_CLUB_CLICKED("shikimori_app_club_clicked"),
-    HISTORY_CLICKED("history_clicked");
+    HISTORY_CLICKED("history_clicked"),
+    SEND_MAIL_TO_DEV("send_mail_to_dev");
 
     private final String event;
 

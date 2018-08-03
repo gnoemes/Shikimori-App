@@ -67,6 +67,7 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
         items.add(new MenuDividerViewModel());
         items.add(new MenuCategoryViewModel(MenuCategory.FOUR_PDA));
         items.add(new MenuCategoryViewModel(MenuCategory.SHIKIMORI_CLUB));
+        items.add(new MenuCategoryViewModel(MenuCategory.SEND_MAIL_TO_DEV));
 
         getViewState().showList(items);
     }
@@ -129,7 +130,15 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
             case HISTORY:
                 onHistoryClicked();
                 break;
+            case SEND_MAIL_TO_DEV:
+                onSendMail();
+                break;
         }
+    }
+
+    private void onSendMail() {
+        analyticsInteractor.logEvent(AnalyticsEvent.SEND_MAIL_TO_DEV);
+        getRouter().navigateTo(Screens.SEND_MAIL);
     }
 
     private void onHistoryClicked() {

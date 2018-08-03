@@ -26,4 +26,5 @@ public class Screens {
     public static final String EXTERNAL_PLAYER = "EXTERNAL_PLAYER";
     public static final String TOPICS_LIST = "TOPICS_LIST";
     public static final String HISTORY = "HISTORY";
+    public static final String SEND_MAIL = "SEND_MAIL";
 }

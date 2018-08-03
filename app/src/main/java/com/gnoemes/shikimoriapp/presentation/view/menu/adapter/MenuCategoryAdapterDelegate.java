@@ -97,6 +97,10 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
                     resizeAndApplyIcon(R.drawable.shikimori);
                     categoryText.setText(R.string.app_on_shikimori);
                     break;
+                case SEND_MAIL_TO_DEV:
+                    resizeAndApplyIcon(R.drawable.gmail);
+                    categoryText.setText(R.string.send_mail_to_dev);
+                    break;
                 case SUPPORT:
                     applyIcon(R.drawable.ic_heart);
                     categoryText.setText(R.string.support);

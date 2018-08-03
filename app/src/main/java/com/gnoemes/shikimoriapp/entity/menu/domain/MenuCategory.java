@@ -9,8 +9,9 @@ public enum MenuCategory {
     FRIENDS(5),
     SETTINGS(6),
     FOUR_PDA(7),
-    SHIKIMORI_CLUB(7),
-    SUPPORT(9),;
+    SHIKIMORI_CLUB(8),
+    SEND_MAIL_TO_DEV(9),
+    SUPPORT(10);
 
     //TODO SOCIAL LINKS/SOMETHING MORE
 
