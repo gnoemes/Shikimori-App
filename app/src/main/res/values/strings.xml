@@ -246,7 +246,7 @@
     <string name="pref_dark_theme">is_dark_theme</string>
     <string name="pref_auto_dark_theme">is_auto_dark</string>
     <string name="pref_auto_status">is_auto_status</string>
-    <string name="pref_auto_status_summary">Автоматически изменять статус просмотра</string>
+    <string name="pref_auto_status_summary">Автоматически добавлять аниме в список \"Смотрю\"</string>
     <string name="pref_auto_status_title">Обновление статуса</string>
     <string name="pref_dark_theme_summary">Ночной режим позволяет уменьшить утомляемость глаз</string>
     <string name="pref_dark_theme_title">Ночной режим</string>
