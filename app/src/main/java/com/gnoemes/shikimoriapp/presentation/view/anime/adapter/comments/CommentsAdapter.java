@@ -47,5 +47,6 @@ public class CommentsAdapter extends ListDelegationAdapter<List<BaseItem>> {
 
     public void hideProgress() {
         items.remove(items.size() - 1);
+        notifyItemChanged(items.size());
     }
 }
