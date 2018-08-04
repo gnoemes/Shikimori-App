@@ -95,11 +95,11 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     }
 
     private String convertName(String russianName, String name) {
-        return russianName == null ? name : russianName;
+        return russianName == null ? name.trim() : russianName.trim();
     }
 
     private String convertName(String first, List<String> second) {
-        return first != null ? first : second.get(0);
+        return first != null ? first.trim() : second.get(0).trim();
     }
 
     @Override
