@@ -9,12 +9,13 @@ import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuDividerViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuProfileViewModel;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -50,11 +51,11 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
     }
 
     private void loadList() {
-        List<BaseMenuItem> items = new ArrayList<>();
+        List<BaseItem> items = new ArrayList<>();
 
         items.add(new MenuProfileViewModel(UserStatus.GUEST, null, null));
 
-        items.add(new MenuDividerViewModel());
+        items.add(new DoubleDividerItem());
         items.add(new MenuCategoryViewModel(MenuCategory.HISTORY));
 
 //        items.add(new MenuDividerViewModel());
@@ -62,12 +63,13 @@ public class MenuPresenter extends BaseNetworkPresenter<MenuView> {
 //        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.NOTIFICATIONS, false, 0));
 //        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.MESSAGES, false, 0));
 //        items.add(new MenuCategoryWithBadgeViewModel(MenuCategory.FRIENDS, false, 0));
-        items.add(new MenuDividerViewModel());
+        items.add(new DoubleDividerItem());
         items.add(new MenuCategoryViewModel(MenuCategory.SETTINGS));
-        items.add(new MenuDividerViewModel());
+        items.add(new DoubleDividerItem());
         items.add(new MenuCategoryViewModel(MenuCategory.FOUR_PDA));
         items.add(new MenuCategoryViewModel(MenuCategory.SHIKIMORI_CLUB));
         items.add(new MenuCategoryViewModel(MenuCategory.SEND_MAIL_TO_DEV));
+        items.add(new BottomDividerItem());
 
         getViewState().showList(items);
     }

@@ -1,7 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.topic.list.converter;
 
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.topic.domain.Topic;
 import com.gnoemes.shikimoriapp.entity.topic.presentation.TopicClubItem;
 import com.gnoemes.shikimoriapp.entity.topic.presentation.TopicItem;
@@ -25,9 +25,8 @@ public class TopicViewModelConverterImpl implements TopicViewModelConverter {
 
         for (Topic topic : list) {
             items.add(convertTopic(topic));
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
         }
-        items.remove(items.size() - 1);
 
         return items;
     }

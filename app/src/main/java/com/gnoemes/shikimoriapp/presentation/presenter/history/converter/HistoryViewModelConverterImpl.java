@@ -1,8 +1,10 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.history.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.TopDividerItem;
 import com.gnoemes.shikimoriapp.entity.history.presentation.HistoryItem;
 
 import java.util.ArrayList;
@@ -20,9 +22,13 @@ public class HistoryViewModelConverterImpl implements HistoryViewModelConverter 
     public List<BaseItem> convertFrom(List<Anime> animes) {
         List<BaseItem> items = new ArrayList<>();
 
-        for (Anime anime : animes) {
-            items.add(convertAnime(anime));
-            items.add(new DividerItem());
+        if (!animes.isEmpty()) {
+            items.add(new TopDividerItem());
+            for (Anime anime : animes) {
+                items.add(convertAnime(anime));
+                items.add(new DoubleDividerItem());
+            }
+            items.set(items.size() - 1, new BottomDividerItem());
         }
 
         return items;

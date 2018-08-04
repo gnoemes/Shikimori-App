@@ -18,6 +18,11 @@ public class TopicResourceProviderImpl implements TopicResourceProvider {
     }
 
     @Override
+    public String getPlaceholderMessage() {
+        return context.getString(R.string.topic_list_empty);
+    }
+
+    @Override
     public String getLabelTitle(TopicType topicType) {
         switch (topicType) {
             case COSPLAY:

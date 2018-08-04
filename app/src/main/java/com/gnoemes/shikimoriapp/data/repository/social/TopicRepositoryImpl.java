@@ -31,7 +31,12 @@ public class TopicRepositoryImpl implements TopicRepository {
     @Override
     public Single<List<Topic>> getTopicList(int page, int limit, ForumType type) {
         return api.getTopics(page, limit, type.getType())
-                .map(converter);
+                .map(converter)
+                .doOnSuccess(topics -> {
+                    if (page > 1) {
+                        topics.remove(0);
+                    }
+                });
     }
 
     @Override

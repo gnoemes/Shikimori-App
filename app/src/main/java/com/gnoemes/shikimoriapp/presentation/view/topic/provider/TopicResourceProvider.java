@@ -4,8 +4,9 @@ import android.support.annotation.ColorRes;
 
 import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.topic.domain.TopicType;
+import com.gnoemes.shikimoriapp.presentation.view.main.provider.AdapterResourceProvider;
 
-public interface TopicResourceProvider {
+public interface TopicResourceProvider extends AdapterResourceProvider {
 
     String getLabelTitle(TopicType topicType);
 

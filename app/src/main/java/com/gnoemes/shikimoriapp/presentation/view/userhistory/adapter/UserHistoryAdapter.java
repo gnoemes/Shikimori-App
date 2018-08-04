@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.view.userhistory.adapter;
 
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
-import com.gnoemes.shikimoriapp.presentation.view.search.adapter.ProgressItemAdapterDelegate;
+import com.gnoemes.shikimoriapp.presentation.view.common.adapter.ProgressItemAdapterDelegate;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter;
 

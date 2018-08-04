@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryWithBadgeViewModel;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuCategoryWithBadgeAdapterDelegate extends AdapterDelegate<List<BaseMenuItem>> {
+public class MenuCategoryWithBadgeAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private MenuItemCallback callback;
 
@@ -31,7 +31,7 @@ public class MenuCategoryWithBadgeAdapterDelegate extends AdapterDelegate<List<B
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseMenuItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof MenuCategoryWithBadgeViewModel;
     }
 
@@ -45,7 +45,7 @@ public class MenuCategoryWithBadgeAdapterDelegate extends AdapterDelegate<List<B
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseMenuItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         MenuCategoryWithBadgeViewModel model = (MenuCategoryWithBadgeViewModel) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.bind(model);

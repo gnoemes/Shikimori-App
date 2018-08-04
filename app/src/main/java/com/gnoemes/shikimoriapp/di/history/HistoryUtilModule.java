@@ -6,6 +6,8 @@ import com.gnoemes.shikimoriapp.domain.search.SearchQueryBuilder;
 import com.gnoemes.shikimoriapp.domain.search.SearchQueryBuilderImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.HistoryViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.history.converter.HistoryViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.provider.HistoryResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.provider.HistoryResourceProviderImpl;
 
 import dagger.Binds;
 import dagger.Module;
@@ -21,4 +23,7 @@ public interface HistoryUtilModule {
 
     @Binds
     HistorySortConverter bindHistorySortConverter(HistorySortConverterImpl converter);
+
+    @Binds
+    HistoryResourceProvider bindHistoryResourceProvider(HistoryResourceProviderImpl historyResourceProvider);
 }

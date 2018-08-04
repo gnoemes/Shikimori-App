@@ -7,8 +7,8 @@ import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarView;
@@ -66,7 +66,7 @@ public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
         }
     }
 
-    private void setData(List<BaseSearchItem> searchItems) {
+    private void setData(List<BaseItem> searchItems) {
         if (searchItems.isEmpty()) {
             getViewState().hideList();
             getViewState().showEmptyView();

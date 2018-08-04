@@ -17,8 +17,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -267,13 +267,13 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     @Override
-    public void showList(List<BaseSearchItem> animes) {
+    public void showList(List<BaseItem> animes) {
         recyclerView.setVisibility(View.VISIBLE);
         animeAdapter.bindItems(animes);
     }
 
     @Override
-    public void insetMore(List<BaseSearchItem> items) {
+    public void insetMore(List<BaseItem> items) {
         animeAdapter.insertMore(items);
     }
 
@@ -304,17 +304,17 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
 
     @Override
     public void clearList() {
-        animeAdapter.clearItems();
+        animeAdapter.clearList();
     }
 
     @Override
     public void onShowPageLoading() {
-        animeAdapter.showProgress();
+        animeAdapter.showPageLoading();
     }
 
     @Override
     public void onHidePageLoading() {
-        animeAdapter.hideProgress();
+        animeAdapter.hidePageLoading();
     }
 
     @Override

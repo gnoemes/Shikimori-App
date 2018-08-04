@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime;
+package com.gnoemes.shikimoriapp.presentation.view.common.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,17 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.TopDividerItem;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
 import java.util.List;
 
-public class AnimeDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class TopDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
-        return items.get(position) instanceof DividerItem;
+        return items.get(position) instanceof TopDividerItem;
     }
 
     @NonNull
@@ -25,7 +25,7 @@ public class AnimeDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>>
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.layout_shadow_double, parent, false);
+                .inflate(R.layout.layout_shadow_top, parent, false);
         return new ViewHolder(itemView);
     }
 

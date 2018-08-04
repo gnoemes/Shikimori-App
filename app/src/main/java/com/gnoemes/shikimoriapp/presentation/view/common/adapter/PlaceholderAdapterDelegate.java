@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.history.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.common.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HistoryPlaceHolderAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class PlaceholderAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof PlaceHolderItem;
@@ -33,7 +33,9 @@ public class HistoryPlaceHolderAdapterDelegate extends AdapterDelegate<List<Base
 
     @Override
     protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
-
+        PlaceHolderItem item = (PlaceHolderItem) items.get(position);
+        ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.bind(item);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,10 +46,10 @@ public class HistoryPlaceHolderAdapterDelegate extends AdapterDelegate<List<Base
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            emptyContentView.setText(R.string.related_not_found);
-
         }
 
+        public void bind(PlaceHolderItem item) {
+            emptyContentView.setText(item.getMessage());
+        }
     }
 }

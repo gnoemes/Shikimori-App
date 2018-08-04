@@ -1,4 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.menu.presentration;
 
-public abstract class BaseMenuItem {
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+
+public abstract class BaseMenuItem extends BaseItem {
 }

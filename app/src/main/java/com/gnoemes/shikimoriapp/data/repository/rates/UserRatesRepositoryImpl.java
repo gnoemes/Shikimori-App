@@ -43,7 +43,13 @@ public class UserRatesRepositoryImpl implements UserRatesRepository {
     @Override
     public Single<List<AnimeRate>> getUserAnimeRates(long id, int page, int limit, RateStatus status) {
         return userApi.getUserAnimeRates(id, page, limit, status.getStatus())
-                .map(animeRateResponseConverter);
+                .map(animeRateResponseConverter)
+                .doOnSuccess(rates -> {
+                    if (page > 1) {
+                        rates.remove(0);
+                    }
+                })
+                ;
     }
 
     @Override

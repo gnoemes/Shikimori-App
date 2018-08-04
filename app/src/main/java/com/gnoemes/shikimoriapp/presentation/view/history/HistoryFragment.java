@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.history.HistoryPresenter;
+import com.gnoemes.shikimoriapp.presentation.presenter.history.provider.HistoryResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
@@ -48,6 +49,9 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     ImageLoader imageLoader;
     @Inject
     DateTimeConverter dateTimeConverter;
+    @Inject
+    HistoryResourceProvider resourceProvider;
+
     private SearchView searchView;
     private HistoryAdapter adapter;
 
@@ -76,7 +80,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     }
 
     private void initList() {
-        adapter = new HistoryAdapter(imageLoader, dateTimeConverter, id -> getPresenter().onItemClicked(id));
+        adapter = new HistoryAdapter(imageLoader, dateTimeConverter, resourceProvider, id -> getPresenter().onItemClicked(id));
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         historyList.setLayoutManager(layout);
         historyList.setAdapter(adapter);

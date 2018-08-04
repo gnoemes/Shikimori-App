@@ -22,7 +22,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
-import com.gnoemes.shikimoriapp.presentation.view.topic.list.adapter.TopicAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.topic.list.adapter.TopicListAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.topic.provider.TopicResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
@@ -54,7 +54,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
     DateTimeConverter dateTimeConverter;
     @Inject
     TopicResourceProvider topicResourceProvider;
-    private TopicAdapter topicAdapter;
+    private TopicListAdapter topicAdapter;
 
     public static TopicListFragment newInstance(ForumType type) {
         Bundle args = new Bundle();
@@ -96,7 +96,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
     }
 
     private void initViews() {
-        topicAdapter = new TopicAdapter(imageLoader,
+        topicAdapter = new TopicListAdapter(imageLoader,
                 getPresenter()::onTopicClicked,
                 getPresenter()::onLinkedContentClicked,
                 getPresenter()::onUserClicked,
@@ -161,7 +161,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
 
     @Override
     public void insetMore(List<BaseItem> baseItems) {
-        topicAdapter.insertMoreItems(baseItems);
+        topicAdapter.insertMore(baseItems);
     }
 
     @Override
@@ -176,17 +176,17 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
 
     @Override
     public void onShowPageLoading() {
-        topicAdapter.showProgress();
+        topicAdapter.showPageLoading();
     }
 
     @Override
     public void onHidePageLoading() {
-        topicAdapter.hideProgress();
+        topicAdapter.hidePageLoading();
     }
 
     @Override
     public void clearList() {
-        topicAdapter.clearItems();
+        topicAdapter.clearList();
     }
 
     @Override

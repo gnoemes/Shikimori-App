@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.presentation.view.characters.adapter;
+package com.gnoemes.shikimoriapp.presentation.view.common.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,17 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
 import java.util.List;
 
-public class CharacterDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class DoubleDividerAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
-        return items.get(position) instanceof DividerItem;
+        return items.get(position) instanceof DoubleDividerItem;
     }
 
     @NonNull

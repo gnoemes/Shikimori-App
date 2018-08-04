@@ -3,9 +3,9 @@ package com.gnoemes.shikimoriapp.presentation.presenter.userhistory.converter;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
 import com.gnoemes.shikimoriapp.entity.user.presentation.history.BaseHistoryItem;
 import com.gnoemes.shikimoriapp.entity.user.presentation.history.DateHistoryItem;
@@ -66,7 +66,7 @@ public class UserHistoryViewModelConverterImpl implements UserHistoryViewModelCo
                 group = days || weeks || months || !utils.isSameYear(history.getActionDate(), prevActionDate);
 
                 if (group) {
-                    items.add(new DividerItem());
+                    items.add(new DoubleDividerItem());
                     items.add(convertDateItem(history));
                 }
                 prevActionDate = history.getActionDate();

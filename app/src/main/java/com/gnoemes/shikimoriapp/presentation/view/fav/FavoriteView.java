@@ -4,8 +4,8 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
-import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
 import java.util.List;
@@ -14,10 +14,10 @@ import java.util.List;
 public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
-    void showList(List<BaseAnimeRateItem> items);
+    void showList(List<BaseItem> items);
 
     @StateStrategyType(AddToEndStrategy.class)
-    void insertMore(List<BaseAnimeRateItem> items);
+    void insertMore(List<BaseItem> items);
 
     @StateStrategyType(SkipStrategy.class)
     void onShowPageLoading();

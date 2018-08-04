@@ -1,8 +1,8 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.related;
 
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.related.domain.Related;
 import com.gnoemes.shikimoriapp.entity.related.presentation.RelatedAnimeItem;
 import com.gnoemes.shikimoriapp.entity.related.presentation.RelatedMangaItem;
@@ -28,7 +28,7 @@ public class RelatedViewModelConverterImpl implements RelatedViewModelConverter 
 
         for (Related related : relateds) {
             items.add(convert(related));
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
         }
 
         return items;

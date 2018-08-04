@@ -12,7 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryWithBadgeViewModel;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuProfileViewModel;
 import com.gnoemes.shikimoriapp.presentation.presenter.menu.MenuPresenter;
@@ -94,7 +94,7 @@ public class MenuFragment extends BaseFragment<MenuPresenter, MenuView> implemen
 
 
     @Override
-    public void showList(List<BaseMenuItem> menuItems) {
+    public void showList(List<BaseItem> menuItems) {
         menuAdapter.bindItems(menuItems);
     }
 

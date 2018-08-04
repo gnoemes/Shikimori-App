@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.menu.domain.MenuCategory;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuProfileViewModel;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuItem>> {
+public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseItem>> {
 
     private ImageLoader imageLoader;
     private MenuItemCallback callback;
@@ -36,7 +36,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseMenuItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof MenuProfileViewModel;
     }
 
@@ -50,7 +50,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseMenuI
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseMenuItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         MenuProfileViewModel model = (MenuProfileViewModel) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.bind(model);
