@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
-import com.gnoemes.shikimoriapp.entity.roles.presentation.CharacterRelatedListItem;
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterRelatedListItem;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;

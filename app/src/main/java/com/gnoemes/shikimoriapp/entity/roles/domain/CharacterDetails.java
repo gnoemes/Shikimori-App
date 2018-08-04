@@ -22,14 +22,14 @@ public class CharacterDetails {
     private String description;
     @Nullable
     private String descriptionSource;
-    private List<Seyu> seyus;
+    private List<Person> seyus;
     private List<Anime> animes;
     private List<Manga> mangas;
 
     public CharacterDetails(long id, String name, String russianName,
                             AnimeImage animeImage, String url, String alternativeName,
                             @Nullable String japaneseName, @Nullable String description,
-                            @Nullable String descriptionSource, List<Seyu> seyus,
+                            @Nullable String descriptionSource, List<Person> seyus,
                             List<Anime> animes, List<Manga> mangas) {
         this.id = id;
         this.name = name;
@@ -84,7 +84,7 @@ public class CharacterDetails {
         return descriptionSource;
     }
 
-    public List<Seyu> getSeyus() {
+    public List<Person> getSeyus() {
         return seyus;
     }
 

@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AnimeImageResponse {
+public class DefaultImageResponse {
     @SerializedName("original")
     private String imageOriginalUrl;
     @SerializedName("preview")

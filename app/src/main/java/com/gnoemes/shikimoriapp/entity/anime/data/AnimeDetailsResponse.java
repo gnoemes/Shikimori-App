@@ -29,7 +29,7 @@ public class AnimeDetailsResponse {
     private String russianName;
 
     @SerializedName("image")
-    private AnimeImageResponse image;
+    private DefaultImageResponse image;
 
     @SerializedName("url")
     private String url;
@@ -99,7 +99,7 @@ public class AnimeDetailsResponse {
         return russianName;
     }
 
-    public AnimeImageResponse getImage() {
+    public DefaultImageResponse getImage() {
         return image;
     }
 

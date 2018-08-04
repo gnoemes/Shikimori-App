@@ -12,6 +12,8 @@ public interface DateTimeConverter {
 
     String convertCommentDateTimeToString(DateTime dateTime);
 
+    String convertToFullHumanDateString(DateTime dateTime);
+
     String convertHistoryDateToString(DateTime actionDate);
 
     String convertDateAgoToString(DateTime actionDate);

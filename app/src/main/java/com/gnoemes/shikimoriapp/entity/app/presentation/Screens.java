@@ -27,4 +27,5 @@ public class Screens {
     public static final String TOPICS_LIST = "TOPICS_LIST";
     public static final String HISTORY = "HISTORY";
     public static final String SEND_MAIL = "SEND_MAIL";
+    public static final String PERSON_DETAILS = "PERSON_DETAILS";
 }

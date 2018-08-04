@@ -17,7 +17,7 @@ public class AnimeResponse extends LinkedContentResponse {
     @SerializedName("russian")
     private String russianName;
     @SerializedName("image")
-    private AnimeImageResponse image;
+    private DefaultImageResponse image;
     @SerializedName("url")
     private String url;
     @SerializedName("kind")
@@ -47,7 +47,7 @@ public class AnimeResponse extends LinkedContentResponse {
         return russianName;
     }
 
-    public AnimeImageResponse getImage() {
+    public DefaultImageResponse getImage() {
         return image;
     }
 

@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.entity.roles.presentation;
+package com.gnoemes.shikimoriapp.entity.roles.presentation.character;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 

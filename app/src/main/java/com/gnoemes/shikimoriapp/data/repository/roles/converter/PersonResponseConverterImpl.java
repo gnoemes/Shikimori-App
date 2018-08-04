@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.roles.converter;
 
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.roles.data.PersonResponse;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Person;
@@ -41,7 +41,8 @@ public class PersonResponseConverterImpl implements PersonResponseConverter {
                 response.getUrl());
     }
 
-    private AnimeImage convertAnimeImage(AnimeImageResponse image) {
+    @Override
+    public AnimeImage convertAnimeImage(DefaultImageResponse image) {
         return new AnimeImage(
                 Utils.appendHostIfNeed(image.getImageOriginalUrl()),
                 Utils.appendHostIfNeed(image.getImagePreviewUrl()),

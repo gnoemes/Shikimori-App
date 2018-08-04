@@ -36,6 +36,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
@@ -176,6 +177,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return TopicListFragment.newInstance((ForumType) data);
                         case Screens.HISTORY:
                             return HistoryFragment.newInstance();
+                        case Screens.PERSON_DETAILS:
+                            return PersonFragment.newInstance((Long) data);
                     }
                     return null;
                 }

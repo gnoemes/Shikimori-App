@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.di.fav.FavoriteModule;
 import com.gnoemes.shikimoriapp.di.forums.ForumsModule;
 import com.gnoemes.shikimoriapp.di.history.HistoryModule;
 import com.gnoemes.shikimoriapp.di.menu.MenuModule;
+import com.gnoemes.shikimoriapp.di.person.PersonModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
 import com.gnoemes.shikimoriapp.di.related.RelatedModule;
 import com.gnoemes.shikimoriapp.di.search.FilterModule;
@@ -29,6 +30,7 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.forums.ForumsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
@@ -111,6 +113,10 @@ public interface BottomTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = HistoryModule.class)
     HistoryFragment historyFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = PersonModule.class)
+    PersonFragment personFragmentInjector();
 
     @Binds
     @Named(BaseFragmentModule.FRAGMENT)

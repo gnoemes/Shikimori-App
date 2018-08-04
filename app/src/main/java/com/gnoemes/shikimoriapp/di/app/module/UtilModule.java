@@ -18,8 +18,6 @@ import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateRespons
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverterImpl;
-import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.social.converter.ForumResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.social.converter.ForumResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.social.converter.TopicResponseConverter;
@@ -159,9 +157,6 @@ public interface UtilModule {
 
     @Binds
     RolesResponseConverter bindRolesResponseConverter(RolesResponseConverterImpl converter);
-
-    @Binds
-    SeyuResponseConverter bindSeyuResponseConverter(SeyuResponseConverterImpl converter);
 
     @Binds
     RateStatusCountConverter bindRateStatusCountConverter(RateStatusCountConverterImpl converter);

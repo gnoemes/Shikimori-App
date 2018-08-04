@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.entity.roles.data;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaResponse;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,7 +17,7 @@ public class CharacterDetailsResponse {
     @SerializedName("russian")
     private String russianName;
     @SerializedName("image")
-    private AnimeImageResponse animeImage;
+    private DefaultImageResponse animeImage;
     @SerializedName("url")
     private String url;
     @Nullable
@@ -33,7 +33,7 @@ public class CharacterDetailsResponse {
     @SerializedName("description_source")
     private String descriptionSource;
     @SerializedName("seyu")
-    private List<SeyuResponse> seyuResponses;
+    private List<PersonResponse> seyuResponses;
     @SerializedName("animes")
     private List<AnimeResponse> animeResponses;
     @SerializedName("mangas")
@@ -51,7 +51,7 @@ public class CharacterDetailsResponse {
         return russianName;
     }
 
-    public AnimeImageResponse getAnimeImage() {
+    public DefaultImageResponse getAnimeImage() {
         return animeImage;
     }
 
@@ -79,7 +79,7 @@ public class CharacterDetailsResponse {
         return descriptionSource;
     }
 
-    public List<SeyuResponse> getSeyuResponses() {
+    public List<PersonResponse> getSeyuResponses() {
         return seyuResponses;
     }
 

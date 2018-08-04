@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterRelatedType;
-import com.gnoemes.shikimoriapp.entity.roles.presentation.CharacterRelatedItem;
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterRelatedItem;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 
 import java.util.ArrayList;

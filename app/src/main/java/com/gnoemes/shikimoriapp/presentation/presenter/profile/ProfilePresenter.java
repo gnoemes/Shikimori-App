@@ -196,13 +196,11 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     }
 
     private void onProducersClicked(long id) {
-//TODO add
-        getRouter().showSystemMessage("Просмотр людей в разработке");
+        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
     }
 
     private void onPeopleClicked(long id) {
-//TODO add
-        getRouter().showSystemMessage("Просмотр людей в разработке");
+        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
     }
 
     private void onMangaClicked(long id) {
@@ -211,13 +209,11 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
     }
 
     private void onSeyuClicked(long id) {
-//TODO add
-        getRouter().showSystemMessage("Просмотр людей в разработке");
+        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
     }
 
     private void onMangakasClicked(long id) {
-//TODO add
-        getRouter().showSystemMessage("Просмотр людей в разработке");
+        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
     }
 
     private void onAnimeClicked(long id) {
