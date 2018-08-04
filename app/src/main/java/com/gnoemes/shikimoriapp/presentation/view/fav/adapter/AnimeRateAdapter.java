@@ -29,8 +29,8 @@ public class AnimeRateAdapter extends BaseListAdapter {
         if (viewModels == null || viewModels.isEmpty()) {
             items.add(new AnimeRatePlaceholder(PlaceholderType.EMPTY));
         } else {
-            viewModels.add(0, new TopDividerItem());
             items.addAll(viewModels);
+            items.add(0, new TopDividerItem());
         }
         notifyDataSetChanged();
     }

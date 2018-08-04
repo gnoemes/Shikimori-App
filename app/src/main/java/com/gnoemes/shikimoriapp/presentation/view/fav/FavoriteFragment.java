@@ -166,7 +166,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int visibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
+                int visibleItemPosition = manager.findLastCompletelyVisibleItemPosition() + 6;
                 int itemCount = manager.getItemCount() - 1;
 
                 if (visibleItemPosition >= itemCount) {

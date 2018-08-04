@@ -111,7 +111,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition() + 6;
                 int itemCount = layoutManager.getItemCount() - 1;
 
                 if (visibleItemPosition >= itemCount) {
