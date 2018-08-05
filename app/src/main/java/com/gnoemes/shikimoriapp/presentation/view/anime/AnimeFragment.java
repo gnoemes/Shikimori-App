@@ -477,8 +477,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
 
-                    //TODO fix endless scroll listener (layoutManager.findLastCompletelyVisibleItemPosition returns -1)
-                    int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                    int visibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition() + 6;
                     int itemCount = layoutManager.getItemCount() - 1;
 
                     if (visibleItemPosition >= itemCount && isCommentsPage) {

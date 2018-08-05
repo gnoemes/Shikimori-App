@@ -130,7 +130,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int visibleItemPosition = layout.findLastCompletelyVisibleItemPosition();
+                int visibleItemPosition = layout.findLastCompletelyVisibleItemPosition() + 6;
                 int itemCount = layout.getItemCount() - 1;
 
                 if (visibleItemPosition >= itemCount) {
