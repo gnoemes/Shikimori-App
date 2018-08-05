@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
 import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractor;
-import com.gnoemes.shikimoriapp.domain.anime.AnimeInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
@@ -25,8 +24,12 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {BaseChildFragmentModule.class, SeriesModule.class,
-        AnimeUtilsModule.class, AnimeRepositoryModule.class, CommentsModule.class})
+@Module(includes = {BaseChildFragmentModule.class,
+        SeriesModule.class,
+        AnimeUtilsModule.class,
+        AnimeRepositoryModule.class,
+        AnimeInteractorModule.class,
+        CommentsModule.class})
 public interface AnimeModule {
 
     @Binds
@@ -52,7 +55,5 @@ public interface AnimeModule {
                 resourceProvider, analyticsInteractor);
     }
 
-    @Binds
-    AnimeInteractor bindAnimeDetailsInteractor(AnimeInteractorImpl interactor);
 }
 

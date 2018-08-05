@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.di.bottom;
 
 import android.support.v4.app.Fragment;
 
+import com.gnoemes.shikimoriapp.di.alternative.AlternativeEpisodesModule;
+import com.gnoemes.shikimoriapp.di.alternative.AlternativeTranslationsModule;
 import com.gnoemes.shikimoriapp.di.anime.AnimeModule;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomChildScope;
@@ -22,6 +24,8 @@ import com.gnoemes.shikimoriapp.di.social.SocialModule;
 import com.gnoemes.shikimoriapp.di.topic.TopicListModule;
 import com.gnoemes.shikimoriapp.di.translations.TranslationsModule;
 import com.gnoemes.shikimoriapp.di.userhistory.UserHistoryModule;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.AlternativeEpisodesFragment;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -117,6 +121,14 @@ public interface BottomTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = PersonModule.class)
     PersonFragment personFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = AlternativeEpisodesModule.class)
+    AlternativeEpisodesFragment alternativeEpisodesFragmentInjector();
+
+    @BottomChildScope
+    @ContributesAndroidInjector(modules = AlternativeTranslationsModule.class)
+    AlternativeTranslationsFragment alternativeTranslationsFragmentInjector();
 
     @Binds
     @Named(BaseFragmentModule.FRAGMENT)

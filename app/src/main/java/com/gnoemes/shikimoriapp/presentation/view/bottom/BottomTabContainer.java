@@ -18,6 +18,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
@@ -27,6 +28,8 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.AlternativeEpisodesFragment;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -179,6 +182,10 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return HistoryFragment.newInstance();
                         case Screens.PERSON_DETAILS:
                             return PersonFragment.newInstance((Long) data);
+                        case Screens.ALTERNATIVE_EPISODES:
+                            return AlternativeEpisodesFragment.newInstance((Long) data);
+                        case Screens.ALTERNATIVE_TRANSLATIONS:
+                            return AlternativeTranslationsFragment.newInstance((AlternativeTranslationNavigationData) data);
                     }
                     return null;
                 }

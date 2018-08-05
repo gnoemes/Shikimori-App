@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
+import com.gnoemes.shikimoriapp.data.network.AlternativeApi;
 import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.network.AuthApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
@@ -17,7 +18,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 
 @Module(includes = {RetrofitModule.class, CommonNetworkModule.class, VideoNetworkModule.class,
-        AuthCommonNetworkModule.class})
+        AuthCommonNetworkModule.class, AlternativeNetworkModule.class})
 public interface ApiModule {
 
     @Singleton
@@ -66,5 +67,11 @@ public interface ApiModule {
     @Provides
     static TopicApi bindTopicApi(@AuthCommonApi Retrofit retrofit) {
         return retrofit.create(TopicApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static AlternativeApi bindAlternativeApi(@com.gnoemes.shikimoriapp.di.app.qualifiers.AlternativeApi Retrofit retrofit) {
+        return retrofit.create(AlternativeApi.class);
     }
 }

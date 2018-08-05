@@ -500,6 +500,8 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         private void createSeriesPage(ViewGroup layout) {
             refreshLayout = layout.findViewById(R.id.refresh_layout);
             seriesList = layout.findViewById(R.id.list);
+            NetworkErrorView errorView = layout.findViewById(R.id.view_network_error);
+            errorView.setVisibility(View.GONE);
             refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
             seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(layout.getContext()));
             int margin = (int) layout.getResources().getDimension(R.dimen.margin_small);

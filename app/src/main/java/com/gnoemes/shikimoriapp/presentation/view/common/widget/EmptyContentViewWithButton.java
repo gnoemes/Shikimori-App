@@ -69,6 +69,14 @@ public class EmptyContentViewWithButton extends BaseView {
         textView.setText(textRes);
     }
 
+    public void setButtonText(@StringRes int textRes) {
+        button.setText(textRes);
+    }
+
+    public void setButtonText(String text) {
+        button.setText(text);
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();

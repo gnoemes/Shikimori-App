@@ -426,7 +426,15 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 analyticsInteractor.logEvent(AnalyticsEvent.WATCH_ONLINE_MASTER_CLICKED);
                 onEpisodeClicked(item);
                 break;
+            case ALTERNATIVE_SOURCE:
+                analyticsInteractor.logEvent(AnalyticsEvent.ALTERNATIVE_SOURCE_EPISODES);
+                onAlternativeSource();
+                break;
         }
+    }
+
+    private void onAlternativeSource() {
+        getRouter().navigateTo(Screens.ALTERNATIVE_EPISODES, animeId);
     }
 
     /**
