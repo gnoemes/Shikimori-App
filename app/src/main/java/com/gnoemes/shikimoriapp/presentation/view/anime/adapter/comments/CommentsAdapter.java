@@ -25,10 +25,10 @@ public class CommentsAdapter extends ListDelegationAdapter<List<BaseItem>> {
         items.clear();
         if (!itemList.isEmpty()) {
             items.addAll(itemList);
-            notifyDataSetChanged();
         } else {
-            itemList.add(new CommentPlaceHolderItem());
+            items.add(new CommentPlaceHolderItem());
         }
+        notifyDataSetChanged();
     }
 
     public void insertMore(List<BaseItem> searchItems) {
@@ -47,5 +47,6 @@ public class CommentsAdapter extends ListDelegationAdapter<List<BaseItem>> {
 
     public void hideProgress() {
         items.remove(items.size() - 1);
+        notifyItemChanged(items.size());
     }
 }

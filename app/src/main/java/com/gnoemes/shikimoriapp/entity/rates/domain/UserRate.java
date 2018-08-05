@@ -2,9 +2,12 @@ package com.gnoemes.shikimoriapp.entity.rates.domain;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
+
 import java.io.Serializable;
 
 public class UserRate implements Serializable {
+
     private long id;
     private RateStatus status;
     @Nullable
@@ -24,6 +27,11 @@ public class UserRate implements Serializable {
         this.text = text;
         this.episodes = episodes;
         this.rewatches = rewatches;
+    }
+
+    public UserRate(long id, RateStatus status) {
+        this.id = id;
+        this.status = status;
     }
 
     public long getId() {
@@ -52,5 +60,9 @@ public class UserRate implements Serializable {
     @Nullable
     public String getRewatches() {
         return rewatches;
+    }
+
+    public static UserRate getStartWatching() {
+        return new UserRate(Constants.NO_ID, RateStatus.WATCHING);
     }
 }

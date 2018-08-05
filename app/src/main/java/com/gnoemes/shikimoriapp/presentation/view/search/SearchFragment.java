@@ -17,8 +17,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -130,7 +130,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int visibleItemPosition = layout.findLastCompletelyVisibleItemPosition();
+                int visibleItemPosition = layout.findLastCompletelyVisibleItemPosition() + 6;
                 int itemCount = layout.getItemCount() - 1;
 
                 if (visibleItemPosition >= itemCount) {
@@ -144,8 +144,10 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     private void initSearchView() {
-        searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
-        toolbar.addView(searchView);
+        if (toolbar != null) {
+            searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
+            toolbar.addView(searchView);
+        }
 
         searchEmptyView.setText(R.string.search_nothing);
         searchView.setNavigationIcon(R.drawable.ic_arrow_back);
@@ -204,13 +206,16 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     private MenuItem toggleMenu(boolean search) {
-        MenuItem menuItem = toolbar.getMenu().getItem(0);
-        DrawableHelper.withContext(getContext())
-                .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .applyTo(menuItem);
-        return menuItem;
+        if (toolbar != null && getContext() != null) {
+            MenuItem menuItem = toolbar.getMenu().getItem(0);
+            DrawableHelper.withContext(getContext())
+                    .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .applyTo(menuItem);
+            return menuItem;
+        }
+        return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -267,13 +272,13 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     @Override
-    public void showList(List<BaseSearchItem> animes) {
+    public void showList(List<BaseItem> animes) {
         recyclerView.setVisibility(View.VISIBLE);
         animeAdapter.bindItems(animes);
     }
 
     @Override
-    public void insetMore(List<BaseSearchItem> items) {
+    public void insetMore(List<BaseItem> items) {
         animeAdapter.insertMore(items);
     }
 
@@ -304,17 +309,17 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
 
     @Override
     public void clearList() {
-        animeAdapter.clearItems();
+        animeAdapter.clearList();
     }
 
     @Override
     public void onShowPageLoading() {
-        animeAdapter.showProgress();
+        animeAdapter.showPageLoading();
     }
 
     @Override
     public void onHidePageLoading() {
-        animeAdapter.hideProgress();
+        animeAdapter.hidePageLoading();
     }
 
     @Override
@@ -329,13 +334,14 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
 
     @Override
     public void addBackButton() {
-        Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrow_back)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        if (getContext() != null && toolbar != null) {
+            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.ic_arrow_back)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
+            toolbar.setNavigationIcon(navigationIcon);
+            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        }
     }
 }

@@ -89,14 +89,16 @@ public class RelatedFragment extends BaseFragment<RelatedPresenter, RelatedView>
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(adapter);
 
-        Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrow_back)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
+        if (getContext() != null && toolbar != null) {
+            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.ic_arrow_back)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
 
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+            toolbar.setNavigationIcon(navigationIcon);
+            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////

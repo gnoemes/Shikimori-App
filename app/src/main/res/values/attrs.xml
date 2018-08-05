@@ -7,6 +7,7 @@
     <attr name="colorDividerTransparent" format="color" />
     <attr name="colorAccentTransparent" format="color" />
     <attr name="colorText" format="color" />
+    <attr name="colorTextTransparent" format="color" />
     <attr name="colorTextInverse" format="color" />
     <attr name="colorBackgroundContent" format="color" />
     <attr name="colorBackgroundWindowInverse" format="color" />

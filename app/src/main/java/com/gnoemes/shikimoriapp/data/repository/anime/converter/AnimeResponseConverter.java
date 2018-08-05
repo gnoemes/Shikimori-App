@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
@@ -19,7 +19,7 @@ public interface AnimeResponseConverter {
      */
     Anime convertFrom(@Nullable AnimeResponse animeResponse);
 
-    AnimeImage convertAnimeImage(AnimeImageResponse image);
+    AnimeImage convertAnimeImage(DefaultImageResponse image);
 
     AnimeType convertAnimeType(String type);
 

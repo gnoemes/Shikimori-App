@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.menu.presentration.BaseMenuItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.menu.presentration.MenuCategoryViewModel;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuItem>> {
+public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private MenuItemCallback callback;
 
@@ -31,7 +31,7 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
     }
 
     @Override
-    protected boolean isForViewType(@NonNull List<BaseMenuItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof MenuCategoryViewModel;
     }
 
@@ -45,7 +45,7 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseMenuItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         MenuCategoryViewModel model = (MenuCategoryViewModel) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.bind(model);
@@ -81,6 +81,10 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
             icon.setImageDrawable(null);
 
             switch (model.getCategory()) {
+                case HISTORY:
+                    applyIcon(R.drawable.ic_history);
+                    categoryText.setText(R.string.common_history);
+                    break;
                 case SETTINGS:
                     applyIcon(R.drawable.ic_settings);
                     categoryText.setText(R.string.common_settings);
@@ -92,6 +96,10 @@ public class MenuCategoryAdapterDelegate extends AdapterDelegate<List<BaseMenuIt
                 case SHIKIMORI_CLUB:
                     resizeAndApplyIcon(R.drawable.shikimori);
                     categoryText.setText(R.string.app_on_shikimori);
+                    break;
+                case SEND_MAIL_TO_DEV:
+                    resizeAndApplyIcon(R.drawable.gmail);
+                    categoryText.setText(R.string.send_mail_to_dev);
                     break;
                 case SUPPORT:
                     applyIcon(R.drawable.ic_heart);

@@ -28,6 +28,7 @@
         <item name="colorBottom">#fafafa</item>
         <item name="colorBottomAccent">@color/colorPrimary</item>
         <item name="colorBottomDark">#c7c7c7</item>
+        <item name="colorTextTransparent">@color/black_overlay</item>
     </style>
 
     <style name="AppThemeDark" parent="BaseAppTheme">
@@ -51,6 +52,7 @@
         <item name="colorBottom">@color/colorPrimaryInverse</item>
         <item name="colorBottomAccent">@color/colorAccentInverse</item>
         <item name="colorBottomDark">@color/colorPrimaryDarkInverse</item>
+        <item name="colorTextTransparent">@color/gray_transparent</item>
     </style>
 
     <style name="PreferenceAppTheme" parent="PreferenceThemeOverlay">

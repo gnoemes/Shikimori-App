@@ -3,7 +3,7 @@ package com.gnoemes.shikimoriapp.data.repository.series.converters.impl;
 import android.util.Log;
 
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.data.SibnetVideoResponse;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoFormat;

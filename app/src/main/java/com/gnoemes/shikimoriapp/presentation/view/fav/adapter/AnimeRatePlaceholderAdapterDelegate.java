@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
-import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentView;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
@@ -17,9 +17,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeRatePlaceholderAdapterDelegate extends AdapterDelegate<List<BaseAnimeRateItem>> {
+public class AnimeRatePlaceholderAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     @Override
-    protected boolean isForViewType(@NonNull List<BaseAnimeRateItem> items, int position) {
+    protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
         return items.get(position) instanceof AnimeRatePlaceholder;
     }
 
@@ -32,7 +32,7 @@ public class AnimeRatePlaceholderAdapterDelegate extends AdapterDelegate<List<Ba
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull List<BaseAnimeRateItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
+    protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         AnimeRatePlaceholder item = (AnimeRatePlaceholder) items.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.bind(item);

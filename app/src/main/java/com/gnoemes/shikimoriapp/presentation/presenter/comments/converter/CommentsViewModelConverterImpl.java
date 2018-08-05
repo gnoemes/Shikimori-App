@@ -1,7 +1,7 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.comments.converter;
 
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.BaseCommentItem;
 import com.gnoemes.shikimoriapp.entity.comments.presentation.CommentViewModel;
@@ -32,7 +32,7 @@ public class CommentsViewModelConverterImpl implements CommentsViewModelConverte
         List<BaseItem> items = new ArrayList<>();
 
         for (Comment comment : list) {
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
             items.add(convertComment(comment));
         }
 

@@ -1,12 +1,15 @@
 package com.gnoemes.shikimoriapp.domain.search;
 
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -22,6 +25,30 @@ public class SearchQueryBuilderImpl implements SearchQueryBuilder {
 
     @Inject
     public SearchQueryBuilderImpl() {
+    }
+
+    @Override
+    public Single<Map<String, String>> createQueryFromIds(LinkedHashSet<Long> ids, @Nullable String searchQuery, int page, int limit) {
+        Map<String, String> queryMap = new ArrayMap<>();
+
+        if (!TextUtils.isEmpty(searchQuery)) {
+            queryMap.put(SearchConstants.SEARCH, searchQuery);
+        }
+
+        if (!ids.isEmpty()) {
+            StringBuilder idsString = new StringBuilder();
+            for (Long id : ids) {
+                idsString.append(id)
+                        .append(DIVIDER);
+            }
+            idsString.deleteCharAt(idsString.length() - 1);
+
+            queryMap.put(SearchConstants.IDS, idsString.toString());
+            queryMap.put(SearchConstants.PAGE, String.valueOf(page));
+            queryMap.put(SearchConstants.LIMIT, String.valueOf(limit));
+        }
+
+        return Single.just(queryMap);
     }
 
     @Override

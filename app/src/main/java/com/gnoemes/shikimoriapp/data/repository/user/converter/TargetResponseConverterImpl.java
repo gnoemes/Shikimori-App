@@ -3,8 +3,8 @@ package com.gnoemes.shikimoriapp.data.repository.user.converter;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.user.domain.Target;
@@ -37,7 +37,7 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
                 animeResponse.getReleasedDate());
     }
 
-    private AnimeImage convertAnimeImage(AnimeImageResponse image) {
+    private AnimeImage convertAnimeImage(DefaultImageResponse image) {
         return new AnimeImage(
                 buildUrl(image.getImageOriginalUrl()),
                 buildUrl(image.getImagePreviewUrl()),

@@ -1,18 +1,11 @@
 package com.gnoemes.shikimoriapp.presentation.view.main;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -21,16 +14,14 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.presentation.presenter.main.MainPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.bottom.BottomTabContainer;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.MainResourceProvider;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -76,32 +67,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
         initContainers();
     }
 
-    private void mockMessage() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String s = sp.getString("lastLaunch", "");
-        if (TextUtils.isEmpty(s) || new DateTime(s).plusHours(3).isBeforeNow()) {
-            String message = "Наблюдаются проблемы с получением видео из-за новой политики сайта. Встроенный плеер временно отключен. Подробнее в теме на 4PDA.";
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://4pda.ru/forum/index.php?s=&showtopic=903970&view=findpost&p=74831685"));
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "mock_channel")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Внимание")
-                    .setContentText(message)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent);
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (mNotificationManager != null) {
-                mNotificationManager.notify(0, builder.build());
-            }
-            sp.edit().putString("lastLaunch", DateTime.now().toString()).apply();
-        }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -112,7 +77,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (bottomNav != null && savedInstanceState != null) {
-            bottomNav.selectTab(savedInstanceState.getInt(AppExtras.ARGUMENT_SELECT_TAB));
+            bottomNav.selectTab(savedInstanceState.getInt(AppExtras.ARGUMENT_SELECT_TAB), false);
         }
     }
 
@@ -259,6 +224,31 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
     }
 
     @Override
+    public void clearMenuBackStack() {
+        menuTabFragment.getLocalRouter().backTo(null);
+    }
+
+    @Override
+    public void clearSocialBackStack() {
+        socialTabFragment.getLocalRouter().backTo(null);
+    }
+
+    @Override
+    public void clearSearchBackStack() {
+        searchTabFragment.getLocalRouter().backTo(null);
+    }
+
+    @Override
+    public void clearCalendarBackStack() {
+        calendarTabFragment.getLocalRouter().backTo(null);
+    }
+
+    @Override
+    public void clearFavoriteBackStack() {
+        favoriteTabFragment.getLocalRouter().backTo(null);
+    }
+
+    @Override
     public void initBottomNavigation() {
         bottomNav.addItem(new BottomNavigationItem(R.drawable.ic_star, R.string.common_favorite))
                 .addItem(new BottomNavigationItem(R.drawable.ic_calendar, R.string.common_calendar))
@@ -289,7 +279,30 @@ public class MainActivity extends BaseActivity<MainPresenter, MainView> implemen
 
                 }
             }
+
+            @Override
+            public void onTabReselected(int position) {
+                switch (position) {
+                    case TabPosition.FAVORITE:
+                        getPresenter().onFavoriteReSelected();
+                        break;
+                    case TabPosition.CALENDAR:
+                        getPresenter().onCalendarReSelected();
+                        break;
+                    case TabPosition.SEARCH:
+                        getPresenter().onSearchReSelected();
+                        break;
+                    case TabPosition.SOCIAL:
+                        getPresenter().onSocialReSelected();
+                        break;
+                    case TabPosition.MENU:
+                        getPresenter().onMenuReSelected();
+                        break;
+
+                }
+            }
         });
+
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -55,7 +55,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private static final String TAG = "EmbeddedPlayer";
 
     private Context context;
-    private ConcatenatingMediaSource mediaSource;
     private PlayerView playerView;
     private SimpleExoPlayer player;
 
@@ -81,7 +80,6 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                          PlayerView playerView) {
         this.context = context;
         this.playerView = playerView;
-        this.mediaSource = new ConcatenatingMediaSource();
         initPlayer();
         initControls();
     }
@@ -218,17 +216,13 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     public void addMediaSource(MediaSource source) {
-        mediaSource.clear();
-        mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
-        player.prepare(mediaSource);
+        player.prepare(source);
     }
 
     public void updateTrack(MediaSource source) {
-        mediaSource.clear();
-        mediaSource.addMediaSource(source);
         player.setPlayWhenReady(true);
-        player.prepare(mediaSource, false, false);
+        player.prepare(source, false, false);
     }
 
     public void setTitle(@Nullable String title) {
@@ -441,6 +435,14 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             }
 
             videoSource = new ConcatenatingMediaSource(videoSources.toArray(new MediaSource[videoSources.size()]));
+            return this;
+        }
+
+        public MediaSourceHelper withVideoUrl(@NonNull String url) {
+            if (!TextUtils.isEmpty(url)) {
+                videoSource = getMediaSourceFactory()
+                        .createMediaSource(Uri.parse(url));
+            }
             return this;
         }
 

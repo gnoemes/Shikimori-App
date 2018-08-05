@@ -1,8 +1,9 @@
 package com.gnoemes.shikimoriapp.entity.club.data;
 
+import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse;
 import com.google.gson.annotations.SerializedName;
 
-public class ClubResponse {
+public class ClubResponse extends LinkedContentResponse {
     @SerializedName("id")
     private long id;
     @SerializedName("name")

@@ -75,6 +75,7 @@
     <string name="type_special" translatable="false">Special</string>
     <string name="type_music" translatable="false">Music</string>
     <string name="type_pattern">%s (%s эп.), %o мин.</string>
+    <string name="type_pattern_simple">%s (%s эп.).</string>
 
     <string name="type_tv_translatable">TV сериал</string>
     <string name="type_movie_translatable">Фильм</string>
@@ -211,7 +212,7 @@
     <string name="description_answer">Ответить</string>
     <string name="comment_summary">Отзыв</string>
     <string name="common_yesterday">Вчера</string>
-    <string name="comments_nothing">Комментарии не найдены.</string>
+    <string name="comments_nothing">Комментарии не найдены</string>
     <string name="comment_quote">Цитата:</string>
     <string name="common_episodes">Эпизоды:</string>
     <string name="common_rate">Оценка:</string>
@@ -244,6 +245,9 @@
     <string name="settings_success_save">Настройки успешно сохранены. Приятного просмотра :)</string>
     <string name="pref_dark_theme">is_dark_theme</string>
     <string name="pref_auto_dark_theme">is_auto_dark</string>
+    <string name="pref_auto_status">is_auto_status</string>
+    <string name="pref_auto_status_summary">Автоматически добавлять аниме в список \"Смотрю\"</string>
+    <string name="pref_auto_status_title">Обновление статуса</string>
     <string name="pref_dark_theme_summary">Ночной режим позволяет уменьшить утомляемость глаз</string>
     <string name="pref_dark_theme_title">Ночной режим</string>
     <string name="pref_auto_dark_theme_summary">Включать режим автоматически в ночное время суток</string>
@@ -276,17 +280,6 @@
     <string name="common_in_dev">%s в разработке</string>
     <string name="common_home">Главная</string>
     <string name="in_dev_description">Просмотр топиков, клубов,\n пользователей в разработке.\nЖдите следующих обновлений ;)</string>
-    <string name="pref_watch_wizard">WATCH_WIZARD</string>
-    <string name="pref_wizard_title">Спрашивать всегда</string>
-    <string name="pref_wizard_summary">Отображать окно настроек перед просмотром</string>
-    <string name="pref_translation_type_title">Тип перевода</string>
-    <string name="pref_not_choosed_summary">Не выбрано</string>
-    <string name="pref_translation_type">TRANSLATION_TYPE</string>
-    <string name="pref_auto_translation">TRANSLATION_DUBBER_SETTINGS</string>
-    <string name="pref_auto_translation_summary">Выбор перевода будет происходить автоматически в зависимости от рейтинга</string>
-    <string name="pref_auto_translation_title">Автоматический выбор перевода</string>
-    <string name="pref_player_type">PLAYER_TYPE</string>
-    <string name="pref_player_type_title">Видеоплеер</string>
     <string name="ask_always">Спрашивать всегда</string>
     <string name="clear_episodes">Синхронизировать серии</string>
     <string name="yes">Да</string>
@@ -330,6 +323,37 @@
     <string name="player_network_error">Произошла ошибка во время загрузки видео. Попробуйте выбрать другой перевод или плеер.</string>
     <string name="quality_title">Выберите качество</string>
     <string name="favorite_open_random">Открыть случайное</string>
+    <string name="common_details">Подробнее</string>
+    <string name="common_new">новое</string>
+    <string name="forum_site">Сайт</string>
+    <string name="forum_club">Клуб</string>
+    <string name="forum_games">Игры</string>
+    <string name="forum_cosplay">Косплей</string>
+    <string name="forum_review">Рецензия</string>
+    <string name="forum_news">Новость</string>
+    <string name="forum_collection">Коллекция</string>
+    <string name="forum_all">Все в подряд</string>
+    <string name="forum_my_clubs">Мои клубы</string>
+    <string name="forum_contests">Турниры</string>
+    <string name="forum_reviews">Обзоры</string>
+    <string name="forum_animanga">Аниме и манга</string>
+    <string name="forum_vn">Визуальные новеллы</string>
+    <string name="common_forum">Форум</string>
+    <string name="topic_tag_new_episode">Новый эпизод</string>
+    <string name="forum_off_topic">Оффтопик</string>
+    <string name="episodes_banned">Забанено законами РФ</string>
+    <string name="forum_my_feed">Моя лента</string>
+    <string name="topic_list_empty">Подходящих топиков не найдено.\nВступайте в клубы, чтобы получать рассылку.</string>
+    <string name="history_empty">История просмотров отсутствует</string>
+    <string name="send_mail_to_dev">Обратная связь</string>
+    <string name="person_birthday">Дата рождения:</string>
+    <string name="info">Информация</string>
+    <string name="roles">Роли</string>
+    <string name="person_best_works">Лучшие работы</string>
+    <string name="on_en">По-английски</string>
+    <string name="person_info">Информация о человеке</string>
+    <string name="person_best_roles">Лучшие роли</string>
+    <string name="episodes_alternative">Альтернативный источник</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -389,6 +413,14 @@
         <item>Русская озвучка</item>
         <item>Русские субтитры</item>
         <item>Оригинал</item>
+    </string-array>
+
+    <string-array name="translations_type_alternative">
+        <item>Русская озвучка</item>
+        <item>Русские субтитры</item>
+        <item>Оригинал</item>
+        <item>Английская озвучка</item>
+        <item>Английские субтитры</item>
     </string-array>
 
     <string-array name="rate_stasuses">

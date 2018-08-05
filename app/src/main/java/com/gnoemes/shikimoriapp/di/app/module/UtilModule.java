@@ -6,6 +6,8 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseCon
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.LinkedContentResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.LinkedContentResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverter;
@@ -14,8 +16,12 @@ import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
-import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.roles.converter.SeyuResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.social.converter.ForumResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.social.converter.ForumResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.social.converter.TopicResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.social.converter.TopicResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverter;
@@ -153,8 +159,17 @@ public interface UtilModule {
     RolesResponseConverter bindRolesResponseConverter(RolesResponseConverterImpl converter);
 
     @Binds
-    SeyuResponseConverter bindSeyuResponseConverter(SeyuResponseConverterImpl converter);
+    RateStatusCountConverter bindRateStatusCountConverter(RateStatusCountConverterImpl converter);
 
     @Binds
-    RateStatusCountConverter bindRateStatusCountConverter(RateStatusCountConverterImpl converter);
+    ForumResponseConverter bindForumResponseConverter(ForumResponseConverterImpl converter);
+
+    @Binds
+    TopicResponseConverter bindTopicResponseConverter(TopicResponseConverterImpl converter);
+
+    @Binds
+    LinkedContentResponseConverter bindContentResponseConveter(LinkedContentResponseConverterImpl converter);
+
+    @Binds
+    PersonResponseConverter bindPersonResponseConverter(PersonResponseConverterImpl converter);
 }

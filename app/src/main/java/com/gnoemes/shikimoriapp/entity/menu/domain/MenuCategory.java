@@ -5,14 +5,16 @@ public enum MenuCategory {
     NEWS(1),
     NOTIFICATIONS(2),
     MESSAGES(3),
-    FRIENDS(4),
-    SETTINGS(5),
-    FOUR_PDA(6),
-    SHIKIMORI_CLUB(7),
-    SUPPORT(8)
+    HISTORY(4),
+    FRIENDS(5),
+    SETTINGS(6),
+    FOUR_PDA(7),
+    SHIKIMORI_CLUB(8),
+    SEND_MAIL_TO_DEV(9),
+    SUPPORT(10);
 
     //TODO SOCIAL LINKS/SOMETHING MORE
-    ;
+
 
     /**
      * Position in list

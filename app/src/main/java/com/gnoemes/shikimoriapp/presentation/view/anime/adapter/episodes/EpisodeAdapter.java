@@ -14,8 +14,8 @@ public class EpisodeAdapter extends ListDelegationAdapter<List<BaseEpisodeItem>>
     public EpisodeAdapter(EpisodePickCallback callback, EpisodeOptionCallback optionCallback) {
         delegatesManager.addDelegate(new EpisodesAdapterDelegate(callback));
         delegatesManager.addDelegate(new EpisodeOptionsAdapterDelegate(optionCallback));
-        delegatesManager.addDelegate(new EpisodePlaceHolderAdapterDelegate());
-        delegatesManager.addDelegate(new EpisodeErrorAdapterDelegate());
+        delegatesManager.addDelegate(new EpisodePlaceHolderAdapterDelegate(optionCallback));
+        delegatesManager.addDelegate(new EpisodeErrorAdapterDelegate(optionCallback));
 
         setItems(new ArrayList<>());
     }

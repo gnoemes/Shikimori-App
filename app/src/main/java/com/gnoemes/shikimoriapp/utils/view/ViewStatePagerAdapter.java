@@ -17,6 +17,7 @@ package com.gnoemes.shikimoriapp.utils.view;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.View;
@@ -58,8 +59,9 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         detached = savedState.detached;
     }
 
+    @NonNull
     @Override
-    public final Object instantiateItem(ViewGroup container, int position) {
+    public final Object instantiateItem(@NonNull ViewGroup container, int position) {
         if (detached == null) {
             detached = new SparseArray<>();
         }
@@ -78,7 +80,7 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public final void destroyItem(ViewGroup container, int position, Object object) {
+    public final void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         View view = (View) object;
         destroyView(container, position, view);
         putInDetached(position, view);
@@ -92,18 +94,19 @@ public abstract class ViewStatePagerAdapter extends PagerAdapter {
         detached.put(position, viewState);
     }
 
+    @NonNull
     @Override
-    public final Object instantiateItem(View container, int position) {
+    public final Object instantiateItem(@NonNull View container, int position) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public final void destroyItem(View container, int position, Object object) {
+    public final void destroyItem(@NonNull View container, int position, @NonNull Object object) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public final boolean isViewFromObject(View view, Object object) {
+    public final boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 

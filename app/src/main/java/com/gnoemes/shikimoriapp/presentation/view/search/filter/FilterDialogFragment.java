@@ -110,12 +110,14 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
             }
         }
 
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
-        accent = typedValue.data;
-        theme.resolveAttribute(R.attr.colorText, typedValue, true);
-        textColor = typedValue.data;
+        if (getContext() != null) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = getContext().getTheme();
+            theme.resolveAttribute(R.attr.colorDivider, typedValue, true);
+            accent = typedValue.data;
+            theme.resolveAttribute(R.attr.colorText, typedValue, true);
+            textColor = typedValue.data;
+        }
     }
 
     @Override
@@ -257,19 +259,23 @@ public class FilterDialogFragment extends AAH_FabulousFragment {
     }
 
     private void updateUnselected() {
-        unselected = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.chip_unselected)
-                .withAttributeColor(R.attr.colorDivider)
-                .stroke(2)
-                .get();
+        if (getContext() != null) {
+            unselected = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.chip_unselected)
+                    .withAttributeColor(R.attr.colorDivider)
+                    .stroke(2)
+                    .get();
+        }
     }
 
     private void updateSelected() {
-        selected = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.chip_selected)
-                .withAttributeColor(R.attr.colorPrimary)
-                .tint()
-                .get();
+        if (getContext() != null) {
+            selected = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.chip_selected)
+                    .withAttributeColor(R.attr.colorPrimary)
+                    .tint()
+                    .get();
+        }
     }
 
     public class FiltersListChipsAdapter extends RecyclerView.Adapter<FiltersListChipsAdapter.ViewHolder> {

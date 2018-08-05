@@ -13,7 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.similar.SimilarPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -129,7 +129,7 @@ public class SimilarFragment extends BaseFragment<SimilarPresenter, SimilarView>
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void showList(List<BaseSearchItem> animes) {
+    public void showList(List<BaseItem> animes) {
         animeAdapter.bindItems(animes);
         recyclerView.setVisibility(View.VISIBLE);
     }

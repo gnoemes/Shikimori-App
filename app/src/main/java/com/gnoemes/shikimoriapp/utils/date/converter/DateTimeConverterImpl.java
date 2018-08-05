@@ -117,6 +117,12 @@ public class DateTimeConverterImpl implements DateTimeConverter {
         return dateFormatter.print(dateTime);
     }
 
+    @Override
+    public String convertToFullHumanDateString(DateTime dateTime) {
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd MMMM yyyy");
+        return dateFormatter.print(dateTime);
+    }
+
     private String firstToUpperCase(String print) {
         return print.substring(0, 1).toUpperCase().concat(print.substring(1));
     }

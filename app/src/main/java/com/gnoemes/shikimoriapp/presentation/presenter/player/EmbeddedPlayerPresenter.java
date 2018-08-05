@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
@@ -69,7 +69,6 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
         } else {
             loadVideoWithoutId();
         }
-        setEpisodeWatched();
     }
 
     private void loadVideoWithoutId() {
@@ -97,7 +96,11 @@ public class EmbeddedPlayerPresenter extends BaseNetworkPresenter<EmbeddedPlayer
                 getViewState().updateInformation(playVideo, currentTrack);
                 getViewState().playVideo(track, true);
                 currentTrack = 0;
+                setEpisodeWatched();
             }
+        } else {
+            getViewState().exitWithSystemMessage(resourceProvider.getNetworkError());
+
         }
     }
 

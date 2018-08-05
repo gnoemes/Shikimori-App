@@ -18,14 +18,18 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.AlternativeEpisodesFragment;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeFragment;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.calendar.CalendarFragment;
@@ -35,6 +39,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
+import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.embedded.EmbeddedPlayerActivity;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
@@ -44,7 +49,9 @@ import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
 import com.gnoemes.shikimoriapp.presentation.view.settings.SettingsActivity;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
+import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListFragment;
 import com.gnoemes.shikimoriapp.presentation.view.translations.TranslationsFragment;
+import com.gnoemes.shikimoriapp.presentation.view.userhistory.UserHistoryFragment;
 import com.gnoemes.shikimoriapp.utils.view.BackButtonListener;
 
 import javax.inject.Inject;
@@ -163,12 +170,22 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return SimilarFragment.newInstance((Long) data);
                         case Screens.PROFILE:
                             return ProfileFragment.newInstance((Long) data);
-                        case Screens.HISTORY:
-                            return HistoryFragment.newInstance((Long) data);
+                        case Screens.USER_HISTORY:
+                            return UserHistoryFragment.newInstance((Long) data);
                         case Screens.RELATED:
                             return RelatedFragment.newInstance((RelatedNavigationData) data);
                         case Screens.CHARACTER_DETAILS:
                             return CharacterDetailsFragment.newInstance((Long) data);
+                        case Screens.TOPICS_LIST:
+                            return TopicListFragment.newInstance((ForumType) data);
+                        case Screens.HISTORY:
+                            return HistoryFragment.newInstance();
+                        case Screens.PERSON_DETAILS:
+                            return PersonFragment.newInstance((Long) data);
+                        case Screens.ALTERNATIVE_EPISODES:
+                            return AlternativeEpisodesFragment.newInstance((Long) data);
+                        case Screens.ALTERNATIVE_TRANSLATIONS:
+                            return AlternativeTranslationsFragment.newInstance((AlternativeTranslationNavigationData) data);
                     }
                     return null;
                 }
@@ -192,6 +209,10 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
                             intent.setDataAndType(Uri.parse((String) data), "video/*");
                             return Intent.createChooser(intent, "Открыть в");
+                        case Screens.SEND_MAIL:
+                            Intent sendMail = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "gnoemes@gmail.com", null));
+                            sendMail.putExtra(Intent.EXTRA_EMAIL, new String[]{"gnoemes@gmail.com"});
+                            return Intent.createChooser(sendMail, null);
                     }
                     return null;
                 }

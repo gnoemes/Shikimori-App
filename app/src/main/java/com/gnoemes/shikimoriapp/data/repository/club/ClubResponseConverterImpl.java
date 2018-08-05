@@ -1,8 +1,11 @@
 package com.gnoemes.shikimoriapp.data.repository.club;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.ClubPolicy;
+import com.gnoemes.shikimoriapp.entity.club.data.ClubImageResponse;
 import com.gnoemes.shikimoriapp.entity.club.data.ClubResponse;
 import com.gnoemes.shikimoriapp.entity.club.domain.Club;
+import com.gnoemes.shikimoriapp.entity.club.domain.ClubImage;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +29,29 @@ public class ClubResponseConverterImpl implements ClubResponseConverter {
         return clubs;
     }
 
-    private Club convertResponse(ClubResponse response) {
+    @Override
+    public Club convertResponse(ClubResponse response) {
+        if (response == null) {
+            return null;
+        }
+
         return new Club(response.getId(),
                 response.getName(),
-                response.getClubImageResponse().getX96(),
-                response.getClubImageResponse().getX73(),
+                converImage(response.getClubImageResponse()),
                 response.isCensored(),
                 convertPolicy(response.getJoinPolicy()),
                 convertPolicy(response.getCommentPolicy()));
+    }
+
+    //TODO fix images
+    private ClubImage converImage(ClubImageResponse response) {
+        return new ClubImage(
+                Utils.appendHostIfNeed(response.getOriginal()),
+                Utils.appendHostIfNeed(response.getMain()),
+                Utils.appendHostIfNeed(response.getX96()),
+                Utils.appendHostIfNeed(response.getX73()),
+                Utils.appendHostIfNeed(response.getX48())
+        );
     }
 
     private ClubPolicy convertPolicy(String policyString) {

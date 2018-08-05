@@ -61,7 +61,8 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
     private UserSettings getUserSettings() {
         return new UserSettings(getUserStatus(),
                 getUserBrief(),
-                getTheme());
+                getTheme(),
+                getAutoStatus());
     }
 
     private void saveUserStatus(@Nullable UserStatus userStatus) {
@@ -111,5 +112,9 @@ public class UserPreferenceSourceImpl implements UserPreferenceSource {
         return sharedPreferences.edit();
     }
 
+
+    public Boolean getAutoStatus() {
+        return getPrefs().getBoolean(SettingsExtras.AUTO_STATUS, true);
+    }
 
 }

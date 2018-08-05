@@ -10,6 +10,10 @@ import com.pushtorefresh.storio3.sqlite.operations.delete.DeleteResult;
 import com.pushtorefresh.storio3.sqlite.queries.DeleteQuery;
 import com.pushtorefresh.storio3.sqlite.queries.Query;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
@@ -48,6 +52,21 @@ public class HistoryDbSourceImpl implements HistoryDbSource {
     }
 
     @Override
+    public Single<Integer> getWatchedEpisodesCount(long animeId) {
+        return Single.fromCallable(() -> storIOSQLite
+                .get()
+                .numberOfResults()
+                .withQuery(Query.builder()
+                        .table(HistoryTable.TABLE)
+                        .where(HistoryTable.COLUMN_ANIME_ID + " = ?")
+                        .whereArgs(animeId)
+                        .build())
+                .prepare()
+                .executeAsBlocking())
+                .onErrorReturnItem(0);
+    }
+
+    @Override
     public Completable clearHistory(long animeId) {
         return Completable.fromAction(() -> {
             DeleteResult deleteResult = storIOSQLite
@@ -61,5 +80,24 @@ public class HistoryDbSourceImpl implements HistoryDbSource {
                     .executeAsBlocking();
             Log.i("DEVE", "clearHistory: " + deleteResult.numberOfRowsDeleted());
         });
+    }
+
+    @Override
+    public Single<List<HistoryDao>> getWatchedAnimes() {
+        List<HistoryDao> list = new ArrayList<>();
+
+        List<HistoryDao> daos = storIOSQLite
+                .get()
+                .listOfObjects(HistoryDao.class)
+                .withQuery(HistoryTable.QUERY_ALL)
+                .prepare()
+                .executeAsBlocking();
+
+        if (daos != null) {
+            list.addAll(daos);
+        }
+
+        Collections.reverse(list);
+        return Single.fromCallable(() -> list);
     }
 }

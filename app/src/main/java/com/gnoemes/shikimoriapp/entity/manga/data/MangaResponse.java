@@ -2,11 +2,12 @@ package com.gnoemes.shikimoriapp.entity.manga.data;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
 
-public class MangaResponse {
+public class MangaResponse extends LinkedContentResponse {
 
     @SerializedName("id")
     private long id;

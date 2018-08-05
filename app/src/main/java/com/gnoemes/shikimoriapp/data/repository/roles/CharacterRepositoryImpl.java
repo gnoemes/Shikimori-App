@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.roles;
 
-import com.gnoemes.shikimoriapp.data.network.CharactersApi;
+import com.gnoemes.shikimoriapp.data.network.RolesApi;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.CharacterDetailsResponseConverter;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterDetails;
 
@@ -10,11 +10,11 @@ import io.reactivex.Single;
 
 public class CharacterRepositoryImpl implements CharacterRepository {
 
-    private CharactersApi api;
+    private RolesApi api;
     private CharacterDetailsResponseConverter responseConverter;
 
     @Inject
-    public CharacterRepositoryImpl(CharactersApi api, CharacterDetailsResponseConverter responseConverter) {
+    public CharacterRepositoryImpl(RolesApi api, CharacterDetailsResponseConverter responseConverter) {
         this.api = api;
         this.responseConverter = responseConverter;
     }

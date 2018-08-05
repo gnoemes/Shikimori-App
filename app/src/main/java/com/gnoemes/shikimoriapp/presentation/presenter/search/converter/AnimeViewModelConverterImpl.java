@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.search.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class AnimeViewModelConverterImpl implements AnimeViewModelConverter {
     }
 
     @Override
-    public List<BaseSearchItem> convertListFrom(List<Anime> animeList) {
-        List<BaseSearchItem> viewModels = new ArrayList<>();
+    public List<BaseItem> convertListFrom(List<Anime> animeList) {
+        List<BaseItem> viewModels = new ArrayList<>();
 
         for (Anime anime : animeList) {
             viewModels.add(convertAnime(anime));

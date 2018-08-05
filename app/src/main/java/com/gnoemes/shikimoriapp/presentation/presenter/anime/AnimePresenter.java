@@ -22,6 +22,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeIt
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionAction;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodePlaceholderItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
@@ -32,8 +33,8 @@ import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.comments.domain.Comment;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
@@ -48,6 +49,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
 import com.gnoemes.shikimoriapp.presentation.view.anime.AnimeView;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.EpisodeViewModelConverter;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -85,7 +87,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
         @Override
         public void showEmptyView(boolean show) {
-            //not implemented
+            if (show) {
+                getViewState().showComments(Collections.emptyList());
+            }
         }
 
         @Override
@@ -169,7 +173,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         Disposable disposable = seriesInteractor.getEpisodes(animeId)
                 .doOnEvent((episodes, throwable) -> getViewState().onHideRefresh())
                 .map(episodeViewModelConverter)
-                .subscribe(this::setEpisodes, this::processErrors);
+                .subscribe(this::setEpisodes, this::processEpisodeErrors);
 
         unsubscribeOnDestroy(disposable);
     }
@@ -214,6 +218,25 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 super.processErrors(throwable);
         }
     }
+
+    private void processEpisodeErrors(Throwable throwable) {
+        BaseException exception = (BaseException) throwable;
+        switch (exception.getTag()) {
+            case NetworkException.TAG:
+                getViewState().showErrorView();
+                break;
+            case ServiceCodeException.TAG:
+                if (((ServiceCodeException) throwable).getServiceCode() == HttpStatusCode.NOT_FOUND) {
+                    getViewState().showEpisodeList(Collections.singletonList(new EpisodePlaceholderItem()));
+                } else {
+                    super.processErrors(throwable);
+                }
+                break;
+            default:
+                super.processErrors(throwable);
+        }
+    }
+
 
     /**
      * Action on episode clicked
@@ -403,7 +426,15 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 analyticsInteractor.logEvent(AnalyticsEvent.WATCH_ONLINE_MASTER_CLICKED);
                 onEpisodeClicked(item);
                 break;
+            case ALTERNATIVE_SOURCE:
+                analyticsInteractor.logEvent(AnalyticsEvent.ALTERNATIVE_SOURCE_EPISODES);
+                onAlternativeSource();
+                break;
         }
+    }
+
+    private void onAlternativeSource() {
+        getRouter().navigateTo(Screens.ALTERNATIVE_EPISODES, animeId);
     }
 
     /**

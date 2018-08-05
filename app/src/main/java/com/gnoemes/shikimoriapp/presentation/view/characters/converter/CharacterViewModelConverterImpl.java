@@ -2,15 +2,16 @@ package com.gnoemes.shikimoriapp.presentation.view.characters.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterDetails;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterRelatedType;
-import com.gnoemes.shikimoriapp.entity.roles.domain.Seyu;
-import com.gnoemes.shikimoriapp.entity.roles.presentation.CharacterHeadItem;
-import com.gnoemes.shikimoriapp.entity.roles.presentation.CharacterRelatedItem;
-import com.gnoemes.shikimoriapp.entity.roles.presentation.CharacterRelatedListItem;
+import com.gnoemes.shikimoriapp.entity.roles.domain.Person;
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterHeadItem;
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterRelatedItem;
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterRelatedListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +31,21 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
         items.add(convertHeadItem(characterDetails));
 
         if (characterDetails.getSeyus() != null && !characterDetails.getSeyus().isEmpty()) {
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
             items.add(convertSeyuRelatedItem(CharacterRelatedType.SEYU, characterDetails.getSeyus()));
         }
 
         if (characterDetails.getAnimes() != null && !characterDetails.getAnimes().isEmpty()) {
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
             items.add(convertAnimeRelatedItem(CharacterRelatedType.ANIME, characterDetails.getAnimes()));
         }
 
         if (characterDetails.getMangas() != null && !characterDetails.getMangas().isEmpty()) {
-            items.add(new DividerItem());
+            items.add(new DoubleDividerItem());
             items.add(convertMangaRelatedItem(CharacterRelatedType.MANGA, characterDetails.getMangas()));
-            items.add(new DividerItem());
         }
+
+        items.add(new BottomDividerItem());
 
         return items;
     }
@@ -81,19 +83,19 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
                 anime.getAnimeImage());
     }
 
-    private BaseItem convertSeyuRelatedItem(CharacterRelatedType type, List<Seyu> seyus) {
+    private BaseItem convertSeyuRelatedItem(CharacterRelatedType type, List<Person> seyus) {
         List<CharacterRelatedItem> items = new ArrayList<>();
 
-        for (Seyu seyu : seyus) {
+        for (Person seyu : seyus) {
             items.add(convertSeyu(seyu));
         }
 
         return new CharacterRelatedListItem(type, items);
     }
 
-    private CharacterRelatedItem convertSeyu(Seyu seyu) {
+    private CharacterRelatedItem convertSeyu(Person seyu) {
         return new CharacterRelatedItem(seyu.getId(),
-                seyu.getImageResponse());
+                seyu.getImage());
     }
 
     private BaseItem convertHeadItem(CharacterDetails item) {

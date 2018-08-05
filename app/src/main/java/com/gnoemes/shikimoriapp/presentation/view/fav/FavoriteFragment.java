@@ -16,8 +16,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
-import com.gnoemes.shikimoriapp.entity.rates.presentation.BaseAnimeRateItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.FavoritePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -27,7 +27,6 @@ import com.gnoemes.shikimoriapp.presentation.view.fav.provider.UserRatesAnimeRes
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
-import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 import com.santalu.respinner.ReSpinner;
 
 import java.util.List;
@@ -157,8 +156,6 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     private void initList() {
         adapter = new AnimeRateAdapter(imageLoader, resourceProvider, id -> getPresenter().onItemClicked(id));
         list.setItemAnimator(new DefaultItemAnimator());
-        int margin = (int) getResources().getDimension(R.dimen.margin_small);
-        list.addItemDecoration(new VerticalSpaceItemDecoration(margin));
         list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         list.setLayoutManager(manager);
@@ -169,7 +166,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int visibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
+                int visibleItemPosition = manager.findLastCompletelyVisibleItemPosition() + 6;
                 int itemCount = manager.getItemCount() - 1;
 
                 if (visibleItemPosition >= itemCount) {
@@ -205,28 +202,28 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void showList(List<BaseAnimeRateItem> items) {
+    public void showList(List<BaseItem> items) {
         adapter.bindItems(items);
     }
 
     @Override
-    public void insertMore(List<BaseAnimeRateItem> items) {
+    public void insertMore(List<BaseItem> items) {
         adapter.insertMore(items);
     }
 
     @Override
     public void clearList() {
-        adapter.clearItems();
+        adapter.clearList();
     }
 
     @Override
     public void onShowPageLoading() {
-        adapter.showProgress();
+        adapter.showPageLoading();
     }
 
     @Override
     public void onHidePageLoading() {
-        adapter.hideProgress();
+        adapter.hidePageLoading();
     }
 
     @Override

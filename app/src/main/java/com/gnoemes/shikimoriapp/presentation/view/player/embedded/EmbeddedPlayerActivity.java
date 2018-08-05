@@ -16,7 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
-import com.gnoemes.shikimoriapp.entity.main.presentation.Constants;
+import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
@@ -149,6 +149,12 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
+    public void exitWithSystemMessage(String error) {
+        Toast.makeText(EmbeddedPlayerActivity.this, error, Toast.LENGTH_LONG).show();
+        super.finish();
+    }
+
+    @Override
     public void onControlsVisible() {
 
     }
@@ -277,7 +283,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         MediaSource source = PlayerManager.MediaSourceHelper
                 .withFactory(new DefaultHttpDataSourceFactory("sap", new DefaultBandwidthMeter(), 30000, 30000, true))
                 .withFormat(videoTrack.getFormat())
-                .withVideoUrls(videoTrack.getUrl())
+                .withVideoUrl(videoTrack.getUrl())
                 .get();
 
         playerManager.setEventListener(this);

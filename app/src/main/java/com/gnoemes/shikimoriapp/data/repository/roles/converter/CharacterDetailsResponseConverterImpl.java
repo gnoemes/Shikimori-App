@@ -14,15 +14,15 @@ public class CharacterDetailsResponseConverterImpl implements CharacterDetailsRe
 
     private AnimeListResponseConverter animeResponseConverter;
     private MangaResponseConverter mangaResponseConverter;
-    private SeyuResponseConverter seyuResponseConverter;
+    private PersonResponseConverter personResponseConverter;
 
     @Inject
     public CharacterDetailsResponseConverterImpl(AnimeListResponseConverter animeResponseConverter,
                                                  MangaResponseConverter mangaResponseConverter,
-                                                 SeyuResponseConverter seyuResponseConverter) {
+                                                 PersonResponseConverter personResponseConverter) {
         this.animeResponseConverter = animeResponseConverter;
         this.mangaResponseConverter = mangaResponseConverter;
-        this.seyuResponseConverter = seyuResponseConverter;
+        this.personResponseConverter = personResponseConverter;
     }
 
     @Override
@@ -30,13 +30,13 @@ public class CharacterDetailsResponseConverterImpl implements CharacterDetailsRe
         return new CharacterDetails(characterDetailsResponse.getId(),
                 characterDetailsResponse.getName(),
                 characterDetailsResponse.getRussianName(),
-                seyuResponseConverter.convertImage(characterDetailsResponse.getAnimeImage()),
+                personResponseConverter.convertAnimeImage(characterDetailsResponse.getAnimeImage()),
                 Utils.appendHostIfNeed(characterDetailsResponse.getUrl()),
                 characterDetailsResponse.getAlternativeName(),
                 characterDetailsResponse.getJapaneseName(),
                 convertDescription(characterDetailsResponse.getDescription()),
                 characterDetailsResponse.getDescriptionSource(),
-                seyuResponseConverter.apply(characterDetailsResponse.getSeyuResponses()),
+                personResponseConverter.apply(characterDetailsResponse.getSeyuResponses()),
                 animeResponseConverter.apply(characterDetailsResponse.getAnimeResponses()),
                 mangaResponseConverter.apply(characterDetailsResponse.getMangaResponses()));
     }

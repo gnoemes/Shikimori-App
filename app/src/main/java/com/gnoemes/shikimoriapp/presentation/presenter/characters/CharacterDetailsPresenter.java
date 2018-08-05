@@ -121,7 +121,7 @@ public class CharacterDetailsPresenter extends BaseNetworkPresenter<CharacterDet
     }
 
     private void onSeyuClicked(long id) {
-        getRouter().showSystemMessage("Сейю в разработке");
+        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
     }
 
     private void onMangaClicked(long id) {

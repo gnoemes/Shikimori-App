@@ -14,8 +14,8 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeCharacte
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 
@@ -95,11 +95,11 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     }
 
     private String convertName(String russianName, String name) {
-        return russianName == null ? name : russianName;
+        return russianName == null ? name.trim() : russianName.trim();
     }
 
     private String convertName(String first, List<String> second) {
-        return first != null ? first : second.get(0);
+        return first != null ? first.trim() : second.get(0).trim();
     }
 
     @Override
@@ -118,26 +118,26 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 viewModel.getAnimeRate()));
 
         if (viewModel.getCharacters() != null && !viewModel.getCharacters().isEmpty()) {
-            animeItems.add(new DividerItem());
+            animeItems.add(new DoubleDividerItem());
             animeItems.add(new AnimeCharactersItem(viewModel.getCharacters()));
         }
 
-        animeItems.add(new DividerItem());
+        animeItems.add(new DoubleDividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));
         animeItems.add(new AnimeActionItem(AnimeAction.LINKS));
-        animeItems.add(new DividerItem());
+        animeItems.add(new DoubleDividerItem());
 
         if (viewModel.getVideos() != null && !viewModel.getVideos().isEmpty()) {
             for (Video video : viewModel.getVideos()) {
                 animeItems.add(new AnimeOtherItem(video.getId(), video.getUrl(), video.getName(), video.getType(), video.getPlayer()));
             }
-            animeItems.add(new DividerItem());
+            animeItems.add(new DoubleDividerItem());
         }
 
         animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
-        animeItems.add(new DividerItem());
+        animeItems.add(new DoubleDividerItem());
         animeItems.add(new AnimeActionItem(AnimeAction.COMMENTS));
-        animeItems.add(new DividerItem());
+        animeItems.add(new DoubleDividerItem());
         return animeItems;
     }
 }

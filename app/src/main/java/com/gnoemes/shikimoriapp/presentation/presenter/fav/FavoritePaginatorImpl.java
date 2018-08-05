@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.fav;
 
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
+import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
@@ -437,9 +438,14 @@ public class FavoritePaginatorImpl implements FavoritePaginator {
 
         @Override
         public void error(Throwable throwable) {
-            currentState = new DATA_STATE();
-            viewController.showPageProgress(false);
-            viewController.showError(throwable);
+            if (throwable instanceof ContentException) {
+                currentState = new ALL_DATA_STATE();
+                viewController.showPageProgress(false);
+            } else {
+                currentState = new DATA_STATE();
+                viewController.showPageProgress(false);
+                viewController.showError(throwable);
+            }
         }
 
         @Override

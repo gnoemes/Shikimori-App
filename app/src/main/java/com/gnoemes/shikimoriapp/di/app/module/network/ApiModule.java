@@ -1,10 +1,12 @@
 package com.gnoemes.shikimoriapp.di.app.module.network;
 
+import com.gnoemes.shikimoriapp.data.network.AlternativeApi;
 import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.network.AuthApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
-import com.gnoemes.shikimoriapp.data.network.CharactersApi;
 import com.gnoemes.shikimoriapp.data.network.CommentsApi;
+import com.gnoemes.shikimoriapp.data.network.RolesApi;
+import com.gnoemes.shikimoriapp.data.network.TopicApi;
 import com.gnoemes.shikimoriapp.data.network.UserApi;
 import com.gnoemes.shikimoriapp.data.network.VideoApi;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.AuthCommonApi;
@@ -16,7 +18,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 
 @Module(includes = {RetrofitModule.class, CommonNetworkModule.class, VideoNetworkModule.class,
-        AuthCommonNetworkModule.class})
+        AuthCommonNetworkModule.class, AlternativeNetworkModule.class})
 public interface ApiModule {
 
     @Singleton
@@ -57,7 +59,19 @@ public interface ApiModule {
 
     @Singleton
     @Provides
-    static CharactersApi bindCharactersApi(Retrofit retrofit) {
-        return retrofit.create(CharactersApi.class);
+    static RolesApi bindCharactersApi(Retrofit retrofit) {
+        return retrofit.create(RolesApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static TopicApi bindTopicApi(@AuthCommonApi Retrofit retrofit) {
+        return retrofit.create(TopicApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static AlternativeApi bindAlternativeApi(@com.gnoemes.shikimoriapp.di.app.qualifiers.AlternativeApi Retrofit retrofit) {
+        return retrofit.create(AlternativeApi.class);
     }
 }

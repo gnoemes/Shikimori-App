@@ -9,16 +9,19 @@ public class UserSettings {
     private UserStatus status;
     private UserBrief userBrief;
     private Boolean isLightTheme;
+    private Boolean isAutoStatus;
 
     public UserSettings() {
     }
 
     public UserSettings(@Nullable UserStatus status,
                         @Nullable UserBrief userBrief,
-                        @Nullable Boolean isLightTheme) {
+                        @Nullable Boolean isLightTheme,
+                        @Nullable Boolean isAutoStatus) {
         this.status = status;
         this.userBrief = userBrief;
         this.isLightTheme = isLightTheme;
+        this.isAutoStatus = isAutoStatus;
     }
 
     public UserStatus getStatus() {
@@ -45,10 +48,19 @@ public class UserSettings {
         isLightTheme = lightTheme;
     }
 
+    public Boolean getAutoStatus() {
+        return isAutoStatus;
+    }
+
+    public void setAutoStatus(Boolean autoStatus) {
+        isAutoStatus = autoStatus;
+    }
+
     public static class Builder {
         private UserStatus status;
         private UserBrief userBrief;
         private Boolean isLightTheme;
+        private Boolean isAutoStatus;
 
         public Builder setStatus(UserStatus status) {
             this.status = status;
@@ -65,8 +77,12 @@ public class UserSettings {
             return this;
         }
 
+        public void setAutoStatus(Boolean autoStatus) {
+            isAutoStatus = autoStatus;
+        }
+
         public UserSettings build() {
-            return new UserSettings(status, userBrief, isLightTheme);
+            return new UserSettings(status, userBrief, isLightTheme, isAutoStatus);
         }
     }
 }

@@ -61,6 +61,27 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void onMenuSelected() {
+        getViewState().clearMenuBackStack();
         getRouter().replaceScreen(BottomScreens.MENU);
+    }
+
+    public void onFavoriteReSelected() {
+        getViewState().clearFavoriteBackStack();
+    }
+
+    public void onCalendarReSelected() {
+        getViewState().clearCalendarBackStack();
+    }
+
+    public void onSearchReSelected() {
+        getViewState().clearSearchBackStack();
+    }
+
+    public void onSocialReSelected() {
+        getViewState().clearSocialBackStack();
+    }
+
+    public void onMenuReSelected() {
+        getViewState().clearMenuBackStack();
     }
 }
