@@ -127,6 +127,7 @@ public class TopicListPresenter extends BaseNetworkPresenter<TopicListView> {
 
     public void onTopicClicked(long id) {
         //TODO navigate to topic fragment
+        getRouter().showSystemMessage("Будет доступно в следующем обновлении");
     }
 
     public void onUserClicked(long id) {
