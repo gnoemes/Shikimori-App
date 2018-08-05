@@ -180,10 +180,12 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(pageChangeListener);
 
-        int textColor = AttributesHelper.withContext(getContext())
-                .getColor(R.attr.colorText);
+        if (getContext() != null) {
+            int textColor = AttributesHelper.withContext(getContext())
+                    .getColor(R.attr.colorText);
 
-        collapsingToolbarLayout.setCollapsedTitleTextColor(textColor);
+            collapsingToolbarLayout.setCollapsedTitleTextColor(textColor);
+        }
         Drawable navigationIcon = DrawableHelper.withContext(getContext())
                 .withDrawable(R.drawable.ic_arrow_back)
                 .withAttributeColor(R.attr.colorText)
@@ -307,20 +309,21 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 translationTypes[i] = Utils.firstUpperCase(types.get(i).getType());
             }
 
-            translationTypeDialog = new MaterialDialog.Builder(getContext())
-                    .dividerColor(R.attr.colorAccent)
-                    .items(translationTypes)
-                    .itemsColorAttr(R.attr.colorText)
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .buttonRippleColorAttr(R.attr.colorAccentTransparent)
-                    .autoDismiss(true)
-                    .canceledOnTouchOutside(true)
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        getPresenter().onTranslationTypeChoosed(types.get(position));
-                    })
-                    .build();
+            if (getContext() != null) {
+                translationTypeDialog = new MaterialDialog.Builder(getContext())
+                        .dividerColor(R.attr.colorAccent)
+                        .items(translationTypes)
+                        .itemsColorAttr(R.attr.colorText)
+                        .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                        .buttonRippleColorAttr(R.attr.colorAccentTransparent)
+                        .autoDismiss(true)
+                        .canceledOnTouchOutside(true)
+                        .itemsCallback((dialog, itemView, position, text) ->
+                                getPresenter().onTranslationTypeChoosed(types.get(position)))
+                        .build();
 
-            translationTypeDialog.show();
+                translationTypeDialog.show();
+            }
         }
     }
 
@@ -333,25 +336,27 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             titles.add(model.getName());
         }
 
-        new MaterialDialog.Builder(getContext())
-                .title(R.string.common_links)
-                .items(titles.toArray(new CharSequence[titles.size()]))
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    dialog.dismiss();
-                    AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
-                })
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .autoDismiss(false)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.close)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+        if (getContext() != null) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.common_links)
+                    .items(titles.toArray(new CharSequence[titles.size()]))
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        dialog.dismiss();
+                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
+                    })
+                    .autoDismiss(true)
+                    .titleColorAttr(R.attr.colorText)
+                    .contentColorAttr(R.attr.colorText)
+                    .alwaysCallSingleChoiceCallback()
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .autoDismiss(false)
+                    .negativeColorAttr(R.attr.colorAction)
+                    .negativeText(R.string.close)
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .canceledOnTouchOutside(true)
+                    .build()
+                    .show();
+        }
     }
 
     @Override
@@ -359,26 +364,29 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         List<String> items = franchiseConverter.convertList(nodes);
 
-        new MaterialDialog.Builder(getContext())
-                .title(R.string.chronology)
-                .items(items.toArray(new CharSequence[items.size()]))
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    dialog.dismiss();
-                    if (nodes != null && !nodes.isEmpty()) {
-                        getPresenter().onAnimeClicked(nodes.get(position).getId());
-                    }
-                })
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .negativeText(R.string.close)
-                .negativeColorAttr(R.attr.colorAction)
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+        if (getContext() != null) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.chronology)
+                    .items(items.toArray(new CharSequence[items.size()]))
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        dialog.dismiss();
+                        if (nodes != null && !nodes.isEmpty()) {
+                            getPresenter().onAnimeClicked(nodes.get(position).getId());
+                        }
+                    })
+                    .autoDismiss(true)
+                    .titleColorAttr(R.attr.colorText)
+                    .contentColorAttr(R.attr.colorText)
+                    .alwaysCallSingleChoiceCallback()
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .negativeText(R.string.close)
+                    .negativeColorAttr(R.attr.colorAction)
+                    .canceledOnTouchOutside(true)
+                    .build()
+                    .show();
+        }
     }
+
 
     @Override
     public void showRatesDialog(UserRate data) {
@@ -399,27 +407,29 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showClearHistoryDialog() {
-        new MaterialDialog.Builder(getContext())
-                .content(R.string.clear_episodes_content)
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .positiveColorAttr(R.attr.colorAction)
-                .positiveText(R.string.yes)
-                .onPositive((dialog, which) -> getPresenter().onClearHistory())
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+        if (getContext() != null) {
+            new MaterialDialog.Builder(getContext())
+                    .content(R.string.clear_episodes_content)
+                    .autoDismiss(true)
+                    .titleColorAttr(R.attr.colorText)
+                    .contentColorAttr(R.attr.colorText)
+                    .alwaysCallSingleChoiceCallback()
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .negativeColorAttr(R.attr.colorAction)
+                    .negativeText(R.string.common_cancel)
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .positiveColorAttr(R.attr.colorAction)
+                    .positiveText(R.string.yes)
+                    .onPositive((dialog, which) -> getPresenter().onClearHistory())
+                    .canceledOnTouchOutside(true)
+                    .build()
+                    .show();
+        }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // INNER CLASS
-    ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// INNER CLASS
+///////////////////////////////////////////////////////////////////////////
 
     public class AnimePagerAdapter extends ViewStatePagerAdapter {
 

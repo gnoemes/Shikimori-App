@@ -90,8 +90,10 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     }
 
     private void initSearchView() {
-        searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
-        toolbar.addView(searchView);
+        if (toolbar != null) {
+            searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
+            toolbar.addView(searchView);
+        }
 
         searchView.setNavigationIcon(R.drawable.ic_arrow_back);
         searchView.setHint(R.string.common_search);
@@ -148,24 +150,29 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
         toolbar.inflateMenu(R.menu.menu_search);
         toggleMenu(true);
 
-        Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrow_back)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
+        if (getContext() != null) {
+            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.ic_arrow_back)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
 
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+            toolbar.setNavigationIcon(navigationIcon);
+            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        }
     }
 
     private MenuItem toggleMenu(boolean search) {
-        MenuItem menuItem = toolbar.getMenu().getItem(0);
-        DrawableHelper.withContext(getContext())
-                .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .applyTo(menuItem);
-        return menuItem;
+        if (toolbar != null && getContext() != null) {
+            MenuItem menuItem = toolbar.getMenu().getItem(0);
+            DrawableHelper.withContext(getContext())
+                    .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .applyTo(menuItem);
+            return menuItem;
+        }
+        return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////

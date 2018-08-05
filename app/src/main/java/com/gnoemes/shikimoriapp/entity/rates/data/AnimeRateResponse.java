@@ -78,6 +78,7 @@ public class AnimeRateResponse {
         return rewatches;
     }
 
+    @Nullable
     public UserBriefResponse getUserBriefResponse() {
         return userBriefResponse;
     }

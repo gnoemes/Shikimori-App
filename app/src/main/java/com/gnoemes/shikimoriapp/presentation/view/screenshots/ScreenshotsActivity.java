@@ -233,7 +233,7 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
         }
 
         @Override
-        public final void destroyItem(ViewGroup container, int position, Object object) {
+        public final void destroyItem(ViewGroup container, int position, @NonNull Object object) {
             View view = (View) object;
             container.removeView(view);
         }

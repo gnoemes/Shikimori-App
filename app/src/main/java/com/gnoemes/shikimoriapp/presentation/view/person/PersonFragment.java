@@ -90,32 +90,34 @@ public class PersonFragment extends BaseFragment<PersonPresenter, PersonView> im
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrow_back)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
+        if (getContext() != null && toolbar != null) {
+            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.ic_arrow_back)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
 
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+            toolbar.setNavigationIcon(navigationIcon);
+            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
 
-        Drawable overflowIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(toolbar.getOverflowIcon())
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
+            Drawable overflowIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(toolbar.getOverflowIcon())
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
 
-        toolbar.setOverflowIcon(overflowIcon);
-        toolbar.inflateMenu(R.menu.menu_person);
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.item_open:
-                    getPresenter().onOpenInBrowserClicked();
-                    break;
-            }
+            toolbar.setOverflowIcon(overflowIcon);
+            toolbar.inflateMenu(R.menu.menu_person);
+            toolbar.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.item_open:
+                        getPresenter().onOpenInBrowserClicked();
+                        break;
+                }
 
-            return false;
-        });
+                return false;
+            });
+        }
 
         emptyContentView.setText(R.string.error_unprocessable);
         networkErrorView.setText(R.string.common_error_message_without_pull);

@@ -144,8 +144,10 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     private void initSearchView() {
-        searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
-        toolbar.addView(searchView);
+        if (toolbar != null) {
+            searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
+            toolbar.addView(searchView);
+        }
 
         searchEmptyView.setText(R.string.search_nothing);
         searchView.setNavigationIcon(R.drawable.ic_arrow_back);
@@ -204,13 +206,16 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     private MenuItem toggleMenu(boolean search) {
-        MenuItem menuItem = toolbar.getMenu().getItem(0);
-        DrawableHelper.withContext(getContext())
-                .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .applyTo(menuItem);
-        return menuItem;
+        if (toolbar != null && getContext() != null) {
+            MenuItem menuItem = toolbar.getMenu().getItem(0);
+            DrawableHelper.withContext(getContext())
+                    .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .applyTo(menuItem);
+            return menuItem;
+        }
+        return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -329,13 +334,14 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
 
     @Override
     public void addBackButton() {
-        Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                .withDrawable(R.drawable.ic_arrow_back)
-                .withAttributeColor(R.attr.colorText)
-                .tint()
-                .get();
-
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        if (getContext() != null && toolbar != null) {
+            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+                    .withDrawable(R.drawable.ic_arrow_back)
+                    .withAttributeColor(R.attr.colorText)
+                    .tint()
+                    .get();
+            toolbar.setNavigationIcon(navigationIcon);
+            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+        }
     }
 }

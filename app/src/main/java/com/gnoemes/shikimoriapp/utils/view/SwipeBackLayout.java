@@ -18,6 +18,7 @@ package com.gnoemes.shikimoriapp.utils.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
@@ -376,22 +377,22 @@ public class SwipeBackLayout extends ViewGroup {
     private class ViewDragHelperCallBack extends ViewDragHelper.Callback {
 
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
             return child == target && enablePullToBack;
         }
 
         @Override
-        public int getViewVerticalDragRange(View child) {
+        public int getViewVerticalDragRange(@NonNull View child) {
             return verticalDragRange;
         }
 
         @Override
-        public int getViewHorizontalDragRange(View child) {
+        public int getViewHorizontalDragRange(@NonNull View child) {
             return horizontalDragRange;
         }
 
         @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
 
             int result = 0;
 
@@ -417,7 +418,7 @@ public class SwipeBackLayout extends ViewGroup {
         }
 
         @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
 
             int result = 0;
 
@@ -458,7 +459,7 @@ public class SwipeBackLayout extends ViewGroup {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             switch (dragEdge) {
                 case TOP:
                 case BOTTOM:
@@ -485,7 +486,7 @@ public class SwipeBackLayout extends ViewGroup {
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             if (draggingOffset == 0) return;
 
             if (draggingOffset == getDragRange()) return;
