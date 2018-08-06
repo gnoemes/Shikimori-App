@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -69,6 +70,8 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private LinearLayout fastForward;
     private LinearLayout rewind;
 
+    private ImageView fullscreenBtn;
+
     private int controlsVisibility;
 
     private GestureDetector detector;
@@ -76,10 +79,14 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
     private PlayerControllerEventListener eventListener;
 
+    private boolean landscape;
+
     public PlayerManager(Context context,
-                         PlayerView playerView) {
+                         PlayerView playerView,
+                         boolean landscape) {
         this.context = context;
         this.playerView = playerView;
+        this.landscape = landscape;
         initPlayer();
         initControls();
     }
@@ -94,6 +101,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         rewind = playerView.findViewById(R.id.rewind);
         nextBtn = playerView.findViewById(R.id.next);
         prevBtn = playerView.findViewById(R.id.prev);
+        fullscreenBtn = playerView.findViewById(R.id.fullscreen);
 
         nextBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -112,6 +120,19 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 eventListener.onBackPressed();
             }
         });
+
+        if (landscape) {
+            onLandscape();
+        } else {
+            onPortrait();
+        }
+
+        fullscreenBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.toggleOrientation();
+            }
+        });
+
 
         Drawable rateBackground = DrawableHelper
                 .withContext(context)
@@ -378,7 +399,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         controlsVisibility = visibility;
     }
 
+    public void onLandscape() {
+        fullscreenBtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_exit));
+    }
+
+    public void onPortrait() {
+        fullscreenBtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen));
+    }
     public interface PlayerControllerEventListener {
+
 
 
         void onControlsVisible();
@@ -402,6 +431,8 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void loadPrevEpisode();
 
         void loadNextEpisode();
+
+        void toggleOrientation();
     }
 
     public static class MediaSourceHelper {

@@ -254,9 +254,17 @@
                 android:gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
+                android:layout_marginRight="8dp"
                 android:textColor="@android:color/white"
                 tools:ignore="RtlHardcoded"
                 tools:text="1:23:49" />
+
+            <ImageView
+                android:id="@+id/fullscreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_fullscreen" />
 
         </LinearLayout>
 

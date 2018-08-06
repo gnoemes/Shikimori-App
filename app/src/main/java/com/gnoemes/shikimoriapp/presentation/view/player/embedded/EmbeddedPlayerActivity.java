@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.presentation.view.player.embedded;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +75,7 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initUiFlags();
-        playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView);
+        playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView, getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
@@ -157,6 +159,42 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onControlsVisible() {
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        togglePlayer();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
+
+    private void togglePlayer() {
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            onPortrait();
+        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            onLandscape();
+        }
+    }
+
+    private void onPortrait() {
+        playerManager.onPortrait();
+    }
+
+    private void onLandscape() {
+        playerManager.onLandscape();
+    }
+
+    @Override
+    public void toggleOrientation() {
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            onLandscape();
+        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            onPortrait();
+        }
     }
 
     @Override
