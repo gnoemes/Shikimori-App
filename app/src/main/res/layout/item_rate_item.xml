@@ -5,6 +5,7 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
@@ -64,7 +65,9 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="3"
+        android:gravity="center_vertical"
         android:textSize="18sp"
+        android:minLines="2"
         app:layout_constraintEnd_toStartOf="@+id/guideline_upper"
         app:layout_constraintStart_toEndOf="@+id/image_anime"
         app:layout_constraintTop_toTopOf="parent"
@@ -131,6 +134,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/image_watches"
         tools:text="3" />
+
+    <ImageView
+        android:id="@+id/image_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:tint="?attr/colorText"
+        app:layout_constraintBottom_toBottomOf="@+id/anime_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/anime_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_dots_vertical" />
 
 
 </android.support.constraint.ConstraintLayout>

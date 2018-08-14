@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -19,6 +20,7 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.FavoritePresenter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
@@ -29,6 +31,7 @@ import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.santalu.respinner.ReSpinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,6 +70,9 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
 
     @Inject
     UserRatesAnimeResourceProvider resourceProvider;
+
+    @Inject
+    RateResourceProvider rateResourceProvider;
 
     private AnimeRateAdapter adapter;
 
@@ -154,7 +160,10 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     }
 
     private void initList() {
-        adapter = new AnimeRateAdapter(imageLoader, resourceProvider, id -> getPresenter().onItemClicked(id));
+        adapter = new AnimeRateAdapter(imageLoader,
+                resourceProvider,
+                getPresenter()::onItemClicked,
+                getPresenter()::onItemChangeStatus);
         list.setItemAnimator(new DefaultItemAnimator());
         list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -290,6 +299,32 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
     public void updateRateItems(List<String> rates) {
         if (getContext() != null) {
             spinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_normal, rates));
+        }
+    }
+
+    @Override
+    public void showChangeRateDialog(long id, List<RateStatus> statuses) {
+        List<String> items = new ArrayList<>();
+
+        for (RateStatus status : statuses) {
+            items.add(rateResourceProvider.getLocalizedStatus(status));
+        }
+
+        if (getContext() != null) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.rate_change)
+                    .items(items.toArray(new CharSequence[items.size()]))
+                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onItemStatusChanged(id, statuses.get(position)))
+                    .autoDismiss(true)
+                    .titleColorAttr(R.attr.colorText)
+                    .contentColorAttr(R.attr.colorText)
+                    .alwaysCallSingleChoiceCallback()
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .negativeText(R.string.close)
+                    .negativeColorAttr(R.attr.colorAction)
+                    .canceledOnTouchOutside(true)
+                    .build()
+                    .show();
         }
     }
 }

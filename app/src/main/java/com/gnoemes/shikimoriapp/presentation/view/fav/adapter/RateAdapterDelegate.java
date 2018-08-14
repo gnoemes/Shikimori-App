@@ -34,13 +34,17 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     private ImageLoader imageLoader;
     private UserRatesAnimeResourceProvider resourceProvider;
     private DefaultItemCallback callback;
+    private DefaultItemCallback rateChangecallback;
 
     public RateAdapterDelegate(ImageLoader imageLoader,
                                UserRatesAnimeResourceProvider resourceProvider,
-                               DefaultItemCallback callback) {
+                               DefaultItemCallback callback,
+                               DefaultItemCallback rateChangeCallback
+    ) {
         this.imageLoader = imageLoader;
         this.resourceProvider = resourceProvider;
         this.callback = callback;
+        this.rateChangecallback = rateChangeCallback;
     }
 
     @Override
@@ -98,6 +102,9 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
         @BindView(R.id.text_watches)
         TextView watches;
+
+        @BindView(R.id.image_menu)
+        ImageView menuView;
 
         private int textColor;
 
@@ -180,6 +187,11 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             }
 
             layout.setOnClickListener(v -> callback.onItemClick(model.getAnime().getId()));
+            layout.setOnLongClickListener(v -> {
+                rateChangecallback.onItemClick(model.getId());
+                return true;
+            });
+            menuView.setOnClickListener(v -> rateChangecallback.onItemClick(model.getId()));
         }
 
         /**

@@ -2,11 +2,11 @@ package com.gnoemes.shikimoriapp.entity.rates.domain;
 
 public enum RateStatus {
     WATCHING("watching"),
+    PLANNED("planned"),
+    REWATCHING("rewatching"),
     COMPLETED("completed"),
     ON_HOLD("on_hold"),
     DROPPED("dropped"),
-    REWATCHING("rewatching"),
-    PLANNED("planned"),
     FAVORITE("fav");
 
     private final String status;

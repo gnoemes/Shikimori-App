@@ -20,6 +20,7 @@ import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.PlaceholderType;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
@@ -27,6 +28,8 @@ import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusC
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteView;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -219,6 +222,14 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
+    public void onItemChangeStatus(long id) {
+        List<RateStatus> statuses = new ArrayList<>(Arrays.asList(RateStatus.values()));
+        statuses.remove(RateStatus.FAVORITE);
+        statuses.remove(currentStatus);
+
+        getViewState().showChangeRateDialog(id, statuses);
+    }
+
     private void destroyPaginator() {
         if (paginator != null) {
             paginator.release();
@@ -273,6 +284,15 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public void onItemStatusChanged(long id, RateStatus status) {
+        UserRate rate = new UserRate(id, status);
+
+        Disposable disposable = interactor.updateRate(rate)
+                .subscribe(this::onRefresh, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 }
 

@@ -40,4 +40,7 @@ public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void updateRateItems(List<String> rates);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showChangeRateDialog(long id, List<RateStatus> currentStatus);
 }
