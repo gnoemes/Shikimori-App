@@ -13,7 +13,6 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
-import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
@@ -128,19 +127,22 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
     private void playExternal(PlayVideo playVideo) {
         if (playVideo.getTracks() != null && !playVideo.getTracks().isEmpty()) {
-            //TODO remove this shit
-            if (playVideo.getTracks().size() == 1 || playVideo.getHosting() == VideoHosting.SIBNET) {
-                onQualityForExternalChoosed(playVideo.getTracks().get(0));
+
+            if (playVideo.getTracks().size() == 1) {
+                onQualityForExternalChoosed(playVideo.getTracks().get(0).getUrl());
             } else {
                 getViewState().showQualityDialog(playVideo.getTracks());
             }
+
+        } else if (!TextUtils.isEmpty(playVideo.getSourceUrl())) {
+            onQualityForExternalChoosed(playVideo.getSourceUrl());
         } else {
             getRouter().showSystemMessage("Произошла ошибка во время загрузки видео.");
         }
     }
 
-    public void onQualityForExternalChoosed(VideoTrack videoTrack) {
-        getRouter().navigateTo(Screens.EXTERNAL_PLAYER, videoTrack.getUrl());
+    public void onQualityForExternalChoosed(String url) {
+        getRouter().navigateTo(Screens.EXTERNAL_PLAYER, url);
     }
 
     private void onPlayEmbedded() {

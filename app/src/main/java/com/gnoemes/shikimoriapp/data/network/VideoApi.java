@@ -3,6 +3,8 @@ package com.gnoemes.shikimoriapp.data.network;
 import org.jsoup.nodes.Document;
 
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
@@ -35,4 +37,10 @@ public interface VideoApi {
      */
     @GET
     Single<Document> getVideoSource(@Url String url);
+
+    /**
+     * Handle raw response with headers and redirect urls
+     */
+    @GET
+    Single<Response<ResponseBody>> getRawVideoResponse(@Url String url);
 }

@@ -9,4 +9,6 @@ public interface PlayVideoResponseConverter {
     PlayVideo apply(Document document, long animeId, int episodeId);
 
     PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String title, Document document);
+
+    PlayVideo convertMp4FromDashSibnetResponse(PlayVideo video, String url);
 }

@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.domain.Translation;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
 import com.gnoemes.shikimoriapp.entity.series.domain.Series;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 
 import java.util.List;
 
@@ -21,6 +22,9 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import retrofit2.Response;
 
 public class SeriesRepositoryImpl implements SeriesRepository {
 
@@ -91,12 +95,22 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     public Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId) {
         return api.getAnimeVideoInfo(animeId, episodeId, videoId)
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
+
     }
 
     @Override
     public Single<PlayVideo> getVideo(long animeId, int episodeId) {
         return api.getAnimeVideoInfo(animeId, episodeId)
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
+    }
+
+    private Single<PlayVideo> getVideoFromSibnet(PlayVideo video) {
+        return api.getRawVideoResponse(video.getTracks().get(0).getUrl())
+                .map(Response::raw)
+                .map(okhttp3.Response::request)
+                .map(Request::url)
+                .map(HttpUrl::toString)
+                .map(url -> playVideoResponseConverter.convertMp4FromDashSibnetResponse(video, url));
     }
 
     @Override
@@ -110,7 +124,13 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                         playVideo.getEpisodeId(),
                                         playVideo.getHosting(),
                                         playVideo.getTitle(),
-                                        document)));
+                                        document)))
+                .flatMap(video -> {
+                    if (video.getHosting() == VideoHosting.SIBNET) {
+                        return getVideoFromSibnet(video);
+                    }
+                    return Single.fromCallable(() -> video);
+                });
     }
 
     @Override
@@ -124,7 +144,13 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                         playVideo.getEpisodeId(),
                                         playVideo.getHosting(),
                                         playVideo.getTitle(),
-                                        document)));
+                                        document)))
+                .flatMap(video -> {
+                    if (video.getHosting() == VideoHosting.SIBNET) {
+                        return getVideoFromSibnet(video);
+                    }
+                    return Single.fromCallable(() -> video);
+                });
     }
 
     @Override
