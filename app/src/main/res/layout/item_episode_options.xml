@@ -19,8 +19,8 @@
         android:paddingEnd="@dimen/margin_normal"
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_normal"
-        android:visibility="visible"
         android:textSize="16sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,9 +37,23 @@
         android:layout_marginTop="8dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_alternative"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Серия 1" />
 
+    <ImageView
+        android:id="@+id/image_alternative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:tint="?attr/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_find_replace" />
 
 </android.support.constraint.ConstraintLayout>
