@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
@@ -60,6 +61,8 @@ public class EpisodeAlternativeOptionAdapterDelegate extends AdapterDelegate<Lis
         @BindView(R.id.text_episode)
         TextView nextEpisode;
 
+        @BindView(R.id.image_alternative)
+        ImageView alternativeBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -98,7 +101,8 @@ public class EpisodeAlternativeOptionAdapterDelegate extends AdapterDelegate<Lis
 
             continueBtn.setText(buttonText);
 
-            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.WATCH_ONLINE, optionsItem.getEpisodeItem()));
+            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.ALTERNATIVE_SOURCE, optionsItem.getEpisodeItem()));
+            alternativeBtn.setVisibility(View.GONE);
         }
     }
 }
