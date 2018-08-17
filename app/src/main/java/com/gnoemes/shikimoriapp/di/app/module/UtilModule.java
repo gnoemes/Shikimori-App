@@ -12,6 +12,10 @@ import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.comments.converter.CommentsResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.download.converter.PlayVideoToDownloadConverter;
+import com.gnoemes.shikimoriapp.data.repository.download.converter.PlayVideoToDownloadConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeDownloadConverter;
+import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeDownloadConveterImpl;
 import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
@@ -172,4 +176,10 @@ public interface UtilModule {
 
     @Binds
     PersonResponseConverter bindPersonResponseConverter(PersonResponseConverterImpl converter);
+
+    @Binds
+    PlayVideoToDownloadConverter bindPlayVideoToDownloadConverter(PlayVideoToDownloadConverterImpl converter);
+
+    @Binds
+    SmotretAnimeDownloadConverter bindSmotretAnimeDownloadConverter(SmotretAnimeDownloadConveterImpl conveter);
 }

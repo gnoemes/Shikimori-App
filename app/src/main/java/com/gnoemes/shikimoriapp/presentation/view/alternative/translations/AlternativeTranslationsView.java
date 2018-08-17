@@ -29,4 +29,7 @@ public interface AlternativeTranslationsView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void showSettingsDialog();
+
+    @StateStrategyType(SkipStrategy.class)
+    void checkPermissions();
 }

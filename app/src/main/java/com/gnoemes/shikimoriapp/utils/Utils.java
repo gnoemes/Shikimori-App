@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.utils;
 import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
+import com.gnoemes.shikimoriapp.entity.series.domain.VideoHosting;
 
 public class Utils {
 
@@ -20,5 +21,11 @@ public class Utils {
             return null;
         }
         return word.substring(0, 1).toUpperCase() + word.substring(1);
+    }
+
+    public static boolean isAwailableForDownload(VideoHosting hosting) {
+        return hosting == VideoHosting.VK
+                || hosting == VideoHosting.SIBNET
+                || hosting == VideoHosting.SMOTRET_ANIME;
     }
 }

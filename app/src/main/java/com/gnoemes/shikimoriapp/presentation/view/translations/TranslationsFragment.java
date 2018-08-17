@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.translations;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentViewWithButton;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
+import com.gnoemes.shikimoriapp.presentation.view.translations.adapter.TranslationItemCallback;
 import com.gnoemes.shikimoriapp.presentation.view.translations.adapter.TranslationsAdapter;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
@@ -37,7 +39,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class TranslationsFragment extends BaseFragment<TranslationsPresenter, TranslationsView>
         implements TranslationsView {
 
@@ -90,6 +97,12 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
         initViews();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        TranslationsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     private void initViews() {
 
         emptyContentView.setText(R.string.translations_empty);
@@ -99,7 +112,17 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
 
         refreshLayout.setOnRefreshListener(() -> getPresenter().loadTranslations());
 
-        adapter = new TranslationsAdapter(translation -> getPresenter().onTranslationClicked(translation));
+        adapter = new TranslationsAdapter(new TranslationItemCallback() {
+            @Override
+            public void onTranslationClicked(TranslationViewModel translation) {
+                getPresenter().onTranslationClicked(translation);
+            }
+
+            @Override
+            public void onDownloadTranslation(TranslationViewModel translation) {
+                getPresenter().onDownloadTranslation(translation);
+            }
+        });
 
         int margin = (int) getResources().getDimension(R.dimen.margin_small);
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));
@@ -141,6 +164,21 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
         }
     }
 
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionDenied() {
+        getPresenter().onPermissionDenied();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onNeverAskAgain() {
+        getPresenter().onNeverAskAgain();
+    }
+
+    @NeedsPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionGranted() {
+        getPresenter().onPermissionGranted();
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////
@@ -158,6 +196,12 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     ///////////////////////////////////////////////////////////////////////////
     // MVP
     ///////////////////////////////////////////////////////////////////////////
+
+    @Override
+
+    public void checkPermissions() {
+        TranslationsFragmentPermissionsDispatcher.onPermissionGrantedWithPermissionCheck(this);
+    }
 
 
     @Override
@@ -180,7 +224,7 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
             new MaterialDialog.Builder(getContext())
                     .title(R.string.quality_title)
                     .items(resolutions)
-                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onQualityForExternalChoosed(tracks.get(position)))
+                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onQualityForExternalChoosed(tracks.get(position).getUrl()))
                     .autoDismiss(true)
                     .titleColorAttr(R.attr.colorText)
                     .contentColorAttr(R.attr.colorText)

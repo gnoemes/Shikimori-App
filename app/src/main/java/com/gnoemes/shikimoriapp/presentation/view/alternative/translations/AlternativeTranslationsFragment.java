@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.alternative.translations;
 
+import android.Manifest;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTran
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.presentation.presenter.alternative.AlternativeTranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.adapter.TranslationAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.adapter.TranslationItemCallback;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentViewWithButton;
@@ -31,7 +33,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTranslationsPresenter, AlternativeTranslationsView>
         implements AlternativeTranslationsView {
 
@@ -84,6 +91,12 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
         initViews();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AlternativeTranslationsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     private void initViews() {
 
         emptyContentView.setText(R.string.translations_empty);
@@ -93,7 +106,17 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
 
         refreshLayout.setOnRefreshListener(() -> getPresenter().loadTranslations());
 
-        adapter = new TranslationAdapter(getPresenter()::onTranslationClicked);
+        adapter = new TranslationAdapter(new TranslationItemCallback() {
+            @Override
+            public void onTranslationClicked(AlternativeTranslationViewModel translation) {
+                getPresenter().onTranslationClicked(translation);
+            }
+
+            @Override
+            public void onDownloadTranslation(AlternativeTranslationViewModel translation) {
+                getPresenter().onDownloadTranslation(translation);
+            }
+        });
 
         int margin = (int) getResources().getDimension(R.dimen.margin_small);
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));
@@ -132,6 +155,22 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
             return false;
         });
     }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionDenied() {
+        getPresenter().onPermissionDenied();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onNeverAskAgain() {
+        getPresenter().onNeverAskAgain();
+    }
+
+    @NeedsPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionGranted() {
+        getPresenter().onPermissionGranted();
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // GETTERS
@@ -209,5 +248,10 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
                 .canceledOnTouchOutside(true)
                 .build()
                 .show();
+    }
+
+    @Override
+    public void checkPermissions() {
+        AlternativeTranslationsFragmentPermissionsDispatcher.onPermissionGrantedWithPermissionCheck(this);
     }
 }

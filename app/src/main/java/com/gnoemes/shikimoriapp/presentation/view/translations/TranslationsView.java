@@ -40,4 +40,7 @@ public interface TranslationsView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void showQualityDialog(List<VideoTrack> tracks);
+
+    @StateStrategyType(SkipStrategy.class)
+    void checkPermissions();
 }

@@ -4,10 +4,12 @@ import android.text.TextUtils;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.download.DownloadInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
+import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
@@ -30,6 +32,7 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     private SeriesInteractor interactor;
     private TitleResourceProvider resourceProvider;
     private TranslationViewModelConverter converter;
+    private DownloadInteractor downloadInteractor;
 
     private TranslationType currentTranslationType;
     private TranslationViewModel currentTranslation;
@@ -38,9 +41,11 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     private long rateId;
 
     public TranslationsPresenter(SeriesInteractor interactor,
+                                 DownloadInteractor downloadInteractor,
                                  TitleResourceProvider resourceProvider,
                                  TranslationViewModelConverter converter) {
         this.interactor = interactor;
+        this.downloadInteractor = downloadInteractor;
         this.resourceProvider = resourceProvider;
         this.converter = converter;
     }
@@ -98,6 +103,37 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
         }
 
         getViewState().showPlayerDialog(players);
+    }
+
+    public void onDownloadTranslation(TranslationViewModel translation) {
+        currentTranslation = translation;
+        getViewState().checkPermissions();
+    }
+
+    private void downloadTranslation() {
+        if (currentTranslation.getHosting() == VideoHosting.SMOTRET_ANIME) {
+            Disposable disposable = interactor.getVideo(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId(), currentTranslation.getVideoId())
+                    .doOnSubscribe(disposable1 -> getViewState().onShowLoading())
+                    .flatMapCompletable(downloadInteractor::downloadVideo)
+                    .doOnComplete(() -> getViewState().onHideLoading())
+                    .doOnError(throwable -> getViewState().onHideLoading())
+                    .doOnComplete(() -> getRouter().showSystemMessage("Загрузка началась.\nУспешность загрузки с этого ресурса не гарантируется"))
+                    .subscribe(() -> {
+                    }, this::processErrors);
+
+            unsubscribeOnDestroy(disposable);
+        } else {
+            Disposable disposable = interactor.getVideoSource(currentTranslation.getAnimeId(), currentTranslation.getEpisodeId(), currentTranslation.getVideoId())
+                    .doOnSubscribe(disposable1 -> getViewState().onShowLoading())
+                    .flatMapCompletable(downloadInteractor::downloadVideo)
+                    .doOnComplete(() -> getViewState().onHideLoading())
+                    .doOnError(throwable -> getViewState().onHideLoading())
+                    .doOnComplete(() -> getRouter().showSystemMessage("Загрузка началась"))
+                    .subscribe(() -> {
+                    }, this::processErrors);
+
+            unsubscribeOnDestroy(disposable);
+        }
     }
 
     public void onPlay(PlayerType type) {
@@ -199,13 +235,20 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
      */
     @Override
     protected void processErrors(Throwable throwable) {
-        BaseException exception = (BaseException) throwable;
-        switch (exception.getTag()) {
-            case NetworkException.TAG:
-                getViewState().showErrorView();
-                break;
-            default:
-                super.processErrors(throwable);
+        if (throwable instanceof BaseException) {
+            BaseException exception = (BaseException) throwable;
+            switch (exception.getTag()) {
+                case NetworkException.TAG:
+                    getViewState().showErrorView();
+                    break;
+                case ContentException.TAG:
+                    getRouter().showSystemMessage("Произошла ошибка во время загрузки видео");
+                    break;
+                default:
+                    super.processErrors(throwable);
+            }
+        } else {
+            super.processErrors(throwable);
         }
     }
 
@@ -252,5 +295,19 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
     public void setRateId(long rateId) {
         this.rateId = rateId;
+    }
+
+
+    public void onPermissionDenied() {
+        getRouter().showSystemMessage("Для загрузки видео необходимо разрешение");
+    }
+
+    public void onNeverAskAgain() {
+        getRouter().showSystemMessage("Для загрузки видео необходимо разрешение");
+    }
+
+
+    public void onPermissionGranted() {
+        downloadTranslation();
     }
 }
