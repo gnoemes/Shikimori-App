@@ -309,12 +309,22 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         for (RateStatus status : statuses) {
             items.add(rateResourceProvider.getLocalizedStatus(status));
         }
+        items.add(resourceProvider.getDeleteString());
 
         if (getContext() != null) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.rate_change)
                     .items(items.toArray(new CharSequence[items.size()]))
-                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onItemStatusChanged(id, statuses.get(position)))
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            if (position == items.size() - 1) {
+                                getPresenter().onItemStatusRemove(id);
+                            } else {
+                                FavoriteFragment.this.getPresenter().onItemStatusChanged(id, statuses.get(position));
+                            }
+                        }
+                    })
                     .autoDismiss(true)
                     .titleColorAttr(R.attr.colorText)
                     .contentColorAttr(R.attr.colorText)

@@ -61,6 +61,11 @@ public class UserRatesAnimeResourceProviderImpl extends BaseAnimeResourceProvide
     }
 
     @Override
+    public String getDeleteString() {
+        return context.getString(R.string.common_delete);
+    }
+
+    @Override
     public List<String> getRateStasuses() {
         return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses));
     }

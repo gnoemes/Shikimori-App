@@ -294,5 +294,12 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
         unsubscribeOnDestroy(disposable);
     }
+
+    public void onItemStatusRemove(long id) {
+        Disposable disposable = interactor.deleteRate(id)
+                .subscribe(this::onRefresh, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
 }
 
