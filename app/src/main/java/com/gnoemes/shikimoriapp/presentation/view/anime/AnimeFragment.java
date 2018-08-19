@@ -309,7 +309,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                 translationTypes[i] = Utils.firstUpperCase(types.get(i).getType());
             }
 
-            if (getContext() != null) {
+            if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
                 translationTypeDialog = new MaterialDialog.Builder(getContext())
                         .dividerColor(R.attr.colorAccent)
                         .items(translationTypes)
@@ -336,7 +336,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             titles.add(model.getName());
         }
 
-        if (getContext() != null) {
+        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.common_links)
                     .items(titles.toArray(new CharSequence[titles.size()]))
@@ -364,7 +364,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
         List<String> items = franchiseConverter.convertList(nodes);
 
-        if (getContext() != null) {
+        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.chronology)
                     .items(items.toArray(new CharSequence[items.size()]))
@@ -407,7 +407,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showClearHistoryDialog() {
-        if (getContext() != null) {
+        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
             new MaterialDialog.Builder(getContext())
                     .content(R.string.clear_episodes_content)
                     .autoDismiss(true)
