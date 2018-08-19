@@ -37,8 +37,6 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
 //    @BindView(R.id.progress_loading)
 //    ProgressBar progressBar;
 
-    private static final String SMOTRET_ANIME_REGEX = "https?://smotret-anime\\.ru/";
-
     public static Intent newIntent(Context context, String url) {
 //        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
 //            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -85,7 +83,7 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         layout = findViewById(R.id.frame);
         webView = new WebView(getApplicationContext());
         layout.addView(webView);
-
+        webView.clearCache(true);
         client = new VideoWebChromeClient(webView, windowCallback);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -98,36 +96,6 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
         webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-                if (Pattern.compile(SMOTRET_ANIME_REGEX).matcher(url).find()) {
-                    String js = "(function() {\n" +
-                            "        var script = document.createElement('script');\n" +
-                            "        script.innerHTML = `\n" +
-                            "            var watchedVideoToday = getCookieItem(\"watchedVideoToday\");\n" +
-                            "            var lastDate          = getCookieItem(\"lastDate\");\n" +
-                            "            var dateTime          = new Date()\n" +
-                            "            var today             = dateTime.getDate();\n" +
-                            "            var now              = dateTime.getTime();\n" +
-                            "            if ((isNaN(watchedVideoToday)) || (today != lastDate)){\n" +
-                            "                watchedVideoToday = 1;\n" +
-                            "                lastDate = today;\n" +
-                            "            }\n" +
-                            "            var expireTime = (new Date()).setTime(now + (1000 * 60 * 60));\n" +
-                            "            setCookieItem('watchedVideoToday', +watchedVideoToday+1, '/');\n" +
-                            "            setCookieItem('watchedPromoVideo', now, expireTime, '/');\n" +
-                            "            setCookieItem('lastDate', lastDate, '/');\n" +
-                            "        `;\n" +
-                            "        script.setAttribute('id', 'super_id_name');\n" +
-                            "        document.body.appendChild(script);\n" +
-                            "})();";
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        webView.evaluateJavascript(js, value -> Log.i("DEVE", "onReceiveValue: " + value));
-                    }
-                }
-            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
