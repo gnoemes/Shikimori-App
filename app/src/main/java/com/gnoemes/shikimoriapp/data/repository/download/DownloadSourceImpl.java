@@ -45,7 +45,7 @@ public class DownloadSourceImpl implements DownloadSource {
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_DOWNLOADS, "ShikimoriApp/" + video.getAnimeName() + "/" + title);
+                    Environment.DIRECTORY_DOWNLOADS, "ShikimoriApp/" + video.getAnimeName() + "/" + title + ".mp4");
 
             if (downloadManager != null) {
                 downloadManager.enqueue(request);
