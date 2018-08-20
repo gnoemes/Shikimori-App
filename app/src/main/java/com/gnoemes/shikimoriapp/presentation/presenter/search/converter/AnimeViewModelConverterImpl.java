@@ -32,7 +32,7 @@ public class AnimeViewModelConverterImpl implements AnimeViewModelConverter {
         return new AnimeViewModel(
                 anime.getId(),
                 anime.getName(),
-                anime.getRussianName(),
+                anime.getSecondName(),
                 anime.getAnimeImage().getImageOriginalUrl(),
                 anime.getAnimeImage().getImagePreviewUrl(),
                 anime.getAnimeImage().getImageX96Url(),

@@ -17,7 +17,7 @@ public class Anime extends LinkedContent {
     private String name;
 
     @Nullable
-    private String russianName;
+    private String secondName;
 
     private AnimeImage animeImage;
 
@@ -36,13 +36,13 @@ public class Anime extends LinkedContent {
     @Nullable
     private DateTime releasedDate;
 
-    public Anime(long id, String name, @Nullable String russianName, AnimeImage animeImage,
+    public Anime(long id, String name, @Nullable String secondName, AnimeImage animeImage,
                  String url, AnimeType type, AnimeStatus status, int episodes,
                  int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
         super(id, LinkedType.ANIME, animeImage.getImageOriginalUrl());
         this.id = id;
         this.name = name;
-        this.russianName = russianName;
+        this.secondName = secondName;
         this.animeImage = animeImage;
         this.url = url;
         this.type = type;
@@ -62,8 +62,8 @@ public class Anime extends LinkedContent {
     }
 
     @Nullable
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
     public AnimeImage getAnimeImage() {
@@ -98,4 +98,5 @@ public class Anime extends LinkedContent {
     public DateTime getReleasedDate() {
         return releasedDate;
     }
+
 }

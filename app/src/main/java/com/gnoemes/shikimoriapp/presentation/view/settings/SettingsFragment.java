@@ -8,6 +8,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -17,6 +18,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private FirebaseAnalytics analytics;
 
     private boolean isDarkTheme;
+    private String naming;
 
 
     @Override
@@ -62,7 +64,34 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
+        String namingSummary = getPreferenceManager().getSharedPreferences().getBoolean(SettingsExtras.IS_ROMADZI_NAMING, false)
+                ? getContext().getString(R.string.on_romadzi) : getContext().getString(R.string.on_russian);
+        findPreference(getResources().getString(R.string.pref_naming)).setSummary(namingSummary);
+        findPreference(getResources().getString(R.string.pref_naming)).setOnPreferenceClickListener(preference -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.titles_naming)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        String summary = position == 1 ? getContext().getString(R.string.on_romadzi) : getContext().getString(R.string.on_russian);
+                        preference.setSummary(summary);
+                        getPreferenceManager().getSharedPreferences().edit().putBoolean(SettingsExtras.IS_ROMADZI_NAMING, position == 1).apply();
+                    })
+                    .titleColorAttr(R.attr.colorText)
+                    .contentColorAttr(R.attr.colorText)
+                    .alwaysCallSingleChoiceCallback()
+                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+                    .items(R.array.naming_types)
+                    .canceledOnTouchOutside(true)
+                    .itemsColorAttr(R.attr.colorText)
+                    .autoDismiss(true)
+                    .build()
+                    .show();
+            return false;
+        });
+
         analytics.setUserProperty("theme", String.valueOf(isDarkTheme));
+
+        naming = getPreferenceManager().getSharedPreferences().getBoolean(SettingsExtras.IS_ROMADZI_NAMING, false) ? "romadzi" : "russian";
+        analytics.setUserProperty("titles_naming", naming);
     }
 
     @Override

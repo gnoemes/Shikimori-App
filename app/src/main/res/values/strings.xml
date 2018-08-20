@@ -356,6 +356,10 @@
     <string name="episodes_alternative">Альтернативный источник</string>
     <string name="rate_change">Изменить статус</string>
     <string name="common_download">Скачать</string>
+    <string name="pref_naming">naming_type</string>
+    <string name="on_russian">На русском</string>
+    <string name="on_romadzi">На ромадзи</string>
+    <string name="titles_naming">Наименования тайтлов</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -461,6 +465,11 @@
 
     <string-array name="players_single">
         <item>@string/player_in_browser</item>
+    </string-array>
+
+    <string-array name="naming_types">
+        <item>@string/on_russian</item>
+        <item>@string/on_romadzi</item>
     </string-array>
 
 </resources>

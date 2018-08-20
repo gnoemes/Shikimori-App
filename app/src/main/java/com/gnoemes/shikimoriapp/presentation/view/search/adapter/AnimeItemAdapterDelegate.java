@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.view.search.adapter;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.mpt.android.stv.Slice;
 import com.mpt.android.stv.SpannableTextView;
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,10 +100,10 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));
 
             name.reset();
-            if (item.getRussianName() != null && Locale.getDefault().getLanguage().equals("ru")) {
-                name.addSlice(getSliceWithName(item.getRussianName()));
-            } else {
+            if (!TextUtils.isEmpty(item.getName())) {
                 name.addSlice(getSliceWithName(item.getName()));
+            } else {
+                name.addSlice(getSliceWithName(item.getSecondName()));
             }
 
             String episodes = String.format(resourceProvider.getEpisodeStringFormat(),

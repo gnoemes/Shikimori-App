@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
@@ -8,14 +9,18 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.utils.PrefUtils;
 import com.gnoemes.shikimoriapp.utils.Utils;
 
 import javax.inject.Inject;
 
 public class AnimeResponseConverterImpl implements AnimeResponseConverter {
 
+    private Context context;
+
     @Inject
-    AnimeResponseConverterImpl() {
+    public AnimeResponseConverterImpl(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -24,9 +29,13 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
             return null;
         }
 
+        boolean isRomandziNaming = PrefUtils.isRomandziNaming(context);
+        String name = isRomandziNaming ? animeResponse.getName() : animeResponse.getRussianName();
+        String secondName = isRomandziNaming ? animeResponse.getRussianName() : animeResponse.getName();
+
         return new Anime(animeResponse.getId(),
-                animeResponse.getName(),
-                animeResponse.getRussianName(),
+                name,
+                secondName,
                 convertAnimeImage(animeResponse.getImage()),
                 animeResponse.getUrl(),
                 convertAnimeType(animeResponse.getType()),

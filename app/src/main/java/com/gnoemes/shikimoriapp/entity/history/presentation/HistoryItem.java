@@ -11,7 +11,7 @@ public class HistoryItem extends BaseHistoryItem {
 
     private long id;
     private String name;
-    private String russianName;
+    private String secondName;
     private String imageOriginalUrl;
     private String imagePreviewUrl;
     private String imageX96Url;
@@ -25,14 +25,14 @@ public class HistoryItem extends BaseHistoryItem {
     @Nullable
     private DateTime releasedDate;
 
-    public HistoryItem(long id, String name, String russianName,
+    public HistoryItem(long id, String name, String secondName,
                        String imageOriginalUrl, String imagePreviewUrl, String imageX96Url,
                        String imageX48Url, String url, AnimeType type, AnimeStatus status,
                        int episodes, int episodesAired, DateTime airedDate,
                        @Nullable DateTime releasedDate) {
         this.id = id;
         this.name = name;
-        this.russianName = russianName;
+        this.secondName = secondName;
         this.imageOriginalUrl = imageOriginalUrl;
         this.imagePreviewUrl = imagePreviewUrl;
         this.imageX96Url = imageX96Url;
@@ -54,8 +54,8 @@ public class HistoryItem extends BaseHistoryItem {
         return name;
     }
 
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
     public String getImageOriginalUrl() {

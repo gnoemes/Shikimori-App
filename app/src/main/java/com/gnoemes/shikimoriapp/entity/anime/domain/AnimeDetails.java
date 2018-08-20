@@ -19,7 +19,7 @@ public class AnimeDetails {
     private long topicId;
     private String name;
     @Nullable
-    private String russianName;
+    private String secondName;
     private AnimeImage animeImage;
     private String url;
     private AnimeType type;
@@ -46,7 +46,7 @@ public class AnimeDetails {
     private List<Video> videos;
     private List<Character> characters;
 
-    public AnimeDetails(long id, long topicId, String name, @Nullable String russianName, AnimeImage animeImage,
+    public AnimeDetails(long id, long topicId, String name, @Nullable String secondName, AnimeImage animeImage,
                         String url, AnimeType type, @Nullable AnimeStatus status, int episodes,
                         int episodesAired, @Nullable DateTime airedDate, @Nullable DateTime releasedDate,
                         @Nullable List<String> englishNames, @Nullable List<String> japaneseNames, int duration,
@@ -55,7 +55,7 @@ public class AnimeDetails {
         this.id = id;
         this.topicId = topicId;
         this.name = name;
-        this.russianName = russianName;
+        this.secondName = secondName;
         this.animeImage = animeImage;
         this.url = url;
         this.type = type;
@@ -88,8 +88,8 @@ public class AnimeDetails {
     }
 
     @Nullable
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
     public AnimeImage getAnimeImage() {

@@ -38,7 +38,7 @@ public class HistoryViewModelConverterImpl implements HistoryViewModelConverter 
         return new HistoryItem(
                 anime.getId(),
                 anime.getName(),
-                anime.getRussianName(),
+                anime.getSecondName(),
                 anime.getAnimeImage().getImageOriginalUrl(),
                 anime.getAnimeImage().getImagePreviewUrl(),
                 anime.getAnimeImage().getImageX96Url(),

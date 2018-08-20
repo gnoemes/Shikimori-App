@@ -527,7 +527,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void onCreateSuccess() {
         loadAnimeData();
-        getRouter().showSystemMessage(String.format(resourceProvider.getCreateMessage(), currentAnime.getRussianName()));
+        getRouter().showSystemMessage(String.format(resourceProvider.getCreateMessage(), currentAnime.getSecondName()));
     }
 
     public void onDeleteRate(long id) {
@@ -538,7 +538,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void onDeleteSuccess() {
         loadAnimeData();
-        getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getRussianName()));
+        getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getSecondName()));
     }
 
     public void onUserClicked(long id) {
@@ -562,7 +562,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onBackgroundImageClicked() {
         if (currentAnime != null) {
-            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
+            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
         }
     }
 }

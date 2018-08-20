@@ -48,7 +48,7 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
         return new CalendarAnimeViewModel(
                 item.getAnime().getId(),
                 item.getAnime().getName(),
-                item.getAnime().getRussianName(),
+                item.getAnime().getSecondName(),
                 item.getAnime().getAnimeImage().getImageOriginalUrl(),
                 item.getAnime().getAnimeImage().getImagePreviewUrl(),
                 item.getAnime().getAnimeImage().getImageX96Url(),

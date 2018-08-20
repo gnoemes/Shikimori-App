@@ -40,11 +40,9 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
 
     @Override
     public AnimeDetailsViewModel apply(AnimeDetails animeDetails) {
-
-
         return new AnimeDetailsViewModel(animeDetails.getId(),
-                convertName(animeDetails.getRussianName(), animeDetails.getName()),
-                convertName(animeDetails.getName(), animeDetails.getJapaneseNames()),
+                animeDetails.getName(),
+                animeDetails.getSecondName(),
                 animeDetails.getUrl(),
                 animeDetails.getAnimeImage().getImageOriginalUrl(),
                 convertType(animeDetails.getType(), animeDetails.getEpisodes(), animeDetails.getDuration()),
@@ -106,8 +104,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     public List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
         List<BaseItem> animeItems = new ArrayList<>();
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
-                viewModel.getName(),
-                viewModel.getJpOrEngName(),
+                viewModel.getTitle(),
+                viewModel.getSubTitle(),
                 viewModel.getUrl(),
                 viewModel.getImageUrl(),
                 viewModel.getAnimeType(),

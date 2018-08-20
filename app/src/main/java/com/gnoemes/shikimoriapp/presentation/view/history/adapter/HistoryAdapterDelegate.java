@@ -126,7 +126,7 @@ public class HistoryAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             statusView.display();
 
             //TODO locale/settings
-            animeTitleView.setText(item.getRussianName());
+            animeTitleView.setText(item.getName());
 
             layout.setOnClickListener(v -> callback.onItemClick(item.getId()));
         }

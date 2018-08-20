@@ -5,6 +5,21 @@
 
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
+        android:title="Наименования">
+
+        <Preference
+            android:defaultValue="@string/on_russian"
+            android:key="@string/pref_naming"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/on_russian"
+            android:title="@string/titles_naming" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
         android:title="Управление статусами">
 
         <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat

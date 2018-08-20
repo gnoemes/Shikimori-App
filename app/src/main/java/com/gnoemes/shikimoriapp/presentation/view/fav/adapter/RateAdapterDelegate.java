@@ -146,8 +146,8 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             episodes.reset();
             comment.reset();
 
-            String titleText = model.getAnime().getRussianName() == null ? model.getAnime().getName()
-                    : model.getAnime().getRussianName();
+            String titleText = model.getAnime().getName() == null ? model.getAnime().getSecondName()
+                    : model.getAnime().getName();
             title.setText(titleText);
 
             type.setText(model.getAnime().getType().name());

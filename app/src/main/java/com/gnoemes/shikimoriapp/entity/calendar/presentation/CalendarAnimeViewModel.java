@@ -89,7 +89,7 @@ public class CalendarAnimeViewModel {
     }
 
     @Nullable
-    public String getRussianName() {
+    public String getSecondName() {
         return russianName;
     }
 

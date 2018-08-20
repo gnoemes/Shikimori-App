@@ -15,7 +15,7 @@ public class AnimeViewModel extends BaseSearchItem {
 
     private String name;
 
-    private String russianName;
+    private String secondName;
 
     private String imageOriginalUrl;
 
@@ -40,14 +40,14 @@ public class AnimeViewModel extends BaseSearchItem {
     @Nullable
     private DateTime releasedDate;
 
-    public AnimeViewModel(long id, String name, @Nullable String russianName,
+    public AnimeViewModel(long id, String name, @Nullable String secondName,
                           String imageOriginalUrl, String imagePreviewUrl, String imageX96Url,
                           String imageX48Url, String url, AnimeType type, AnimeStatus status,
                           int episodes, int episodesAired, DateTime airedDate,
                           @Nullable DateTime releasedDate) {
         this.id = id;
         this.name = name;
-        this.russianName = russianName;
+        this.secondName = secondName;
         this.imageOriginalUrl = imageOriginalUrl;
         this.imagePreviewUrl = imagePreviewUrl;
         this.imageX96Url = imageX96Url;
@@ -69,8 +69,8 @@ public class AnimeViewModel extends BaseSearchItem {
         return name;
     }
 
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
     public String getImageOriginalUrl() {
