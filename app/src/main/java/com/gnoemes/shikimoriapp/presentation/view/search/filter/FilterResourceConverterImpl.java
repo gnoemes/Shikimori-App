@@ -54,13 +54,13 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
             }
         } else if (isType(type)) {
             for (AnimeType animeType : AnimeType.values()) {
-                if (animeType.equalsType(typeName)) {
+                if (animeType.name().equalsIgnoreCase(typeName)) {
                     return animeType.toString();
                 }
             }
         } else if (isStatus(type)) {
             for (AnimeStatus animeStatus : AnimeStatus.values()) {
-                if (animeStatus.equalsStatus(typeName)) {
+                if (animeStatus.name().equalsIgnoreCase(typeName)) {
                     return animeStatus.toString();
                 }
             }

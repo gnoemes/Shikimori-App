@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.domain;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -20,7 +21,7 @@ public class AnimeDetails {
     private String name;
     @Nullable
     private String secondName;
-    private AnimeImage animeImage;
+    private Image image;
     private String url;
     private AnimeType type;
     @Nullable
@@ -46,7 +47,7 @@ public class AnimeDetails {
     private List<Video> videos;
     private List<Character> characters;
 
-    public AnimeDetails(long id, long topicId, String name, @Nullable String secondName, AnimeImage animeImage,
+    public AnimeDetails(long id, long topicId, String name, @Nullable String secondName, Image image,
                         String url, AnimeType type, @Nullable AnimeStatus status, int episodes,
                         int episodesAired, @Nullable DateTime airedDate, @Nullable DateTime releasedDate,
                         @Nullable List<String> englishNames, @Nullable List<String> japaneseNames, int duration,
@@ -56,7 +57,7 @@ public class AnimeDetails {
         this.topicId = topicId;
         this.name = name;
         this.secondName = secondName;
-        this.animeImage = animeImage;
+        this.image = image;
         this.url = url;
         this.type = type;
         this.status = status;
@@ -92,8 +93,8 @@ public class AnimeDetails {
         return secondName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getUrl() {

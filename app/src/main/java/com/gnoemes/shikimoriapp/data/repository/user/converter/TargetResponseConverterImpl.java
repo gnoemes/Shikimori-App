@@ -62,11 +62,11 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
     }
 
     private AnimeStatus convertAnimeStatus(String status) {
-        if (AnimeStatus.ANONS.equalsStatus(status)) {
+        if (AnimeStatus.ANONS.name().equalsIgnoreCase(status)) {
             return AnimeStatus.ANONS;
-        } else if (AnimeStatus.ONGOING.equalsStatus(status)) {
+        } else if (AnimeStatus.ONGOING.name().equalsIgnoreCase(status)) {
             return AnimeStatus.ONGOING;
-        } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
+        } else if (AnimeStatus.RELEASED.name().equalsIgnoreCase(status)) {
             return AnimeStatus.RELEASED;
         } else {
             throw new IllegalArgumentException(status + " is not valid status");

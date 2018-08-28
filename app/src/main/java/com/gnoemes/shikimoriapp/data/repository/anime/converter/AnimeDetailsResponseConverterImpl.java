@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.content.Context;
 
+import com.gnoemes.shikimoriapp.data.repository.common.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
@@ -25,16 +26,19 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
 
     private AnimeResponseConverter converter;
     private AnimeRateResponseConverter rateConverter;
+    private ImageResponseConverter imageConverter;
     private RolesResponseConverter rolesResponseConverter;
     private Context context;
 
     @Inject
     public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
                                              AnimeRateResponseConverter rateConverter,
+                                             ImageResponseConverter imageConverter,
                                              RolesResponseConverter rolesResponseConverter,
                                              Context context) {
         this.converter = converter;
         this.rateConverter = rateConverter;
+        this.imageConverter = imageConverter;
         this.rolesResponseConverter = rolesResponseConverter;
         this.context = context;
     }
@@ -43,29 +47,29 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
     public AnimeDetails convertDetailsWithCharacters(AnimeDetailsResponse response, List<RolesResponse> rolesResponses) {
 
         boolean isRomandziNaming = PrefUtils.isRomandziNaming(context);
-        String name = isRomandziNaming ? response.getName() : response.getRussianName();
-        String secondName = isRomandziNaming ? response.getRussianName() : response.getName();
+        String name = isRomandziNaming ? response.getName() : response.getNameRu();
+        String secondName = isRomandziNaming ? response.getNameRu() : response.getName();
 
         return new AnimeDetails(response.getId(),
                 response.getTopicId(),
                 name,
                 secondName,
-                converter.convertAnimeImage(response.getImage()),
+                imageConverter.convert(response.getImage()),
                 response.getUrl(),
-                converter.convertAnimeType(response.getType()),
-                converter.convertAnimeStatus(response.getStatus()),
+                response.getType(),
+                response.getStatus(),
                 response.getEpisodes(),
                 response.getEpisodesAired(),
-                response.getAiredDate(),
-                response.getReleasedDate(),
-                response.getEnglishNames(),
-                response.getJapaneseNames(),
+                response.getDateAired(),
+                response.getDateReleased(),
+                response.getNamesEnglish(),
+                response.getNamesJapanese(),
                 response.getDuration(),
                 response.getScore(),
                 response.getDescription(),
                 convertGenres(response.getGenres()),
-                rateConverter.convertUserRateResponse(response.getRateResponse()),
-                convertVideos(response.getVideoResponses()),
+                rateConverter.convertUserRateResponse(response.getUserRate()),
+                convertVideos(response.getVideos()),
                 rolesResponseConverter.convertCharacters(rolesResponses)
         );
     }

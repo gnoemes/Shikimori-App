@@ -27,11 +27,10 @@ public class EpisodeResponseConverterImpl implements EpisodeResponseConverter {
     }
 
     private AnimeType covertType(String type) {
-        for (AnimeType animeType : AnimeType.values()) {
-            if (animeType.equalsType(type)) {
-                return animeType;
-            }
+        try {
+            return AnimeType.valueOf(type.toUpperCase());
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 }

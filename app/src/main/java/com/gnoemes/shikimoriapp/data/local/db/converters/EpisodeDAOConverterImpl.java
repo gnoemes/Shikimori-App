@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.data.local.db.converters;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.EpisodeDAO;
 import com.gnoemes.shikimoriapp.entity.series.domain.Episode;
 
@@ -42,14 +41,5 @@ public class EpisodeDAOConverterImpl implements EpisodeDAOConverter {
                     dao.getWatched() == 1));
         }
         return episodes;
-    }
-
-    private AnimeType convertType(String type) {
-        for (AnimeType animeType : AnimeType.values()) {
-            if (animeType.equalsType(type)) {
-                return animeType;
-            }
-        }
-        return AnimeType.NONE;
     }
 }

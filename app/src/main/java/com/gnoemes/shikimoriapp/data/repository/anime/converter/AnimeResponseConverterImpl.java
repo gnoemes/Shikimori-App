@@ -58,17 +58,17 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
     @Override
     public AnimeType convertAnimeType(String type) {
 
-        if (AnimeType.TV.equalsType(type)) {
+        if (AnimeType.TV.name().equalsIgnoreCase(type)) {
             return AnimeType.TV;
-        } else if (AnimeType.MOVIE.equalsType(type)) {
+        } else if (AnimeType.MOVIE.name().equalsIgnoreCase(type)) {
             return AnimeType.MOVIE;
-        } else if (AnimeType.OVA.equalsType(type)) {
+        } else if (AnimeType.OVA.name().equalsIgnoreCase(type)) {
             return AnimeType.OVA;
-        } else if (AnimeType.ONA.equalsType(type)) {
+        } else if (AnimeType.ONA.name().equalsIgnoreCase(type)) {
             return AnimeType.ONA;
-        } else if (AnimeType.SPECIAL.equalsType(type)) {
+        } else if (AnimeType.SPECIAL.name().equalsIgnoreCase(type)) {
             return AnimeType.SPECIAL;
-        } else if (AnimeType.MUSIC.equalsType(type)) {
+        } else if (AnimeType.MUSIC.name().equalsIgnoreCase(type)) {
             return AnimeType.MUSIC;
         } else {
             return AnimeType.NONE;
@@ -78,11 +78,11 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
     @Override
     public AnimeStatus convertAnimeStatus(String status) {
 
-        if (AnimeStatus.ANONS.equalsStatus(status)) {
+        if (AnimeStatus.ANONS.name().equalsIgnoreCase(status)) {
             return AnimeStatus.ANONS;
-        } else if (AnimeStatus.ONGOING.equalsStatus(status)) {
+        } else if (AnimeStatus.ONGOING.name().equalsIgnoreCase(status)) {
             return AnimeStatus.ONGOING;
-        } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
+        } else if (AnimeStatus.RELEASED.name().equalsIgnoreCase(status)) {
             return AnimeStatus.RELEASED;
         } else {
             return AnimeStatus.NONE;
