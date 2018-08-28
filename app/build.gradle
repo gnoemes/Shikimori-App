@@ -4,6 +4,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'org.moallemi.advanced-build-version'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     advancedVersioning {
@@ -90,6 +93,7 @@ def glide = '4.7.1'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.android.support:appcompat-v7:${supportLibraryVersion}"
     implementation "com.android.support:exifinterface:${supportLibraryVersion}"
     implementation "com.android.support:design:${supportLibraryVersion}"
@@ -99,13 +103,13 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation "com.google.dagger:dagger-android:${dagger}"
     implementation "com.google.dagger:dagger-android-support:${dagger}"
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    kapt "com.google.dagger:dagger-android-processor:${dagger}"
+    kapt "com.google.dagger:dagger-compiler:${dagger}"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation "io.reactivex.rxjava2:rxjava:${rxJava}"
     implementation "com.jakewharton:butterknife:${butterKnife}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnife}"
+    kapt "com.jakewharton:butterknife-compiler:${butterKnife}"
     implementation "com.squareup.retrofit2:retrofit:${retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
@@ -115,11 +119,11 @@ dependencies {
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation "com.google.code.gson:gson:${gson}"
     implementation "com.arello-mobile:moxy:${moxy}"
-    annotationProcessor "com.arello-mobile:moxy-compiler:${moxy}"
+    kapt "com.arello-mobile:moxy-compiler:${moxy}"
     implementation "com.arello-mobile:moxy-app-compat:${moxy}"
     implementation "com.pushtorefresh.storio3:sqlite:${storIO}"
     implementation "com.pushtorefresh.storio3:sqlite-annotations:${storIO}"
-    annotationProcessor "com.pushtorefresh.storio3:sqlite-annotations-processor:${storIO}"
+    kapt "com.pushtorefresh.storio3:sqlite-annotations-processor:${storIO}"
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
 //    implementation 'com.squareup.picasso:picasso:2.71828'
@@ -138,13 +142,13 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
     implementation 'org.jsoup:jsoup:1.10.2'
     implementation "com.github.bumptech.glide:glide:$glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
     implementation 'com.github.piasy:GlideImageLoader:1.4.6'
-    testImplementation 'org.mockito:mockito-all:1.10.19'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    kaptTest 'org.mockito:mockito-all:1.10.19'
+    kaptTest 'junit:junit:4.12'
+    kaptAndroidTest 'com.android.support.test:runner:1.0.2'
+    kaptAndroidTest 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
         transitive = true
     }
@@ -152,7 +156,7 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
 
 }
 
