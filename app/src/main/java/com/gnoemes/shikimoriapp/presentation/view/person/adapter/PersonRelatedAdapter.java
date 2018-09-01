@@ -86,7 +86,7 @@ public class PersonRelatedAdapter extends RecyclerView.Adapter<PersonRelatedAdap
             layout.setOnClickListener(null);
             nameView.setText(null);
             nameView.setText(item.getText());
-            imageLoader.setImageWithFit(imageView, item.getImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getImage().getOriginal());
             layout.setOnClickListener(v -> callback.onRelatedItemClicked(item.getType(), item.getId()));
         }
 

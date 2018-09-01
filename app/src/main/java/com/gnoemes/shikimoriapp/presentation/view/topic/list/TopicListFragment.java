@@ -40,10 +40,10 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter, TopicLis
     @BindView(R.id.list)
     RecyclerView topicList;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter

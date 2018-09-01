@@ -45,7 +45,7 @@ public class CharacterDetailsFragment extends BaseFragment<CharacterDetailsPrese
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @BindView(R.id.view_empty)

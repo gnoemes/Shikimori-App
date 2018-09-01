@@ -3,10 +3,12 @@ package com.gnoemes.shikimoriapp.data.repository.user.converter;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
+import com.gnoemes.shikimoriapp.data.repository.common.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.user.domain.Target;
 import com.gnoemes.shikimoriapp.entity.user.domain.TargetType;
 
@@ -14,8 +16,11 @@ import javax.inject.Inject;
 
 public class TargetResponseConverterImpl implements TargetResponseConverter {
 
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    public TargetResponseConverterImpl() {
+    public TargetResponseConverterImpl(ImageResponseConverter imageResponseConverter) {
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -26,15 +31,15 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
 
         return new Target(animeResponse.getId(),
                 animeResponse.getName(),
-                animeResponse.getRussianName(),
-                convertAnimeImage(animeResponse.getImage()),
+                animeResponse.getNameRu(),
+                imageResponseConverter.convert(animeResponse.getImage()),
                 animeResponse.getUrl(),
                 convertAnimeType(animeResponse.getType()),
-                convertAnimeStatus(animeResponse.getStatus()),
+                animeResponse.getStatus(),
                 animeResponse.getEpisodes(),
                 animeResponse.getEpisodesAired(),
-                animeResponse.getAiredDate(),
-                animeResponse.getReleasedDate());
+                animeResponse.getDateAired(),
+                animeResponse.getDateReleased());
     }
 
     private AnimeImage convertAnimeImage(DefaultImageResponse image) {
@@ -52,9 +57,9 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
         return BuildConfig.ShikimoriBaseUrl.concat(url);
     }
 
-    private TargetType convertAnimeType(String type) {
+    private TargetType convertAnimeType(AnimeType type) {
         for (TargetType targetType : TargetType.values()) {
-            if (targetType.equalsType(type)) {
+            if (targetType.equalsType(type.toString())) {
                 return targetType;
             }
         }

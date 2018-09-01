@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.ashokvarma.bottomnavigation.BottomNavigationBar xmlns:android="http://schemas.android.com/apk/res/android"
+<jp.s64.android.navigationbarview.bottom.BottomNavigationBarView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_nav"
+    android:id="@+id/bottomNav"
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_gravity="bottom"
+    android:background="?attr/colorBottom"
     android:fitsSystemWindows="true"
-    app:bnbActiveColor="?attr/colorBottom"
-    app:bnbBackgroundColor="?attr/colorBottomAccent"
-    app:bnbElevation="4dp"
-    app:bnbInactiveColor="?attr/colorBottomDark"
-    app:bnbMode="mode_fixed_no_title"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

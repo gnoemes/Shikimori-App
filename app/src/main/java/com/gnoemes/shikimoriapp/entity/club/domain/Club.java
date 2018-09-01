@@ -15,7 +15,7 @@ public class Club extends LinkedContent {
     public Club(long id, String name, ClubImage image,
                 boolean isCensored, ClubPolicy joinClubPolicy,
                 ClubPolicy commentClubPolicy) {
-        super(id, LinkedType.CLUB, image.getOriginal());
+        super(id, name, LinkedType.CLUB, image.getOriginal());
         this.id = id;
         this.name = name;
         this.image = image;

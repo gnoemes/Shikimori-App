@@ -1,10 +1,10 @@
 package com.gnoemes.shikimoriapp.presentation.view.characters.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterDetails;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterRelatedType;
@@ -62,7 +62,7 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
 
     private CharacterRelatedItem convertManga(Manga manga) {
         return new CharacterRelatedItem(manga.getId(),
-                new AnimeImage(manga.getImage().getImageOriginalUrl(),
+                new Image(manga.getImage().getImageOriginalUrl(),
                         manga.getImage().getImagePreviewUrl(),
                         manga.getImage().getImageX96Url(),
                         manga.getImage().getImageX48Url()));
@@ -80,7 +80,7 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
 
     private CharacterRelatedItem convertAnime(Anime anime) {
         return new CharacterRelatedItem(anime.getId(),
-                anime.getAnimeImage());
+                anime.getImage());
     }
 
     private BaseItem convertSeyuRelatedItem(CharacterRelatedType type, List<Person> seyus) {

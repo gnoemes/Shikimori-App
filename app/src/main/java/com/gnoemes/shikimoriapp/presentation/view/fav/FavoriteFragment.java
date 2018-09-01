@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -41,13 +40,13 @@ import butterknife.BindView;
 public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteView>
         implements FavoriteView, DefaultItemCallback {
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
     @BindView(R.id.list)
     RecyclerView list;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter
@@ -312,29 +311,29 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         items.add(resourceProvider.getDeleteString());
 
         if (getContext() != null) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.rate_change)
-                    .items(items.toArray(new CharSequence[items.size()]))
-                    .itemsCallback(new MaterialDialog.ListCallback() {
-                        @Override
-                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                            if (position == items.size() - 1) {
-                                getPresenter().onItemStatusRemove(id);
-                            } else {
-                                FavoriteFragment.this.getPresenter().onItemStatusChanged(id, statuses.get(position));
-                            }
-                        }
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeText(R.string.close)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.rate_change)
+//                    .items(items.toArray(new CharSequence[items.size()]))
+//                    .itemsCallback(new MaterialDialog.ListCallback() {
+//                        @Override
+//                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+//                            if (position == items.size() - 1) {
+//                                getPresenter().onItemStatusRemove(id);
+//                            } else {
+//                                FavoriteFragment.this.getPresenter().onItemStatusChanged(id, statuses.get(position));
+//                            }
+//                        }
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeText(R.string.close)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
         }
     }
 }

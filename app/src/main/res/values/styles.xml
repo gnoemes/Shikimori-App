@@ -1,7 +1,6 @@
 <resources>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="preferenceTheme">@style/PreferenceAppTheme</item>
         <!--<item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>-->
     </style>

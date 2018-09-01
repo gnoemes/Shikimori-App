@@ -27,7 +27,7 @@ public class ShikiAuthenticator implements Authenticator {
 
         Request.Builder requestBuilder = response.request().newBuilder();
 
-        if (storedToken.equals(requestToken)) {
+        if (requestToken != null) {
             authHolder.refresh();
         }
 

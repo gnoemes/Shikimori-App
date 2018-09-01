@@ -47,14 +47,14 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 animeDetails.getImage().getOriginal(),
                 convertType(animeDetails.getType(), animeDetails.getEpisodes(), animeDetails.getDuration()),
                 convertStatus(animeDetails.getStatus()),
-                animeDetails.getAnimeGenres(),
+                animeDetails.getGenres(),
                 animeDetails.getEpisodes(),
                 animeDetails.getEpisodesAired(),
-                convertSeason(animeDetails.getAiredDate()),
+                convertSeason(animeDetails.getDateAired()),
                 animeDetails.getDuration(),
                 animeDetails.getScore(),
                 convertDescription(animeDetails.getDescription()),
-                animeDetails.getAnimeRate(),
+                animeDetails.getUserRate(),
                 animeDetails.getVideos(),
                 animeDetails.getCharacters()
         );

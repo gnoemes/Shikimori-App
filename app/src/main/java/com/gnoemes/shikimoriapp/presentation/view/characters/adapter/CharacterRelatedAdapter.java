@@ -70,7 +70,7 @@ public class CharacterRelatedAdapter extends RecyclerView.Adapter<CharacterRelat
 
         public void bind(CharacterRelatedItem item) {
             imageView.setOnClickListener(null);
-            imageLoader.setImageWithFit(imageView, item.getImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getImage().getOriginal());
             imageView.setOnClickListener(v -> callback.onItemClicked(relatedType, item.getId()));
         }
     }

@@ -13,4 +13,11 @@
     <attr name="colorBackgroundWindowInverse" format="color" />
     <attr name="colorBackgroundWindow" format="color" />
     <attr name="colorAction" format="color" />
+
+
+    <item name="tab_favorite" type="id" />
+    <item name="tab_calendar" type="id" />
+    <item name="tab_search" type="id" />
+    <item name="tab_social" type="id" />
+    <item name="tab_menu" type="id" />
 </resources>

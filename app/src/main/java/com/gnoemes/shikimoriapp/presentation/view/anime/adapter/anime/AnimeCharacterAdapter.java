@@ -88,7 +88,7 @@ public class AnimeCharacterAdapter extends RecyclerView.Adapter<AnimeCharacterAd
             layout.setOnClickListener(null);
             characterName.setText(null);
 
-            imageLoader.setImageWithFit(characterImage, item.getAnimeImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(characterImage, item.getImage().getOriginal());
 
             String name = TextUtils.isEmpty(item.getRussianName()) ? item.getName() : item.getRussianName();
             characterName.setText(name);

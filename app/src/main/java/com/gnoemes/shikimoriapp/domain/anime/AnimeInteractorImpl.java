@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.domain.anime;
 import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
+import com.gnoemes.shikimoriapp.data.repository.screenshots.ScreenshotRepository;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
@@ -22,14 +23,17 @@ import io.reactivex.Single;
 public class AnimeInteractorImpl implements AnimeInteractor {
 
     private AnimeRepository animeRepository;
+    private ScreenshotRepository screenshotRepository;
     private SingleErrorHandler singleErrorHandler;
     private RxUtils rxUtils;
 
     @Inject
     public AnimeInteractorImpl(@NonNull AnimeRepository animeRepository,
+                               @NonNull ScreenshotRepository screenshotRepository,
                                @NonNull SingleErrorHandler singleErrorHandler,
                                @NonNull RxUtils rxUtils) {
         this.animeRepository = animeRepository;
+        this.screenshotRepository = screenshotRepository;
         this.singleErrorHandler = singleErrorHandler;
         this.rxUtils = rxUtils;
     }
@@ -61,7 +65,7 @@ public class AnimeInteractorImpl implements AnimeInteractor {
 
     @Override
     public Single<List<Screenshot>> getScreenshots(long animeId) {
-        return animeRepository.getScreenshots(animeId)
+        return screenshotRepository.getAnimeScreenshots(animeId)
                 .compose((SingleErrorHandler<List<Screenshot>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }

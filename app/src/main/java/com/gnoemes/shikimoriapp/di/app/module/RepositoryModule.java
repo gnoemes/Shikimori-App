@@ -16,6 +16,8 @@ import com.gnoemes.shikimoriapp.data.repository.download.DownloadSource;
 import com.gnoemes.shikimoriapp.data.repository.download.DownloadSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.screenshots.ScreenshotRepository;
+import com.gnoemes.shikimoriapp.data.repository.screenshots.ScreenshotRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.UserRepository;
 import com.gnoemes.shikimoriapp.data.repository.user.UserRepositoryImpl;
 
@@ -23,6 +25,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Reusable;
 
 @Module
 public interface RepositoryModule {
@@ -56,10 +59,14 @@ public interface RepositoryModule {
     FirebaseAnalyticsRepository bindFirebaseAnalyticsRepository(FirebaseAnalyticsRepositoryImpl repository);
 
     @Binds
-    @Singleton
+    @Reusable
     DownloadRepository bindDownloadRepository(DownloadRepositoryImpl repository);
 
     @Binds
     @Singleton
     DownloadSource bindDownloadSource(DownloadSourceImpl source);
+
+    @Binds
+    @Reusable
+    ScreenshotRepository bindScreenshotRepository(ScreenshotRepositoryImpl repository);
 }

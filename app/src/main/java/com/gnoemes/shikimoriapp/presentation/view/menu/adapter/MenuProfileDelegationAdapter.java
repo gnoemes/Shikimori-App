@@ -70,7 +70,7 @@ public class MenuProfileDelegationAdapter extends AdapterDelegate<List<BaseItem>
         @BindView(R.id.text_hint)
         TextView textHint;
 
-        @BindView(R.id.image_arrow)
+        @BindView(R.id.arrowImageView)
         ImageView arrow;
 
         public ViewHolder(View itemView) {

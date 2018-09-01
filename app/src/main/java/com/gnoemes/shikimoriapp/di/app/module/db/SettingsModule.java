@@ -6,6 +6,8 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSourceImpl;
+import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource;
+import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSourceImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.impl.UserSettingsRepositoryImpl;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.SettingsQualifier;
@@ -38,4 +40,7 @@ public interface SettingsModule {
 
     @Binds
     UserSettingsInteractor bindUserSettingsInteractor(UserSettingsInteractorImpl settingsInteractor);
+
+    @Binds
+    UserSettingsSource bindUserSettingsSource(UserSettingsSourceImpl source);
 }

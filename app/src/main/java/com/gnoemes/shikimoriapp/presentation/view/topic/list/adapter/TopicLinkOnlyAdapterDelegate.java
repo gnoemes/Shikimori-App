@@ -142,7 +142,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
             Anime anime = item.getLinkedContent() instanceof Anime ? (Anime) item.getLinkedContent() : null;
             if (anime != null) {
-                seasonView.addSlice(getSliceContent(convertSeason(anime.getAiredDate())));
+                seasonView.addSlice(getSliceContent(convertSeason(anime.getDateAired())));
                 seasonView.display();
 
                 typeView.addSlice(getSliceContent(anime.getType().toString().toUpperCase()));
@@ -171,7 +171,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
             linkedImageView.setOnClickListener(v -> {
                 if (content != null) {
-                    linkedCallback.onLinkedContentClicked(content.getId(), content.getLinkedType());
+                    linkedCallback.onLinkedContentClicked(content.getLinkedId(), content.getLinkedType());
                 }
             });
         }

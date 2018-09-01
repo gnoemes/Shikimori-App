@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.presentation.view.search;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
@@ -28,7 +26,6 @@ import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAnimeAdap
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -50,10 +47,10 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @BindView(R.id.view_search_empty)
@@ -144,78 +141,78 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     }
 
     private void initSearchView() {
-        if (toolbar != null) {
-            searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
-            toolbar.addView(searchView);
-        }
-
-        searchEmptyView.setText(R.string.search_nothing);
-        searchView.setNavigationIcon(R.drawable.ic_arrow_back);
-        searchView.setHint(R.string.common_search);
-        searchView.setVoice(false);
-        searchView.setShadow(false);
-        searchView.setVersion(com.lapism.searchview.SearchView.VERSION_MENU_ITEM);
-        searchView.setVersionMargins(com.lapism.searchview.SearchView.VERSION_MARGINS_MENU_ITEM);
-        searchView.setShouldHideOnKeyboardClose(true);
-        searchView.setOnOpenCloseListener(new com.lapism.searchview.SearchView.OnOpenCloseListener() {
-            @Override
-            public boolean onClose() {
-                if (toolbar != null) {
-                    toolbar.setTitle(R.string.common_search);
-                    toggleMenu(true)
-                            .setOnMenuItemClickListener(item -> {
-                                searchView.open(true);
-                                return false;
-                            });
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onOpen() {
-                if (toolbar != null) {
-                    toolbar.setTitle(null);
-                    toggleMenu(false)
-                            .setOnMenuItemClickListener(item -> {
-                                getPresenter().setSearchQuery();
-                                searchView.close(false);
-                                return false;
-                            });
-                }
-                return false;
-            }
-        });
-        searchView.setOnQueryTextListener(new com.lapism.searchview.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getPresenter().setSearchQuery(query);
-                getPresenter().onRefresh();
-                searchView.close(true);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                getPresenter().setSearchReactive(newText);
-                return false;
-            }
-        });
-
-        toolbar.inflateMenu(R.menu.menu_search);
-        toggleMenu(true);
-    }
-
-    private MenuItem toggleMenu(boolean search) {
-        if (toolbar != null && getContext() != null) {
-            MenuItem menuItem = toolbar.getMenu().getItem(0);
-            DrawableHelper.withContext(getContext())
-                    .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
-                    .withAttributeColor(R.attr.colorText)
-                    .tint()
-                    .applyTo(menuItem);
-            return menuItem;
-        }
-        return null;
+//        if (toolbar != null) {
+//            searchView = new com.lapism.searchview.SearchView(toolbar.getContext());
+//            toolbar.addView(searchView);
+//        }
+//
+//        searchEmptyView.setText(R.string.search_nothing);
+//        searchView.setNavigationIcon(R.drawable.ic_arrow_back);
+//        searchView.setHint(R.string.common_search);
+//        searchView.setVoice(false);
+//        searchView.setShadow(false);
+//        searchView.setVersion(com.lapism.searchview.SearchView.VERSION_MENU_ITEM);
+//        searchView.setVersionMargins(com.lapism.searchview.SearchView.VERSION_MARGINS_MENU_ITEM);
+//        searchView.setShouldHideOnKeyboardClose(true);
+//        searchView.setOnOpenCloseListener(new com.lapism.searchview.SearchView.OnOpenCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                if (toolbar != null) {
+//                    toolbar.setTitle(R.string.common_search);
+//                    toggleMenu(true)
+//                            .setOnMenuItemClickListener(item -> {
+//                                searchView.open(true);
+//                                return false;
+//                            });
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onOpen() {
+//                if (toolbar != null) {
+//                    toolbar.setTitle(null);
+//                    toggleMenu(false)
+//                            .setOnMenuItemClickListener(item -> {
+//                                getPresenter().setSearchQuery();
+//                                searchView.close(false);
+//                                return false;
+//                            });
+//                }
+//                return false;
+//            }
+//        });
+//        searchView.setOnQueryTextListener(new com.lapism.searchview.SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                getPresenter().setSearchQuery(query);
+//                getPresenter().onRefresh();
+//                searchView.close(true);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                getPresenter().setSearchReactive(newText);
+//                return false;
+//            }
+//        });
+//
+//        toolbar.inflateMenu(R.menu.menu_search);
+//        toggleMenu(true);
+//    }
+//
+//    private MenuItem toggleMenu(boolean search) {
+//        if (toolbar != null && getContext() != null) {
+//            MenuItem menuItem = toolbar.getMenu().getItem(0);
+//            DrawableHelper.withContext(getContext())
+//                    .withDrawable(search ? R.drawable.ic_search : R.drawable.ic_check)
+//                    .withAttributeColor(R.attr.colorText)
+//                    .tint()
+//                    .applyTo(menuItem);
+//            return menuItem;
+//        }
+//        return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -334,14 +331,14 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
 
     @Override
     public void addBackButton() {
-        if (getContext() != null && toolbar != null) {
-            Drawable navigationIcon = DrawableHelper.withContext(getContext())
-                    .withDrawable(R.drawable.ic_arrow_back)
-                    .withAttributeColor(R.attr.colorText)
-                    .tint()
-                    .get();
-            toolbar.setNavigationIcon(navigationIcon);
-            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
-        }
+//        if (getContext() != null && toolbar != null) {
+//            Drawable navigationIcon = DrawableHelper.withContext(getContext())
+//                    .withDrawable(R.drawable.ic_arrow_back)
+//                    .withAttributeColor(R.attr.colorText)
+//                    .tint()
+//                    .get();
+//            toolbar.setNavigationIcon(navigationIcon);
+//            toolbar.setNavigationOnClickListener(v -> getPresenter().onBackPressed());
+//        }
     }
 }

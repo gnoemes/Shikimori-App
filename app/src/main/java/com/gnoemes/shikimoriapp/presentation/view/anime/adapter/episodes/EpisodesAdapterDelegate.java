@@ -56,16 +56,16 @@ public class EpisodesAdapterDelegate extends AdapterDelegate<List<BaseEpisodeIte
         @BindView(R.id.container)
         ConstraintLayout layout;
 
-        @BindView(R.id.image_watched)
+        @BindView(R.id.watchedBadge)
         ImageView watchedBadge;
 
-        @BindView(R.id.text_episode)
+        @BindView(R.id.episodeTextView)
         TextView episodeName;
 
-        @BindView(R.id.image_arrow)
+        @BindView(R.id.arrowImageView)
         ImageView arrow;
 
-        @BindView(R.id.text_hostings)
+        @BindView(R.id.hostingsTextView)
         TextView hostings;
 
         public ViewHolder(View itemView) {

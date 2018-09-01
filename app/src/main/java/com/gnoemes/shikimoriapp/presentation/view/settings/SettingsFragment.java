@@ -30,22 +30,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         analytics = FirebaseAnalytics.getInstance(getContext());
-        restartDialog = new MaterialDialog.Builder(getContext())
-                .title(R.string.attention)
-                .content(R.string.need_restart)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .autoDismiss(false)
-                .cancelable(false)
-                .canceledOnTouchOutside(false)
-                .positiveText(R.string.restart)
-                .positiveColorAttr(R.attr.colorAction)
-                .onPositive((dialog, which) -> {
-                    updateActivity();
-                    dialog.dismiss();
-                })
-                .build();
+//        restartDialog = new MaterialDialog.Builder(getContext())
+//                .title(R.string.attention)
+//                .content(R.string.need_restart)
+//                .titleColorAttr(R.attr.colorText)
+//                .contentColorAttr(R.attr.colorText)
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .autoDismiss(false)
+//                .cancelable(false)
+//                .canceledOnTouchOutside(false)
+//                .positiveText(R.string.restart)
+//                .positiveColorAttr(R.attr.colorAction)
+//                .onPositive((dialog, which) -> {
+//                    updateActivity();
+//                    dialog.dismiss();
+//                })
+//                .build();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY)) {
             if (savedInstanceState.getBoolean(KEY)) {
@@ -67,26 +67,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String namingSummary = getPreferenceManager().getSharedPreferences().getBoolean(SettingsExtras.IS_ROMADZI_NAMING, false)
                 ? getContext().getString(R.string.on_romadzi) : getContext().getString(R.string.on_russian);
         findPreference(getResources().getString(R.string.pref_naming)).setSummary(namingSummary);
-        findPreference(getResources().getString(R.string.pref_naming)).setOnPreferenceClickListener(preference -> {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.titles_naming)
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        String summary = position == 1 ? getContext().getString(R.string.on_romadzi) : getContext().getString(R.string.on_russian);
-                        preference.setSummary(summary);
-                        getPreferenceManager().getSharedPreferences().edit().putBoolean(SettingsExtras.IS_ROMADZI_NAMING, position == 1).apply();
-                    })
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .items(R.array.naming_types)
-                    .canceledOnTouchOutside(true)
-                    .itemsColorAttr(R.attr.colorText)
-                    .autoDismiss(true)
-                    .build()
-                    .show();
-            return false;
-        });
+//        findPreference(getResources().getString(R.string.pref_naming)).setOnPreferenceClickListener(preference -> {
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.titles_naming)
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        String summary = position == 1 ? getContext().getString(R.string.on_romadzi) : getContext().getString(R.string.on_russian);
+//                        preference.setSummary(summary);
+//                        getPreferenceManager().getSharedPreferences().edit().putBoolean(SettingsExtras.IS_ROMADZI_NAMING, position == 1).apply();
+//                    })
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .items(R.array.naming_types)
+//                    .canceledOnTouchOutside(true)
+//                    .itemsColorAttr(R.attr.colorText)
+//                    .autoDismiss(true)
+//                    .build()
+//                    .show();
+//            return false;
+//        });
 
         analytics.setUserProperty("theme", String.valueOf(isDarkTheme));
 
@@ -99,7 +99,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onActivityCreated(savedInstanceState);
         View root = getView();
         if (root != null) {
-            root.findViewById(android.support.v7.preference.R.id.list).setPadding(0, 0, 0, 0);
+            root.findViewById(android.support.v7.preference.R.id.list_item).setPadding(0, 0, 0, 0);
         }
         setDividerHeight(0);
     }

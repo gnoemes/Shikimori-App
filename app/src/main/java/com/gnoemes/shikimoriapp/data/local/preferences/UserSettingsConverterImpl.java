@@ -4,6 +4,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 
 import javax.inject.Inject;
 
+@Deprecated
 public class UserSettingsConverterImpl implements UserSettingsConverter {
 
     @Inject

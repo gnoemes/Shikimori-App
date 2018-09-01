@@ -37,10 +37,10 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter, HistoryView>
     @BindView(R.id.list)
     RecyclerView historyList;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter

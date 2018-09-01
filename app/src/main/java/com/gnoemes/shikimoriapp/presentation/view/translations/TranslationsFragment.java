@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -35,7 +34,6 @@ import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,10 +52,10 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter
@@ -221,18 +219,18 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
         }
 
         if (getContext() != null) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.quality_title)
-                    .items(resolutions)
-                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onQualityForExternalChoosed(tracks.get(position).getUrl()))
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.quality_title)
+//                    .items(resolutions)
+//                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onQualityForExternalChoosed(tracks.get(position).getUrl()))
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
         }
     }
 
@@ -256,17 +254,17 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     @Override
     public void showPlayerDialog(List<PlayerType> players) {
         if (getContext() != null) {
-            new MaterialDialog.Builder(getContext())
-                    .items(players.size() == 1 ? R.array.players_single : R.array.players)
-                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onPlay(players.get(position)))
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .items(players.size() == 1 ? R.array.players_single : R.array.players)
+//                    .itemsCallback((dialog, itemView, position, text) -> getPresenter().onPlay(players.get(position)))
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
         }
     }
 
@@ -288,25 +286,25 @@ public class TranslationsFragment extends BaseFragment<TranslationsPresenter, Tr
     @Override
     public void showSettingsDialog() {
         if (getContext() != null) {
-            List<TranslationType> types = Arrays.asList(TranslationType.values());
-            new MaterialDialog.Builder(getContext())
-                    .items(R.array.translations_type)
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        getPresenter().onTypeClicked(types.get(position));
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .autoDismiss(false)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .negativeText(R.string.common_cancel)
-                    .onNegative((dialog, which) -> dialog.dismiss())
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            List<TranslationType> types = Arrays.asList(TranslationType.values());
+//            new MaterialDialog.Builder(getContext())
+//                    .items(R.array.translations_type)
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        dialog.dismiss();
+//                        getPresenter().onTypeClicked(types.get(position));
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .autoDismiss(false)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .negativeText(R.string.common_cancel)
+//                    .onNegative((dialog, which) -> dialog.dismiss())
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
         }
     }
 

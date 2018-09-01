@@ -1,13 +1,13 @@
 package com.gnoemes.shikimoriapp.entity.roles.presentation.character;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 public class CharacterRelatedItem extends BaseCharacterItem {
 
     private long id;
-    private AnimeImage image;
+    private Image image;
 
-    public CharacterRelatedItem(long id, AnimeImage image) {
+    public CharacterRelatedItem(long id, Image image) {
         this.id = id;
         this.image = image;
     }
@@ -16,7 +16,7 @@ public class CharacterRelatedItem extends BaseCharacterItem {
         return id;
     }
 
-    public AnimeImage getImage() {
+    public Image getImage() {
         return image;
     }
 }

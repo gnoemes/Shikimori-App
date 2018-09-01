@@ -28,7 +28,7 @@ public class Manga extends LinkedContent {
                  MangaImage image, String url, MangaType type,
                  MangaStatus status, int volume, int chapters,
                  DateTime airedDate, @Nullable DateTime releasedDate) {
-        super(id, LinkedType.MANGA, image.getImageOriginalUrl());
+        super(id, name, LinkedType.MANGA, image.getImageOriginalUrl());
         this.id = id;
         this.name = name;
         this.russianName = russianName;

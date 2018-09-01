@@ -7,28 +7,29 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:padding="@dimen/margin_small"
     android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="@dimen/margin_small"
     tools:background="@drawable/card"
     tools:backgroundTint="?attr/colorBackgroundContent">
 
     <ImageView
-        android:id="@+id/image_watched"
+        android:id="@+id/watchedBadge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/description_watched"
+        android:tint="?attr/colorAccent"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/text_hostings"
-        app:layout_constraintStart_toEndOf="@+id/text_episode"
+        app:layout_constraintBottom_toTopOf="@+id/hostingsTextView"
+        app:layout_constraintStart_toEndOf="@+id/episodeTextView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_approval"
+        app:srcCompat="@drawable/ic_approval"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/text_episode"
+        android:id="@+id/episodeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -40,7 +41,7 @@
         tools:text="1 серия" />
 
     <TextView
-        android:id="@+id/text_hostings"
+        android:id="@+id/hostingsTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -49,15 +50,15 @@
         android:textColor="@color/gray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image_arrow"
+        app:layout_constraintEnd_toStartOf="@+id/arrowImageView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/text_episode"
-        app:layout_constraintTop_toBottomOf="@+id/text_episode"
+        app:layout_constraintStart_toStartOf="@+id/episodeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/episodeTextView"
         app:layout_constraintVertical_bias="0.0"
         tools:text="sibnet, smotret-anime, vk, ok, romantica" />
 
     <ImageView
-        android:id="@+id/image_arrow"
+        android:id="@+id/arrowImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -65,9 +66,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/description_image"
+        android:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_chevron_right" />
+        app:srcCompat="@drawable/ic_chevron_right" />
 
 </android.support.constraint.ConstraintLayout>

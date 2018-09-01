@@ -29,10 +29,10 @@ public class ForumsFragment extends BaseFragment<ForumsPresenter, ForumsView> im
     @BindView(R.id.list)
     RecyclerView forumList;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter

@@ -46,7 +46,6 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourcePro
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
-import com.gnoemes.shikimoriapp.utils.Utils;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -56,7 +55,6 @@ import com.gnoemes.shikimoriapp.utils.view.ViewStatePagerAdapter;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,7 +89,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @BindView(R.id.progress_loading)
     ProgressBar progressBar;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @InjectPresenter
@@ -302,89 +300,89 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showPlayWizard(List<TranslationType> types) {
-
-        if (translationTypeDialog == null || !translationTypeDialog.isShowing()) {
-            String[] translationTypes = new String[types.size()];
-            for (int i = 0; i < translationTypes.length; i++) {
-                translationTypes[i] = Utils.firstUpperCase(types.get(i).getType());
-            }
-
-            if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-                translationTypeDialog = new MaterialDialog.Builder(getContext())
-                        .dividerColor(R.attr.colorAccent)
-                        .items(translationTypes)
-                        .itemsColorAttr(R.attr.colorText)
-                        .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                        .buttonRippleColorAttr(R.attr.colorAccentTransparent)
-                        .autoDismiss(true)
-                        .canceledOnTouchOutside(true)
-                        .itemsCallback((dialog, itemView, position, text) ->
-                                getPresenter().onTranslationTypeChoosed(types.get(position)))
-                        .build();
-
-                translationTypeDialog.show();
-            }
-        }
+//
+//        if (translationTypeDialog == null || !translationTypeDialog.isShowing()) {
+//            String[] translationTypes = new String[types.size()];
+//            for (int i = 0; i < translationTypes.length; i++) {
+//                translationTypes[i] = Utils.firstUpperCase(types.get(i).getType());
+//            }
+//
+//            if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
+//                translationTypeDialog = new MaterialDialog.Builder(getContext())
+//                        .dividerColor(R.attr.colorAccent)
+//                        .items(translationTypes)
+//                        .itemsColorAttr(R.attr.colorText)
+//                        .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                        .buttonRippleColorAttr(R.attr.colorAccentTransparent)
+//                        .autoDismiss(true)
+//                        .canceledOnTouchOutside(true)
+//                        .itemsCallback((dialog, itemView, position, text) ->
+//                                getPresenter().onTranslationTypeChoosed(types.get(position)))
+//                        .build();
+//
+//                translationTypeDialog.show();
+//            }
+//        }
     }
 
     @Override
     public void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels) {
 
-        List<String> titles = new ArrayList<>();
-
-        for (AnimeLinkViewModel model : animeLinkViewModels) {
-            titles.add(model.getName());
-        }
-
-        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.common_links)
-                    .items(titles.toArray(new CharSequence[titles.size()]))
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .autoDismiss(false)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .negativeText(R.string.close)
-                    .onNegative((dialog, which) -> dialog.dismiss())
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
-        }
+//        List<String> titles = new ArrayList<>();
+//
+//        for (AnimeLinkViewModel model : animeLinkViewModels) {
+//            titles.add(model.getName());
+//        }
+//
+//        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.common_links)
+//                    .items(titles.toArray(new CharSequence[titles.size()]))
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        dialog.dismiss();
+//                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .autoDismiss(false)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .negativeText(R.string.close)
+//                    .onNegative((dialog, which) -> dialog.dismiss())
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+//        }
     }
 
     @Override
     public void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
-
-        List<String> items = franchiseConverter.convertList(nodes);
-
-        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.chronology)
-                    .items(items.toArray(new CharSequence[items.size()]))
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        if (nodes != null && !nodes.isEmpty()) {
-                            getPresenter().onAnimeClicked(nodes.get(position).getId());
-                        }
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeText(R.string.close)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
-        }
+//
+//        List<String> items = franchiseConverter.convertList(nodes);
+//
+//        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.chronology)
+//                    .items(items.toArray(new CharSequence[items.size()]))
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        dialog.dismiss();
+//                        if (nodes != null && !nodes.isEmpty()) {
+//                            getPresenter().onAnimeClicked(nodes.get(position).getId());
+//                        }
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeText(R.string.close)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+//        }
     }
 
 
@@ -407,24 +405,24 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showClearHistoryDialog() {
-        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .content(R.string.clear_episodes_content)
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .negativeText(R.string.common_cancel)
-                    .onNegative((dialog, which) -> dialog.dismiss())
-                    .positiveColorAttr(R.attr.colorAction)
-                    .positiveText(R.string.yes)
-                    .onPositive((dialog, which) -> getPresenter().onClearHistory())
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
-        }
+//        if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
+//            new MaterialDialog.Builder(getContext())
+//                    .content(R.string.clear_episodes_content)
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .negativeText(R.string.common_cancel)
+//                    .onNegative((dialog, which) -> dialog.dismiss())
+//                    .positiveColorAttr(R.attr.colorAction)
+//                    .positiveText(R.string.yes)
+//                    .onPositive((dialog, which) -> getPresenter().onClearHistory())
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+//        }
     }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -507,9 +505,9 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         }
 
         private void createSeriesPage(ViewGroup layout) {
-            refreshLayout = layout.findViewById(R.id.refresh_layout);
+            refreshLayout = layout.findViewById(R.id.refreshLayout);
             seriesList = layout.findViewById(R.id.list);
-            NetworkErrorView errorView = layout.findViewById(R.id.view_network_error);
+            NetworkErrorView errorView = layout.findViewById(R.id.networkErrorView);
             errorView.setVisibility(View.GONE);
             refreshLayout.setOnRefreshListener(() -> getPresenter().onEpisodesRefresh());
             seriesList.setLayoutManager(new LinearStickyHead<EpisodeAdapter>(layout.getContext()));

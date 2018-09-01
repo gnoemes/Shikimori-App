@@ -36,13 +36,13 @@ import butterknife.BindView;
 public class SimilarFragment extends BaseFragment<SimilarPresenter, SimilarView>
         implements SimilarView {
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView errorView;
 
     @BindView(R.id.view_empty)
     EmptyContentView emptyContentView;
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
     @BindView(R.id.list)

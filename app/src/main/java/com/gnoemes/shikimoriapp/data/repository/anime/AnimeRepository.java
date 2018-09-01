@@ -4,7 +4,6 @@ import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
-import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,8 +28,6 @@ public interface AnimeRepository {
     Single<List<Anime>> getSimilarAnimes(long animeId);
 
     Single<List<AnimeFranchiseNode>> getFranchiseNodes(long animeId);
-
-    Single<List<Screenshot>> getScreenshots(long animeId);
 
     Single<LinkedHashSet<Long>> getLocalWatchedAnimeIds();
 }

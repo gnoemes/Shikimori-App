@@ -5,18 +5,24 @@ package com.gnoemes.shikimoriapp.entity.app.domain;
  */
 public abstract class LinkedContent {
 
-    private long id;
+    private long linkedId;
+    private String linkedName;
     private LinkedType type;
     private String imageUrl;
 
-    public LinkedContent(long id, LinkedType type, String imageUrl) {
-        this.id = id;
+    public LinkedContent(long linkedId, String linkedName, LinkedType type, String imageUrl) {
+        this.linkedId = linkedId;
+        this.linkedName = linkedName;
         this.type = type;
         this.imageUrl = imageUrl;
     }
 
-    public long getId() {
-        return id;
+    public long getLinkedId() {
+        return linkedId;
+    }
+
+    public String getLinkedName() {
+        return linkedName;
     }
 
     public LinkedType getLinkedType() {

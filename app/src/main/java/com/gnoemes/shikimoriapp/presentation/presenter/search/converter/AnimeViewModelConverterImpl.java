@@ -33,16 +33,16 @@ public class AnimeViewModelConverterImpl implements AnimeViewModelConverter {
                 anime.getId(),
                 anime.getName(),
                 anime.getSecondName(),
-                anime.getAnimeImage().getImageOriginalUrl(),
-                anime.getAnimeImage().getImagePreviewUrl(),
-                anime.getAnimeImage().getImageX96Url(),
-                anime.getAnimeImage().getImageX48Url(),
+                anime.getImage().getOriginal(),
+                anime.getImage().getPreview(),
+                anime.getImage().getX96(),
+                anime.getImage().getX48(),
                 anime.getUrl(),
                 anime.getType(),
                 anime.getStatus(),
                 anime.getEpisodes(),
                 anime.getEpisodesAired(),
-                anime.getAiredDate(),
-                anime.getReleasedDate());
+                anime.getDateAired(),
+                anime.getDateReleased());
     }
 }

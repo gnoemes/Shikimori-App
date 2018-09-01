@@ -2,9 +2,9 @@ package com.gnoemes.shikimoriapp.entity.roles.domain;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 public class Person extends LinkedContent {
 
@@ -12,11 +12,11 @@ public class Person extends LinkedContent {
     private String name;
     @Nullable
     private String russianName;
-    private AnimeImage image;
+    private Image image;
     private String url;
 
-    public Person(long id, String name, @Nullable String russianName, AnimeImage image, String url) {
-        super(id, LinkedType.PERSON, image.getImageOriginalUrl());
+    public Person(long id, String name, @Nullable String russianName, Image image, String url) {
+        super(id, name, LinkedType.PERSON, image.getOriginal());
         this.id = id;
         this.name = name;
         this.russianName = russianName;
@@ -37,7 +37,7 @@ public class Person extends LinkedContent {
         return russianName;
     }
 
-    public AnimeImage getImage() {
+    public Image getImage() {
         return image;
     }
 

@@ -80,6 +80,12 @@ public interface UtilModule {
 
     @Provides
     @Singleton
+    static SingleErrorHandler<Object> bindSingleErrorHandlerForKotlin(ErrorProcessing errorProcessing) {
+        return new SingleErrorHandler(errorProcessing);
+    }
+
+    @Provides
+    @Singleton
     static SingleErrorHandler bindSingleErrorHandler(ErrorProcessing errorProcessing) {
         return new SingleErrorHandler(errorProcessing);
     }

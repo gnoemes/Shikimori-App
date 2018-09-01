@@ -10,7 +10,7 @@
     tools:backgroundTint="?attr/colorBackgroundWindow">
 
     <TextView
-        android:id="@+id/btn_continue"
+        android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:drawablePadding="@dimen/margin_big"
@@ -37,12 +37,12 @@
         android:layout_marginTop="8dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image_alternative"
+        app:layout_constraintEnd_toStartOf="@+id/alternativeImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Серия 1" />
 
     <ImageView
-        android:id="@+id/image_alternative"
+        android:id="@+id/alternativeImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

@@ -29,7 +29,7 @@ public class UserHistoryFragment extends BaseFragment<UserHistoryPresenter, User
 
     @BindView(R.id.list)
     RecyclerView list;
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
     @InjectPresenter

@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 
+@Deprecated
 public class UserSettings {
 
     private UserStatus status;

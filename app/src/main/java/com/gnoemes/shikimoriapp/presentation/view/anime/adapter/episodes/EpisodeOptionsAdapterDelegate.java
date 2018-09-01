@@ -55,13 +55,13 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
         @BindView(R.id.constraint)
         ConstraintLayout layout;
 
-        @BindView(R.id.btn_continue)
+        @BindView(R.id.continueButton)
         TextView continueBtn;
 
-        @BindView(R.id.text_episode)
+        @BindView(R.id.episodeTextView)
         TextView nextEpisode;
 
-        @BindView(R.id.image_alternative)
+        @BindView(R.id.alternativeImageView)
         ImageView alternativeBtn;
 
         public ViewHolder(View itemView) {

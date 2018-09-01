@@ -44,7 +44,7 @@ public class PersonFragment extends BaseFragment<PersonPresenter, PersonView> im
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.view_network_error)
+    @BindView(R.id.networkErrorView)
     NetworkErrorView networkErrorView;
 
     @BindView(R.id.view_empty)

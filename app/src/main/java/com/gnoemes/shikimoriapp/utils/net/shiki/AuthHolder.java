@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.utils.net.shiki;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.data.repository.app.AuthorizationRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
@@ -30,7 +30,7 @@ public class AuthHolder {
     }
 
 
-    @NonNull
+    @Nullable
     public Token getToken() {
         return tokenRepository.getToken();
     }
@@ -44,20 +44,23 @@ public class AuthHolder {
         if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
             if (exception.code() == HttpStatusCode.UNAUTHORISED) {
-                tokenRepository.saveToken(null)
-                        .subscribe();
-                settingsRepository.saveUserSettings(new UserSettings.Builder()
-                        .setUserBrief(null)
-                        .setStatus(UserStatus.GUEST)
-                        .build())
-                        .subscribe();
+
             }
         }
     }
 
     private Completable updateToken() {
-        return Single.just(getToken())
-                .flatMap(token -> authorizationRepository.refreshToken(token.getRefreshToken()))
-                .flatMapCompletable(token -> tokenRepository.saveToken(token));
+        Token token = getToken();
+
+        if (token == null) {
+            return settingsRepository.saveUserSettings(new UserSettings.Builder()
+                    .setUserBrief(null)
+                    .setStatus(UserStatus.GUEST)
+                    .build());
+        }
+
+        return Single.just(token)
+                .flatMap(tkn -> authorizationRepository.refreshToken(tkn.getRefreshToken()))
+                .flatMapCompletable(tkn -> tokenRepository.saveToken(tkn));
     }
 }

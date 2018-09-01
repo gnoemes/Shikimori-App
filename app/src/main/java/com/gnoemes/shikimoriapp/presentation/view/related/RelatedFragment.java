@@ -33,7 +33,7 @@ import butterknife.BindView;
 public class RelatedFragment extends BaseFragment<RelatedPresenter, RelatedView>
         implements RelatedView {
 
-    @BindView(R.id.refresh_layout)
+    @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
 
     @BindView(R.id.list)

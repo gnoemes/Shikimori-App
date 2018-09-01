@@ -190,8 +190,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
         this.currentAnime = animeDetails;
-        if (currentAnime.getAnimeRate() != null) {
-            this.rateId = currentAnime.getAnimeRate().getId();
+        if (currentAnime.getUserRate() != null) {
+            this.rateId = currentAnime.getUserRate().getId();
         }
         return animeDetails;
     }

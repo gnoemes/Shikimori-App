@@ -18,6 +18,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
+@Deprecated
 public class UserPreferenceSourceImpl implements UserPreferenceSource {
 
     private SharedPreferences sharedPreferences;

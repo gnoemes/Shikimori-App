@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
 import com.gnoemes.shikimoriapp.utils.PrefUtils;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,12 +51,12 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
         String name = isRomandziNaming ? response.getName() : response.getNameRu();
         String secondName = isRomandziNaming ? response.getNameRu() : response.getName();
 
-        return new AnimeDetails(response.getId(),
-                response.getTopicId(),
-                name,
-                secondName,
+        return new AnimeDetails(
+                response.getId(),
+                name == null ? "" : name,
+                secondName == null ? "" : secondName,
                 imageConverter.convert(response.getImage()),
-                response.getUrl(),
+                Utils.appendHostIfNeed(response.getUrl()),
                 response.getType(),
                 response.getStatus(),
                 response.getEpisodes(),
@@ -67,9 +68,11 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 response.getDuration(),
                 response.getScore(),
                 response.getDescription(),
+                response.isFavorite(),
+                response.getTopicId(),
                 convertGenres(response.getGenres()),
-                rateConverter.convertUserRateResponse(response.getUserRate()),
                 convertVideos(response.getVideos()),
+                rateConverter.convertUserRateResponse(response.getUserRate()),
                 rolesResponseConverter.convertCharacters(rolesResponses)
         );
     }
