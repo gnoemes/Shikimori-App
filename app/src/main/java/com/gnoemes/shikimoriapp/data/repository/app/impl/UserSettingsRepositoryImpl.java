@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
+@Deprecated
 public class UserSettingsRepositoryImpl implements UserSettingsRepository {
 
     private UserPreferenceSource source;
