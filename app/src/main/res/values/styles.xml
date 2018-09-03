@@ -54,11 +54,23 @@
         <item name="colorTextTransparent">@color/gray_transparent</item>
     </style>
 
+    <style name="DialogStyle">
+        <item name="android:textColorPrimary">?attr/colorText</item>
+        <item name="android:textColorSecondary">?attr/colorText</item>
+        <item name="android:checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="android:divider">?attr/colorText</item>
+        <item name="android:background">?attr/colorBackgroundContent</item>
+    </style>
+
     <style name="PreferenceAppTheme" parent="PreferenceThemeOverlay">
         <item name="colorAccent">?attr/colorAction</item>
         <item name="android:windowBackground">?attr/colorBackgroundWindow</item>
         <item name="colorPrimary">?attr/colorPrimary</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
+
+    <style name="CheckBoxStyle" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?attr/colorText</item>
     </style>
 

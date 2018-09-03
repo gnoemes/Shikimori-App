@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.transition.Fade;
 import android.support.transition.TransitionManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.checkbox.DialogCheckboxExtKt;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -64,6 +68,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+//TODO kotlin
 public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         implements AnimeView {
 
@@ -300,6 +305,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         pagerAdapter.onHideRefresh();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showPlayWizard(List<TranslationType> types) {
 
@@ -310,23 +316,35 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
             }
 
             if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-                translationTypeDialog = new MaterialDialog.Builder(getContext())
-                        .dividerColor(R.attr.colorAccent)
-                        .items(translationTypes)
-                        .itemsColorAttr(R.attr.colorText)
-                        .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                        .buttonRippleColorAttr(R.attr.colorAccentTransparent)
-                        .autoDismiss(true)
-                        .canceledOnTouchOutside(true)
-                        .itemsCallback((dialog, itemView, position, text) ->
-                                getPresenter().onTranslationTypeChoosed(types.get(position)))
-                        .build();
+//                translationTypeDialog = new MaterialDialog.Builder(getContext())
+//                        .dividerColor(R.attr.colorAccent)
+//                        .items(translationTypes)
+//                        .itemsColorAttr(R.attr.colorText)
+//                        .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                        .buttonRippleColorAttr(R.attr.colorAccentTransparent)
+//                        .autoDismiss(true)
+//                        .canceledOnTouchOutside(true)
+//                        .itemsCallback((dialog, itemView, position, text) ->
+//                                getPresenter().onTranslationTypeChoosed(types.get(position)))
+//                        .build();
+//
+//                translationTypeDialog.show();
 
+                translationTypeDialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
+                DialogListExtKt.listItems(translationTypeDialog, 0, Arrays.asList(translationTypes), new int[]{}, false, (materialDialog, integer, s) -> {
+                    getPresenter().onTranslationTypeChoosed(types.get(integer));
+                    return null;
+                });
+                DialogCheckboxExtKt.checkBoxPrompt(translationTypeDialog, R.string.common_remember, null, false, isRemember -> {
+                    //TODO shared prefs
+                    return null;
+                });
                 translationTypeDialog.show();
             }
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels) {
 
@@ -337,53 +355,70 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
         }
 
         if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.common_links)
-                    .items(titles.toArray(new CharSequence[titles.size()]))
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .autoDismiss(false)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .negativeText(R.string.close)
-                    .onNegative((dialog, which) -> dialog.dismiss())
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.common_links)
+//                    .items(titles.toArray(new CharSequence[titles.size()]))
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        dialog.dismiss();
+//                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .autoDismiss(false)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .negativeText(R.string.close)
+//                    .onNegative((dialog, which) -> dialog.dismiss())
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+            MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                    .title(R.string.common_links, null)
+                    .negativeButton(R.string.close, null, null);
+            DialogListExtKt.listItems(dialog, 0, titles, new int[]{}, false, (materialDialog, integer, s) -> {
+                getPresenter().onLinkPressed(animeLinkViewModels.get(integer));
+                return null;
+            });
+            dialog.show();
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
 
         List<String> items = franchiseConverter.convertList(nodes);
 
         if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.chronology)
-                    .items(items.toArray(new CharSequence[items.size()]))
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        dialog.dismiss();
-                        if (nodes != null && !nodes.isEmpty()) {
-                            getPresenter().onAnimeClicked(nodes.get(position).getId());
-                        }
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeText(R.string.close)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.chronology)
+//                    .items(items.toArray(new CharSequence[items.size()]))
+//                    .itemsCallback((dialog, itemView, position, text) -> {
+//                        dialog.dismiss();
+//                        if (nodes != null && !nodes.isEmpty()) {
+//                            getPresenter().onAnimeClicked(nodes.get(position).getId());
+//                        }
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeText(R.string.close)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+            MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                    .title(R.string.chronology, null)
+                    .negativeButton(R.string.close, null, null);
+            DialogListExtKt.listItems(dialog, 0, items, new int[]{}, false, (materialDialog, integer, s) -> {
+                getPresenter().onAnimeClicked(nodes.get(integer).getId());
+                return null;
+            });
+            dialog.show();
         }
     }
 
@@ -408,22 +443,30 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     @Override
     public void showClearHistoryDialog() {
         if (getContext() != null && getActivity() != null && !getActivity().isFinishing()) {
-            new MaterialDialog.Builder(getContext())
-                    .content(R.string.clear_episodes_content)
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .negativeText(R.string.common_cancel)
-                    .onNegative((dialog, which) -> dialog.dismiss())
-                    .positiveColorAttr(R.attr.colorAction)
-                    .positiveText(R.string.yes)
-                    .onPositive((dialog, which) -> getPresenter().onClearHistory())
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+//            new MaterialDialog.Builder(getContext())
+//                    .content(R.string.clear_episodes_content)
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .negativeText(R.string.common_cancel)
+//                    .onNegative((dialog, which) -> dialog.dismiss())
+//                    .positiveColorAttr(R.attr.colorAction)
+//                    .positiveText(R.string.yes)
+//                    .onPositive((dialog, which) -> getPresenter().onClearHistory())
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+            MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                    .message(R.string.clear_episodes_content, null)
+                    .positiveButton(R.string.yes, null, materialDialog -> {
+                        getPresenter().onClearHistory();
+                        return null;
+                    })
+                    .negativeButton(R.string.common_cancel, null, null);
+            dialog.show();
         }
     }
 

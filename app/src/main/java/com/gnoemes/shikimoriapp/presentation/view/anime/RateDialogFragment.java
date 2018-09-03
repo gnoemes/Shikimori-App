@@ -1,11 +1,13 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.arellomobile.mvp.MvpAppCompatDialogFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
@@ -68,6 +71,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         return fragment;
     }
 
+    @SuppressLint("CheckResult")
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -80,43 +84,70 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         }
         initViews();
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
-                .customView(view, true)
-                .titleColorAttr(R.attr.colorText)
-                .dividerColor(R.attr.colorAccent)
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .buttonRippleColorAttr(R.attr.colorAccentTransparent)
-                .positiveText(R.string.common_save)
-                .positiveColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .negativeColorAttr(R.attr.colorAction)
-                .autoDismiss(true)
-                .canceledOnTouchOutside(true)
-                .onPositive((dialog, which) -> {
-                    if (callback != null) {
-                        long id = Constants.NO_ID;
-                        if (rate != null) {
-                            id = rate.getId();
-                        }
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
+//                .customView(view, true)
+//                .titleColorAttr(R.attr.colorText)
+//                .dividerColor(R.attr.colorAccent)
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .buttonRippleColorAttr(R.attr.colorAccentTransparent)
+//                .positiveText(R.string.common_save)
+//                .positiveColorAttr(R.attr.colorAction)
+//                .negativeText(R.string.common_cancel)
+//                .negativeColorAttr(R.attr.colorAction)
+//                .autoDismiss(true)
+//                .canceledOnTouchOutside(true)
+//                .onPositive((dialog, which) -> {
+//                    if (callback != null) {
+//                        long id = Constants.NO_ID;
+//                        if (rate != null) {
+//                            id = rate.getId();
+//                        }
+//
+//                        rate = convertUserRate(id);
+//                        callback.onSaveAnimeRate(rate);
+//                    }
+//                })
+//                .onNegative((dialog, which) -> dismiss());
+//
+//        if (rate != null) {
+//            builder.neutralText(R.string.common_delete)
+//                    .neutralColorAttr(R.attr.colorAction)
+//                    .onNeutral((dialog, which) -> {
+//                        if (callback != null) {
+//                            callback.onDeleteAnimeRate(rate.getId());
+//                        }
+//                    });
+//        }
+//
+//
+//        return builder.build();
 
-                        rate = convertUserRate(id);
-                        callback.onSaveAnimeRate(rate);
-                    }
-                })
-                .onNegative((dialog, which) -> dismiss());
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
+        DialogCustomViewExtKt.customView(dialog, 0, view, true);
+        dialog.positiveButton(R.string.common_save, null, materialDialog -> {
+            if (callback != null) {
+                long id = Constants.NO_ID;
+                if (rate != null) {
+                    id = rate.getId();
+                }
 
+                rate = convertUserRate(id);
+                callback.onSaveAnimeRate(rate);
+            }
+            return null;
+        });
+        dialog.negativeButton(R.string.common_cancel, null, null);
         if (rate != null) {
-            builder.neutralText(R.string.common_delete)
-                    .neutralColorAttr(R.attr.colorAction)
-                    .onNeutral((dialog, which) -> {
-                        if (callback != null) {
-                            callback.onDeleteAnimeRate(rate.getId());
-                        }
-                    });
+            dialog.neutralButton(R.string.common_delete, null, materialDialog -> {
+                if (callback != null) {
+                    callback.onDeleteAnimeRate(rate.getId());
+                }
+
+                return null;
+            });
         }
 
-
-        return builder.build();
+        return dialog;
     }
 
     private UserRate convertUserRate(long id) {

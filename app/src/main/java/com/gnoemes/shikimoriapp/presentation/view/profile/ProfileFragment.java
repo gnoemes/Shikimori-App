@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -157,21 +158,30 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter, ProfileView>
 
     @Override
     public void showLogoutDialog() {
-        new MaterialDialog.Builder(getContext())
-                .content(R.string.exit_text)
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .positiveColorAttr(R.attr.colorAction)
-                .positiveText(R.string.yes)
-                .onPositive((dialog, which) -> getPresenter().onExit())
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+//        new MaterialDialog.Builder(getContext())
+//                .content(R.string.exit_text)
+//                .autoDismiss(true)
+//                .titleColorAttr(R.attr.colorText)
+//                .contentColorAttr(R.attr.colorText)
+//                .alwaysCallSingleChoiceCallback()
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .negativeColorAttr(R.attr.colorAction)
+//                .negativeText(R.string.common_cancel)
+//                .onNegative((dialog, which) -> dialog.dismiss())
+//                .positiveColorAttr(R.attr.colorAction)
+//                .positiveText(R.string.yes)
+//                .onPositive((dialog, which) -> getPresenter().onExit())
+//                .canceledOnTouchOutside(true)
+//                .build()
+//                .show();
+        //TODO kotlin
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                .message(R.string.exit_text, null)
+                .negativeButton(R.string.common_cancel, null, null)
+                .positiveButton(R.string.yes, null, materialDialog -> {
+                    getPresenter().onExit();
+                    return null;
+                });
+        dialog.show();
     }
 }

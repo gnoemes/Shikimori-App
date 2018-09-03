@@ -1,17 +1,20 @@
 package com.gnoemes.shikimoriapp.presentation.view.alternative.translations;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -227,27 +230,38 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
         refreshLayout.setRefreshing(false);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showSettingsDialog() {
+//        List<AlternativeTranslationType> types = Arrays.asList(AlternativeTranslationType.values());
+//        new MaterialDialog.Builder(getContext())
+//                .items(R.array.translations_type_alternative)
+//                .itemsCallback((dialog, itemView, position, text) -> {
+//                    dialog.dismiss();
+//                    getPresenter().onTypeClicked(types.get(position));
+//                })
+//                .autoDismiss(true)
+//                .titleColorAttr(R.attr.colorText)
+//                .contentColorAttr(R.attr.colorText)
+//                .alwaysCallSingleChoiceCallback()
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .autoDismiss(false)
+//                .negativeColorAttr(R.attr.colorAction)
+//                .negativeText(R.string.common_cancel)
+//                .onNegative((dialog, which) -> dialog.dismiss())
+//                .canceledOnTouchOutside(true)
+//                .build()
+//                .show();
+        //TODO kotlin
         List<AlternativeTranslationType> types = Arrays.asList(AlternativeTranslationType.values());
-        new MaterialDialog.Builder(getContext())
-                .items(R.array.translations_type_alternative)
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    dialog.dismiss();
-                    getPresenter().onTypeClicked(types.get(position));
-                })
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .autoDismiss(false)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                .negativeButton(R.string.common_cancel, null, null);
+        DialogListExtKt.listItems(dialog, R.array.translations_type_alternative, null, new int[]{}, false, (materialDialog, integer, s) -> {
+            getPresenter().onTypeClicked(types.get(integer));
+            return null;
+        });
+        dialog.show();
+
     }
 
     @Override

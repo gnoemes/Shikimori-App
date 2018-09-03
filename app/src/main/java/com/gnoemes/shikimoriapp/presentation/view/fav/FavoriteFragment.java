@@ -1,10 +1,12 @@
 package com.gnoemes.shikimoriapp.presentation.view.fav;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
@@ -302,6 +305,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showChangeRateDialog(long id, List<RateStatus> statuses) {
         List<String> items = new ArrayList<>();
@@ -312,29 +316,41 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         items.add(resourceProvider.getDeleteString());
 
         if (getContext() != null) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.rate_change)
-                    .items(items.toArray(new CharSequence[items.size()]))
-                    .itemsCallback(new MaterialDialog.ListCallback() {
-                        @Override
-                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                            if (position == items.size() - 1) {
-                                getPresenter().onItemStatusRemove(id);
-                            } else {
-                                FavoriteFragment.this.getPresenter().onItemStatusChanged(id, statuses.get(position));
-                            }
-                        }
-                    })
-                    .autoDismiss(true)
-                    .titleColorAttr(R.attr.colorText)
-                    .contentColorAttr(R.attr.colorText)
-                    .alwaysCallSingleChoiceCallback()
-                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                    .negativeText(R.string.close)
-                    .negativeColorAttr(R.attr.colorAction)
-                    .canceledOnTouchOutside(true)
-                    .build()
-                    .show();
+            //TODO kotlin
+//            new MaterialDialog.Builder(getContext())
+//                    .title(R.string.rate_change)
+//                    .items(items.toArray(new CharSequence[items.size()]))
+//                    .itemsCallback(new MaterialDialog.ListCallback() {
+//                        @Override
+//                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+//                            if (position == items.size() - 1) {
+//                                getPresenter().onItemStatusRemove(id);
+//                            } else {
+//                                FavoriteFragment.this.getPresenter().onItemStatusChanged(id, statuses.get(position));
+//                            }
+//                        }
+//                    })
+//                    .autoDismiss(true)
+//                    .titleColorAttr(R.attr.colorText)
+//                    .contentColorAttr(R.attr.colorText)
+//                    .alwaysCallSingleChoiceCallback()
+//                    .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                    .negativeText(R.string.close)
+//                    .negativeColorAttr(R.attr.colorAction)
+//                    .canceledOnTouchOutside(true)
+//                    .build()
+//                    .show();
+            MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                    .title(R.string.rate_change, null);
+            DialogListExtKt.listItems(dialog, 0, items, new int[]{}, false, (materialDialog, integer, s) -> {
+                if (integer == items.size() - 1) {
+                    getPresenter().onItemStatusRemove(integer);
+                } else {
+                    getPresenter().onItemStatusChanged(id, statuses.get(integer));
+                }
+                return null;
+            });
+            dialog.show();
         }
     }
 }
