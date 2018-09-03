@@ -89,7 +89,7 @@ public class RelatedMangaAdapterDelegate extends AdapterDelegate<List<BaseItem>>
 
         public void bind(RelatedMangaItem item) {
 
-            imageLoader.setImageWithFit(imageView, item.getManga().getImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getManga().getImage().getOriginal());
 
             String name = TextUtils.isEmpty(item.getManga().getRussianName()) ? item.getManga().getName() : item.getManga().getRussianName();
             titleView.setText(name);

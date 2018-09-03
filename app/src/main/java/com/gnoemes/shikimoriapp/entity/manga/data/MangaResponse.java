@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.entity.manga.data;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse;
+import com.gnoemes.shikimoriapp.entity.common.data.ImageResponse;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -17,7 +18,7 @@ public class MangaResponse extends LinkedContentResponse {
     @SerializedName("russian")
     private String russianName;
     @SerializedName("image")
-    private MangaImageResponse image;
+    private ImageResponse image;
     @SerializedName("url")
     private String url;
     @SerializedName("kind")
@@ -48,7 +49,7 @@ public class MangaResponse extends LinkedContentResponse {
         return russianName;
     }
 
-    public MangaImageResponse getImage() {
+    public ImageResponse getImage() {
         return image;
     }
 

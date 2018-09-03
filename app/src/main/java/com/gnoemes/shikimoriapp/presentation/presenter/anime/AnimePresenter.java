@@ -562,7 +562,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     public void onBackgroundImageClicked() {
         if (currentAnime != null) {
-            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
+            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getName(), currentAnime.getImage().getOriginal()));
         }
     }
 }

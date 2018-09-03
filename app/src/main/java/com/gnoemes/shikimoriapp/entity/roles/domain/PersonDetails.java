@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.roles.domain;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 import org.joda.time.DateTime;
 
@@ -16,7 +16,7 @@ public class PersonDetails {
     private String russianName;
     @Nullable
     private String japaneseName;
-    private AnimeImage image;
+    private Image image;
     private String url;
     @Nullable
     private String jobTitle;
@@ -32,7 +32,7 @@ public class PersonDetails {
     private PersonFavoriteType favoriteType;
 
     public PersonDetails(long id, String name, @Nullable String russianName,
-                         @Nullable String japaneseName, AnimeImage image,
+                         @Nullable String japaneseName, Image image,
                          String url, @Nullable String jobTitle, @Nullable DateTime birthDay,
                          @Nullable List<Character> characters, @Nullable List<Work> works,
                          List<List<String>> roles, long topicId, PersonType type,
@@ -71,7 +71,7 @@ public class PersonDetails {
         return japaneseName;
     }
 
-    public AnimeImage getImage() {
+    public Image getImage() {
         return image;
     }
 

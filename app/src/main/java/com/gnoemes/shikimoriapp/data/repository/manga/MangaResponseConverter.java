@@ -2,10 +2,8 @@ package com.gnoemes.shikimoriapp.data.repository.manga;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.manga.data.MangaImageResponse;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaResponse;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
-import com.gnoemes.shikimoriapp.entity.manga.domain.MangaImage;
 
 import java.util.List;
 
@@ -15,5 +13,4 @@ public interface MangaResponseConverter extends Function<List<MangaResponse>, Li
 
     Manga convertResponse(@Nullable MangaResponse response);
 
-    MangaImage convertMangaImage(MangaImageResponse image);
 }

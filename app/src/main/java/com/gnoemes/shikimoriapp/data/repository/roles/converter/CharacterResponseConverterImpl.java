@@ -1,7 +1,6 @@
 package com.gnoemes.shikimoriapp.data.repository.roles.converter;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.roles.data.CharacterResponse;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 
@@ -12,8 +11,11 @@ import javax.inject.Inject;
 
 public class CharacterResponseConverterImpl implements CharacterResponseConverter {
 
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    public CharacterResponseConverterImpl() {
+    public CharacterResponseConverterImpl(ImageResponseConverter imageResponseConverter) {
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -35,11 +37,7 @@ public class CharacterResponseConverterImpl implements CharacterResponseConverte
         return new Character(response.getId(),
                 response.getName(),
                 response.getRussianName(),
-                new AnimeImage(
-                        BuildConfig.ShikimoriBaseUrl + response.getImageResponse().getImageOriginalUrl(),
-                        BuildConfig.ShikimoriBaseUrl + response.getImageResponse().getImagePreviewUrl(),
-                        BuildConfig.ShikimoriBaseUrl + response.getImageResponse().getImageX96Url(),
-                        BuildConfig.ShikimoriBaseUrl + response.getImageResponse().getImageX48Url()),
+                imageResponseConverter.convert(response.getImageResponse()),
                 response.getUrl());
     }
 }

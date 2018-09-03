@@ -44,7 +44,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 animeDetails.getName(),
                 animeDetails.getSecondName(),
                 animeDetails.getUrl(),
-                animeDetails.getAnimeImage().getImageOriginalUrl(),
+                animeDetails.getImage().getOriginal(),
                 convertType(animeDetails.getType(), animeDetails.getEpisodes(), animeDetails.getDuration()),
                 convertStatus(animeDetails.getStatus()),
                 animeDetails.getAnimeGenres(),

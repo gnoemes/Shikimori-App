@@ -3,24 +3,25 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.utils.PrefUtils;
-import com.gnoemes.shikimoriapp.utils.Utils;
 
 import javax.inject.Inject;
 
 public class AnimeResponseConverterImpl implements AnimeResponseConverter {
 
     private Context context;
+    private ImageResponseConverter imageResponseConverter;
 
     @Inject
-    public AnimeResponseConverterImpl(Context context) {
+    public AnimeResponseConverterImpl(Context context,
+                                      ImageResponseConverter imageResponseConverter) {
         this.context = context;
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
         return new Anime(animeResponse.getId(),
                 name,
                 secondName,
-                convertAnimeImage(animeResponse.getImage()),
+                imageResponseConverter.convert(animeResponse.getImage()),
                 animeResponse.getUrl(),
                 convertAnimeType(animeResponse.getType()),
                 convertAnimeStatus(animeResponse.getStatus()),
@@ -44,15 +45,6 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
                 animeResponse.getEpisodesAired(),
                 animeResponse.getAiredDate(),
                 animeResponse.getReleasedDate());
-    }
-
-    @Override
-    public AnimeImage convertAnimeImage(DefaultImageResponse image) {
-        return new AnimeImage(
-                Utils.appendHostIfNeed(image.getImageOriginalUrl()),
-                Utils.appendHostIfNeed(image.getImagePreviewUrl()),
-                Utils.appendHostIfNeed(image.getImageX96Url()),
-                Utils.appendHostIfNeed(image.getImageX48Url()));
     }
 
     @Override

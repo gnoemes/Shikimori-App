@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 import org.joda.time.DateTime;
 
@@ -14,7 +15,7 @@ public class Manga extends LinkedContent {
     private String name;
     @Nullable
     private String russianName;
-    private MangaImage image;
+    private Image image;
     private String url;
     private MangaType type;
     private MangaStatus status;
@@ -25,10 +26,10 @@ public class Manga extends LinkedContent {
     private DateTime releasedDate;
 
     public Manga(long id, String name, @Nullable String russianName,
-                 MangaImage image, String url, MangaType type,
+                 Image image, String url, MangaType type,
                  MangaStatus status, int volume, int chapters,
                  DateTime airedDate, @Nullable DateTime releasedDate) {
-        super(id, LinkedType.MANGA, image.getImageOriginalUrl());
+        super(id, LinkedType.MANGA, image.getOriginal());
         this.id = id;
         this.name = name;
         this.russianName = russianName;
@@ -55,7 +56,7 @@ public class Manga extends LinkedContent {
         return russianName;
     }
 
-    public MangaImage getImage() {
+    public Image getImage() {
         return image;
     }
 

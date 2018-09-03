@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 import org.joda.time.DateTime;
 
@@ -19,7 +20,7 @@ public class Anime extends LinkedContent {
     @Nullable
     private String secondName;
 
-    private AnimeImage animeImage;
+    private Image image;
 
     private String url;
 
@@ -36,14 +37,14 @@ public class Anime extends LinkedContent {
     @Nullable
     private DateTime releasedDate;
 
-    public Anime(long id, String name, @Nullable String secondName, AnimeImage animeImage,
+    public Anime(long id, String name, @Nullable String secondName, Image image,
                  String url, AnimeType type, AnimeStatus status, int episodes,
                  int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
-        super(id, LinkedType.ANIME, animeImage.getImageOriginalUrl());
+        super(id, LinkedType.ANIME, image.getOriginal());
         this.id = id;
         this.name = name;
         this.secondName = secondName;
-        this.animeImage = animeImage;
+        this.image = image;
         this.url = url;
         this.type = type;
         this.status = status;
@@ -66,8 +67,8 @@ public class Anime extends LinkedContent {
         return secondName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getUrl() {

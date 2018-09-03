@@ -1,12 +1,10 @@
 package com.gnoemes.shikimoriapp.data.repository.manga;
 
-import com.gnoemes.shikimoriapp.entity.manga.data.MangaImageResponse;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaResponse;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
-import com.gnoemes.shikimoriapp.entity.manga.domain.MangaImage;
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaStatus;
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType;
-import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,11 @@ import javax.inject.Inject;
 
 public class MangaResponseConverterImpl implements MangaResponseConverter {
 
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    public MangaResponseConverterImpl() {
+    public MangaResponseConverterImpl(ImageResponseConverter imageResponseConverter) {
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class MangaResponseConverterImpl implements MangaResponseConverter {
         return new Manga(response.getId(),
                 response.getName(),
                 response.getRussianName(),
-                convertMangaImage(response.getImage()),
+                imageResponseConverter.convert(response.getImage()),
                 response.getUrl(),
                 convertType(response.getType()),
                 convertStatus(response.getStatus()),
@@ -67,15 +68,5 @@ public class MangaResponseConverterImpl implements MangaResponseConverter {
             }
         }
         throw new IllegalArgumentException(type + " is not valid status");
-    }
-
-
-    @Override
-    public MangaImage convertMangaImage(MangaImageResponse image) {
-        return new MangaImage(
-                Utils.appendHostIfNeed(image.getImageOriginalUrl()),
-                Utils.appendHostIfNeed(image.getImagePreviewUrl()),
-                Utils.appendHostIfNeed(image.getImageX96Url()),
-                Utils.appendHostIfNeed(image.getImageX48Url()));
     }
 }

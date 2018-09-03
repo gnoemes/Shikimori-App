@@ -6,6 +6,8 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseCon
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.LinkedContentResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.LinkedContentResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
@@ -66,6 +68,7 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import dagger.Reusable;
 
 @Module
 public interface UtilModule {
@@ -178,8 +181,14 @@ public interface UtilModule {
     PersonResponseConverter bindPersonResponseConverter(PersonResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     PlayVideoToDownloadConverter bindPlayVideoToDownloadConverter(PlayVideoToDownloadConverterImpl converter);
 
     @Binds
     SmotretAnimeDownloadConverter bindSmotretAnimeDownloadConverter(SmotretAnimeDownloadConveterImpl conveter);
+
+    @Binds
+    @Reusable
+    ImageResponseConverter bindImageResponseConverter(ImageResponseConverterImpl converter);
+
 }

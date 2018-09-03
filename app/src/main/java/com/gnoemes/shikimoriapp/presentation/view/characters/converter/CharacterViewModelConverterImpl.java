@@ -1,7 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.characters.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
@@ -61,11 +60,7 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
     }
 
     private CharacterRelatedItem convertManga(Manga manga) {
-        return new CharacterRelatedItem(manga.getId(),
-                new AnimeImage(manga.getImage().getImageOriginalUrl(),
-                        manga.getImage().getImagePreviewUrl(),
-                        manga.getImage().getImageX96Url(),
-                        manga.getImage().getImageX48Url()));
+        return new CharacterRelatedItem(manga.getId(), manga.getImage());
     }
 
     private BaseItem convertAnimeRelatedItem(CharacterRelatedType type, List<Anime> animes) {
@@ -79,8 +74,7 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
     }
 
     private CharacterRelatedItem convertAnime(Anime anime) {
-        return new CharacterRelatedItem(anime.getId(),
-                anime.getAnimeImage());
+        return new CharacterRelatedItem(anime.getId(), anime.getImage());
     }
 
     private BaseItem convertSeyuRelatedItem(CharacterRelatedType type, List<Person> seyus) {
@@ -102,7 +96,7 @@ public class CharacterViewModelConverterImpl implements CharacterViewModelConver
         return new CharacterHeadItem(item.getId(),
                 item.getName(),
                 item.getRussianName(),
-                item.getAnimeImage(),
+                item.getImage(),
                 item.getUrl(),
                 item.getAlternativeName(),
                 item.getJapaneseName(),

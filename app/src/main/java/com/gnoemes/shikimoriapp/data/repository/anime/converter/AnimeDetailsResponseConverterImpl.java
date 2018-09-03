@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.content.Context;
 
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
@@ -27,16 +28,19 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
     private AnimeRateResponseConverter rateConverter;
     private RolesResponseConverter rolesResponseConverter;
     private Context context;
+    private ImageResponseConverter imageResponseConverter;
 
     @Inject
     public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
                                              AnimeRateResponseConverter rateConverter,
                                              RolesResponseConverter rolesResponseConverter,
-                                             Context context) {
+                                             Context context,
+                                             ImageResponseConverter imageResponseConverter) {
         this.converter = converter;
         this.rateConverter = rateConverter;
         this.rolesResponseConverter = rolesResponseConverter;
         this.context = context;
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 response.getTopicId(),
                 name,
                 secondName,
-                converter.convertAnimeImage(response.getImage()),
+                imageResponseConverter.convert(response.getImage()),
                 response.getUrl(),
                 converter.convertAnimeType(response.getType()),
                 converter.convertAnimeStatus(response.getStatus()),

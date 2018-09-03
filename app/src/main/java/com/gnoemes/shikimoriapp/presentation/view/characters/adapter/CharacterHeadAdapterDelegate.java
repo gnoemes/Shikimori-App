@@ -92,7 +92,7 @@ public class CharacterHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
         public void bind(CharacterHeadItem item) {
 
-            imageLoader.setImageWithFit(imageView, item.getAnimeImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getImage().getOriginal());
 
             if (TextUtils.isEmpty(item.getRussianName())) {
                 russianNameView.setVisibility(View.GONE);

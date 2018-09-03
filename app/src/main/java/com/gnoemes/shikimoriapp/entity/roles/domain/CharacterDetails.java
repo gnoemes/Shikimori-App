@@ -3,7 +3,7 @@ package com.gnoemes.shikimoriapp.entity.roles.domain;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class CharacterDetails {
     private long id;
     private String name;
     private String russianName;
-    private AnimeImage animeImage;
+    private Image image;
     private String url;
     private String alternativeName;
     @Nullable
@@ -27,14 +27,14 @@ public class CharacterDetails {
     private List<Manga> mangas;
 
     public CharacterDetails(long id, String name, String russianName,
-                            AnimeImage animeImage, String url, String alternativeName,
+                            Image image, String url, String alternativeName,
                             @Nullable String japaneseName, @Nullable String description,
                             @Nullable String descriptionSource, List<Person> seyus,
                             List<Anime> animes, List<Manga> mangas) {
         this.id = id;
         this.name = name;
         this.russianName = russianName;
-        this.animeImage = animeImage;
+        this.image = image;
         this.url = url;
         this.alternativeName = alternativeName;
         this.japaneseName = japaneseName;
@@ -57,8 +57,8 @@ public class CharacterDetails {
         return russianName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getUrl() {
