@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.PlaceHolderItem;
-import com.gnoemes.shikimoriapp.entity.app.presentation.TopDividerItem;
 import com.gnoemes.shikimoriapp.entity.search.presentation.ProgressItemViewModel;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.AdapterResourceProvider;
 import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter;
@@ -38,7 +37,7 @@ public abstract class BaseListAdapter extends ListDelegationAdapter<List<BaseIte
                 items.add(new PlaceHolderItem(resourceProvider.getPlaceholderMessage()));
             }
         } else {
-            baseItems.add(0, new TopDividerItem());
+//            baseItems.add(0, new TopDividerItem());
             items.addAll(baseItems);
         }
         notifyDataSetChanged();

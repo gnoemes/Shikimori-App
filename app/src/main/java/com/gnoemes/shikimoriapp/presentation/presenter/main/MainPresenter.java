@@ -29,7 +29,6 @@ public class MainPresenter extends BasePresenter<MainView> {
      */
     @Override
     public void initData() {
-        getViewState().initBottomNavigation();
         getRouter().replaceScreen(BottomScreens.FAVORITE);
     }
 
