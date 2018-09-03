@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.user.domain;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 import org.joda.time.DateTime;
@@ -21,7 +21,7 @@ public class Target {
 
     private TargetType type;
 
-    private AnimeStatus status;
+    private Status status;
 
     private int episodes;
 
@@ -33,7 +33,7 @@ public class Target {
     private DateTime releasedDate;
 
     public Target(long id, String name, @Nullable String russianName, Image image,
-                  String url, TargetType type, AnimeStatus status, int episodes,
+                  String url, TargetType type, Status status, int episodes,
                   int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
         this.id = id;
         this.name = name;
@@ -73,7 +73,7 @@ public class Target {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

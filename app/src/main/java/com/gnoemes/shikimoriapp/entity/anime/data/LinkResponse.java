@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AnimeLinkResponse {
+public class LinkResponse {
 
     @SerializedName("id")
     private long id;

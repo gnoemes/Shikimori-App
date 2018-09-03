@@ -1,8 +1,8 @@
 package com.gnoemes.shikimoriapp.presentation.view.search.filter;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants;
 
@@ -47,9 +47,9 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
 
     private String processValue(String typeName, Enum[] type) {
         if (isGenre(type)) {
-            for (AnimeGenre animeGenre : AnimeGenre.values()) {
-                if (animeGenre.equalsName(typeName)) {
-                    return animeGenre.getId();
+            for (Genre genre : Genre.values()) {
+                if (genre.equalsName(typeName)) {
+                    return genre.getId();
                 }
             }
         } else if (isType(type)) {
@@ -59,9 +59,9 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
                 }
             }
         } else if (isStatus(type)) {
-            for (AnimeStatus animeStatus : AnimeStatus.values()) {
-                if (animeStatus.equalsStatus(typeName)) {
-                    return animeStatus.toString();
+            for (Status status : Status.values()) {
+                if (status.equalsStatus(typeName)) {
+                    return status.toString();
                 }
             }
         } else if (isSeason(type)) {
@@ -89,7 +89,7 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
     }
 
     private boolean isGenre(Enum[] enums) {
-        return enums instanceof AnimeGenre[];
+        return enums instanceof Genre[];
     }
 
     private boolean isType(Enum[] enums) {
@@ -97,7 +97,7 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
     }
 
     private boolean isStatus(Enum[] enums) {
-        return enums instanceof AnimeStatus[];
+        return enums instanceof Status[];
     }
 
     private boolean isSeason(Enum[] enums) {

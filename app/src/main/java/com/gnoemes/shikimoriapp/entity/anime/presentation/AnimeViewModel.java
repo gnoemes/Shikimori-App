@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.entity.anime.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.search.presentation.BaseSearchItem;
 
 import org.joda.time.DateTime;
@@ -29,7 +29,7 @@ public class AnimeViewModel extends BaseSearchItem {
 
     private AnimeType type;
 
-    private AnimeStatus status;
+    private Status status;
 
     private int episodes;
 
@@ -42,7 +42,7 @@ public class AnimeViewModel extends BaseSearchItem {
 
     public AnimeViewModel(long id, String name, @Nullable String secondName,
                           String imageOriginalUrl, String imagePreviewUrl, String imageX96Url,
-                          String imageX48Url, String url, AnimeType type, AnimeStatus status,
+                          String imageX48Url, String url, AnimeType type, Status status,
                           int episodes, int episodesAired, DateTime airedDate,
                           @Nullable DateTime releasedDate) {
         this.id = id;
@@ -97,7 +97,7 @@ public class AnimeViewModel extends BaseSearchItem {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

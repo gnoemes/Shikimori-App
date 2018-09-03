@@ -5,6 +5,7 @@ import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.network.AuthApi;
 import com.gnoemes.shikimoriapp.data.network.CalendarApi;
 import com.gnoemes.shikimoriapp.data.network.CommentsApi;
+import com.gnoemes.shikimoriapp.data.network.MangaApi;
 import com.gnoemes.shikimoriapp.data.network.RolesApi;
 import com.gnoemes.shikimoriapp.data.network.TopicApi;
 import com.gnoemes.shikimoriapp.data.network.UserApi;
@@ -73,5 +74,11 @@ public interface ApiModule {
     @Provides
     static AlternativeApi bindAlternativeApi(@com.gnoemes.shikimoriapp.di.app.qualifiers.AlternativeApi Retrofit retrofit) {
         return retrofit.create(AlternativeApi.class);
+    }
+
+    @Singleton
+    @Provides
+    static MangaApi bindMangaApi(@AuthCommonApi Retrofit retrofit) {
+        return retrofit.create(MangaApi.class);
     }
 }

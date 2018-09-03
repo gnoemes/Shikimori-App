@@ -6,7 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.search.SearchInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
@@ -38,7 +38,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
     private HashMap<String, List<FilterItem>> filters = new HashMap<>();
 
     private String reactiveQuery;
-    private AnimeGenre genre;
+    private Genre genre;
     /**
      * Pagination callback interface for view
      */
@@ -214,7 +214,7 @@ public class SearchPresenter extends BaseNetworkPresenter<SearchView> {
         onRefresh();
     }
 
-    public void setGenre(AnimeGenre genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 

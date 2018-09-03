@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AnimeFranchiseResponse {
+public class FranchiseResponse {
 
     @SerializedName("nodes")
-    private List<AnimeFranchiseNodeResponse> nodes;
+    private List<FranchiseNodeResponse> nodes;
 
-    public List<AnimeFranchiseNodeResponse> getNodes() {
+    public List<FranchiseNodeResponse> getNodes() {
         return nodes;
     }
 

@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.data.repository.roles.converter;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.roles.data.PersonDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.roles.data.SeyuRoleResponse;

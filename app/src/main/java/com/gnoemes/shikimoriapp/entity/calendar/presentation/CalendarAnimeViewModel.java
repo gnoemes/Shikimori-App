@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.entity.calendar.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 
 import org.joda.time.DateTime;
 
@@ -31,7 +31,7 @@ public class CalendarAnimeViewModel {
 
     private AnimeType type;
 
-    private AnimeStatus status;
+    private Status status;
 
     private int episodes;
 
@@ -55,7 +55,7 @@ public class CalendarAnimeViewModel {
                                   String imageX48Url,
                                   String url,
                                   AnimeType type,
-                                  AnimeStatus status,
+                                  Status status,
                                   int episodes,
                                   int episodesAired,
                                   DateTime airedDate,
@@ -117,7 +117,7 @@ public class CalendarAnimeViewModel {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

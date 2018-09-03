@@ -4,14 +4,14 @@ import com.gnoemes.shikimoriapp.data.local.db.HistoryDbSource;
 import com.gnoemes.shikimoriapp.data.local.db.RateSyncDbSource;
 import com.gnoemes.shikimoriapp.data.network.AnimesApi;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeDetailsResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeFranchiseResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeLinkResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.FranchiseResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.LinkResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Link;
 import com.gnoemes.shikimoriapp.entity.anime.series.data.db.HistoryDao;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 
@@ -32,8 +32,8 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     private HistoryDbSource historyDbSource;
     private AnimeDetailsResponseConverter responseConverter;
     private AnimeListResponseConverter listResponseConverter;
-    private AnimeLinkResponseConverter linkReponseConverter;
-    private AnimeFranchiseResponseConverter franchiseResponseConverter;
+    private LinkResponseConverter linkReponseConverter;
+    private FranchiseResponseConverter franchiseResponseConverter;
     private ScreenshotResponseConverter screenshotResponseConverter;
 
     @Inject
@@ -41,9 +41,9 @@ public class AnimeRepositoryImpl implements AnimeRepository {
                                RateSyncDbSource syncDbSource,
                                HistoryDbSource historyDbSource,
                                AnimeDetailsResponseConverter responseConverter,
-                               AnimeLinkResponseConverter linkReponseConverter,
+                               LinkResponseConverter linkReponseConverter,
                                AnimeListResponseConverter listResponseConverter,
-                               AnimeFranchiseResponseConverter franchiseResponseConverter,
+                               FranchiseResponseConverter franchiseResponseConverter,
                                ScreenshotResponseConverter screenshotResponseConverter) {
         this.animesApi = animesApi;
         this.syncDbSource = syncDbSource;
@@ -70,7 +70,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     }
 
     @Override
-    public Single<List<AnimeLink>> getAnimeLinks(long animeId) {
+    public Single<List<Link>> getAnimeLinks(long animeId) {
         return animesApi.getAnimeLinks(animeId)
                 .map(linkReponseConverter);
     }
@@ -82,7 +82,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
     }
 
     @Override
-    public Single<List<AnimeFranchiseNode>> getFranchiseNodes(long animeId) {
+    public Single<List<FranchiseNode>> getFranchiseNodes(long animeId) {
         return animesApi.getFranchise(animeId)
                 .map(franchiseResponseConverter)
                 .flatMap(nodes -> Observable.fromIterable(nodes)

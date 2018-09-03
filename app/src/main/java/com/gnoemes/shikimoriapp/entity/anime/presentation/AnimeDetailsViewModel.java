@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -21,7 +21,7 @@ public class AnimeDetailsViewModel {
     private String imageUrl;
     private String animeType;
     private String animeStatus;
-    private List<AnimeGenre> genres;
+    private List<Genre> genres;
     private int episodes;
     private int episodesAired;
     private String season;
@@ -37,7 +37,7 @@ public class AnimeDetailsViewModel {
 
     public AnimeDetailsViewModel(long id, String title, String subTitle, String url,
                                  String imageUrl, String animeType, String animeStatus,
-                                 List<AnimeGenre> genres, int episodes, int episodesAired,
+                                 List<Genre> genres, int episodes, int episodesAired,
                                  String season, int duration, double score,
                                  @Nullable String description, @Nullable UserRate animeRate,
                                  @Nullable List<Video> videos, List<Character> characters) {
@@ -88,7 +88,7 @@ public class AnimeDetailsViewModel {
         return animeStatus;
     }
 
-    public List<AnimeGenre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 

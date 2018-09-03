@@ -12,12 +12,12 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
@@ -39,7 +39,7 @@ import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginator;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginatorImpl;
@@ -59,7 +59,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private AnimeInteractor animeInteractor;
     private AnimeDetailsViewModelConverter viewModelConverter;
-    private AnimeLinkViewModelConverter linkViewModelConverter;
+    private LinkViewModelConverter linkViewModelConverter;
     private SeriesInteractor seriesInteractor;
     private CommentsInteractor commentsInteractor;
     private EpisodeViewModelConverter episodeViewModelConverter;
@@ -135,7 +135,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                           @NonNull UserRatesInteractor ratesInteractor,
                           @NonNull AnimeDetailsViewModelConverter viewModelConverter,
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
-                          @NonNull AnimeLinkViewModelConverter linkViewModelConverter,
+                          @NonNull LinkViewModelConverter linkViewModelConverter,
                           @NonNull CommentsViewModelConverter commentsConverter,
                           @NonNull AnimeDetailsResourceProvider resourceProvider,
                           @NonNull AnalyticsInteractor analyticsInteractor) {
@@ -279,7 +279,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 onRateClicked();
                 break;
             case GENRE:
-                onGenreClick((AnimeGenre) data);
+                onGenreClick((Genre) data);
                 break;
             case LINKS:
                 onLinksClicked();
@@ -335,7 +335,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         unsubscribeOnDestroy(disposable);
     }
 
-    private void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
+    private void showChronologyDialog(List<FranchiseNode> nodes) {
         getViewState().showChronologyDialog(nodes);
     }
 
@@ -343,7 +343,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Route to search page and search animes with clicked genre
      */
-    private void onGenreClick(AnimeGenre item) {
+    private void onGenreClick(Genre item) {
         analyticsInteractor.logEvent(AnalyticsEvent.GENRE_SEARCH);
         getRouter().navigateTo(BottomScreens.SEARCH, item);
     }
@@ -382,8 +382,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Show links dialog
      */
-    private void showLinks(List<AnimeLinkViewModel> animeLinkViewModels) {
-        getViewState().showLinksDialog(animeLinkViewModels);
+    private void showLinks(List<LinkViewModel> linkViewModels) {
+        getViewState().showLinksDialog(linkViewModels);
     }
 
     /**
@@ -440,8 +440,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Open link in browser
      */
-    public void onLinkPressed(AnimeLinkViewModel animeLinkViewModel) {
-        getRouter().navigateTo(Screens.WEB, animeLinkViewModel.getUrl());
+    public void onLinkPressed(LinkViewModel linkViewModel) {
+        getRouter().navigateTo(Screens.WEB, linkViewModel.getUrl());
     }
 
     /**

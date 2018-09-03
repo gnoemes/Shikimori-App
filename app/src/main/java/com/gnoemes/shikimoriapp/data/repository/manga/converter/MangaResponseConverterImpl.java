@@ -1,10 +1,9 @@
-package com.gnoemes.shikimoriapp.data.repository.manga;
+package com.gnoemes.shikimoriapp.data.repository.manga.converter;
 
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.manga.data.MangaResponse;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
-import com.gnoemes.shikimoriapp.entity.manga.domain.MangaStatus;
-import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,33 +39,15 @@ public class MangaResponseConverterImpl implements MangaResponseConverter {
 
         return new Manga(response.getId(),
                 response.getName(),
-                response.getRussianName(),
+                response.getNameRu(),
                 imageResponseConverter.convert(response.getImage()),
-                response.getUrl(),
-                convertType(response.getType()),
-                convertStatus(response.getStatus()),
-                response.getVolume(),
+                Utils.appendHostIfNeed(response.getUrl()),
+                response.getType(),
+                response.getStatus(),
+                response.getVolumes(),
                 response.getChapters(),
-                response.getAiredDate(),
-                response.getReleasedDate()
+                response.getDateAired(),
+                response.getDateReleased()
         );
-    }
-
-    private MangaStatus convertStatus(String status) {
-        for (MangaStatus mangaStatus : MangaStatus.values()) {
-            if (mangaStatus.equalsStatus(status)) {
-                return mangaStatus;
-            }
-        }
-        throw new IllegalArgumentException(status + " is not valid status");
-    }
-
-    private MangaType convertType(String type) {
-        for (MangaType mangaType : MangaType.values()) {
-            if (mangaType.equalsType(type)) {
-                return mangaType;
-            }
-        }
-        throw new IllegalArgumentException(type + " is not valid status");
     }
 }

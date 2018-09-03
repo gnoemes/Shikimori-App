@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
@@ -107,7 +107,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             }
 
             String episodes = String.format(resourceProvider.getEpisodeStringFormat(),
-                    item.getStatus() == AnimeStatus.RELEASED ? item.getEpisodes() : item.getEpisodesAired(),
+                    item.getStatus() == Status.RELEASED ? item.getEpisodes() : item.getEpisodesAired(),
                     item.getEpisodes() == 0 ? "xxx" : item.getEpisodes());
 
             name.addSlice(new Slice.Builder(episodes)

@@ -29,11 +29,11 @@ import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
@@ -45,7 +45,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeAdapt
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.AnimeCharacterAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.comments.CommentsAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.EpisodeAdapter;
-import com.gnoemes.shikimoriapp.presentation.view.anime.converter.AnimeFranchiseNodeToStringConverter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
@@ -121,7 +121,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
     AnimeDetailsViewModelConverter converter;
 
     @Inject
-    AnimeFranchiseNodeToStringConverter franchiseConverter;
+    FranchiseNodeToStringConverter franchiseConverter;
 
     @Inject
     RateResourceProvider rateResourceProvider;
@@ -346,11 +346,11 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @SuppressLint("CheckResult")
     @Override
-    public void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels) {
+    public void showLinksDialog(List<LinkViewModel> linkViewModels) {
 
         List<String> titles = new ArrayList<>();
 
-        for (AnimeLinkViewModel model : animeLinkViewModels) {
+        for (LinkViewModel model : linkViewModels) {
             titles.add(model.getName());
         }
 
@@ -360,7 +360,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 //                    .items(titles.toArray(new CharSequence[titles.size()]))
 //                    .itemsCallback((dialog, itemView, position, text) -> {
 //                        dialog.dismiss();
-//                        AnimeFragment.this.getPresenter().onLinkPressed(animeLinkViewModels.get(position));
+//                        AnimeFragment.this.getPresenter().onLinkPressed(linkViewModels.get(position));
 //                    })
 //                    .autoDismiss(true)
 //                    .titleColorAttr(R.attr.colorText)
@@ -378,7 +378,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
                     .title(R.string.common_links, null)
                     .negativeButton(R.string.close, null, null);
             DialogListExtKt.listItems(dialog, 0, titles, new int[]{}, false, (materialDialog, integer, s) -> {
-                getPresenter().onLinkPressed(animeLinkViewModels.get(integer));
+                getPresenter().onLinkPressed(linkViewModels.get(integer));
                 return null;
             });
             dialog.show();
@@ -387,7 +387,7 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @SuppressLint("CheckResult")
     @Override
-    public void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
+    public void showChronologyDialog(List<FranchiseNode> nodes) {
 
         List<String> items = franchiseConverter.convertList(nodes);
 

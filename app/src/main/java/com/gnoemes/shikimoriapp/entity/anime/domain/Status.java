@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.anime.domain;
 
-public enum AnimeStatus {
+public enum Status {
     ANONS("anons"),
     ONGOING("ongoing"),
     RELEASED("released"),
@@ -9,7 +9,7 @@ public enum AnimeStatus {
 
     private final String status;
 
-    AnimeStatus(String status) {
+    Status(String status) {
         this.status = status;
     }
 

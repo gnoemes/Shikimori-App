@@ -3,7 +3,7 @@ package com.gnoemes.shikimoriapp.data.repository.app.converter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse;

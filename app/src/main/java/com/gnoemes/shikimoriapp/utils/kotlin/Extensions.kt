@@ -67,10 +67,6 @@ fun Toolbar.addBackButton() {
     this.navigationIcon = this.context.themeDrawable(R.drawable.ic_arrow_back, R.attr.colorText)
 }
 
-fun View.onClick(l: (v: android.view.View?) -> Unit) {
-    setOnClickListener(l)
-}
-
 fun <T> Single<T>.appendLoadingLogic(viewState: BaseView): Single<T> =
         this.doOnSubscribe { viewState.onShowLoading() }
                 .doAfterTerminate { viewState.onHideLoading() }

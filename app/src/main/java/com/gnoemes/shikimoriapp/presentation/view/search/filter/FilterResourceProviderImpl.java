@@ -3,9 +3,9 @@ package com.gnoemes.shikimoriapp.presentation.view.search.filter;
 import android.content.Context;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants;
 import com.gnoemes.shikimoriapp.utils.date.DateTimeUtils;
@@ -75,7 +75,7 @@ public class FilterResourceProviderImpl implements FilterResourceProvider {
     public List<FilterItem> getGenres() {
         List<String> localizedGenres = Arrays.asList(context.getResources().getStringArray((R.array.genres)));
         List<String> genresNames = Arrays.asList(context.getResources().getStringArray(R.array.genres_names));
-        return resourceConverter.convertFrom(genresNames, localizedGenres, AnimeGenre.values());
+        return resourceConverter.convertFrom(genresNames, localizedGenres, Genre.values());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FilterResourceProviderImpl implements FilterResourceProvider {
     public List<FilterItem> getStatuses() {
         List<String> localisedStatuses = Arrays.asList(context.getResources().getStringArray(R.array.statuses));
         List<String> statusesNames = Arrays.asList(context.getResources().getStringArray(R.array.statuses_names));
-        return resourceConverter.convertFrom(statusesNames, localisedStatuses, AnimeStatus.values());
+        return resourceConverter.convertFrom(statusesNames, localisedStatuses, Status.values());
     }
 
     @Override

@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.AnimeRepository;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeLink;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Link;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.Screenshot;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 import com.gnoemes.shikimoriapp.utils.rx.SingleErrorHandler;
@@ -46,16 +46,16 @@ public class AnimeInteractorImpl implements AnimeInteractor {
 
 
     @Override
-    public Single<List<AnimeLink>> getAnimeLinks(long animeId) {
+    public Single<List<Link>> getAnimeLinks(long animeId) {
         return animeRepository.getAnimeLinks(animeId)
-                .compose((SingleErrorHandler<List<AnimeLink>>) singleErrorHandler)
+                .compose((SingleErrorHandler<List<Link>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 
     @Override
-    public Single<List<AnimeFranchiseNode>> getFranchiseNodes(long animeId) {
+    public Single<List<FranchiseNode>> getFranchiseNodes(long animeId) {
         return animeRepository.getFranchiseNodes(animeId)
-                .compose((SingleErrorHandler<List<AnimeFranchiseNode>>) singleErrorHandler)
+                .compose((SingleErrorHandler<List<FranchiseNode>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
 

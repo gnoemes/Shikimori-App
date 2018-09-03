@@ -1,4 +1,4 @@
-package com.gnoemes.shikimoriapp.data.repository.manga;
+package com.gnoemes.shikimoriapp.data.repository.manga.converter;
 
 import android.support.annotation.Nullable;
 

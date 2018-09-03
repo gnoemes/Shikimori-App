@@ -1,13 +1,19 @@
-package com.gnoemes.shikimoriapp.entity.anime.presentation;
+package com.gnoemes.shikimoriapp.entity.anime.domain;
 
-public class AnimeLinkViewModel {
+public class Link {
 
+    private long id;
     private String name;
     private String url;
 
-    public AnimeLinkViewModel(String name, String url) {
+    public Link(long id, String name, String url) {
+        this.id = id;
         this.name = name;
         this.url = url;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {

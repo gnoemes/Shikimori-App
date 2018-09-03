@@ -1,34 +1,34 @@
-package com.gnoemes.shikimoriapp.entity.anime.data;
+package com.gnoemes.shikimoriapp.entity.anime.domain;
 
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
+import org.joda.time.DateTime;
 
-public class AnimeFranchiseNodeResponse {
-
-    @SerializedName("id")
+public class FranchiseNode {
     private long id;
-    @SerializedName("date")
-    private long dateTime;
-    @SerializedName("name")
+    private DateTime dateTime;
     private String name;
-    @SerializedName("image_url")
     private String imageUrl;
-    @SerializedName("url")
     private String url;
-    @SerializedName("year")
     @Nullable
     private Integer year;
-    @SerializedName("kind")
     private String type;
-    @SerializedName("weight")
-    private int weight;
+
+    public FranchiseNode(long id, DateTime dateTime, String name, String imageUrl, String url, @Nullable Integer year, String type) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.url = url;
+        this.year = year;
+        this.type = type;
+    }
 
     public long getId() {
         return id;
     }
 
-    public long getDateTime() {
+    public DateTime getDateTime() {
         return dateTime;
     }
 
@@ -51,9 +51,5 @@ public class AnimeFranchiseNodeResponse {
 
     public String getType() {
         return type;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 }

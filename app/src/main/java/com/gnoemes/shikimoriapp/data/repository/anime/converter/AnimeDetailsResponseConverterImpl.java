@@ -2,12 +2,11 @@ package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.content.Context;
 
+import com.gnoemes.shikimoriapp.data.repository.app.converter.GenreResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
 import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -29,18 +28,16 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
     private RolesResponseConverter rolesResponseConverter;
     private Context context;
     private ImageResponseConverter imageResponseConverter;
+    private GenreResponseConverter genreResponseConverter;
 
     @Inject
-    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
-                                             AnimeRateResponseConverter rateConverter,
-                                             RolesResponseConverter rolesResponseConverter,
-                                             Context context,
-                                             ImageResponseConverter imageResponseConverter) {
+    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter, AnimeRateResponseConverter rateConverter, RolesResponseConverter rolesResponseConverter, Context context, ImageResponseConverter imageResponseConverter, GenreResponseConverter genreResponseConverter) {
         this.converter = converter;
         this.rateConverter = rateConverter;
         this.rolesResponseConverter = rolesResponseConverter;
         this.context = context;
         this.imageResponseConverter = imageResponseConverter;
+        this.genreResponseConverter = genreResponseConverter;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
                 response.getDuration(),
                 response.getScore(),
                 response.getDescription(),
-                convertGenres(response.getGenres()),
+                genreResponseConverter.convertGenres(response.getGenres()),
                 rateConverter.convertUserRateResponse(response.getRateResponse()),
                 convertVideos(response.getVideoResponses()),
                 rolesResponseConverter.convertCharacters(rolesResponses)
@@ -99,38 +96,5 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
             }
         }
         return VideoType.OTHER;
-    }
-
-
-    /**
-     * Returns List<AnimeGenres> (ENUMS)
-     */
-    private List<AnimeGenre> convertGenres(List<GenreResponse> responses) {
-        List<AnimeGenre> animeGenres = new ArrayList<>();
-
-        for (GenreResponse genre : responses) {
-            for (AnimeGenre animeGenre : AnimeGenre.values()) {
-                String name = convertGenreName(genre.getName());
-                if (animeGenre.equalsName(name)) {
-                    animeGenres.add(animeGenre);
-                }
-            }
-        }
-        return animeGenres;
-    }
-
-    /**
-     * Converts genre name for future action (e.g. slice_of_life)
-     */
-    private String convertGenreName(String name) {
-        StringBuilder builder = new StringBuilder();
-        for (char c : name.toCharArray()) {
-            if (Character.isWhitespace(c)) {
-                builder.append('_');
-            } else {
-                builder.append(c);
-            }
-        }
-        return builder.toString().toLowerCase();
     }
 }

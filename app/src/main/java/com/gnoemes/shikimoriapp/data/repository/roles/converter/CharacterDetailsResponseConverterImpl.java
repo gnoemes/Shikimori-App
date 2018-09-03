@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeListResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.entity.roles.data.CharacterDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.roles.domain.CharacterDetails;
 import com.gnoemes.shikimoriapp.utils.Utils;

@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeActionItem;
@@ -47,7 +47,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
                 animeDetails.getImage().getOriginal(),
                 convertType(animeDetails.getType(), animeDetails.getEpisodes(), animeDetails.getDuration()),
                 convertStatus(animeDetails.getStatus()),
-                animeDetails.getAnimeGenres(),
+                animeDetails.getGenres(),
                 animeDetails.getEpisodes(),
                 animeDetails.getEpisodesAired(),
                 convertSeason(animeDetails.getAiredDate()),
@@ -71,7 +71,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
         return converter.convertAnimeSeasonToString(airedDate);
     }
 
-    private String convertStatus(AnimeStatus status) {
+    private String convertStatus(Status status) {
         if (status == null) {
             return context.getString(R.string.error_no_data);
         }

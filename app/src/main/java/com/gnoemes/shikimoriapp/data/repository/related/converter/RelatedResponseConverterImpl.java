@@ -1,7 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.related.converter;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.related.data.RelatedResponse;
 import com.gnoemes.shikimoriapp.entity.related.domain.Related;

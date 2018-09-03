@@ -26,7 +26,7 @@ public class Anime extends LinkedContent {
 
     private AnimeType type;
 
-    private AnimeStatus status;
+    private Status status;
 
     private int episodes;
 
@@ -38,7 +38,7 @@ public class Anime extends LinkedContent {
     private DateTime releasedDate;
 
     public Anime(long id, String name, @Nullable String secondName, Image image,
-                 String url, AnimeType type, AnimeStatus status, int episodes,
+                 String url, AnimeType type, Status status, int episodes,
                  int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
         super(id, LinkedType.ANIME, image.getOriginal());
         this.id = id;
@@ -79,7 +79,7 @@ public class Anime extends LinkedContent {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

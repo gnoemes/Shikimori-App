@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.entity.history.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 
 import org.joda.time.DateTime;
 
@@ -18,7 +18,7 @@ public class HistoryItem extends BaseHistoryItem {
     private String imageX48Url;
     private String url;
     private AnimeType type;
-    private AnimeStatus status;
+    private Status status;
     private int episodes;
     private int episodesAired;
     private DateTime airedDate;
@@ -27,7 +27,7 @@ public class HistoryItem extends BaseHistoryItem {
 
     public HistoryItem(long id, String name, String secondName,
                        String imageOriginalUrl, String imagePreviewUrl, String imageX96Url,
-                       String imageX48Url, String url, AnimeType type, AnimeStatus status,
+                       String imageX48Url, String url, AnimeType type, Status status,
                        int episodes, int episodesAired, DateTime airedDate,
                        @Nullable DateTime releasedDate) {
         this.id = id;
@@ -82,7 +82,7 @@ public class HistoryItem extends BaseHistoryItem {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

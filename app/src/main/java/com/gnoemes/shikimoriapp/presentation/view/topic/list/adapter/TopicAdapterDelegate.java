@@ -170,7 +170,7 @@ public class TopicAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             linkedImageView.setOnClickListener(v -> {
                 if (content != null) {
-                    linkedCallback.onLinkedContentClicked(content.getId(), content.getLinkedType());
+                    linkedCallback.onLinkedContentClicked(content.getLinkedId(), content.getLinkedType());
                 }
             });
 

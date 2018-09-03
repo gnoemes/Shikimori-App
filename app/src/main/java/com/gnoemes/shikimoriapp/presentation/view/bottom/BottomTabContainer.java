@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
@@ -157,7 +157,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case BottomScreens.CALENDAR:
                             return CalendarFragment.newInstance();
                         case BottomScreens.SEARCH:
-                            return SearchFragment.newInstance((AnimeGenre) data);
+                            return SearchFragment.newInstance((Genre) data);
                         case BottomScreens.SOCIAL:
                             return SocialFragment.newInstance();
                         case BottomScreens.MENU:

@@ -1,9 +1,9 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import com.gnoemes.shikimoriapp.BuildConfig;
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeFranchiseNodeResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeFranchiseResponse;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.data.FranchiseNodeResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.FranchiseResponse;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
 
 import org.joda.time.DateTime;
 
@@ -12,25 +12,25 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class AnimeFranchiseResponseConverterImpl implements AnimeFranchiseResponseConverter {
+public class FranchiseResponseConverterImpl implements FranchiseResponseConverter {
 
     @Inject
-    public AnimeFranchiseResponseConverterImpl() {
+    public FranchiseResponseConverterImpl() {
     }
 
     @Override
-    public List<AnimeFranchiseNode> apply(AnimeFranchiseResponse animeFranchiseResponse) {
-        List<AnimeFranchiseNode> items = new ArrayList<>();
+    public List<FranchiseNode> apply(FranchiseResponse franchiseResponse) {
+        List<FranchiseNode> items = new ArrayList<>();
 
-        for (AnimeFranchiseNodeResponse nodeResponse : animeFranchiseResponse.getNodes()) {
+        for (FranchiseNodeResponse nodeResponse : franchiseResponse.getNodes()) {
             items.add(convertResponse(nodeResponse));
         }
 
         return items;
     }
 
-    private AnimeFranchiseNode convertResponse(AnimeFranchiseNodeResponse nodeResponse) {
-        return new AnimeFranchiseNode(nodeResponse.getId(),
+    private FranchiseNode convertResponse(FranchiseNodeResponse nodeResponse) {
+        return new FranchiseNode(nodeResponse.getId(),
                 new DateTime(nodeResponse.getDateTime()),
                 nodeResponse.getName(),
                 buildUrl(nodeResponse.getImageUrl()),

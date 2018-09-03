@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.topic.presentation.TopicLinkOnlyItem;
@@ -171,7 +171,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
             linkedImageView.setOnClickListener(v -> {
                 if (content != null) {
-                    linkedCallback.onLinkedContentClicked(content.getId(), content.getLinkedType());
+                    linkedCallback.onLinkedContentClicked(content.getLinkedId(), content.getLinkedType());
                 }
             });
         }
@@ -203,7 +203,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
                     .build();
         }
 
-        private String convertStatus(AnimeStatus status) {
+        private String convertStatus(Status status) {
             if (status == null) {
                 return itemView.getContext().getString(R.string.error_no_data);
             }

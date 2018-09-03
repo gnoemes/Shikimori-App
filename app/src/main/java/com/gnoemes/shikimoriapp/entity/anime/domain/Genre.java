@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.anime.domain;
 
-public enum AnimeGenre {
+public enum Genre {
     ACTION("action", "Экшен", 1),
     ADVENTURE("adventure", "Приключения", 2),
     CARS("cars", "Машины", 3),
@@ -49,7 +49,7 @@ public enum AnimeGenre {
     private final String russianName;
     private final int id;
 
-    AnimeGenre(String name, String russianName, int id) {
+    Genre(String name, String russianName, int id) {
         this.name = name;
         this.russianName = russianName;
         this.id = id;

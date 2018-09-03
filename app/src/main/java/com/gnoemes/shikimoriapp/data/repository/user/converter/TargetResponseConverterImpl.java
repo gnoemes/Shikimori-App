@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.user.domain.Target;
 import com.gnoemes.shikimoriapp.entity.user.domain.TargetType;
 
@@ -47,13 +47,13 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
         return null;
     }
 
-    private AnimeStatus convertAnimeStatus(String status) {
-        if (AnimeStatus.ANONS.equalsStatus(status)) {
-            return AnimeStatus.ANONS;
-        } else if (AnimeStatus.ONGOING.equalsStatus(status)) {
-            return AnimeStatus.ONGOING;
-        } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
-            return AnimeStatus.RELEASED;
+    private Status convertAnimeStatus(String status) {
+        if (Status.ANONS.equalsStatus(status)) {
+            return Status.ANONS;
+        } else if (Status.ONGOING.equalsStatus(status)) {
+            return Status.ONGOING;
+        } else if (Status.RELEASED.equalsStatus(status)) {
+            return Status.RELEASED;
         } else {
             throw new IllegalArgumentException(status + " is not valid status");
         }

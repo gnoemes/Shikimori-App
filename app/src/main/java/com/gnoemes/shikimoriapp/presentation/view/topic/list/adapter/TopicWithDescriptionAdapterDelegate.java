@@ -131,7 +131,7 @@ public class TopicWithDescriptionAdapterDelegate extends AdapterDelegate<List<Ba
 
             linkedImageView.setOnClickListener(v -> {
                 if (content != null) {
-                    linkedCallback.onLinkedContentClicked(content.getId(), content.getLinkedType());
+                    linkedCallback.onLinkedContentClicked(content.getLinkedId(), content.getLinkedType());
                 }
             });
         }

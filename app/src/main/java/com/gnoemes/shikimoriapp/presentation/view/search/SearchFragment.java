@@ -15,7 +15,7 @@ import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
@@ -69,7 +69,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
     private SearchAnimeAdapter animeAdapter;
     private FilterDialogFragment dialogFragment;
 
-    public static SearchFragment newInstance(@Nullable AnimeGenre data) {
+    public static SearchFragment newInstance(@Nullable Genre data) {
         Bundle args = new Bundle();
         SearchFragment fragment = new SearchFragment();
         args.putSerializable(AppExtras.ARGUMENT_GENRE, data);
@@ -85,7 +85,7 @@ public class SearchFragment extends BaseFragment<SearchPresenter, SearchView>
         }
 
         if (getArguments() != null && getArguments().containsKey(AppExtras.ARGUMENT_GENRE)) {
-            presenter.setGenre((AnimeGenre) getArguments().getSerializable(AppExtras.ARGUMENT_GENRE));
+            presenter.setGenre((Genre) getArguments().getSerializable(AppExtras.ARGUMENT_GENRE));
         }
 
         return presenter;

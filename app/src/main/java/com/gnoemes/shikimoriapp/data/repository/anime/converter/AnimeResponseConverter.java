@@ -4,8 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 
 public interface AnimeResponseConverter {
 
@@ -19,6 +19,6 @@ public interface AnimeResponseConverter {
 
     AnimeType convertAnimeType(String type);
 
-    AnimeStatus convertAnimeStatus(String status);
+    Status convertAnimeStatus(String status);
 
 }

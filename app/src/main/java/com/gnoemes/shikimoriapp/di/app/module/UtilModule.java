@@ -4,8 +4,14 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverter;
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.FranchiseResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.FranchiseResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.LinkResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.anime.converter.LinkResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.RolesResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.GenreResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.GenreResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.LinkedContentResponseConverter;
@@ -18,8 +24,8 @@ import com.gnoemes.shikimoriapp.data.repository.download.converter.PlayVideoToDo
 import com.gnoemes.shikimoriapp.data.repository.download.converter.PlayVideoToDownloadConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeDownloadConverter;
 import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeDownloadConveterImpl;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverter;
@@ -40,8 +46,12 @@ import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryRespon
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverter;
+import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
@@ -108,12 +118,15 @@ public interface UtilModule {
     ErrorResourceProvider bindErrorResourceProvider(ErrorResourceProviderImpl resourceProvider);
 
     @Binds
+    @Reusable
     AnimeResponseConverter bindAnimeResponseConverter(AnimeResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     DateTimeConverter bindDateTimeConverter(DateTimeConverterImpl converter);
 
     @Binds
+    @Reusable
     DateTimeResourceProvider bindResourceProvider(DateTimeResourceProviderImpl provider);
 
     @Binds
@@ -121,63 +134,83 @@ public interface UtilModule {
     DateTimeUtils bindDateTimeUtils(DateTimeUtilsImpl utils);
 
     @Binds
+    @Reusable
     UserSettingsConverter bindUserSettingsConverter(UserSettingsConverterImpl converter);
 
     @Binds
+    @Reusable
     UserBriefResponseConverter bindUserBriefResponseConverter(UserBriefResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     AnimeRateResponseConverter bindAnimeRateResponseConverter(AnimeRateResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     RateResourceProvider bindRateResourceProvider(RateResourceProviderImpl provider);
 
     @Binds
+    @Reusable
     UserRatesAnimeResourceProvider bindUserRatesAnimeResourceProvider(UserRatesAnimeResourceProviderImpl provider);
 
     @Binds
+    @Reusable
     AnimeRateViewModelConverter bindAnimeRateViewModelConverter(AnimeRateViewModelConverterImpl converter);
 
     @Binds
+    @Reusable
     UserProfileResponseConverter bindUserProfileResponseConverter(UserProfileResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     FavoritesResponseConverter bindFavoritesResponseConverter(FavoritesResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     ClubResponseConverter bindClubResponseConverter(ClubResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     CommentsResponseConverter bindCommentsResponseConverter(CommentsResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     UserBanConverter bindUserBanConverter(UserBanConverterImpl converter);
 
     @Binds
+    @Reusable
     UserHistoryResponseConverter bindUserHistoryResponseConverter(UserHistoryResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     TargetResponseConverter bindTargetResponseConverter(TargetResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     MangaResponseConverter bindMangaResponseConverter(MangaResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     RolesResponseConverter bindRolesResponseConverter(RolesResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     RateStatusCountConverter bindRateStatusCountConverter(RateStatusCountConverterImpl converter);
 
     @Binds
+    @Reusable
     ForumResponseConverter bindForumResponseConverter(ForumResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     TopicResponseConverter bindTopicResponseConverter(TopicResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     LinkedContentResponseConverter bindContentResponseConveter(LinkedContentResponseConverterImpl converter);
 
     @Binds
+    @Reusable
     PersonResponseConverter bindPersonResponseConverter(PersonResponseConverterImpl converter);
 
     @Binds
@@ -191,4 +224,23 @@ public interface UtilModule {
     @Reusable
     ImageResponseConverter bindImageResponseConverter(ImageResponseConverterImpl converter);
 
+    @Binds
+    @Reusable
+    FranchiseResponseConverter bindAnimeFranchiseResponseConverter(FranchiseResponseConverterImpl converter);
+
+    @Binds
+    @Reusable
+    FranchiseNodeToStringConverter bindAnimeFranchiseNodeToStringConverter(FranchiseNodeToStringConverterImpl converter);
+
+    @Binds
+    @Reusable
+    LinkResponseConverter bindAnimeLinkResponseConverter(LinkResponseConverterImpl converter);
+
+    @Binds
+    @Reusable
+    LinkViewModelConverter bindAnimeLinkViewModelConverter(LinkViewModelConverterImpl converter);
+
+    @Binds
+    @Reusable
+    GenreResponseConverter bindGenreResponseConverter(GenreResponseConverterImpl converter);
 }
