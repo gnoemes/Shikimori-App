@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
-import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.gnoemes.shikimoriapp.BuildConfig
@@ -81,8 +80,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val root = view
-        root?.findViewById<View>(android.support.v7.preference.R.id.list)?.setPadding(0, 0, 0, 0)
         setDividerHeight(0)
     }
 
