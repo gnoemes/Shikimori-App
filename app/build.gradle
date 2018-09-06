@@ -83,7 +83,6 @@ android {
 }
 
 def supportLibraryVersion = '28.0.0-rc01'
-def supportLibraryVersion = '28.0.0-rc01'
 def dagger = '2.15'
 def butterKnife = '8.8.1'
 def okHttp = '3.10.0'
