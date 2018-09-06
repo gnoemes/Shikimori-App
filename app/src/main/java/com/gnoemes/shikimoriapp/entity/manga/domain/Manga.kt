@@ -17,5 +17,6 @@ data class Manga(
         val volumes: Int,
         val chapters: Int,
         val dateAired: DateTime?,
-        val dateReleased: DateTime?
+        val dateReleased: DateTime?,
+        val isRanobe: Boolean = type == MangaType.NOVEL
 ) : LinkedContent(id, LinkedType.MANGA, image.original)
