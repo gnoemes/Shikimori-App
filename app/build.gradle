@@ -160,6 +160,7 @@ dependencies {
     }
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }
 

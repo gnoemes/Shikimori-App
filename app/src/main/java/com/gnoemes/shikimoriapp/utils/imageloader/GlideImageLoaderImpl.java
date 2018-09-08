@@ -32,7 +32,7 @@ public class GlideImageLoaderImpl implements ImageLoader {
     public void setImageWithFit(ImageView imageView, String url) {
         GlideApp.with(imageView.getContext())
                 .load(url)
-                .thumbnail(0.3f)
+                .thumbnail(0.25f)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .centerCrop()
                 .skipMemoryCache(true)

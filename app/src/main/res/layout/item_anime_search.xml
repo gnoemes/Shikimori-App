@@ -1,61 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="170dp"
-    android:layout_height="230dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:padding="@dimen/margin_small">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardCornerRadius="8dp"
+    app:cardPreventCornerOverlap="false">
 
-    <ImageView
-        android:id="@+id/image_anime"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/description_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/test_preview2" />
-
-    <TextView
-        android:id="@+id/text_type"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:foreground="?attr/selectableItemBackground">
 
-        android:padding="@dimen/margin_small"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/container"
-        app:layout_constraintTop_toTopOf="@+id/container"
-        tools:background="@color/light_teal"
-        tools:text="OVA" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/animeImageView"
+            android:layout_width="@dimen/image_big_width"
+            android:layout_height="@dimen/image_big_height"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/description_image"
+            android:src="@drawable/test_preview2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/margin_small"
+            tools:srcCompat="@drawable/test_preview2" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/colorAccentInverse"
-        app:layout_constraintBottom_toTopOf="@+id/text_name"
-        app:layout_constraintEnd_toEndOf="@+id/container"
-        app:layout_constraintStart_toStartOf="@+id/container" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/colorAccentInverse"
+            app:layout_constraintBottom_toTopOf="@+id/nameView"
+            app:layout_constraintEnd_toEndOf="@+id/container"
+            app:layout_constraintStart_toStartOf="@+id/container" />
 
-    <com.mpt.android.stv.SpannableTextView
-        android:id="@+id/text_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackgroundTransparentInverse"
-        android:ellipsize="end"
-        android:maxLines="7"
-        android:padding="@dimen/margin_small"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/container"
-        app:layout_constraintEnd_toEndOf="@+id/container"
-        app:layout_constraintStart_toStartOf="@+id/container"
-        tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
-</android.support.constraint.ConstraintLayout>
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/nameView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundTransparentInverse"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:padding="@dimen/margin_small"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/container"
+            app:layout_constraintEnd_toEndOf="@+id/container"
+            app:layout_constraintStart_toStartOf="@+id/container"
+            tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.card.MaterialCardView>

@@ -5,9 +5,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.AttrRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
+import android.support.annotation.*
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
@@ -38,6 +36,8 @@ fun Context.inflateLayout(layoutResId: Int): View =
 fun Context.inflateLayout(layoutResId: Int, parent: ViewGroup): View =
         inflateLayout(layoutResId, parent, true)
 
+fun Context.dimen(@DimenRes dimen: Int) = this.resources.getDimension(dimen)
+
 fun Context.inflateLayout(layoutResId: Int, parent: ViewGroup, attachToRoot: Boolean): View =
         inflateView(this, layoutResId, parent, attachToRoot)
 
@@ -53,6 +53,17 @@ fun Context.themeDrawable(@DrawableRes drawableResId: Int, @AttrRes attrResId: I
 
 fun Context.dialogContext(): Context {
     return ContextThemeWrapper(this, R.style.DialogStyle)
+}
+
+@ColorInt
+fun Context.color(@ColorRes colorRes: Int): Int {
+    return this.resources.getColor(colorRes)
+}
+
+fun Context.calculateColumns(@DimenRes itemWidth: Int): Int {
+    val metrics = this.resources.displayMetrics
+//    val width = metrics.widthPixels / metrics.density
+    return (metrics.widthPixels / dimen(itemWidth)).toInt()
 }
 
 fun Drawable.tint(colorResId: Int) {

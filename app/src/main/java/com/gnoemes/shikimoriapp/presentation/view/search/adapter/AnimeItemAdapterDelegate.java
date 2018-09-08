@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
@@ -18,6 +16,7 @@ import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeRes
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.mpt.android.stv.Slice;
 import com.mpt.android.stv.SpannableTextView;
 
@@ -77,9 +76,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         @BindView(R.id.container)
         ConstraintLayout layout;
         @BindView(R.id.image_anime)
-        ImageView animeImage;
-        @BindView(R.id.text_type)
-        TextView textType;
+        RoundedImageView animeImage;
         @BindView(R.id.text_name)
         SpannableTextView name;
 
@@ -96,9 +93,6 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
 
-            textType.setText(item.getType().name());
-            textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));
-
             name.reset();
             if (!TextUtils.isEmpty(item.getName())) {
                 name.addSlice(getSliceWithName(item.getName()));
@@ -112,7 +106,6 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             name.addSlice(new Slice.Builder(episodes)
                     .textColor(itemView.getContext().getResources().getColor(R.color.colorAccentInverse))
-                    .textSize((int) itemView.getContext().getResources().getDimension(R.dimen.text_normal))
                     .build());
             name.display();
 

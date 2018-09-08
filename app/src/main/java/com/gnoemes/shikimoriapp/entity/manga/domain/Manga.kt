@@ -9,7 +9,7 @@ import org.joda.time.DateTime
 data class Manga(
         val id: Long,
         val name: String,
-        val nameRu: String,
+        val nameRu: String?,
         val image: Image,
         val url: String,
         val type: MangaType,

@@ -10,7 +10,7 @@ import org.joda.time.DateTime
 data class MangaResponse(
         @field:SerializedName("id") val id: Long,
         @field:SerializedName("name") val name: String,
-        @field:SerializedName("russian") val nameRu: String,
+        @field:SerializedName("russian") val nameRu: String?,
         @field:SerializedName("image") val image: ImageResponse,
         @field:SerializedName("url") val url: String,
         @field:SerializedName("kind") val type: MangaType,
