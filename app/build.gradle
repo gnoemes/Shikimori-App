@@ -77,7 +77,7 @@ android {
         it.buildConfigField 'String', 'PlaySkihimoriBaseUrl', PlaySkihimoriBaseUrl
         it.buildConfigField 'String', 'AlternativeBaseUrl', AlternativeBaseUrl
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     productFlavors {
     }
 }
@@ -159,7 +159,7 @@ dependencies {
         exclude module: "support-v13"
     }
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 
