@@ -11,6 +11,7 @@ apply plugin: 'org.moallemi.advanced-build-version'
 android {
 
     kapt { generateStubs = true }
+    androidExtensions { experimental = true }
 
     advancedVersioning {
         nameOptions {

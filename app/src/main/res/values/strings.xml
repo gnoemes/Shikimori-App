@@ -43,6 +43,7 @@
     <string name="calendar_ongoings">Календарь онгоингов</string>
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
+    <string name="calendar_volumes_format">\n[%s-%s]</string>
     <string name="calendar_episode_in">%s эпизод c %s</string>
 
     <string name="menu_guest_hint">Авторизоваться</string>
@@ -314,6 +315,11 @@
     <string name="source">Источник</string>
     <string name="seyu">Сэйю</string>
     <string name="anime">Аниме</string>
+    <string name="manga">Манга</string>
+    <string name="ranobe">Ранобэ</string>
+    <string name="character">Персонаж</string>
+    <string name="producer">Режиссер</string>
+    <string name="person">Человек</string>
     <string name="character_info">Информация о персонаже</string>
     <string name="player_fast_forward_time">+10 сек.</string>
     <string name="player_rewind_time">-10 сек.</string>
@@ -361,7 +367,8 @@
     <string name="on_romadzi">На ромадзи</string>
     <string name="titles_naming">Наименования тайтлов</string>
     <string name="common_remember">Запомнить</string>
-    <string name="ranobe">Ранобэ</string>
+    <string name="search_only_name">Для поиска персонажей и людей\nвоспользуйтесь поиском по имени.</string>
+
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -472,6 +479,14 @@
     <string-array name="naming_types">
         <item>@string/on_russian</item>
         <item>@string/on_romadzi</item>
+    </string-array>
+
+    <string-array name="search_types">
+        <item>@string/anime</item>
+        <item>@string/manga</item>
+        <item>@string/ranobe</item>
+        <item>@string/character</item>
+        <item>@string/person</item>
     </string-array>
 
 </resources>

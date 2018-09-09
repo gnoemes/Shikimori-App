@@ -4,7 +4,9 @@ import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
 import com.gnoemes.shikimoriapp.domain.search.SearchInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.view.main.provider.TitleResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.CharacterConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.MangaViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,11 +15,13 @@ import dagger.Provides;
 public interface SearchPresenterModule {
 
     @Provides
-    static SearchPresenter provideSearchPresenter(TitleResourceProvider resourceProvider,
-                                                  SearchInteractor searchInteractor,
+    static SearchPresenter provideSearchPresenter(SearchInteractor searchInteractor,
                                                   AnimeViewModelConverter converter,
+                                                  MangaViewModelConverter modelConverter,
+                                                  CharacterConverter characterConverter,
+                                                  PersonConverter personConverter,
                                                   AnalyticsInteractor analyticsInteractor) {
-        return new SearchPresenter(resourceProvider, searchInteractor, converter, analyticsInteractor);
+        return new SearchPresenter(searchInteractor, analyticsInteractor, converter, modelConverter, characterConverter, personConverter);
     }
 
 }

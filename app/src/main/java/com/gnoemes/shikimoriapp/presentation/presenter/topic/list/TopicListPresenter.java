@@ -130,10 +130,6 @@ public class TopicListPresenter extends BaseNetworkPresenter<TopicListView> {
         getRouter().showSystemMessage("Будет доступно в следующем обновлении");
     }
 
-    public void onUserClicked(long id) {
-        getRouter().navigateTo(Screens.PROFILE, id);
-    }
-
     public void onLinkedContentClicked(long id, LinkedType linkedType) {
         switch (linkedType) {
             case ANIME:

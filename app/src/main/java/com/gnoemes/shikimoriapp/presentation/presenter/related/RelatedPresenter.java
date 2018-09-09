@@ -5,7 +5,6 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.domain.related.RelatedInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
-import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedView;
 
@@ -84,14 +83,6 @@ public class RelatedPresenter extends BaseNetworkPresenter<RelatedView> {
                 onAnimeClicked(id);
                 break;
         }
-    }
-
-    private void onAnimeClicked(long id) {
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
-    }
-
-    private void onMangaClicked(long id) {
-        getRouter().showSystemMessage("Манга в разработке");
     }
 
     public void setId(long id) {

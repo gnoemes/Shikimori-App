@@ -16,4 +16,8 @@ public class SingleErrorHandler<T> implements SingleTransformer<T, T> {
     public SingleSource<T> apply(Single<T> upstream) {
         return upstream.onErrorResumeNext(errorProcessing::getSingleErrors);
     }
+
+    public <T> SingleTransformer<T, T> handleErrors() {
+        return upstream -> upstream.onErrorResumeNext(throwable -> Single.error(errorProcessing.throwProcessException(throwable)));
+    }
 }

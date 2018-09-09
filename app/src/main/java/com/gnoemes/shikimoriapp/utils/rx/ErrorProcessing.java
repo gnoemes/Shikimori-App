@@ -41,7 +41,7 @@ public class ErrorProcessing<T> {
     }
 
     @NonNull
-    private Throwable throwProcessException(Throwable throwable) throws TitleException,
+    Throwable throwProcessException(Throwable throwable) throws TitleException,
             NetworkException, ServiceCodeException, ContentException {
 
         Crashlytics.logException(throwable);

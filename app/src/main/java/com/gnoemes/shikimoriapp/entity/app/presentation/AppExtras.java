@@ -39,4 +39,5 @@ public class AppExtras {
     public static final String ARGUMENT_PLAY_VIDEO_DATA = "ARGUMENT_PLAY_VIDEO_DATA";
     public static final String ARGUMENT_FORUM_TYPE = "ARGUMENT_FORUM_TYPE";
     public static final String ARGUMENT_PERSON_ID = "ARGUMENT_PERSON_ID";
+    public static final String ARGUMENT_SEARCH_DATA = "ARGUMENT_SEARCH_DATA";
 }

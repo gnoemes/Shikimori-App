@@ -2,7 +2,11 @@ package com.gnoemes.shikimoriapp.entity.app.domain;
 
 public enum Type {
     ANIME("Anime"),
-    MANGA("Manga");
+    MANGA("Manga"),
+    RANOBE("ranobe"),
+    CHARACTER("Character"),
+    PERSON("Person"),
+    USER("User");
 
     private final String type;
 

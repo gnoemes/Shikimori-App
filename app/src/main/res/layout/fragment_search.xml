@@ -22,6 +22,13 @@
         android:layout_gravity="center"
         tools:visibility="gone" />
 
+    <com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentView
+        android:id="@+id/viewEmptyList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:visibility="gone" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_filter"
         android:layout_width="wrap_content"

@@ -49,7 +49,7 @@ public class FilterResourceConverterImpl implements FilterResourceConverter {
         if (isGenre(type)) {
             for (Genre genre : Genre.values()) {
                 if (genre.equalsName(typeName)) {
-                    return genre.getId();
+                    return genre.getAnimeId();
                 }
             }
         } else if (isType(type)) {

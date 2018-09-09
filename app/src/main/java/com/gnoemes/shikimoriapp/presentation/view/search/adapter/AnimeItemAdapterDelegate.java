@@ -52,7 +52,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View item = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_anime_search, parent, false);
+                .inflate(R.layout.item_search, parent, false);
         return new ViewHolder(item);
     }
 

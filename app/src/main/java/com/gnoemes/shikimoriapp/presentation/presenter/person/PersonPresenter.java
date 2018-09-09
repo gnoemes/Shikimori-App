@@ -117,19 +117,6 @@ public class PersonPresenter extends BaseNetworkPresenter<PersonView> {
 //        }
 //    }
 
-    private void onCharacterClicked(long id) {
-        getRouter().navigateTo(Screens.CHARACTER_DETAILS, id);
-    }
-
-
-    private void onMangaClicked(long id) {
-        getRouter().showSystemMessage("Манга в разработке");
-    }
-
-    private void onAnimeClicked(long id) {
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
-    }
-
     private void setData(List<BaseItem> baseItems) {
         getViewState().setData(baseItems);
     }

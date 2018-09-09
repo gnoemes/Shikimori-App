@@ -38,6 +38,7 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
@@ -345,7 +346,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void onGenreClick(Genre item) {
         analyticsInteractor.logEvent(AnalyticsEvent.GENRE_SEARCH);
-        getRouter().navigateTo(BottomScreens.SEARCH, item);
+        getRouter().navigateTo(BottomScreens.SEARCH, new SearchNavigationData(item, Type.ANIME));
     }
 
     /**

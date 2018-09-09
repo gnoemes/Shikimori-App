@@ -28,6 +28,8 @@ import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseCon
 import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.CharacterResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.roles.converter.CharacterResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.PersonResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.social.converter.ForumResponseConverter;
@@ -93,6 +95,12 @@ public interface UtilModule {
     @Singleton
     static SingleErrorHandler bindSingleErrorHandler(ErrorProcessing errorProcessing) {
         return new SingleErrorHandler(errorProcessing);
+    }
+
+    @Provides
+    @Singleton
+    static SingleErrorHandler<Object> bindKotlinSingleErrorHandler(ErrorProcessing errorProcessing) {
+        return new SingleErrorHandler<>(errorProcessing);
     }
 
     @Provides
@@ -243,4 +251,8 @@ public interface UtilModule {
     @Binds
     @Reusable
     GenreResponseConverter bindGenreResponseConverter(GenreResponseConverterImpl converter);
+
+    @Binds
+    @Reusable
+    CharacterResponseConverter bindCharacterResponseConverter(CharacterResponseConverterImpl converter);
 }

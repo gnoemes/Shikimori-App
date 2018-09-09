@@ -66,8 +66,8 @@ fun Context.calculateColumns(@DimenRes itemWidth: Int): Int {
     return (metrics.widthPixels / dimen(itemWidth)).toInt()
 }
 
-fun Drawable.tint(colorResId: Int) {
-    DrawableCompat.setTint(this, colorResId)
+fun Drawable.tint(@ColorInt color: Int) {
+    DrawableCompat.setTint(this, color)
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutResId: Int, attachToRoot: Boolean): View =

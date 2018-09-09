@@ -4,6 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
@@ -23,6 +24,12 @@ public interface SearchView extends BaseFragmentView {
     @StateStrategyType(AddToEndStrategy.class)
     void insetMore(List<BaseItem> items);
 
+    void setSpinnerPosition(Type type);
+
+    void showEmptyListView();
+
+    void hideEmptyListView();
+
     void hideList();
 
     void showNetworkError();
@@ -40,4 +47,6 @@ public interface SearchView extends BaseFragmentView {
     void onHidePageLoading();
 
     void addBackButton();
+
+    void hideSpinner();
 }

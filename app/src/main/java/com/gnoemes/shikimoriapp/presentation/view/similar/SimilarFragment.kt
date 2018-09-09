@@ -14,7 +14,6 @@ import com.gnoemes.shikimoriapp.presentation.presenter.similar.SimilarPresenter
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAdapter
-import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider
 import com.gnoemes.shikimoriapp.utils.*
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
 import com.gnoemes.shikimoriapp.utils.kotlin.gone
@@ -46,11 +45,9 @@ class SimilarFragment : BaseFragment<SimilarPresenter, SimilarView>(), SimilarVi
     @Inject
     lateinit var settings: UserSettingsSource
     @Inject
-    lateinit var resourceProvider: SearchAnimeResourceProvider
-    @Inject
     lateinit var imageLoader: ImageLoader
 
-    private val searchAdapter by lazy { SearchAdapter(settings, resourceProvider, imageLoader, presenter::onAnimeClicked) }
+    private val searchAdapter by lazy { SearchAdapter(settings, imageLoader, presenter::onAnimeClicked) }
 
     companion object {
         @JvmStatic

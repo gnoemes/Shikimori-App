@@ -98,7 +98,7 @@ public class CharacterDetailsPresenter extends BaseNetworkPresenter<CharacterDet
                 onMangaClicked(id);
                 break;
             case SEYU:
-                onSeyuClicked(id);
+                onPersonClicked(id);
                 break;
         }
     }
@@ -118,18 +118,6 @@ public class CharacterDetailsPresenter extends BaseNetworkPresenter<CharacterDet
                 getRouter().navigateTo(Screens.WEB, source);
             }
         }
-    }
-
-    private void onSeyuClicked(long id) {
-        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
-    }
-
-    private void onMangaClicked(long id) {
-        getRouter().showSystemMessage("Манга в разработке");
-    }
-
-    private void onAnimeClicked(long id) {
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
     private void setData(List<BaseItem> baseItems) {

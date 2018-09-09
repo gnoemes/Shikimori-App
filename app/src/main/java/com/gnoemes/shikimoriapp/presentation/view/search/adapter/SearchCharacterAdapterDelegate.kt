@@ -1,63 +1,53 @@
 package com.gnoemes.shikimoriapp.presentation.view.search.adapter
 
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource
-import com.gnoemes.shikimoriapp.entity.anime.domain.Status
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel
 import com.gnoemes.shikimoriapp.entity.app.domain.Type
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem
+import com.gnoemes.shikimoriapp.entity.roles.presentation.character.CharacterViewModel
 import com.gnoemes.shikimoriapp.presentation.view.common.adapter.PreferenceAdapterDelegate
-import com.gnoemes.shikimoriapp.utils.color
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
 import com.gnoemes.shikimoriapp.utils.inflate
 import com.gnoemes.shikimoriapp.utils.kotlin.color
+import com.gnoemes.shikimoriapp.utils.kotlin.gone
 import com.mpt.android.stv.Slice
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchAnimeAdapterDelegate(
-        settings: UserSettingsSource,
-        private val imageLoader: ImageLoader,
-        private val callback: ((Type, Long) -> Unit)
+class SearchCharacterAdapterDelegate(settings: UserSettingsSource,
+                                     private val imageLoader: ImageLoader,
+                                     private val callback: (Type, Long) -> Unit
 ) : PreferenceAdapterDelegate<List<BaseItem>>(settings) {
 
     override fun isForViewType(items: List<BaseItem>, position: Int): Boolean =
-            items[position] is AnimeViewModel
+            items[position] is CharacterViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
             ViewHolder(parent.inflate(R.layout.item_search, false))
 
     override fun onBindViewHolder(items: List<BaseItem>, position: Int, holder: RecyclerView.ViewHolder, payloads: MutableList<Any>) {
-        (holder as ViewHolder).bind(items[position] as AnimeViewModel)
+        (holder as ViewHolder).bind(items[position] as CharacterViewModel)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: AnimeViewModel) {
+        fun bind(item: CharacterViewModel) {
             with(itemView) {
-                imageLoader.setImageWithFit(animeImageView, item.imageOriginalUrl)
+                imageLoader.setImageWithFit(animeImageView, item.image.original)
+
+                typeView.gone()
 
                 nameView.reset()
-                if (!TextUtils.isEmpty(item.name)) {
+                if (isRomadziNaming()) {
                     nameView.addSlice(getSliceWithName(item.name))
                 } else {
-                    nameView.addSlice(getSliceWithName(item.secondName))
+                    nameView.addSlice(getSliceWithName(item.russianName ?: item.name))
                 }
-
-                typeView.text = item.type.name
-
-                val episodes = String.format(context.getString(R.string.calendar_episodes_format),
-                        if (item.status == Status.RELEASED) item.episodes else item.episodesAired,
-                        if (item.episodes == 0) "xxx" else item.episodes)
-
-                nameView.addSlice(Slice.Builder(episodes)
-                        .textColor(context.color(R.color.colorAccentInverse))
-                        .build())
                 nameView.display()
-                container.setOnClickListener { callback.invoke(Type.ANIME, item.id) }
+
+                container.setOnClickListener { callback.invoke(Type.CHARACTER, item.id) }
             }
         }
 
