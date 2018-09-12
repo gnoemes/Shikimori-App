@@ -36,8 +36,6 @@ public class RateResourceProviderImpl implements RateResourceProvider {
                 return context.getString(R.string.rate_watching);
             case REWATCHING:
                 return context.getString(R.string.rate_rewatch);
-            case FAVORITE:
-                return context.getString(R.string.common_favorite);
             case DROPPED:
                 return context.getString(R.string.rate_dropped);
             case ON_HOLD:

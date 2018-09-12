@@ -1,17 +1,14 @@
 package com.gnoemes.shikimoriapp.data.repository.rates.converter;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.rates.data.AnimeRateResponse;
-import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateRequest;
+import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateOrUpdateRequest;
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateResponse;
-import com.gnoemes.shikimoriapp.entity.rates.data.UserRateUpdateRequest;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
-import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class AnimeRateResponseConverterImpl implements AnimeRateResponseConverte
 
         return new AnimeRate(response.getId(),
                 response.getScore(),
-                convertStatus(response.getStatus()),
+                response.getStatus(),
                 response.getText(),
                 response.getEpisodes(),
                 response.getChapters(),
@@ -66,12 +63,22 @@ public class AnimeRateResponseConverterImpl implements AnimeRateResponseConverte
 
     @Override
     public UserRate convertLocalSyncRate(UserRate rate, Integer count) {
-        return new UserRate(rate.getId(),
-                rate.getStatus(),
+        return new UserRate(
+                rate.getId(),
+                rate.getUserId(),
+                rate.getTargetId(),
+                rate.getTargetType(),
                 rate.getScore(),
+                rate.getStatus(),
+                rate.getRewatches(),
+                rate.getEpisodes() == null ? count : rate.getEpisodes(),
+                rate.getVolumes(),
+                rate.getChapters(),
                 rate.getText(),
-                TextUtils.isEmpty(rate.getEpisodes()) ? String.valueOf(count) : rate.getEpisodes(),
-                rate.getRewatches());
+                rate.getTextHtml(),
+                rate.getDateCreated(),
+                rate.getDateUpdated()
+        );
     }
 
     @Override
@@ -81,44 +88,59 @@ public class AnimeRateResponseConverterImpl implements AnimeRateResponseConverte
         }
 
         return new UserRate(response.getId(),
-                convertStatus(response.getStatus()),
+                response.getUserId(),
+                response.getTargetId(),
+                response.getTargetType(),
                 response.getScore(),
-                response.getText(),
+                response.getStatus(),
+                response.getRewatches(),
                 response.getEpisodes(),
-                response.getRewatches());
-    }
-
-    private RateStatus convertStatus(String status) {
-        for (RateStatus rateStatus : RateStatus.values()) {
-            if (rateStatus.isEqualStatus(status)) {
-                return rateStatus;
-            }
-        }
-        return null;
+                response.getVolumes(),
+                response.getChapters(),
+                response.getText(),
+                response.getTextHtml(),
+                response.getDateCreated(),
+                response.getDateUpdated()
+        );
     }
 
     @Override
-    public UserRateCreateRequest convertCreateRequest(long targetId, Type type, UserRate rate, long userId) {
-        return new UserRateCreateRequest(new UserRateCreateRequest(
+    public UserRateCreateOrUpdateRequest convertCreateRequest(long targetId, Type type, UserRate rate, long userId) {
+        return new UserRateCreateOrUpdateRequest(new UserRateResponse(
+                rate.getId(),
+                userId,
+                targetId,
+                type,
+                rate.getScore(),
+                rate.getStatus(),
                 rate.getRewatches(),
                 rate.getEpisodes(),
-                rate.getScore(),
-                rate.getStatus().getStatus(),
-                String.valueOf(targetId),
-                type.getType(),
+                rate.getVolumes(),
+                rate.getChapters(),
                 rate.getText(),
-                String.valueOf(userId)
+                rate.getTextHtml(),
+                rate.getDateCreated(),
+                rate.getDateUpdated()
         ));
     }
 
     @Override
-    public UserRateUpdateRequest convertUpdateRequest(UserRate rate) {
-        return new UserRateUpdateRequest(new UserRateUpdateRequest(
+    public UserRateCreateOrUpdateRequest convertUpdateRequest(UserRate rate) {
+        return new UserRateCreateOrUpdateRequest(new UserRateResponse(
+                rate.getId(),
+                rate.getUserId(),
+                rate.getTargetId(),
+                rate.getTargetType(),
+                rate.getScore(),
+                rate.getStatus(),
                 rate.getRewatches(),
                 rate.getEpisodes(),
-                rate.getScore(),
-                rate.getStatus().getStatus(),
-                rate.getText()
+                rate.getVolumes(),
+                rate.getChapters(),
+                rate.getText(),
+                rate.getTextHtml(),
+                rate.getDateCreated(),
+                rate.getDateUpdated()
         ));
     }
 }

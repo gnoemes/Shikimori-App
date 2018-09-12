@@ -34,6 +34,7 @@ import com.mpt.android.stv.SpannableTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+//TODO rewrite to kotlin, add manga support
 public class RateDialogFragment extends MvpAppCompatDialogFragment {
 
     @BindView(R.id.rates)
@@ -66,7 +67,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
     public static RateDialogFragment newInstance(@Nullable UserRate rate) {
         RateDialogFragment fragment = new RateDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(AppExtras.ARGUMENT_ANIME_RATE, rate);
+        args.putParcelable(AppExtras.ARGUMENT_ANIME_RATE, rate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,7 +81,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         resourceProvider = new RateResourceProviderImpl(getContext());
 
         if (getArguments() != null) {
-            rate = (UserRate) getArguments().getSerializable(AppExtras.ARGUMENT_ANIME_RATE);
+            rate = getArguments().getParcelable(AppExtras.ARGUMENT_ANIME_RATE);
         }
         initViews();
 
@@ -151,18 +152,27 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
     }
 
     private UserRate convertUserRate(long id) {
-        String score = String.valueOf(Math.round(ratingBar.getRating() * 2));
+        Integer score = Math.round(ratingBar.getRating() * 2);
         String text = comment.getText().toString();
-        String episodesText = episodes.getText().toString();
-        String reWatchesText = reWatches.getText().toString();
+        Integer episodesText = TextUtils.isEmpty(episodes.getText().toString()) ? null : Integer.parseInt(episodes.getText().toString());
+        Integer reWatchesText = TextUtils.isEmpty(reWatches.getText().toString()) ? null : Integer.parseInt(reWatches.getText().toString());
 
 
         return new UserRate(id,
+                null,
+                null,
+                null,
+                score.doubleValue(),
                 status,
-                score,
+                reWatchesText,
+                episodesText,
+                null,
+                null,
                 TextUtils.isEmpty(text) ? null : text,
-                TextUtils.isEmpty(episodesText) ? null : episodesText,
-                TextUtils.isEmpty(reWatchesText) ? null : reWatchesText);
+                null,
+                null,
+                null
+        );
     }
 
     public void setCallback(RateDialogCallback callback) {
@@ -209,9 +219,9 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
         reWatches.setText(rate == null ? null : String.valueOf(rate.getRewatches()));
 
         ratingTitle.addSlice(getRatingTitleSlice());
-        ratingTitle.addSlice(getRatingSlice(rate == null ? "0" : rate.getScore()));
+        ratingTitle.addSlice(getRatingSlice(rate == null ? "0" : String.valueOf(rate.getScore())));
 
-        ratingBar.setRating(rate == null ? 0 : TextUtils.isDigitsOnly(rate.getScore()) ? Float.parseFloat(rate.getScore()) / 2 : 0);
+        ratingBar.setRating(rate == null ? 0 : TextUtils.isDigitsOnly(String.valueOf(rate.getScore())) ? Float.parseFloat(String.valueOf(rate.getScore())) / 2 : 0);
         ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
             ratingTitle.replaceSliceAt(1, RateDialogFragment.this.getRatingSlice(String.valueOf(Math.round(rating * 2))));
             ratingTitle.display();

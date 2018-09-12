@@ -65,7 +65,7 @@ public class AnimeRepositoryImpl implements AnimeRepository {
                         .flatMapCompletable(anime -> syncDbSource.saveRateEpisodes(
                                 anime.getAnimeRate().getId(),
                                 anime.getId(),
-                                Integer.parseInt(anime.getAnimeRate().getEpisodes())))
+                                anime.getAnimeRate().getEpisodes()))
                         .toSingleDefault(animeDetails));
     }
 

@@ -224,7 +224,6 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public void onItemChangeStatus(long id) {
         List<RateStatus> statuses = new ArrayList<>(Arrays.asList(RateStatus.values()));
-        statuses.remove(RateStatus.FAVORITE);
         statuses.remove(currentStatus);
 
         getViewState().showChangeRateDialog(id, statuses);
@@ -287,7 +286,8 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     public void onItemStatusChanged(long id, RateStatus status) {
-        UserRate rate = new UserRate(id, status);
+        //TODO kotlin
+        UserRate rate = new UserRate(id, null, null, null, null, status, null, null, null, null, null, null, null, null);
 
         Disposable disposable = interactor.updateRate(rate)
                 .subscribe(this::onRefresh, this::processErrors);

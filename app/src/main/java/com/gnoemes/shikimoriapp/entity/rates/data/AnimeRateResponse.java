@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.entity.rates.data;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +16,7 @@ public class AnimeRateResponse {
     private int score;
 
     @SerializedName("status")
-    private String status;
+    private RateStatus status;
 
     @Nullable
     @SerializedName("text")
@@ -51,7 +52,7 @@ public class AnimeRateResponse {
         return score;
     }
 
-    public String getStatus() {
+    public RateStatus getStatus() {
         return status;
     }
 
