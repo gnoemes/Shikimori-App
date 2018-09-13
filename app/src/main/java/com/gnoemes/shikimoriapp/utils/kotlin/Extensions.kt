@@ -70,7 +70,7 @@ fun Drawable.tint(@ColorInt color: Int) {
     DrawableCompat.setTint(this, color)
 }
 
-fun ViewGroup.inflate(@LayoutRes layoutResId: Int, attachToRoot: Boolean): View =
+fun ViewGroup.inflate(@LayoutRes layoutResId: Int, attachToRoot: Boolean = false): View =
         inflateView(context, layoutResId, this, attachToRoot)
 
 @SuppressLint("ResourceType")

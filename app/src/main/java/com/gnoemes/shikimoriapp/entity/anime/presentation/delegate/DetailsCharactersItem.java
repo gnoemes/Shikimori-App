@@ -4,11 +4,11 @@ import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 
 import java.util.List;
 
-public class AnimeCharactersItem extends BaseAnimeItem {
+public class DetailsCharactersItem extends BaseAnimeItem {
 
     private List<Character> characters;
 
-    public AnimeCharactersItem(List<Character> characters) {
+    public DetailsCharactersItem(List<Character> characters) {
         this.characters = characters;
     }
 

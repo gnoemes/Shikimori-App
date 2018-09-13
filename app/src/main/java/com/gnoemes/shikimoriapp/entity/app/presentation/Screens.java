@@ -30,4 +30,5 @@ public class Screens {
     public static final String PERSON_DETAILS = "PERSON_DETAILS";
     public static final String ALTERNATIVE_EPISODES = "ALTERNATIVE_EPISODES";
     public static final String ALTERNATIVE_TRANSLATIONS = "ALTERNATIVE_TRANSLATIONS";
+    public static final String MANGA_DETAILS = "MANGA_DETAILS";
 }

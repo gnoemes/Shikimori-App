@@ -1,6 +1,5 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -8,14 +7,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
-import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.mpt.android.stv.SpannableTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +21,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeCharacterAdapter extends RecyclerView.Adapter<AnimeCharacterAdapter.ViewHolder> {
+public class DetailsCharacterAdapter extends RecyclerView.Adapter<DetailsCharacterAdapter.ViewHolder> {
 
     private ImageLoader imageLoader;
-    private DefaultItemCallback callback;
+    private AnimeItemCallback callback;
 
     private List<Character> items = new ArrayList<>();
 
-    public AnimeCharacterAdapter(ImageLoader imageLoader,
-                                 DefaultItemCallback callback) {
+    public DetailsCharacterAdapter(ImageLoader imageLoader,
+                                   AnimeItemCallback callback) {
         this.imageLoader = imageLoader;
         this.callback = callback;
     }
@@ -46,7 +44,7 @@ public class AnimeCharacterAdapter extends RecyclerView.Adapter<AnimeCharacterAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_character, parent, false);
+                .inflate(R.layout.item_content_medium, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -63,25 +61,16 @@ public class AnimeCharacterAdapter extends RecyclerView.Adapter<AnimeCharacterAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.constraint)
+        @BindView(R.id.container)
         ConstraintLayout layout;
-        @BindView(R.id.character_image)
-        ImageView characterImage;
-        @BindView(R.id.character_name)
-        TextView characterName;
+        @BindView(R.id.imageView)
+        RoundedImageView characterImage;
+        @BindView(R.id.nameView)
+        SpannableTextView characterName;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            Drawable card = DrawableHelper
-                    .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.card)
-                    .withAttributeColor(R.attr.colorBackgroundContent)
-                    .tint()
-                    .get();
-
-            layout.setBackground(card);
         }
 
         public void bind(Character item) {
@@ -93,7 +82,7 @@ public class AnimeCharacterAdapter extends RecyclerView.Adapter<AnimeCharacterAd
             String name = TextUtils.isEmpty(item.getRussianName()) ? item.getName() : item.getRussianName();
             characterName.setText(name);
 
-            layout.setOnClickListener(v -> callback.onItemClick(item.getId()));
+            layout.setOnClickListener(v -> callback.onAction(DetailsAction.CHARACTER, item.getId()));
         }
     }
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
@@ -104,7 +104,7 @@ public class AnimeOtherAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                 titleView.setText(getTitleFromType(item.getType()));
             }
 
-            layout.setOnClickListener(v -> callback.onAction(AnimeAction.VIDEO, item.getUrl()));
+            layout.setOnClickListener(v -> callback.onAction(DetailsAction.VIDEO, item.getUrl()));
         }
     }
 }

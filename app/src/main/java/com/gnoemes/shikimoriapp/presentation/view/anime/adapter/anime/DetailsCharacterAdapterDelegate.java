@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeCharactersItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsCharactersItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -20,17 +20,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeCharacterAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class DetailsCharacterAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
-    private AnimeCharacterAdapter adapter;
+    private DetailsCharacterAdapter adapter;
 
-    AnimeCharacterAdapterDelegate(AnimeCharacterAdapter adapter) {
+    public DetailsCharacterAdapterDelegate(DetailsCharacterAdapter adapter) {
         this.adapter = adapter;
     }
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
-        return items.get(position) instanceof AnimeCharactersItem;
+        return items.get(position) instanceof DetailsCharactersItem;
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class AnimeCharacterAdapterDelegate extends AdapterDelegate<List<BaseItem
     @Override
     protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        AnimeCharactersItem item = (AnimeCharactersItem) items.get(position);
+        DetailsCharactersItem item = (DetailsCharactersItem) items.get(position);
         viewHolder.bind(item);
     }
 
@@ -73,7 +73,7 @@ public class AnimeCharacterAdapterDelegate extends AdapterDelegate<List<BaseItem
             characterList.setAdapter(adapter);
         }
 
-        public void bind(AnimeCharactersItem item) {
+        public void bind(DetailsCharactersItem item) {
             adapter.bindItems(item.getCharacters());
         }
     }

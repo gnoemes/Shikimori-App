@@ -24,9 +24,11 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
+import com.gnoemes.shikimoriapp.entity.manga.presentation.MangaNavigationData;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.AlternativeEpisodesFragment;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
@@ -38,6 +40,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentVi
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
+import com.gnoemes.shikimoriapp.presentation.view.manga.MangaFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
@@ -167,7 +170,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.TRANSLATIONS:
                             return TranslationsFragment.newInstance((TranslationNavigationData) data);
                         case Screens.SIMILAR:
-                            return SimilarFragment.newInstance((Long) data);
+                            return SimilarFragment.newInstance((SimilarNavigationData) data);
                         case Screens.PROFILE:
                             return ProfileFragment.newInstance((Long) data);
                         case Screens.USER_HISTORY:
@@ -186,6 +189,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return AlternativeEpisodesFragment.newInstance((Long) data);
                         case Screens.ALTERNATIVE_TRANSLATIONS:
                             return AlternativeTranslationsFragment.newInstance((AlternativeTranslationNavigationData) data);
+                        case Screens.MANGA_DETAILS:
+                            return MangaFragment.newInstance((MangaNavigationData) data);
                     }
                     return null;
                 }
@@ -284,8 +289,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
     @Override
     public boolean onBackPressed() {
         Fragment fragment = childFragmentManager.findFragmentById(R.id.fragment_container);
-        if (fragment != null
-                && fragment instanceof BaseFragmentView) {
+        if (fragment instanceof BaseFragmentView) {
             ((BaseFragmentView) fragment).onBackPressed();
             return true;
         } else {

@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.anime.presentation;
 
-public enum AnimeAction {
+public enum DetailsAction {
     WATCH_ONLINE,
     SIMILAR,
     LINKS,

@@ -83,7 +83,7 @@ public class RelatedFragment extends BaseFragment<RelatedPresenter, RelatedView>
         adapter = new RelatedAdapter(imageLoader,
                 animeResourceProvider,
                 mangaResourceProvider,
-                (type, id) -> getPresenter().onItemClicked(type, id));
+                (type, id) -> getPresenter().onContentClicked(type, id));
         refreshLayout.setOnRefreshListener(() -> getPresenter().onRefresh());
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.red));
         listView.setLayoutManager(new LinearLayoutManager(getContext()));

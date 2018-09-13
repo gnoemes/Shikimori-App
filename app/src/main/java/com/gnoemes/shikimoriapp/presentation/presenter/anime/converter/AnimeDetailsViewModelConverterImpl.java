@@ -7,13 +7,13 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeActionItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeCharactersItem;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeOtherItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsActionItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsCharactersItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsContentItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -104,8 +104,8 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     public List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
         List<BaseItem> animeItems = new ArrayList<>();
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
-                viewModel.getTitle(),
-                viewModel.getSubTitle(),
+                viewModel.getTitle().trim(),
+                viewModel.getSubTitle().trim(),
                 viewModel.getUrl(),
                 viewModel.getImageUrl(),
                 viewModel.getAnimeType(),
@@ -117,12 +117,12 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
 
         if (viewModel.getCharacters() != null && !viewModel.getCharacters().isEmpty()) {
             animeItems.add(new DoubleDividerItem());
-            animeItems.add(new AnimeCharactersItem(viewModel.getCharacters()));
+            animeItems.add(new DetailsCharactersItem(viewModel.getCharacters()));
         }
 
         animeItems.add(new DoubleDividerItem());
-        animeItems.add(new AnimeActionItem(AnimeAction.CHRONOLOGY));
-        animeItems.add(new AnimeActionItem(AnimeAction.LINKS));
+        animeItems.add(new DetailsActionItem(DetailsAction.CHRONOLOGY));
+        animeItems.add(new DetailsActionItem(DetailsAction.LINKS));
         animeItems.add(new DoubleDividerItem());
 
         if (viewModel.getVideos() != null && !viewModel.getVideos().isEmpty()) {
@@ -132,9 +132,9 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
             animeItems.add(new DoubleDividerItem());
         }
 
-        animeItems.add(new AnimeContentItem(viewModel.getId(), viewModel.getDescription()));
+        animeItems.add(new DetailsContentItem(viewModel.getId(), viewModel.getDescription()));
         animeItems.add(new DoubleDividerItem());
-        animeItems.add(new AnimeActionItem(AnimeAction.COMMENTS));
+        animeItems.add(new DetailsActionItem(DetailsAction.COMMENTS));
         animeItems.add(new DoubleDividerItem());
         return animeItems;
     }

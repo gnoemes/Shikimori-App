@@ -14,9 +14,9 @@ import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
 import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
@@ -39,6 +39,7 @@ import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
@@ -271,7 +272,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Callback from anime details page
      */
-    public void onAction(AnimeAction action, @Nullable Object data) {
+    public void onAction(DetailsAction action, @Nullable Object data) {
         switch (action) {
             case WATCH_ONLINE:
                 onOnlineClicked();
@@ -364,7 +365,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void onSimilarClicked() {
         analyticsInteractor.logEvent(AnalyticsEvent.SIMILAR_CLICKED);
-        getRouter().navigateTo(Screens.SIMILAR, animeId);
+        getRouter().navigateTo(Screens.SIMILAR, new SimilarNavigationData(animeId, Type.ANIME));
     }
 
     /**

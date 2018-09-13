@@ -147,7 +147,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide"
     kapt "com.github.bumptech.glide:compiler:$glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
-    implementation 'com.github.piasy:GlideImageLoader:1.4.6'
+    implementation 'com.github.piasy:BigImageViewer:1.5.2'
     kaptTest 'org.mockito:mockito-all:1.10.19'
     kaptTest 'junit:junit:4.12'
     kaptAndroidTest 'com.android.support.test:runner:1.0.2'

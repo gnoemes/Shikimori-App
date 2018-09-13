@@ -6,21 +6,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.transition.Fade;
-import android.support.transition.TransitionManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.github.piasy.biv.BigImageViewer;
-import com.github.piasy.biv.loader.ImageLoader;
-import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.github.piasy.biv.view.BigImageView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
@@ -30,7 +25,6 @@ import com.gnoemes.shikimoriapp.presentation.presenter.screenshots.ScreenshotsPr
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseSwipeBackActivity;
 import com.gnoemes.shikimoriapp.utils.view.SwipeBackLayout;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +35,7 @@ import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 
+//TODO fix
 public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresenter, ScreenshotsView>
         implements ScreenshotsView {
 
@@ -83,7 +78,7 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
         setContentView(getLayoutActivity());
         setDragDirectMode(SwipeBackLayout.DragDirectMode.EDGE);
         ButterKnife.bind(this);
-        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
+//        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
     }
 
     @Override
@@ -180,46 +175,46 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
             ProgressBar progressBar = layout.findViewById(R.id.progress_loading);
             screenshot.setOnClickListener(v -> toggleAppBarVisibility());
             screenshot.showImage(uri);
-            screenshot.setImageLoaderCallback(new ImageLoader.Callback() {
-                @Override
-                public void onCacheHit(File image) {
-
-                }
-
-                @Override
-                public void onCacheMiss(File image) {
-
-                }
-
-                @Override
-                public void onStart() {
-                    TransitionManager.beginDelayedTransition(container, new Fade());
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onProgress(int progress) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    TransitionManager.beginDelayedTransition(container, new Fade());
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onSuccess(File image) {
-
-                }
-
-                @Override
-                public void onFail(Exception error) {
-                    TransitionManager.beginDelayedTransition(container, new Fade());
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), R.string.loading_screenshot_error, Toast.LENGTH_SHORT).show();
-                }
-            });
+//            screenshot.setImageLoaderCallback(new ImageLoader.Callback() {
+//                @Override
+//                public void onCacheHit(File image) {
+//
+//                }
+//
+//                @Override
+//                public void onCacheMiss(File image) {
+//
+//                }
+//
+//                @Override
+//                public void onStart() {
+//                    TransitionManager.beginDelayedTransition(container, new Fade());
+//                    progressBar.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onProgress(int progress) {
+//
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                    TransitionManager.beginDelayedTransition(container, new Fade());
+//                    progressBar.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onSuccess(File image) {
+//
+//                }
+//
+//                @Override
+//                public void onFail(Exception error) {
+//                    TransitionManager.beginDelayedTransition(container, new Fade());
+//                    progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(getApplicationContext(), R.string.loading_screenshot_error, Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
 
         @Override

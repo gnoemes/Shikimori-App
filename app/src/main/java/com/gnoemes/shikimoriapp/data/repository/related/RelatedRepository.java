@@ -11,4 +11,6 @@ public interface RelatedRepository {
     Single<List<Related>> getRelatedAnime(long animeId);
 
     Single<List<Related>> getRelatedManga(long mangaId);
+
+    Single<List<Related>> getRelatedRanobe(long mangaId);
 }

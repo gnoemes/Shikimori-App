@@ -1,7 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime;
 
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeContentItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsContentItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
-import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 import com.mpt.android.stv.Slice;
 import com.mpt.android.stv.SpannableTextView;
@@ -24,11 +22,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeContentAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class DetailsContentAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
-        return items.get(position) instanceof AnimeContentItem;
+        return items.get(position) instanceof DetailsContentItem;
     }
 
     @NonNull
@@ -36,14 +34,14 @@ public class AnimeContentAdapterDelegate extends AdapterDelegate<List<BaseItem>>
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_anime_content, parent, false);
+                .inflate(R.layout.item_details_content, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        AnimeContentItem item = (AnimeContentItem) items.get(position);
+        DetailsContentItem item = (DetailsContentItem) items.get(position);
         viewHolder.bind(item);
     }
 
@@ -52,10 +50,10 @@ public class AnimeContentAdapterDelegate extends AdapterDelegate<List<BaseItem>>
         @BindView(R.id.constraint)
         ConstraintLayout layout;
 
-        @BindView(R.id.text_description)
+        @BindView(R.id.descriptionView)
         TextView descriptionView;
 
-        @BindView(R.id.text_desctiption_title)
+        @BindView(R.id.descriptionTitleView)
         SpannableTextView descriptionTitleView;
 
         private int textColor;
@@ -67,22 +65,13 @@ public class AnimeContentAdapterDelegate extends AdapterDelegate<List<BaseItem>>
             textColor = AttributesHelper.withContext(itemView.getContext())
                     .getColor(R.attr.colorText);
 
-            Drawable card = DrawableHelper
-                    .withContext(itemView.getContext())
-                    .withDrawable(R.drawable.card)
-                    .withAttributeColor(R.attr.colorBackgroundContent)
-                    .tint()
-                    .get();
-
-            layout.setBackground(card);
-
             descriptionTitleView.addSlice(getSliceTitle(itemView.getResources()
                     .getString(R.string.common_description)));
 
             descriptionTitleView.display();
         }
 
-        public void bind(AnimeContentItem item) {
+        public void bind(DetailsContentItem item) {
             descriptionView.setText(item.getDescription());
         }
 

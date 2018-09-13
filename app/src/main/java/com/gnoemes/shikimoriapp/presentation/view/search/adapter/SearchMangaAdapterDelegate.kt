@@ -43,7 +43,7 @@ class SearchMangaAdapterDelegate(settings: UserSettingsSource,
                 } else {
                     nameView.addSlice(getSliceWithName(item.nameRu ?: item.name))
                 }
-                typeView.text = item.type.name
+                typeView.text = item.type.name.replace("_", " ")
 
                 val episodes = String.format(context.getString(R.string.calendar_volumes_format),
                         if (item.volumes == 0) "xxx" else item.volumes,

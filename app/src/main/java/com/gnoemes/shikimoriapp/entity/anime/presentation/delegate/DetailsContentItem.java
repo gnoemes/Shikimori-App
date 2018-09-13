@@ -1,11 +1,11 @@
 package com.gnoemes.shikimoriapp.entity.anime.presentation.delegate;
 
-public class AnimeContentItem extends BaseAnimeItem {
+public class DetailsContentItem extends BaseAnimeItem {
 
     private long id;
     private String description;
 
-    public AnimeContentItem(long id, String description) {
+    public DetailsContentItem(long id, String description) {
         this.id = id;
         this.description = description;
     }

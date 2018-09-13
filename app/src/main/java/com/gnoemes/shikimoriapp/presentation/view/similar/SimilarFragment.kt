@@ -10,6 +10,7 @@ import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem
+import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData
 import com.gnoemes.shikimoriapp.presentation.presenter.similar.SimilarPresenter
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
@@ -35,8 +36,12 @@ class SimilarFragment : BaseFragment<SimilarPresenter, SimilarView>(), SimilarVi
             similarPresenter.setLocalRouter((it as RouterProvider).localRouter)
         }
 
-        arguments.ifNotNull {
-            presenter.setAnimeId(it.getLong(AppExtras.ARGUMENT_ANIME_ID))
+        arguments.ifNotNull { bundle ->
+            val data = bundle.getParcelable<SimilarNavigationData>(AppExtras.ARGUMENT_SIMILAR_DATA)
+            data.ifNotNull {
+                presenter.setId(it.id)
+                presenter.setType(it.type)
+            }
         }
 
         return similarPresenter
@@ -47,11 +52,11 @@ class SimilarFragment : BaseFragment<SimilarPresenter, SimilarView>(), SimilarVi
     @Inject
     lateinit var imageLoader: ImageLoader
 
-    private val searchAdapter by lazy { SearchAdapter(settings, imageLoader, presenter::onAnimeClicked) }
+    private val searchAdapter by lazy { SearchAdapter(settings, imageLoader, presenter::onContentClicked) }
 
     companion object {
         @JvmStatic
-        fun newInstance(id: Long) = SimilarFragment().withArgs { putLong(AppExtras.ARGUMENT_ANIME_ID, id) }
+        fun newInstance(data: SimilarNavigationData) = SimilarFragment().withArgs { putParcelable(AppExtras.ARGUMENT_SIMILAR_DATA, data) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +83,7 @@ class SimilarFragment : BaseFragment<SimilarPresenter, SimilarView>(), SimilarVi
             setOnRefreshListener(presenter::onRefresh)
         }
         toolbar.ifNotNull { it ->
-            it.setNavigationOnClickListener { presenter::onBackPressed }
+            it.setNavigationOnClickListener { presenter.onBackPressed() }
             it.addBackButton()
         }
     }

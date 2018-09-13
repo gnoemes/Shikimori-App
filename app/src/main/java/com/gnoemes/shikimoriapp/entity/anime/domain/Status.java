@@ -1,8 +1,13 @@
 package com.gnoemes.shikimoriapp.entity.anime.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Status {
+    @SerializedName("anons")
     ANONS("anons"),
+    @SerializedName("ongoing")
     ONGOING("ongoing"),
+    @SerializedName("released")
     RELEASED("released"),
     NONE("none");
 

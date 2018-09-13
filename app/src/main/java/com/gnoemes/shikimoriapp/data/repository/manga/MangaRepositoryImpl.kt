@@ -13,6 +13,7 @@ import com.gnoemes.shikimoriapp.entity.manga.domain.Manga
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaDetails
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import org.joda.time.DateTimeComparator
 import javax.inject.Inject
 
@@ -28,7 +29,11 @@ class MangaRepositoryImpl @Inject constructor(
 
     override fun getDetails(id: Long): Single<MangaDetails> {
         //TODO implement sync
-        return Single.error(UnsupportedOperationException())
+        return Observable.zip(
+                api.getDetails(id).toObservable(),
+                api.getRoles(id).toObservable(),
+                BiFunction(detailsConverter::convertResponse))
+                .firstOrError()
     }
 
     override fun getLinks(id: Long): Single<List<Link>> = api.getLinks(id).map(linkConverter)

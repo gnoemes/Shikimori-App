@@ -368,6 +368,11 @@
     <string name="titles_naming">Наименования тайтлов</string>
     <string name="common_remember">Запомнить</string>
     <string name="search_only_name">Для поиска персонажей и людей\nвоспользуйтесь поиском по имени.</string>
+    <string name="read_online">Читать онлайн</string>
+    <string name="chapters">Главы</string>
+    <string name="volumes_and_chapters">Тома/Главы</string>
+    <string name="chapters_in_dev">Чтение манги пока не доступно</string>
+    <string name="manga_type_format">%s, %s %s</string>
 
 
     <plurals name="days_ago">
@@ -410,6 +415,20 @@
         <item quantity="few">%1$d минуты назад</item>
         <item quantity="many">%1$d минут назад</item>
         <item quantity="other">%1$d минут назад</item>
+    </plurals>
+
+    <plurals name="volumes">
+        <item quantity="one">%1$d том</item>
+        <item quantity="few">%1$d тома</item>
+        <item quantity="many">%1$d томов</item>
+        <item quantity="other">%1$d томов</item>
+    </plurals>
+
+    <plurals name="chapters">
+        <item quantity="one">%1$d глава</item>
+        <item quantity="few">%1$d главы</item>
+        <item quantity="many">%1$d глав</item>
+        <item quantity="other">%1$d глав</item>
     </plurals>
 
     <string-array name="duration">

@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeActionItem;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.DetailsActionItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -23,17 +23,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
+public class DetailsActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private AnimeItemCallback callback;
 
-    public AnimeActionAdapterDelegate(AnimeItemCallback callback) {
+    public DetailsActionAdapterDelegate(AnimeItemCallback callback) {
         this.callback = callback;
     }
 
     @Override
     protected boolean isForViewType(@NonNull List<BaseItem> items, int position) {
-        return items.get(position) instanceof AnimeActionItem;
+        return items.get(position) instanceof DetailsActionItem;
     }
 
     @NonNull
@@ -41,14 +41,14 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_anime_action, parent, false);
+                .inflate(R.layout.item_details_action, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull List<BaseItem> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        AnimeActionItem item = (AnimeActionItem) items.get(position);
+        DetailsActionItem item = (DetailsActionItem) items.get(position);
         viewHolder.bind(item);
     }
 
@@ -70,28 +70,8 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
         }
 
 
-        public void bind(AnimeActionItem item) {
+        public void bind(DetailsActionItem item) {
             layout.setOnClickListener(null);
-
-            if (item.getAction() == AnimeAction.COMMENTS) {
-                Drawable card = DrawableHelper
-                        .withContext(itemView.getContext())
-                        .withDrawable(R.drawable.card)
-                        .withColor(R.color.bittersweet)
-                        .tint()
-                        .get();
-
-                layout.setBackground(card);
-            } else {
-                Drawable card = DrawableHelper
-                        .withContext(itemView.getContext())
-                        .withDrawable(R.drawable.card)
-                        .withAttributeColor(R.attr.colorBackgroundContent)
-                        .tint()
-                        .get();
-
-                layout.setBackground(card);
-            }
 
             Drawable image = getActionDrawable(item.getAction());
             imageAction.setImageDrawable(image);
@@ -101,7 +81,7 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
             layout.setOnClickListener(v -> callback.onAction(item.getAction(), null));
         }
 
-        private int getText(AnimeAction action) {
+        private int getText(DetailsAction action) {
             switch (action) {
                 case LINKS:
                     return R.string.common_links;
@@ -118,7 +98,7 @@ public class AnimeActionAdapterDelegate extends AdapterDelegate<List<BaseItem>> 
             }
         }
 
-        private Drawable getActionDrawable(AnimeAction action) {
+        private Drawable getActionDrawable(DetailsAction action) {
             switch (action) {
                 case LINKS:
                     return getDrawable(R.drawable.ic_attachment);

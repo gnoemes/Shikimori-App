@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.common;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.manga.presentation.MangaNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseView;
 
 import ru.terrakok.cicerone.Router;
@@ -29,7 +30,11 @@ public abstract class BaseNavigationPresenter<View extends BaseView> extends Bas
     }
 
     public void onMangaClicked(long id) {
-        getRouter().showSystemMessage("Манга в разработке");
+        getRouter().navigateTo(Screens.MANGA_DETAILS, new MangaNavigationData(id, Type.MANGA));
+    }
+
+    public void onRanobeClicked(long id) {
+        getRouter().navigateTo(Screens.MANGA_DETAILS, new MangaNavigationData(id, Type.RANOBE));
     }
 
     public void onCharacterClicked(long id) {
@@ -51,6 +56,9 @@ public abstract class BaseNavigationPresenter<View extends BaseView> extends Bas
                 break;
             case MANGA:
                 onMangaClicked(id);
+                break;
+            case RANOBE:
+                onRanobeClicked(id);
                 break;
             case CHARACTER:
                 onCharacterClicked(id);

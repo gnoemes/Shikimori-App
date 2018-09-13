@@ -41,4 +41,11 @@ public class RelatedInteractorImpl implements RelatedInteractor {
                 .compose((SingleErrorHandler<List<Related>>) singleErrorHandler)
                 .compose(rxUtils.applySingleSchedulers());
     }
+
+    @Override
+    public Single<List<Related>> getRelatedRanobe(long ranobeId) {
+        return repository.getRelatedRanobe(ranobeId)
+                .compose((SingleErrorHandler<List<Related>>) singleErrorHandler)
+                .compose(rxUtils.applySingleSchedulers());
+    }
 }

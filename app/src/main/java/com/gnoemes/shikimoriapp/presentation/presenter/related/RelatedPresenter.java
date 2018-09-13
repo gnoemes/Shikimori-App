@@ -40,11 +40,32 @@ public class RelatedPresenter extends BaseNetworkPresenter<RelatedView> {
             case MANGA:
                 loadMangaRelated();
                 break;
+            case RANOBE:
+                loadRanobeRelated();
+                break;
         }
     }
 
+    private void loadRanobeRelated() {
+        getViewState().onShowLoading();
+
+        Disposable disposable = interactor.getRelatedRanobe(id)
+                .doOnEvent((relateds, throwable) -> getViewState().onHideLoading())
+                .map(converter)
+                .subscribe(this::showData, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
     private void loadMangaRelated() {
-        //TODO add
+        getViewState().onShowLoading();
+
+        Disposable disposable = interactor.getRelatedManga(id)
+                .doOnEvent((relateds, throwable) -> getViewState().onHideLoading())
+                .map(converter)
+                .subscribe(this::showData, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
     }
 
     private void loadAnimeRelated() {
@@ -71,16 +92,8 @@ public class RelatedPresenter extends BaseNetworkPresenter<RelatedView> {
             case MANGA:
                 loadMangaRelated();
                 break;
-        }
-    }
-
-    public void onItemClicked(Type type, long id) {
-        switch (type) {
-            case MANGA:
-                onMangaClicked(id);
-                break;
-            case ANIME:
-                onAnimeClicked(id);
+            case RANOBE:
+                loadRanobeRelated();
                 break;
         }
     }
