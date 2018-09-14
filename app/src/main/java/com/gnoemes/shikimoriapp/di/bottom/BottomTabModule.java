@@ -18,7 +18,6 @@ import com.gnoemes.shikimoriapp.di.menu.MenuModule;
 import com.gnoemes.shikimoriapp.di.person.PersonModule;
 import com.gnoemes.shikimoriapp.di.profile.ProfileModule;
 import com.gnoemes.shikimoriapp.di.related.RelatedModule;
-import com.gnoemes.shikimoriapp.di.search.FilterModule;
 import com.gnoemes.shikimoriapp.di.search.SearchModule;
 import com.gnoemes.shikimoriapp.di.similar.SimilarModule;
 import com.gnoemes.shikimoriapp.di.social.SocialModule;
@@ -40,7 +39,6 @@ import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.profile.ProfileFragment;
 import com.gnoemes.shikimoriapp.presentation.view.related.RelatedFragment;
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchFragment;
-import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarFragment;
 import com.gnoemes.shikimoriapp.presentation.view.social.SocialFragment;
 import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListFragment;
@@ -79,10 +77,6 @@ public interface BottomTabModule {
     @BottomChildScope
     @ContributesAndroidInjector(modules = SearchModule.class)
     SearchFragment searchFragmentInjector();
-
-    @BottomChildScope
-    @ContributesAndroidInjector(modules = {FilterModule.class})
-    FilterDialogFragment filterFragmentInjector();
 
     @BottomChildScope
     @ContributesAndroidInjector(modules = {TranslationsModule.class})

@@ -93,6 +93,8 @@ public class SearchConstants {
         NAME("name"),
         AIRED_ON("aired_on"),
         EPISODES("episodes"),
+        VOLUMES("volumes"),
+        CHAPTERS("chapters"),
         STATUS("status"),
         RANDOM("random"),;
 

@@ -16,13 +16,13 @@ interface SearchInteractor {
 
     fun loadRanobeList(page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Manga>>
 
-    fun loadCharacterListWithFilters(filters: HashMap<String, List<FilterItem>>?, page: Int = 0, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Character>>
+    fun loadCharacterListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int = 0, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Character>>
 
-    fun loadPersonListWithFilters(filters: HashMap<String, List<FilterItem>>?, page: Int = 0, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Person>>
+    fun loadPersonListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int = 0, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Person>>
 
-    fun loadAnimeListWithFilters(filters: HashMap<String, List<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Anime>>
+    fun loadAnimeListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Anime>>
 
-    fun loadMangaListWithFilters(filters: HashMap<String, List<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Manga>>
+    fun loadMangaListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Manga>>
 
-    fun loadRanobeListWithFilters(filters: HashMap<String, List<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Manga>>
+    fun loadRanobeListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int = AppConfig.DEFAULT_LIMIT): Single<List<Manga>>
 }

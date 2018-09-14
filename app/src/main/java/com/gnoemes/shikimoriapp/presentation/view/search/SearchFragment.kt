@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.transition.Fade
 import android.support.transition.TransitionManager
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.ArrayAdapter
-import com.allattentionhere.fabulousfilter.AAH_FabulousFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.gnoemes.shikimoriapp.R
@@ -24,8 +23,9 @@ import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.FilterView
 import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAdapter
-import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterDialogFragment
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider
 import com.gnoemes.shikimoriapp.utils.*
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
 import com.gnoemes.shikimoriapp.utils.kotlin.gone
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_default_list.*
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, AAH_FabulousFragment.Callbacks, FilterDialogFragment.FilterProvider {
+class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, FilterView.FilterCallback {
 
     @InjectPresenter
     lateinit var searchPresenter: SearchPresenter
@@ -61,10 +61,12 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
     @Inject
     lateinit var imageLoader: ImageLoader
 
+    @Inject
+    lateinit var resourceProvider: FilterResourceProvider
+
     private val searchAdapter by lazy { SearchAdapter(userSettings, imageLoader, presenter::onContentClicked) }
     private lateinit var searchView: com.lapism.searchview.SearchView
     private lateinit var spinner: ReSpinner
-    private var dialogFragment: FilterDialogFragment? = null
 
     companion object {
         @JvmStatic
@@ -73,11 +75,12 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        dialogFragment.ifNotNull {
-            outState.putBoolean(AppExtras.ARGUMENT_DIALOG, it.isAdded)
-            it.dismiss()
-            dialogFragment = null
-        }
+        outState.putBoolean(AppExtras.ARGUMENT_DIALOG, drawerLayout.isDrawerOpen(Gravity.END))
+        outState.putBundle(FilterView.STATE_KEY, filterView.getBundle())
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(fragmentLayout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,12 +89,10 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
         if (savedInstanceState != null) {
             val dialog = savedInstanceState.getBoolean(AppExtras.ARGUMENT_DIALOG)
             if (dialog) {
-                dialogFragment = FilterDialogFragment.newInstance()
-                dialogFragment.ifNotNull {
-                    it.setParentFab(btn_filter)
-                    it.show(childFragmentManager, it.tag)
-                }
+                presenter.onFilterClicked()
             }
+            val bundle = savedInstanceState.getBundle(FilterView.STATE_KEY)
+            filterView.setBundle(bundle)
         }
         initList()
         initSearchView()
@@ -125,6 +126,13 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
         viewEmptyList.gone()
         viewEmptyList.setText(R.string.search_only_name)
         btn_filter.setOnClickListener { presenter.onFilterClicked() }
+        filterView.callback = this
+        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerClosed(p0: View) = presenter.onFilterClosed()
+            override fun onDrawerStateChanged(p0: Int) = Unit
+            override fun onDrawerSlide(p0: View, p1: Float) = Unit
+            override fun onDrawerOpened(p0: View) = Unit
+        })
     }
 
     private fun initSearchView() {
@@ -228,31 +236,27 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
     // CALLBACKS
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun onResult(result: Any) {
-        dialogFragment.ifNotNull {
-            if (result.toString().equals("swiped_down", ignoreCase = true)) {
-                it.dismiss()
-            }
-        }
-
-        if (result is HashMap<*, *>) {
-            presenter.onFiltersSelected(result as HashMap<String, List<FilterItem>>)
-        }
+    override fun onResult(filters: HashMap<String, MutableList<FilterItem>>) {
+        presenter.onFiltersSelected(filters)
     }
-
-    override fun getAppliedFilters(): HashMap<String, List<FilterItem>> = presenter.filters
 
     ///////////////////////////////////////////////////////////////////////////
     // MVP
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun showFilterDialog(filters: HashMap<String, MutableList<FilterItem>>?) {
-
-        if (dialogFragment == null || !dialogFragment!!.isAdded) {
-            dialogFragment = FilterDialogFragment.newInstance()
-            dialogFragment?.setParentFab(btn_filter)
-            dialogFragment?.show(childFragmentManager, dialogFragment?.tag)
+    override fun showFilterDialog(type: Type, filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>?) {
+        when (type) {
+            Type.ANIME -> filterView.initAnimeFilters(filters, appliedFilters)
+            Type.MANGA -> filterView.initMangaFilters(filters, appliedFilters)
+            Type.RANOBE -> filterView.initMangaFilters(filters, appliedFilters)
+            else -> Unit
         }
+
+        drawerLayout.openDrawer(Gravity.END)
+    }
+
+    override fun closeFilterDialog() {
+        drawerLayout.closeDrawer(Gravity.END)
     }
 
     override fun showList(items: MutableList<BaseItem>) {
@@ -276,6 +280,10 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
         toolbar?.removeView(spinner)
         toolbar?.setTitle(R.string.common_search)
     }
+
+    override fun hideFilterButton() = btn_filter.hide()
+
+    override fun showFilterButton() = btn_filter.show()
 
     override fun showEmptyListView() = viewEmptyList.visible()
 

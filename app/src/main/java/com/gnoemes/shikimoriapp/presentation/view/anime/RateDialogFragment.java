@@ -180,7 +180,7 @@ public class RateDialogFragment extends MvpAppCompatDialogFragment {
     }
 
     private void initViews() {
-        rates.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_small, resourceProvider.getRateStasuses()));
+        rates.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner_default, resourceProvider.getRateStasuses()));
 
         Drawable rateBackground = DrawableHelper
                 .withContext(getContext())

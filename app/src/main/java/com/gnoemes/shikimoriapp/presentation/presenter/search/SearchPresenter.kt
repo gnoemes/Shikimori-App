@@ -18,6 +18,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.Characte
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.MangaViewModelConverter
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverter
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchView
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider
 import com.gnoemes.shikimoriapp.utils.appendLoadingLogic
 import com.gnoemes.shikimoriapp.utils.ifNotNull
 import javax.inject.Inject
@@ -29,11 +30,12 @@ class SearchPresenter @Inject constructor(
         private val animeConverter: AnimeViewModelConverter,
         private val mangaConverter: MangaViewModelConverter,
         private val characterConverter: CharacterConverter,
-        private val personConverter: PersonConverter
+        private val personConverter: PersonConverter,
+        private val resourceProvider: FilterResourceProvider
 ) : BaseNetworkPresenter<SearchView>() {
 
     private var paginator: SearchPaginator? = null
-    var filters = HashMap<String, List<FilterItem>>()
+    var filters = HashMap<String, MutableList<FilterItem>>()
 
     var reactiveQuery: String? = null
     var type: Type = Type.ANIME
@@ -202,14 +204,22 @@ class SearchPresenter @Inject constructor(
     }
 
     fun onFilterClicked() {
-        viewState.showFilterDialog(filters)
+        val typeFilters = when (type) {
+            Type.ANIME -> resourceProvider.animeFilters
+            Type.MANGA -> resourceProvider.mangaFilters
+            Type.RANOBE -> resourceProvider.ranobeFilters
+            else -> HashMap()
+        }
+
+        viewState.showFilterDialog(type, typeFilters, filters)
     }
 
-    fun onFiltersSelected(filters: HashMap<String, List<FilterItem>>) {
+    fun onFiltersSelected(filters: HashMap<String, MutableList<FilterItem>>) {
         this.filters = filters
         paginator?.setType(type)
         paginator?.setFilters(filters)
         paginator?.restart()
+        viewState.closeFilterDialog()
     }
 
     private fun clearFiltersAndRefresh() {
@@ -223,12 +233,18 @@ class SearchPresenter @Inject constructor(
 
         if (supportsPagination.contains(type)) {
             clearFiltersAndRefresh()
+            viewState.showFilterButton()
         } else {
             with(viewState) {
                 clearList()
                 showEmptyListView()
+                hideFilterButton()
             }
         }
+    }
+
+    fun onFilterClosed() {
+        viewState.closeFilterDialog()
     }
 
     private val viewController: ViewController<LinkedContent> = object : ViewController<LinkedContent> {

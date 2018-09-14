@@ -2,7 +2,6 @@ package com.gnoemes.shikimoriapp.presentation.view.search;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
-import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
@@ -15,8 +14,11 @@ import java.util.List;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SearchView extends BaseFragmentView {
 
-    @StateStrategyType(SkipStrategy.class)
-    void showFilterDialog(HashMap<String, List<FilterItem>> filters);
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void showFilterDialog(Type type, HashMap<String, List<FilterItem>> filters, HashMap<String, List<FilterItem>> appliedFilters);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void closeFilterDialog();
 
     @StateStrategyType(AddToEndStrategy.class)
     void showList(List<BaseItem> animes);
@@ -25,6 +27,12 @@ public interface SearchView extends BaseFragmentView {
     void insetMore(List<BaseItem> items);
 
     void setSpinnerPosition(Type type);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void hideFilterButton();
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void showFilterButton();
 
     void showEmptyListView();
 

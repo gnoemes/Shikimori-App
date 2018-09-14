@@ -17,7 +17,7 @@ class SearchPaginatorImpl(private val interactor: SearchInteractor,
     private var currentState: State<LinkedContent> = EMPTY()
     private var currentData: MutableList<LinkedContent> = mutableListOf()
     private var currentType: Type = Type.ANIME
-    var currentFilters: HashMap<String, List<FilterItem>>? = null
+    var currentFilters: HashMap<String, MutableList<FilterItem>>? = null
     private var disposable: Disposable? = null
 
     interface State<T> {
@@ -60,7 +60,7 @@ class SearchPaginatorImpl(private val interactor: SearchInteractor,
         }
     }
 
-    override fun setFilters(filters: HashMap<String, List<FilterItem>>) {
+    override fun setFilters(filters: HashMap<String, MutableList<FilterItem>>) {
         this.currentFilters = filters
     }
 

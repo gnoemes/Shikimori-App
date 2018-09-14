@@ -8,11 +8,16 @@ import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.Characte
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.CharacterConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceConverter;
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProviderImpl;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Reusable;
 
 @Module
 public interface SearchUtilModule {
@@ -31,4 +36,12 @@ public interface SearchUtilModule {
 
     @Binds
     PersonConverter bindPersonConverter(PersonConverterImpl converter);
+
+    @Binds
+    @Reusable
+    FilterResourceProvider bindFilterResourceProvider(FilterResourceProviderImpl provider);
+
+    @Binds
+    @Reusable
+    FilterResourceConverter bindFilterResourceConverter(FilterResourceConverterImpl resourceConverter);
 }

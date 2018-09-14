@@ -83,7 +83,7 @@
     <string name="type_special_translatable">Спешл</string>
     <string name="type_music_translatable">Музыка</string>
 
-    <string-array name="types">
+    <string-array name="anime_types">
         <item>@string/type_tv</item>
         <item>@string/type_ova</item>
         <item>@string/type_ona</item>
@@ -95,7 +95,7 @@
         <item>@string/type_tv_48</item>
     </string-array>
 
-    <string-array name="types_name">
+    <string-array name="anime_types_name">
         <item>tv</item>
         <item>ova</item>
         <item>ona</item>
@@ -105,6 +105,22 @@
         <item>tv_13</item>
         <item>tv_24</item>
         <item>tv_48</item>
+    </string-array>
+
+    <string-array name="manga_types">
+        <item>@string/type_manga_translatable</item>
+        <item>@string/type_manhwa_translatable</item>
+        <item>@string/type_manhua_translatable</item>
+        <item>@string/type_one_shot_translatable</item>
+        <item>@string/type_doujin_translatable</item>
+    </string-array>
+
+    <string-array name="manga_types_name">
+        <item>manga</item>
+        <item>manhwa</item>
+        <item>manhua</item>
+        <item>one_shot</item>
+        <item>doujin</item>
     </string-array>
 
     <string name="status_anons">Анонс</string>
@@ -146,13 +162,16 @@
     <string name="order_by_id">По порядку</string>
     <string name="order_by_type">По типу</string>
     <string name="order_by_popularity">По популярности</string>
+    <string name="order_by_ranked">По рейтингу</string>
     <string name="order_by_name">По имени</string>
     <string name="order_by_aired_on">По дате</string>
     <string name="order_by_episodes">По эпизодам</string>
     <string name="order_by_status">По статусу</string>
     <string name="order_by_random">Рандом</string>
+    <string name="order_by_volumes">По томам</string>
+    <string name="order_by_chapters">По главам</string>
 
-    <string-array name="order">
+    <string-array name="anime_order">
         <item>@string/order_by_name</item>
         <item>@string/order_by_aired_on</item>
         <item>@string/order_by_type</item>
@@ -160,10 +179,11 @@
         <item>@string/order_by_status</item>
         <item>@string/order_by_random</item>
         <item>@string/order_by_episodes</item>
+        <item>@string/order_by_ranked</item>
         <item>@string/order_by_popularity</item>
     </string-array>
 
-    <string-array name="order_names">
+    <string-array name="anime_order_names">
         <item>name</item>
         <item>aired_on</item>
         <item>type</item>
@@ -172,6 +192,18 @@
         <item>random</item>
         <item>episodes</item>
         <item>popularity</item>
+    </string-array>
+
+    <string-array name="manga_order">
+        <item>@string/order_by_name</item>
+        <item>@string/order_by_aired_on</item>
+        <item>@string/order_by_id</item>
+        <item>@string/order_by_status</item>
+        <item>@string/order_by_random</item>
+        <item>@string/order_by_volumes</item>
+        <item>@string/order_by_chapters</item>
+        <item>@string/order_by_ranked</item>
+        <item>@string/order_by_popularity</item>
     </string-array>
 
     <string name="duration_small">&lt; 10 мин.</string>
@@ -368,6 +400,9 @@
     <string name="titles_naming">Наименования тайтлов</string>
     <string name="common_remember">Запомнить</string>
     <string name="search_only_name">Для поиска персонажей и людей\nвоспользуйтесь поиском по имени.</string>
+    <string name="common_reset">Сброс</string>
+    <string name="common_apply">Применить</string>
+    <string name="filter_sort_title">Сортировать:</string>
     <string name="read_online">Читать онлайн</string>
     <string name="chapters">Главы</string>
     <string name="volumes_and_chapters">Тома/Главы</string>
