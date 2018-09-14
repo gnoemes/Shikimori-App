@@ -1,75 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:padding="@dimen/margin_normal">
+    android:layout_margin="@dimen/margin_small"
+    app:cardBackgroundColor="@color/transparent"
+    app:cardCornerRadius="8dp"
+    app:cardPreventCornerOverlap="false">
 
-    <ImageView
-        android:id="@+id/image_anime"
-        android:layout_width="140dp"
-        android:layout_height="190dp"
-        android:contentDescription="@string/description_image"
-        tools:srcCompat="@drawable/test_preview2" />
-
-    <TextView
-        android:id="@+id/text_type"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:foreground="?attr/selectableItemBackground">
 
-        android:padding="@dimen/margin_small"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/image_anime"
-        app:layout_constraintTop_toTopOf="@+id/image_anime"
-        tools:background="@color/light_teal"
-        tools:text="OVA" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/image_default_width"
+            android:layout_height="@dimen/image_default_height"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/description_image"
+            android:src="@drawable/test_preview2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/margin_small"
+            tools:srcCompat="@drawable/test_preview2" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="@dimen/divider_height"
         android:background="@color/colorAccentInverse"
-        app:layout_constraintBottom_toTopOf="@+id/text_name"
-        app:layout_constraintEnd_toEndOf="@+id/image_anime"
-        app:layout_constraintStart_toStartOf="@+id/image_anime" />
+        app:layout_constraintBottom_toTopOf="@+id/nameView"
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintStart_toStartOf="@+id/container" />
 
-    <com.mpt.android.stv.SpannableTextView
-        android:id="@+id/text_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackgroundTransparentInverse"
-        android:ellipsize="end"
-        android:maxLines="7"
-        android:padding="@dimen/margin_small"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_anime"
-        app:layout_constraintEnd_toEndOf="@+id/image_anime"
-        app:layout_constraintStart_toStartOf="@+id/image_anime"
-        tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
+        <TextView
+            android:id="@+id/typeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_type"
+            android:padding="@dimen/margin_small"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="OVA" />
 
-    <TextView
-        android:id="@+id/text_next_episode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:maxLines="2"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name"
-        tools:background="@color/light_teal"
-        tools:text="3 эпизод с 19:20" />
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/nameView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundTransparentInverse"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:padding="@dimen/margin_small"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/container"
+            app:layout_constraintEnd_toEndOf="@+id/container"
+            app:layout_constraintStart_toStartOf="@+id/container"
+            tools:text="Алиса или Алиса: Брат-сисконщик и сёстры близняшки" />
 
+        <TextView
+            android:id="@+id/nextEpisodeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_type_2"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:padding="@dimen/margin_small"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/container"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3 эпизод" />
 
 </android.support.constraint.ConstraintLayout>
+</android.support.design.card.MaterialCardView>

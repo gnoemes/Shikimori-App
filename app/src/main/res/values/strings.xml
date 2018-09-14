@@ -44,7 +44,7 @@
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
     <string name="calendar_volumes_format">\n[%s-%s]</string>
-    <string name="calendar_episode_in">%s эпизод c %s</string>
+    <string name="calendar_episode_in">%s эпизод</string>
 
     <string name="menu_guest_hint">Авторизоваться</string>
     <string name="menu_user_hint">Перейти в профиль</string>

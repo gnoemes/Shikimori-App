@@ -69,13 +69,13 @@ public class CalendarAnimeAdapter extends RecyclerView.Adapter<CalendarAnimeAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.image_anime)
+        @BindView(R.id.imageView)
         ImageView image;
-        @BindView(R.id.text_type)
+        @BindView(R.id.typeView)
         TextView type;
-        @BindView(R.id.text_name)
+        @BindView(R.id.nameView)
         SpannableTextView name;
-        @BindView(R.id.text_next_episode)
+        @BindView(R.id.nextEpisodeView)
         TextView nextEpisode;
 
         ViewHolder(View itemView) {
@@ -88,7 +88,6 @@ public class CalendarAnimeAdapter extends RecyclerView.Adapter<CalendarAnimeAdap
             imageLoader.setImageWithFit(image, item.getImageOriginalUrl());
 
             type.setText(item.getType().name());
-            type.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));
 
             name.reset();
             if (!TextUtils.isEmpty(item.getName())) {
@@ -108,10 +107,8 @@ public class CalendarAnimeAdapter extends RecyclerView.Adapter<CalendarAnimeAdap
             name.display();
 
 
-            String episodeInTime = String.format(resourceProvider.getEpisodeInString(), item.getNextEpisode(),
-                    dateTimeConverter.convertCalendarTimeToString(item.getNextEpisodeDate()));
+            String episodeInTime = String.format(resourceProvider.getEpisodeInString(), item.getNextEpisode());
             nextEpisode.setText(episodeInTime);
-            nextEpisode.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));
         }
 
         private Slice getSliceWithName(String name) {
