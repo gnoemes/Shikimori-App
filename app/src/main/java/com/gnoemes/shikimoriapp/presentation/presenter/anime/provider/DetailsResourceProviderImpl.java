@@ -6,12 +6,12 @@ import com.gnoemes.shikimoriapp.R;
 
 import javax.inject.Inject;
 
-public class AnimeDetailsResourceProviderImpl implements AnimeDetailsResourceProvider {
+public class DetailsResourceProviderImpl implements DetailsResourceProvider {
 
     private Context context;
 
     @Inject
-    public AnimeDetailsResourceProviderImpl(Context context) {
+    public DetailsResourceProviderImpl(Context context) {
         this.context = context;
     }
 

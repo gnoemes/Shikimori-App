@@ -28,7 +28,7 @@ public class RateStatusCountConverterImpl implements RateStatusCountConverter {
         int droppedCount = 0;
 
         List<String> stasuses = new ArrayList<>();
-        List<String> formatStrings = resourceProvider.getRatesWithCount();
+        List<String> formatStrings = resourceProvider.getAnimeRatesWithCount();
 
         for (Status status : profile.getUserStats().getAnimeStatuses()) {
             switch (status.getStatus()) {

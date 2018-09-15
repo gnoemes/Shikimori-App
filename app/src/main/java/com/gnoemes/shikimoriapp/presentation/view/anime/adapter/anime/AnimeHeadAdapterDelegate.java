@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.GenresAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
@@ -216,7 +217,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                 rateView.setText(itemView.getResources().getString(R.string.no_rate));
             } else {
                 rateView.setCompoundDrawablesWithIntrinsicBounds(null, add, null, null);
-                rateView.setText(resourceProvider.getLocalizedStatus(item.getAnimeRate().getStatus()));
+                rateView.setText(resourceProvider.getLocalizedStatus(Type.ANIME, item.getAnimeRate().getStatus()));
             }
 
 

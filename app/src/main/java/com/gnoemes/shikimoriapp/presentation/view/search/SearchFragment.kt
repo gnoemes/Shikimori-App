@@ -75,8 +75,9 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(AppExtras.ARGUMENT_DIALOG, drawerLayout.isDrawerOpen(Gravity.END))
-        outState.putBundle(FilterView.STATE_KEY, filterView.getBundle())
+        outState.putBoolean(AppExtras.ARGUMENT_DIALOG, drawerLayout?.isDrawerOpen(Gravity.END)
+                ?: false)
+        outState.putBundle(FilterView.STATE_KEY, filterView?.getBundle())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -50,6 +50,8 @@ import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileRespon
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverterImpl;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.DetailsResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.DetailsResourceProviderImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusCountConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverter;
@@ -255,4 +257,8 @@ public interface UtilModule {
     @Binds
     @Reusable
     CharacterResponseConverter bindCharacterResponseConverter(CharacterResponseConverterImpl converter);
+
+    @Binds
+    @Reusable
+    DetailsResourceProvider bindAnimeDetailsResourceProvider(DetailsResourceProviderImpl provider);
 }

@@ -18,6 +18,7 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource
 import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode
 import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction
 import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel
+import com.gnoemes.shikimoriapp.entity.app.domain.Type
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaDetails
@@ -29,6 +30,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.anime.DetailsCha
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverterImpl
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
+import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RateDialogFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView
 import com.gnoemes.shikimoriapp.presentation.view.manga.adapter.ChaptersAdapter
@@ -209,7 +211,17 @@ class MangaFragment : BaseFragment<MangaPresenter, MangaView>(), MangaView {
     }
 
     override fun showRatesDialog(rate: UserRate?) {
-        //TODO manga rates
+        val dialog = RateDialogFragment.newInstance(Type.MANGA, rate)
+        dialog.callback = object : RateDialogFragment.RateDialogCallback {
+            override fun onSaveMangaRate(rate: UserRate) {
+                presenter.onSaveRate(rate)
+            }
+
+            override fun onDeleteMangaRate(id: Long) {
+                presenter.onDeleteRate(id)
+            }
+        }
+        dialog.show(childFragmentManager, "RATES")
     }
 
     override fun showClearHistoryDialog() {

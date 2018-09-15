@@ -42,7 +42,7 @@ import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
 import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.DetailsResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginator;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginatorImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.converter.CommentsViewModelConverter;
@@ -68,7 +68,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private UserSettingsInteractor settingsInteractor;
     private CommentsViewModelConverter commentsConverter;
     private UserRatesInteractor ratesInteractor;
-    private AnimeDetailsResourceProvider resourceProvider;
+    private DetailsResourceProvider resourceProvider;
     private AnalyticsInteractor analyticsInteractor;
 
     private CommentsPaginator paginator;
@@ -139,7 +139,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
                           @NonNull LinkViewModelConverter linkViewModelConverter,
                           @NonNull CommentsViewModelConverter commentsConverter,
-                          @NonNull AnimeDetailsResourceProvider resourceProvider,
+                          @NonNull DetailsResourceProvider resourceProvider,
                           @NonNull AnalyticsInteractor analyticsInteractor) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;

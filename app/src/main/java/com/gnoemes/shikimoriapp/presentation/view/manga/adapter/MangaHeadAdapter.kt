@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.entity.anime.domain.Status
 import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction
+import com.gnoemes.shikimoriapp.entity.app.domain.Type
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem
 import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType
 import com.gnoemes.shikimoriapp.entity.manga.presentation.MangaHeadItem
@@ -123,14 +124,15 @@ class MangaHeadAdapter(private val resourceProvider: RateResourceProvider,
                 with(rateCompound) {
                     if (item.userRate != null) {
                         val drawable = context.drawable(R.drawable.ic_star_big)
-                        drawable?.tint(R.color.colorAccentInverse)
+                        drawable?.tint(context.color(R.color.colorAccentInverse))
                         setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
-                        text = resourceProvider.getLocalizedStatus(item.userRate.status)
+                        text = resourceProvider.getLocalizedStatus(Type.MANGA, item.userRate.status)
                     } else {
                         val drawable = context.themeDrawable(R.drawable.ic_star_border, R.attr.colorText)
                         setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
                         setText(R.string.no_rate)
                     }
+                    onClick { callback.invoke(DetailsAction.ADD_TO_LIST, item.userRate) }
                 }
 
 

@@ -67,7 +67,7 @@ public class UserRatesAnimeResourceProviderImpl extends BaseAnimeResourceProvide
 
     @Override
     public List<String> getRateStasuses() {
-        return Arrays.asList(context.getResources().getStringArray(R.array.rate_stasuses));
+        return Arrays.asList(context.getResources().getStringArray(R.array.anime_rate_stasuses));
     }
 
     @Override

@@ -2,12 +2,13 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint"
+    android:id="@+id/containerView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/rate_title"
+        android:id="@+id/rateTitleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/rates"
+        android:id="@+id/ratesSpinnerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -28,11 +29,11 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rate_title"
+        app:layout_constraintTop_toBottomOf="@+id/rateTitleView"
         tools:backgroundTint="?attr/colorAccent" />
 
     <TextView
-        android:id="@+id/episodes_title"
+        android:id="@+id/episodesOrChaptersTitleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -40,7 +41,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:labelFor="@+id/episodes_content"
+        android:labelFor="@+id/episodesOrChaptersContentView"
         android:text="@string/common_episodes"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -49,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/episodes_content"
+        android:id="@+id/episodesOrChaptersContentView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -59,9 +60,9 @@
         android:maxLength="4"
         android:textColor="?attr/colorText"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/episodes_title"
-        app:layout_constraintStart_toStartOf="@+id/episodes_title"
-        app:layout_constraintTop_toBottomOf="@+id/episodes_title"
+        app:layout_constraintEnd_toEndOf="@+id/episodesOrChaptersTitleView"
+        app:layout_constraintStart_toStartOf="@+id/episodesOrChaptersTitleView"
+        app:layout_constraintTop_toBottomOf="@+id/episodesOrChaptersTitleView"
         tools:backgroundTint="?attr/colorAccent" />
 
     <android.support.constraint.Guideline
@@ -71,45 +72,8 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
 
-    <TextView
-        android:id="@+id/rewatches_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:labelFor="@+id/episodes_content"
-        android:text="@string/rate_rewatches_title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/episodes_content" />
-
-    <EditText
-        android:id="@+id/rewatches_content"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="4"
-        android:textColor="?attr/colorText"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/rewatches_title"
-        app:layout_constraintStart_toStartOf="@+id/rewatches_title"
-        app:layout_constraintTop_toBottomOf="@+id/rewatches_title"
-        tools:backgroundTint="?attr/colorAccent" />
-
-
     <com.mpt.android.stv.SpannableTextView
-        android:id="@+id/rating_title"
+        android:id="@+id/ratingTitleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -117,11 +81,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rates"
+        app:layout_constraintTop_toBottomOf="@+id/ratesSpinnerView"
         tools:text="Оценка: 6/10" />
 
     <RatingBar
-        android:id="@+id/rating"
+        android:id="@+id/ratingView"
         style="@style/Base.Widget.AppCompat.RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,11 +98,11 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_title"
+        app:layout_constraintTop_toBottomOf="@+id/ratingTitleView"
         tools:rating="3" />
 
     <TextView
-        android:id="@+id/comment_title"
+        android:id="@+id/commentTitleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -147,10 +111,10 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingView" />
 
     <EditText
-        android:id="@+id/comment_content"
+        android:id="@+id/commentContentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -164,8 +128,8 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment_title"
+        app:layout_constraintTop_toBottomOf="@+id/commentTitleView"
         tools:background="@drawable/language_background"
-        tools:backgroundTint="?attr/colorBackgroundContent" />
+        tools:backgroundTint="?attr/colorBackgroundWindow" />
 
 </android.support.constraint.ConstraintLayout>

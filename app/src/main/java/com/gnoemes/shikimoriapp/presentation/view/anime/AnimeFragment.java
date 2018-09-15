@@ -35,6 +35,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
@@ -47,6 +48,7 @@ import com.gnoemes.shikimoriapp.presentation.view.anime.adapter.episodes.Episode
 import com.gnoemes.shikimoriapp.presentation.view.anime.converter.FranchiseNodeToStringConverter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
+import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RateDialogFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
 import com.gnoemes.shikimoriapp.utils.Utils;
@@ -58,6 +60,8 @@ import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 import com.gnoemes.shikimoriapp.utils.view.ViewStatePagerAdapter;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -424,10 +428,16 @@ public class AnimeFragment extends BaseFragment<AnimePresenter, AnimeView>
 
     @Override
     public void showRatesDialog(UserRate data) {
-        RateDialogFragment dialog = RateDialogFragment.newInstance(data);
+        RateDialogFragment dialog = RateDialogFragment.newInstance(Type.ANIME, data);
         dialog.setCallback(new RateDialogFragment.RateDialogCallback() {
+            public void onDeleteMangaRate(long id) {
+            }
+
+            public void onSaveMangaRate(@NotNull UserRate rate) {
+            }
+
             @Override
-            public void onSaveAnimeRate(UserRate rate) {
+            public void onSaveAnimeRate(@NonNull UserRate rate) {
                 getPresenter().onSaveRate(rate);
             }
 

@@ -1,6 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.anime.provider;
 
-public interface AnimeDetailsResourceProvider {
+public interface DetailsResourceProvider {
 
     String getNeedAuthMessage();
 

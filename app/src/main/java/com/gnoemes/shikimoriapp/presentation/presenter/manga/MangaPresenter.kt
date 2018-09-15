@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.presentation.presenter.manga
 
 import com.arellomobile.mvp.InjectViewState
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor
+import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor
 import com.gnoemes.shikimoriapp.domain.manga.MangaInteractor
 import com.gnoemes.shikimoriapp.domain.ranobe.RanobeInteractor
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor
@@ -10,6 +11,7 @@ import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction
 import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent
 import com.gnoemes.shikimoriapp.entity.app.domain.Type
+import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings
 import com.gnoemes.shikimoriapp.entity.app.presentation.Screens
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens
@@ -19,6 +21,7 @@ import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData
 import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData
 import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.DetailsResourceProvider
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter
 import com.gnoemes.shikimoriapp.presentation.view.manga.MangaView
 import com.gnoemes.shikimoriapp.utils.appendHostIfNeed
@@ -30,6 +33,8 @@ class MangaPresenter @Inject constructor(
         private val mangaInteractor: MangaInteractor,
         private val ranobeInteractor: RanobeInteractor,
         private val ratesInteractor: UserRatesInteractor,
+        private val settingsInteractor: UserSettingsInteractor,
+        private val resourceProvider: DetailsResourceProvider,
         private val linkViewModelConverter: LinkViewModelConverter,
         private val analyticsInteractor: AnalyticsInteractor
 ) : BaseNetworkPresenter<MangaView>() {
@@ -37,11 +42,19 @@ class MangaPresenter @Inject constructor(
     var id: Long? = null
     var rateId: Long = Constants.NO_ID
     private var currentManga: MangaDetails? = null
+    private var userSettings: UserSettings? = null
     lateinit var type: Type
 
     override fun initData() {
         loadMangaOrRanobe()
         loadChapters()
+        loadUserSettings()
+    }
+
+    private fun loadUserSettings() {
+        settingsInteractor.userSettings
+                .forEach { userSettings = it }
+                .addToDisposables()
     }
 
     private fun loadMangaOrRanobe() {
@@ -96,7 +109,7 @@ class MangaPresenter @Inject constructor(
             DetailsAction.WATCH_ONLINE -> onReadOnline()
             DetailsAction.CLEAR_HISTORY -> onClearHistoryClicked()
             DetailsAction.CHARACTER -> onCharacterClicked(data as Long)
-            DetailsAction.ADD_TO_LIST -> onAddListClicked(data as UserRate)
+            DetailsAction.ADD_TO_LIST -> onAddListClicked(data as? UserRate)
             else -> Unit
         }
     }
@@ -173,6 +186,42 @@ class MangaPresenter @Inject constructor(
 
     fun onClearHistory() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun onDeleteRate(id: Long) {
+        ratesInteractor.deleteRate(id)
+                .subscribe({
+                    loadMangaOrRanobe()
+                    router.showSystemMessage(String.format(resourceProvider.deleteMessage, currentManga?.nameRu))
+                }, this::processErrors)
+                .addToDisposables()
+    }
+
+    fun onSaveRate(rate: UserRate) {
+        if (rate.id == Constants.NO_ID) {
+            if (userSettings?.userBrief != null) {
+                createRate(rate)
+            } else {
+                router.showSystemMessage(resourceProvider.needAuthMessage)
+            }
+        } else {
+            updateRate(rate)
+        }
+    }
+
+    private fun updateRate(rate: UserRate) {
+        ratesInteractor.updateRate(rate)
+                .subscribe({ loadMangaOrRanobe() }, this::processErrors)
+                .addToDisposables()
+    }
+
+    private fun createRate(rate: UserRate) {
+        ratesInteractor.createRate(id!!, type, rate, userSettings?.userBrief?.id!!)
+                .subscribe({
+                    loadMangaOrRanobe()
+                    router.showSystemMessage(String.format(resourceProvider.createMessage, currentManga?.nameRu))
+                }, this::processErrors)
+                .addToDisposables()
     }
 
 }

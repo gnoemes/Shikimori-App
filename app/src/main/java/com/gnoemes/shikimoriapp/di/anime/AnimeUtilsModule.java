@@ -8,8 +8,6 @@ import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotRespon
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.ScreenshotResponseConverterImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverterImpl;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProviderImpl;
 
 import dagger.Binds;
 import dagger.Module;
@@ -25,9 +23,6 @@ public interface AnimeUtilsModule {
 
     @Binds
     AnimeDetailsResponseConverter bindAnimeDetailsResponseConverter(AnimeDetailsResponseConverterImpl converter);
-
-    @Binds
-    AnimeDetailsResourceProvider bindAnimeDetailsResourceProvider(AnimeDetailsResourceProviderImpl provider);
 
     @Binds
     ScreenshotResponseConverter bindScreenshotResponseConverter(ScreenshotResponseConverterImpl converter);

@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
@@ -311,7 +312,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter, FavoriteVi
         List<String> items = new ArrayList<>();
 
         for (RateStatus status : statuses) {
-            items.add(rateResourceProvider.getLocalizedStatus(status));
+            items.add(rateResourceProvider.getLocalizedStatus(Type.ANIME, status));
         }
         items.add(resourceProvider.getDeleteString());
 
