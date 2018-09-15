@@ -19,6 +19,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
+//TODO mb some base presenter for translations?
 @InjectViewState
 public class AlternativeTranslationsPresenter extends BaseNetworkPresenter<AlternativeTranslationsView> {
 

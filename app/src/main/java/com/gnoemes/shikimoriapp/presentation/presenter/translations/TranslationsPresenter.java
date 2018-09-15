@@ -102,7 +102,11 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
             players.add(PlayerType.EXTERNAL);
         }
 
-        getViewState().showPlayerDialog(players);
+        if (players.size() == 1) {
+            onPlay(players.get(0));
+        } else {
+            getViewState().showPlayerDialog(players);
+        }
     }
 
     public void onDownloadTranslation(TranslationViewModel translation) {
