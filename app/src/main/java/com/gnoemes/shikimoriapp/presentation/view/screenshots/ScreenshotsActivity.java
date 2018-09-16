@@ -23,6 +23,7 @@ import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.screenshots.ScreenshotsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseSwipeBackActivity;
+import com.gnoemes.shikimoriapp.utils.imageloader.GlideFetcher;
 import com.gnoemes.shikimoriapp.utils.view.SwipeBackLayout;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 
-//TODO fix
 public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresenter, ScreenshotsView>
         implements ScreenshotsView {
 
@@ -78,7 +78,7 @@ public class ScreenshotsActivity extends BaseSwipeBackActivity<ScreenshotsPresen
         setContentView(getLayoutActivity());
         setDragDirectMode(SwipeBackLayout.DragDirectMode.EDGE);
         ButterKnife.bind(this);
-//        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
+        BigImageViewer.initialize(GlideFetcher.with(getApplicationContext(), null));
     }
 
     @Override
