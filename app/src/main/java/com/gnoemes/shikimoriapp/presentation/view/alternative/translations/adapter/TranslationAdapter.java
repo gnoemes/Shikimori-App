@@ -109,7 +109,7 @@ public class TranslationAdapter extends RecyclerView.Adapter<TranslationAdapter.
                 }
                 return false;
             });
-            popupMenu.show();
+            itemView.post(popupMenu::show);
         }
     }
 }

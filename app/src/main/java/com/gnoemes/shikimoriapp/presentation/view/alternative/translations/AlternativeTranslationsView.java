@@ -32,4 +32,7 @@ public interface AlternativeTranslationsView extends BaseFragmentView {
 
     @StateStrategyType(SkipStrategy.class)
     void checkPermissions();
+
+    @StateStrategyType(SkipStrategy.class)
+    void showDownloadPathDialog();
 }

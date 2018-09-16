@@ -419,7 +419,8 @@
     <string name="chapters_in_dev">Чтение манги пока не доступно</string>
     <string name="manga_type_format">%s, %s %s</string>
     <string name="translation_type">Тип перевода</string>
-
+    <string name="on_sd">На SD карту</string>
+    <string name="on_memory">В память телефона</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -570,6 +571,11 @@
         <item>@string/ranobe</item>
         <item>@string/character</item>
         <item>@string/person</item>
+    </string-array>
+
+    <string-array name="download_paths">
+        <item>@string/on_sd</item>
+        <item>@string/on_memory</item>
     </string-array>
 
 </resources>

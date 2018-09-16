@@ -239,7 +239,7 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                 }
                 return false;
             });
-            popupMenu.show();
+            itemView.post(popupMenu::show);
         }
 
 

@@ -93,6 +93,10 @@ fun <T : Any> T?.ifNotNull(f: (it: T) -> Unit) {
     if (this != null) f(this)
 }
 
+fun Fragment.safeDialog(f: (it: Context) -> Unit) {
+    if (context != null && activity?.isFinishing == false) f(context!!.dialogContext())
+}
+
 
 private fun inflateView(context: Context, layoutResId: Int, parent: ViewGroup?,
                         attachToRoot: Boolean): View =

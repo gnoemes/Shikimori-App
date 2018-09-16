@@ -9,4 +9,5 @@ public class SettingsExtras {
     public static final String IS_ROMADZI_NAMING = "naming";
     public static final String TRANSLATION_TYPE_REMEMBER = "translation_type_remember";
     public static final String TRANSLATION_TYPE = "translation_type";
+    public static final String DOWNLOAD_LOCATION_TYPE = "download_save_type";
 }

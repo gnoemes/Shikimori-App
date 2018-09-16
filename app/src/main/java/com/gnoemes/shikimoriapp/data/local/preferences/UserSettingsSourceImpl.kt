@@ -78,4 +78,6 @@ class UserSettingsSourceImpl @Inject constructor(
         val type = prefs.getString(SettingsExtras.TRANSLATION_TYPE, "")
         return TranslationType.values().find { it.isEqualType(type) } ?: TranslationType.ALL
     }
+
+    override fun getDownloadLocation(): Int = prefs.getInt(SettingsExtras.DOWNLOAD_LOCATION_TYPE, 1)
 }

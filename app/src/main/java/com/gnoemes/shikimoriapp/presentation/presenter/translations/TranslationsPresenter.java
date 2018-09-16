@@ -312,6 +312,10 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
 
     public void onPermissionGranted() {
+        getViewState().showDownloadPathDialog();
+    }
+
+    public void onDownloadPlaceTypeChoosed() {
         downloadTranslation();
     }
 }

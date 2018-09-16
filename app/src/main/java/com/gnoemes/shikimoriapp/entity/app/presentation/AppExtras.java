@@ -42,4 +42,5 @@ public class AppExtras {
     public static final String ARGUMENT_SEARCH_DATA = "ARGUMENT_SEARCH_DATA";
     public static final String ARGUMENT_MANGA_DATA = "ARGUMENT_MANGA_DATA";
     public static final String ARGUMENT_SIMILAR_DATA = "ARGUMENT_SIMILAR_DATA";
+    public static final String ARGUMENT_TRANSLATION_DATA = "ARGUMENT_TRANSLATION_DATA";
 }

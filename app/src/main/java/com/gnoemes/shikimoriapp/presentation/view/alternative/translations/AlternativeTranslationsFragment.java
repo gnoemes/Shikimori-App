@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.AlternativeTranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationViewModel;
+import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.presentation.presenter.alternative.AlternativeTranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.adapter.TranslationAdapter;
@@ -29,8 +31,8 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentViewWithButton;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
+import com.gnoemes.shikimoriapp.utils.PreferenceKt;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
-import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
 import java.util.Arrays;
 import java.util.List;
@@ -121,8 +123,7 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
             }
         });
 
-        int margin = (int) getResources().getDimension(R.dimen.margin_small);
-        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -254,14 +255,25 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
 //                .show();
         //TODO kotlin
         List<AlternativeTranslationType> types = Arrays.asList(AlternativeTranslationType.values());
-        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
-                .negativeButton(R.string.common_cancel, null, null);
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
         DialogListExtKt.listItems(dialog, R.array.translations_type_alternative, null, new int[]{}, false, (materialDialog, integer, s) -> {
             getPresenter().onTypeClicked(types.get(integer));
             return null;
         });
         dialog.show();
+    }
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void showDownloadPathDialog() {
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
+        DialogListExtKt.listItems(dialog, R.array.download_paths, null, new int[]{}, false, (materialDialog, integer, s) -> {
+            getPresenter().onDownloadPlaceTypeChoosed();
+            PreferenceKt.putSetting(this, SettingsExtras.DOWNLOAD_LOCATION_TYPE, integer);
+            return null;
+        });
+
+        dialog.show();
     }
 
     @Override

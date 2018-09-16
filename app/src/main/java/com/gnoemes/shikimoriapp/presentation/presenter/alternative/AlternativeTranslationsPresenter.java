@@ -180,6 +180,10 @@ public class AlternativeTranslationsPresenter extends BaseNetworkPresenter<Alter
     }
 
     public void onPermissionGranted() {
+        getViewState().showDownloadPathDialog();
+    }
+
+    public void onDownloadPlaceTypeChoosed() {
         downloadTranslation();
     }
 }

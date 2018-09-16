@@ -198,7 +198,7 @@ class MangaHeadAdapter(private val resourceProvider: RateResourceProvider,
                 }
                 false
             }
-            popupMenu.show()
+            itemView.post { popupMenu.show() }
         }
 
     }

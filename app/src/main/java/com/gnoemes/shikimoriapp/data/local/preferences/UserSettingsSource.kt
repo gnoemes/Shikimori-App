@@ -33,4 +33,5 @@ interface UserSettingsSource {
 
     fun getType(): TranslationType
 
+    fun getDownloadLocation(): Int
 }

@@ -120,7 +120,8 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
                 }
                 return false;
             });
-            popupMenu.show();
+            itemView.post(popupMenu::show);
+
         }
     }
 }
