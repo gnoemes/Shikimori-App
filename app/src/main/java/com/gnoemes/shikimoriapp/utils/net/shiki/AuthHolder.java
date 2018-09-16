@@ -7,8 +7,6 @@ import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
 import com.gnoemes.shikimoriapp.entity.app.domain.Token;
-import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
-import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -44,11 +42,7 @@ public class AuthHolder {
         if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
             if (exception.code() == HttpStatusCode.UNAUTHORISED) {
-                settingsRepository.saveUserSettings(new UserSettings.Builder()
-                        .setUserBrief(null)
-                        .setStatus(UserStatus.GUEST)
-                        .build())
-                        .subscribe();
+                settingsRepository.clearUser();
             }
         }
     }

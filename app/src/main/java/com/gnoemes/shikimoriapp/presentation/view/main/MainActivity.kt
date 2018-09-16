@@ -99,7 +99,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
                     }
                     ta.show(fragment)
                 } else {
-                    ta.hide(fragment)
+                    ta.detach(fragment)
                 }
             }
             ta.commitNow()

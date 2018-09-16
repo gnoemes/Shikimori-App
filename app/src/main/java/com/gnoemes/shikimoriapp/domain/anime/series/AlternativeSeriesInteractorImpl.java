@@ -7,7 +7,6 @@ import com.gnoemes.shikimoriapp.entity.anime.series.domain.AlternativeTranslatio
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.AlternativeTranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.Episode;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
-import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
@@ -68,20 +67,16 @@ public class AlternativeSeriesInteractorImpl implements AlternativeSeriesInterac
 
     @Override
     public Completable setEpisodeWatched(long animeId, long episodeId) {
-        return settingsRepository.getUserSettings()
-                .flatMapCompletable(setting -> repository.isEpisodeWatched(animeId, episodeId)
-                        .flatMapCompletable(isWatched -> {
-                            if (!isWatched) {
-                                return repository.setEpisodeWatched(animeId, episodeId)
-                                        .toSingleDefault(setting)
-                                        .filter(UserSettings::getAutoStatus)
-                                        .filter(settings -> settings.getUserBrief() != null)
-                                        .flatMapCompletable(settings ->
-                                                ratesRepository.createRate(animeId, Type.ANIME, UserRate.getStartWatching(), settings.getUserBrief().getId()));
-                            } else {
-                                return Completable.complete();
-                            }
-                        }))
+        return repository.isEpisodeWatched(animeId, episodeId)
+                .flatMapCompletable(isWatched -> {
+                    if (isWatched) {
+                        return repository.setEpisodeWatched(animeId, episodeId)
+                                .toSingleDefault(settingsRepository.getUser())
+                                .flatMapCompletable(user -> ratesRepository.createRate(animeId, Type.ANIME, UserRate.getStartWatching(), user.getId()));
+                    } else {
+                        return Completable.complete();
+                    }
+                })
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
     }

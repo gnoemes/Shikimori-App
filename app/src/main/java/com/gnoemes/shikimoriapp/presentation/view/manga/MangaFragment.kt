@@ -113,7 +113,6 @@ class MangaFragment : BaseFragment<MangaPresenter, MangaView>(), MangaView {
         view_pager.adapter = null
         app_bar.removeOnOffsetChangedListener(onOffsetChangedListener)
         image_background.setOnClickListener(null)
-        imageLoader.clearImage(image_background)
         super.onDestroyView()
     }
 

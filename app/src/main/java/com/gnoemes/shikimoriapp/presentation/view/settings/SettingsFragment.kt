@@ -10,10 +10,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.gnoemes.shikimoriapp.BuildConfig
 import com.gnoemes.shikimoriapp.R
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras
 import com.gnoemes.shikimoriapp.utils.dialogContext
 import com.gnoemes.shikimoriapp.utils.ifNotNull
 import com.gnoemes.shikimoriapp.utils.putBoolean
+import com.gnoemes.shikimoriapp.utils.putString
 import com.google.firebase.analytics.FirebaseAnalytics
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -74,6 +76,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
+        with(getPreference(R.string.pref_translation_type)!!) {
+            summary = TranslationType.values().find { it.isEqualType(preferenceManager.sharedPreferences.getString(SettingsExtras.TRANSLATION_TYPE, TranslationType.ALL.type)) }?.type
+            setOnPreferenceClickListener {
+                context.ifNotNull { context ->
+                    MaterialDialog(context.dialogContext())
+                            .show {
+                                title(R.string.translation_type)
+                                listItems(R.array.translations_type) { _, _, text ->
+                                    it.summary = text.toLowerCase()
+                                    getSharedPrefs().putString(SettingsExtras.TRANSLATION_TYPE, text.toLowerCase())
+                                }
+                            }
+                }
+                true
+            }
+        }
+
         analytics.setUserProperty("theme", isDarkTheme.toString())
         analytics.setUserProperty("titles_naming", if (getSharedPrefs().getBoolean(SettingsExtras.IS_ROMADZI_NAMING, false)) "romadzi" else "russian")
     }
@@ -110,4 +129,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
             context!!.getString(R.string.on_russian)
         }
     }
+
 }

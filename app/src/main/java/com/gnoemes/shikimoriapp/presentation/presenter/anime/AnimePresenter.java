@@ -192,7 +192,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
         this.currentAnime = animeDetails;
-        if (currentAnime.getAnimeRate() != null) {
+        if (currentAnime.getAnimeRate() != null && currentAnime.getAnimeRate().getId() != null) {
             this.rateId = currentAnime.getAnimeRate().getId();
         }
         return animeDetails;
@@ -202,7 +202,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Process errors
      */
     @Override
-    protected void processErrors(Throwable throwable) {
+    protected void processErrors(@NonNull Throwable throwable) {
         BaseException exception = (BaseException) throwable;
         switch (exception.getTag()) {
             case NetworkException.TAG:
@@ -247,7 +247,12 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     public void onEpisodeClicked(EpisodeItem episode) {
         selectedEpisode = episode;
-        getViewState().showPlayWizard(episode.getTranslationTypes());
+        if (settingsInteractor.isRememberType()) {
+            TranslationType type = settingsInteractor.getTranslationType();
+            onTranslationTypeChoosed(type);
+        } else {
+            getViewState().showPlayWizard(episode.getTranslationTypes());
+        }
     }
 
     /**
@@ -276,9 +281,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         switch (action) {
             case WATCH_ONLINE:
                 onOnlineClicked();
-                break;
-            case RATE:
-                onRateClicked();
                 break;
             case GENRE:
                 onGenreClick((Genre) data);
@@ -412,13 +414,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getViewState().setPage(AnimeDetailsPage.COMMENTS.getPage());
     }
 
-
-    private void onRateClicked() {
-        //TODO check authorization and rate if user exist
-        //UPDATED: Can user rate?
-    }
-
-
     /**
      * Button callback from episodes page
      */
@@ -498,7 +493,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     public void onSaveRate(UserRate rate) {
-        if (rate.getId() == Constants.NO_ID) {
+        if (rate.getId() != null && rate.getId() == Constants.NO_ID) {
             if (userSettings.getUserBrief() != null) {
                 createRate(rate);
             } else {
