@@ -151,8 +151,6 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             title.setText(titleText);
 
             type.setText(model.getAnime().getType().name());
-            type.setBackgroundResource(resourceProvider.getColorByAnimeType(model.getAnime().getType()));
-
 
             String ratingText = model.getScore() == 0 ? "-" : String.valueOf(model.getScore());
             String ratingTitle = itemView.getContext().getResources().getString(R.string.rate_rating);

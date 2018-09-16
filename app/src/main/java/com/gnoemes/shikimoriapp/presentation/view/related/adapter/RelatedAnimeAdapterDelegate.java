@@ -92,7 +92,6 @@ public class RelatedAnimeAdapterDelegate extends AdapterDelegate<List<BaseItem>>
             imageLoader.setImageWithFit(imageView, item.getAnime().getImageOriginalUrl());
 
             typeView.setText(item.getAnime().getType().name());
-            typeView.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getAnime().getType()));
 
             String name = TextUtils.isEmpty(item.getAnime().getName()) ? item.getAnime().getSecondName() : item.getAnime().getName();
             titleView.setText(name);

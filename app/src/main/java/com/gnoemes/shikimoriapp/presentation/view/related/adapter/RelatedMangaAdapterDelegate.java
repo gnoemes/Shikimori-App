@@ -91,6 +91,8 @@ public class RelatedMangaAdapterDelegate extends AdapterDelegate<List<BaseItem>>
 
             imageLoader.setImageWithFit(imageView, item.getManga().getImage().getOriginal());
 
+            typeView.setText(item.getManga().getType().name().replace("_", " "));
+
             String name = TextUtils.isEmpty(item.getManga().getNameRu()) ? item.getManga().getName() : item.getManga().getNameRu();
             titleView.setText(name);
 

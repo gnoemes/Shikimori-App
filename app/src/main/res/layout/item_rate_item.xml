@@ -11,13 +11,12 @@
 
     <ImageView
         android:id="@+id/image_anime"
-        android:layout_width="130dp"
-        android:layout_height="180dp"
-        android:layout_marginLeft="4dp"
+        android:layout_width="@dimen/image_default_width"
+        android:layout_height="@dimen/image_default_height"
         android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/description_image"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/test_preview2" />
@@ -29,10 +28,9 @@
         android:fontFamily="sans-serif-medium"
         android:padding="@dimen/margin_small"
         android:textColor="@color/white"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/image_anime"
-        app:layout_constraintTop_toTopOf="@+id/constraint"
-        tools:background="@color/light_teal"
+        android:background="@drawable/background_type"
+        app:layout_constraintTop_toTopOf="@+id/image_anime"
         tools:text="OVA" />
 
     <View
