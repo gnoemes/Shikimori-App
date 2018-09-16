@@ -62,7 +62,6 @@ class MangaHeadAdapter(private val resourceProvider: RateResourceProvider,
                     playDrawable?.tint(context.color(R.color.white))
                     setCompoundDrawablesWithIntrinsicBounds(playDrawable, null, null, null)
                     setText(R.string.read_online)
-                    isEnabled = false
                     background = ColorDrawable(context.color(R.color.gray))
                     onClick { callback.invoke(DetailsAction.WATCH_ONLINE, null) }
                 }
