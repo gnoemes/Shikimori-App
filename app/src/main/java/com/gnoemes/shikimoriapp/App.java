@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
@@ -26,38 +28,7 @@ public class App extends Application implements HasActivityInjector {
         Fabric.with(this, new Crashlytics());
         JodaTimeAndroid.init(this);
         DaggerAppComponent.builder().create(this).inject(this);
-
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-//        DisplayImageOptions options = new DisplayImageOptions.Builder()
-//                .cacheInMemory(true)
-//                .resetViewBeforeLoading(true)
-//                .cacheOnDisk(true)
-//                .showImageOnFail(R.drawable.missing_original)
-//                .bitmapConfig(Bitmap.Config.ARGB_8888)
-//                .delayBeforeLoading(0)
-//                .displayer(new FadeInBitmapDisplayer(500, true, true, true))
-//                .handler(new Handler())
-//                .build();
-//
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-//                .memoryCache(new LruMemoryCache(5 * 1024 * 1024))
-//                .memoryCacheSize(5 * 1024 * 1024)
-//                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
-////                .denyCacheImageMultipleSizesInMemory()
-//                .threadPoolSize(5)
-//                .threadPriority(Thread.NORM_PRIORITY)
-//                .defaultDisplayImageOptions(options)
-//                .build();
-//
-//        ImageLoader.getInstance().init(config);
-
-//        Picasso.setSingletonInstance(new Picasso.Builder(getApplicationContext())
-//                .memoryCache(new LruMemoryCache(5 * 1024 * 1024))
-//                .defaultBitmapConfig(Bitmap.Config.ARGB_8888)
-//                .loggingEnabled(true)
-//                .indicatorsEnabled(true)
-//                .build());
     }
 
     @Override
@@ -65,5 +36,10 @@ public class App extends Application implements HasActivityInjector {
         return dispatchingAndroidInjector;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }
 

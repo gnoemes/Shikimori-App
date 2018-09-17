@@ -54,6 +54,8 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            zipAlignEnabled true
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -69,6 +71,7 @@ android {
             versionNameSuffix '-BETA'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
+            zipAlignEnabled true
         }
     }
     buildTypes.each {
@@ -102,7 +105,7 @@ dependencies {
     implementation "com.android.support:design:${supportLibraryVersion}"
     implementation "com.android.support:cardview-v7:${supportLibraryVersion}"
     implementation "com.android.support:preference-v7:${supportLibraryVersion}"
-    implementation "net.opacapp:multiline-collapsingtoolbar:27.1.1"
+    implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation "com.google.dagger:dagger-android:${dagger}"
     implementation "com.google.dagger:dagger-android-support:${dagger}"
@@ -118,7 +121,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation "com.squareup.okhttp3:okhttp:$okHttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:3.9.0"
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.9.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation "com.google.code.gson:gson:${gson}"
     implementation "com.arello-mobile:moxy:${moxy}"
@@ -129,10 +132,9 @@ dependencies {
     kapt "com.pushtorefresh.storio3:sqlite-annotations-processor:${storIO}"
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
-//    implementation 'com.squareup.picasso:picasso:2.71828'
-//    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'net.danlew:android.joda:2.9.9.3'
-    implementation "jp.s64.android:navigationbarview:0.0.8"
+    implementation 'jp.s64.android:navigationbarview:0.0.8'
     implementation 'com.milaptank:stv:1.0.0'
     implementation 'com.google.android:flexbox:1.0.0'
     implementation 'com.lapism:searchview:4.0'

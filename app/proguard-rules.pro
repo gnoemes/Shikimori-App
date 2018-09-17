@@ -23,6 +23,7 @@
 -dontskipnonpubliclibraryclassmembers
 -allowaccessmodification
 -dontpreverify
+-dontobfuscate
 
 -dontwarn okio.**
 -dontwarn retrofit2.**
@@ -46,6 +47,8 @@
 -keep interface android.support.v4.app.** { *; }
 -keep class android.support.v7.app.** { *; }
 -keep interface android.support.v7.app.** { *; }
+-keepclassmembers enum * { *; }
+-keep class com.gnoemes.shikimoriapp.entity.** { *; }
 
 -keep public class android.support.v7.widget.** { *; }
 -keep public class android.support.v7.internal.widget.** { *; }

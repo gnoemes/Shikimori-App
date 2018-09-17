@@ -31,6 +31,7 @@ public class GlideImageLoaderImpl implements ImageLoader {
     @Override
     public void setImageWithFit(ImageView imageView, String url) {
         GlideApp.with(imageView.getContext())
+                .asBitmap()
                 .load(url)
                 .thumbnail(0.25f)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)

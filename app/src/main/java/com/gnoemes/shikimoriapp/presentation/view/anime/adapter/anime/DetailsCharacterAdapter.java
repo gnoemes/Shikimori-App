@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
@@ -65,6 +66,8 @@ public class DetailsCharacterAdapter extends RecyclerView.Adapter<DetailsCharact
         ConstraintLayout layout;
         @BindView(R.id.imageView)
         RoundedImageView characterImage;
+        @BindView(R.id.typeView)
+        TextView typeView;
         @BindView(R.id.nameView)
         SpannableTextView characterName;
 
@@ -78,6 +81,8 @@ public class DetailsCharacterAdapter extends RecyclerView.Adapter<DetailsCharact
             characterName.setText(null);
 
             imageLoader.setImageWithFit(characterImage, item.getImage().getOriginal());
+            typeView.setVisibility(View.GONE);
+
 
             String name = TextUtils.isEmpty(item.getRussianName()) ? item.getName() : item.getRussianName();
             characterName.setText(name);
