@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.entity.manga.data
 
+import android.support.annotation.Keep
 import com.gnoemes.shikimoriapp.entity.anime.domain.Status
 import com.gnoemes.shikimoriapp.entity.app.data.LinkedContentResponse
 import com.gnoemes.shikimoriapp.entity.common.data.ImageResponse
@@ -7,6 +8,7 @@ import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
+@Keep
 data class MangaResponse(
         @field:SerializedName("id") val id: Long,
         @field:SerializedName("name") val name: String,

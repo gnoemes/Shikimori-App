@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.utils.net.shiki;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.app.AuthorizationRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
@@ -50,8 +51,8 @@ public class AuthHolder {
     private Completable updateToken() {
         Token token = getToken();
 
-        if (token == null) {
-            return Completable.complete();
+        if (token == null || TextUtils.isEmpty(token.getRefreshToken())) {
+            return Completable.fromAction(() -> settingsRepository.clearUser());
         }
 
         return Single.just(token)
