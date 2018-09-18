@@ -56,6 +56,7 @@
 -keep class com.gnoemes.shikimoriapp.entity.calendar.data.** { *; }
 -keep class com.gnoemes.shikimoriapp.entity.club.data.** { *; }
 -keep class com.gnoemes.shikimoriapp.entity.topic.data.** { *; }
+-keep class com.gnoemes.shikimoriapp.entity.app.data.** { *; }
 
 -keep public class android.support.v7.widget.** { *; }
 -keep public class android.support.v7.internal.widget.** { *; }
