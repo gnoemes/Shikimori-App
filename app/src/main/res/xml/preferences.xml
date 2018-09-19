@@ -3,6 +3,20 @@
 
     <Preference android:layout="@layout/layout_shadow_top" />
 
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Оповещения">
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="true"
+            android:key="@string/pref_notifications_enabled"
+            android:layout="@layout/layout_preference"
+            android:summary="Получать оповещения он выходе новых серий"
+            android:title="Оповещения включены" />
+
+    </PreferenceCategory>
+    <Preference android:layout="@layout/layout_shadow_double" />
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
         android:title="Переводы">

@@ -34,4 +34,6 @@ interface UserSettingsSource {
     fun getType(): TranslationType
 
     fun getDownloadLocation(): Int
+
+    fun getNotificationsEnabled(): Boolean
 }

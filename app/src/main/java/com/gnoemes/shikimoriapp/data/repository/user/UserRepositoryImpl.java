@@ -5,13 +5,17 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource;
 import com.gnoemes.shikimoriapp.data.network.UserApi;
 import com.gnoemes.shikimoriapp.data.repository.club.ClubResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.MessageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBanConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBriefResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserHistoryResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserProfileResponseConverter;
+import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.club.domain.Club;
 import com.gnoemes.shikimoriapp.entity.user.domain.Favorites;
+import com.gnoemes.shikimoriapp.entity.user.domain.Message;
+import com.gnoemes.shikimoriapp.entity.user.domain.MessageType;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBan;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
@@ -34,6 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
     private UserBanConverter banConverter;
     private FavoritesResponseConverter favoritesResponseConverter;
     private ClubResponseConverter clubResponseConverter;
+    private MessageResponseConverter messageResponseConverter;
 
     @Inject
     public UserRepositoryImpl(UserApi userApi,
@@ -43,7 +48,9 @@ public class UserRepositoryImpl implements UserRepository {
                               FavoritesResponseConverter favoritesResponseConverter,
                               ClubResponseConverter clubResponseConverter,
                               UserBanConverter banConverter,
-                              UserHistoryResponseConverter historyConverter) {
+                              UserHistoryResponseConverter historyConverter,
+                              MessageResponseConverter messageResponseConverter
+    ) {
         this.userApi = userApi;
         this.userBriefResponseConverter = userBriefResponseConverter;
         this.preferenceSource = preferenceSource;
@@ -52,6 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
         this.clubResponseConverter = clubResponseConverter;
         this.banConverter = banConverter;
         this.historyConverter = historyConverter;
+        this.messageResponseConverter = messageResponseConverter;
     }
 
     @Override
@@ -72,8 +80,24 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Single<UserBrief> getUserBriefInfo(long id) {
-        return null;
+        return userApi.getUserBriefInfo(id)
+                .map(userBriefResponseConverter);
     }
+
+    @Override
+    public Single<List<Message>> getUserMessages(MessageType type) {
+        return getMyUserBrief()
+                .flatMap(userBrief -> userApi.getUserMessages(userBrief.getId(), type.name().toLowerCase(), AppConfig.DEFAULT_LIMIT))
+//                .flatMap(messageResponses -> Observable.fromIterable(messageResponses)
+//                        .map(messageResponse -> {
+//                            messageResponse.setDateCreated(DateTime.now());
+//                            return messageResponse;
+//                        })
+//                        .toList())
+                .map(messageResponses -> messageResponseConverter.convertList(messageResponses));
+    }
+
+
 
     @Override
     public Single<UserProfile> getUserInfo(long id) {

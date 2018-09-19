@@ -39,4 +39,6 @@ public interface UserSettingsRepository {
     Observable<UserSettings> getUserSettings();
 
     Completable saveUserSettings(UserSettings settings);
+
+    Boolean isNotificationsEnabled();
 }

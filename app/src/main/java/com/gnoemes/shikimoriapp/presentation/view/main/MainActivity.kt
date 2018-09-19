@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.gnoemes.shikimoriapp.R
+import com.gnoemes.shikimoriapp.entity.app.domain.NotificationAction
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens
@@ -29,6 +30,7 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.SupportAppNavigator
+import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Replace
 import javax.inject.Inject
 
@@ -58,6 +60,10 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
         super.onCreate(savedInstanceState)
         initBottomNavigation()
         initContainers()
+
+        intent.ifNotNull {
+            onNewIntent(it)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -72,6 +78,17 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.i("DEVE", "$intent")
+        intent.ifNotNull {
+            val data = it.getParcelableExtra<NotificationAction>(AppExtras.ARGUMENT_NOTIFICATION_ACTION)
+            if (data != null) {
+                presenter.onNotificationAction(data)
+            }
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////
@@ -82,7 +99,16 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
     override fun getNavigator(): Navigator = object : SupportAppNavigator(this@MainActivity, fragmentManager, R.id.activity_container) {
 
         override fun createActivityIntent(context: Context?, screenKey: String?, data: Any?): Intent? = null
+
+        override fun unknownScreen(command: Command?) {
+            val fragment = fragmentManager.findFragmentById(R.id.activity_container)
+            fragment.ifNotNull {
+                (it as RouterProvider).localNavigator.applyCommands(arrayOf(command))
+            }
+        }
+
         override fun createFragment(screenKey: String?, data: Any?): Fragment? = null
+
         override fun showSystemMessage(message: String?) {
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
         }
@@ -103,6 +129,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
                 }
             }
             ta.commitNow()
+            presenter.onReady()
         }
 
         var canExit = false
@@ -208,7 +235,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, RouterPr
         val fm = fragmentManager
         val fragment: Fragment? = fm.findFragmentByTag(screenKey)
         fragment.ifNotNull {
-            localRouter.backTo(null)
+            (it as RouterProvider).localRouter.backTo(null)
         }
     }
 

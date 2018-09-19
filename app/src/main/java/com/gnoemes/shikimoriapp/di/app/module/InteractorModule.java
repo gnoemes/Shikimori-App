@@ -6,6 +6,10 @@ import com.gnoemes.shikimoriapp.domain.app.LogoutInteractor;
 import com.gnoemes.shikimoriapp.domain.app.LogoutInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.download.DownloadInteractor;
 import com.gnoemes.shikimoriapp.domain.download.DownloadInteractorImpl;
+import com.gnoemes.shikimoriapp.domain.notifications.JobSchedulingInteractor;
+import com.gnoemes.shikimoriapp.domain.notifications.JobSchedulingInteractorImpl;
+import com.gnoemes.shikimoriapp.domain.notifications.NotificationsInteractor;
+import com.gnoemes.shikimoriapp.domain.notifications.NotificationsInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractorImpl;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
@@ -38,4 +42,12 @@ public interface InteractorModule {
     @Binds
     @Singleton
     DownloadInteractor bindDownloadInteractor(DownloadInteractorImpl interactor);
+
+    @Binds
+    @Singleton
+    NotificationsInteractor bindNotificationsInteractor(NotificationsInteractorImpl interactor);
+
+    @Binds
+    @Singleton
+    JobSchedulingInteractor bindJobSchedulingInteractor(JobSchedulingInteractorImpl interactor);
 }

@@ -153,7 +153,7 @@ dependencies {
     kaptTest 'junit:junit:4.12'
     kaptAndroidTest 'com.android.support.test:runner:1.0.2'
     kaptAndroidTest 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
         transitive = true
     }
     implementation('com.github.hotchemi:permissionsdispatcher:3.1.0') {

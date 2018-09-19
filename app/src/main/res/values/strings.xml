@@ -421,6 +421,13 @@
     <string name="translation_type">Тип перевода</string>
     <string name="on_sd">На SD карту</string>
     <string name="on_memory">В память телефона</string>
+    <string name="notification_new_episode_title">Новый эпизод</string>
+    <string name="notification_anime_ongoing_title">Онгоинг</string>
+    <string name="notification_anime_release_title">Релиз</string>
+    <string name="notification_new_episode_format">Вышел %d эпизод аниме «%s»</string>
+    <string name="notification_anime_ongoing_format">Начало показа нового аниме «%s»</string>
+    <string name="notification_anime_release_format">Завершен показ аниме «%s»</string>
+    <string name="pref_notifications_enabled">is_notifications_enabled</string>
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>

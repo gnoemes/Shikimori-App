@@ -4,10 +4,10 @@ import com.gnoemes.shikimoriapp.entity.club.data.ClubResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.AnimeRateResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateOrUpdateRequest;
 import com.gnoemes.shikimoriapp.entity.user.data.FavoritesResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.MessageResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBanResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserHistoryResponse;
-import com.gnoemes.shikimoriapp.entity.user.data.UserMessageResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserProfileResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserUnreadMessages;
 
@@ -104,7 +104,7 @@ public interface UserApi {
      * ~Need authorization~
      */
     @GET("/api/users/{id}/messages")
-    Single<List<UserMessageResponse>> getUserMessages(@Path("id") long id);
+    Single<List<MessageResponse>> getUserMessages(@Path("id") long id, @Query("type") String type, @Query("limit") int limit);
 
     /**
      * Get user history

@@ -35,6 +35,8 @@ class UserSettingsRepositoryImpl @Inject constructor(
     override fun getTranslationType(): TranslationType = source.getType()
     override fun setTranslationType(type: TranslationType) = source.setType(type)
 
+    override fun isNotificationsEnabled(): Boolean = source.getNotificationsEnabled()
+
     @Deprecated("use non-rx version instead")
     override fun getUserSettings(): Observable<UserSettings> = oldSource.userSettingsObservable
 

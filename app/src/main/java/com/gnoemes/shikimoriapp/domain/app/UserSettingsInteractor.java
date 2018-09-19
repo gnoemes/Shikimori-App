@@ -36,8 +36,10 @@ public interface UserSettingsInteractor {
 
     void setTranslationType(TranslationType type);
 
-
     Observable<UserSettings> getUserSettings();
 
     Completable saveUserSettings(UserSettings settings);
+
+    Boolean isNotificationsEnabled();
+
 }

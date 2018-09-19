@@ -10,8 +10,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.gnoemes.shikimoriapp.BuildConfig
 import com.gnoemes.shikimoriapp.R
+import com.gnoemes.shikimoriapp.data.repository.notifications.JobSchedulingRepositoryImpl
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras
+import com.gnoemes.shikimoriapp.entity.app.domain.JobKey
 import com.gnoemes.shikimoriapp.utils.dialogContext
 import com.gnoemes.shikimoriapp.utils.ifNotNull
 import com.gnoemes.shikimoriapp.utils.putBoolean
@@ -88,6 +90,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                     getSharedPrefs().putString(SettingsExtras.TRANSLATION_TYPE, text.toLowerCase())
                                 }
                             }
+                }
+                true
+            }
+        }
+
+        with(getPreference(R.string.pref_notifications_enabled)!!) {
+            setOnPreferenceChangeListener { _, any ->
+                val repo = JobSchedulingRepositoryImpl(context)
+                if (any as Boolean) {
+                    repo.planAnimeEpisodesNotifications().subscribe()
+                } else {
+                    repo.cancelEpisodesNotifications(JobKey.ANIME_EPISODE_NOTIFICATIONS).subscribe()
                 }
                 true
             }

@@ -26,6 +26,8 @@ import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeD
 import com.gnoemes.shikimoriapp.data.repository.download.converter.SmotretAnimeDownloadConveterImpl;
 import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.notifications.NotificationConverter;
+import com.gnoemes.shikimoriapp.data.repository.notifications.NotificationConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.roles.converter.CharacterResponseConverter;
@@ -38,6 +40,8 @@ import com.gnoemes.shikimoriapp.data.repository.social.converter.TopicResponseCo
 import com.gnoemes.shikimoriapp.data.repository.social.converter.TopicResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.FavoritesResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.MessageResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.user.converter.MessageResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.TargetResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.converter.UserBanConverter;
@@ -119,8 +123,6 @@ public interface UtilModule {
 
     @Binds
     @Singleton
-//    ImageLoader bindImageLoader(PicassoImageLoaderImpl picassoImageLoader);
-//    ImageLoader bindImageLoader(UniversalImageLoader picassoImageLoader);
     ImageLoader bindImageLoader(GlideImageLoaderImpl loader);
 
     @Binds
@@ -261,4 +263,12 @@ public interface UtilModule {
     @Binds
     @Reusable
     DetailsResourceProvider bindAnimeDetailsResourceProvider(DetailsResourceProviderImpl provider);
+
+    @Binds
+    @Reusable
+    NotificationConverter bindNotificationConverter(NotificationConverterImpl converter);
+
+    @Binds
+    @Reusable
+    MessageResponseConverter bindMessageResponseConverter(MessageResponseConverterImpl converter);
 }

@@ -80,4 +80,8 @@ class UserSettingsSourceImpl @Inject constructor(
     }
 
     override fun getDownloadLocation(): Int = prefs.getInt(SettingsExtras.DOWNLOAD_LOCATION_TYPE, 1)
+
+    override fun getNotificationsEnabled(): Boolean =
+            prefs.getBoolean(SettingsExtras.IS_NOTIFICATIONS_ENABLED, true)
+
 }

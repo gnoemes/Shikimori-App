@@ -112,4 +112,9 @@ public class UserSettingsInteractorImpl implements UserSettingsInteractor {
     public void setTranslationType(TranslationType type) {
         repository.setTranslationType(type);
     }
+
+    @Override
+    public Boolean isNotificationsEnabled() {
+        return repository.isNotificationsEnabled();
+    }
 }
