@@ -6,14 +6,14 @@
 
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
-        android:title="Оповещения">
+        android:title="Уведомления">
 
         <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
             android:defaultValue="true"
             android:key="@string/pref_notifications_enabled"
             android:layout="@layout/layout_preference"
-            android:summary="Получать оповещения он выходе новых серий"
-            android:title="Оповещения включены" />
+            android:summary="Получать уведомления о выходе новых серий"
+            android:title="Получать уведомления" />
 
     </PreferenceCategory>
     <Preference android:layout="@layout/layout_shadow_double" />

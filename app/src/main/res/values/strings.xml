@@ -40,7 +40,7 @@
     <string name="episode_nothing">Ничего не найдено.\n Похоже, что серии еще не появились на сайте</string>
     <string name="search_advance">Продвинутый</string>
 
-    <string name="calendar_ongoings">Календарь онгоингов</string>
+    <string name="calendar_ongoings">Онгоинги</string>
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
     <string name="calendar_volumes_format">\n[%s-%s]</string>

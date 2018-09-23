@@ -18,6 +18,9 @@ enum class MessageType {
     @SerializedName("released")
     RELEASED,
     @SerializedName("anons")
-    ANONS
+    ANONS,
+    @SerializedName("ongoing")
+    ONGOING,
+
 
 }
