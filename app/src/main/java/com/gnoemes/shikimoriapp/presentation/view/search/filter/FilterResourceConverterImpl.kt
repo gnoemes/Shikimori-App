@@ -13,12 +13,14 @@ class FilterResourceConverterImpl @Inject constructor(
 
     override fun <T> convertMangaFilters(values: MutableList<String>, names: MutableList<String>, type: Array<T>): MutableList<FilterItem> {
         return values.zip(names)
+                .asSequence()
                 .map { (name, value) -> FilterItem(processAction(type)!!, processValue(value, type, false), name) }
                 .toMutableList()
     }
 
     override fun <T> convertAnimeFilters(values: MutableList<String>, names: MutableList<String>, type: Array<T>): MutableList<FilterItem> {
         return values.zip(names)
+                .asSequence()
                 .map { (name, value) -> FilterItem(processAction(type)!!, processValue(value, type), name) }
                 .toMutableList()
     }

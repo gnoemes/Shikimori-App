@@ -18,7 +18,6 @@ import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.Characte
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.MangaViewModelConverter
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverter
 import com.gnoemes.shikimoriapp.presentation.view.search.SearchView
-import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider
 import com.gnoemes.shikimoriapp.utils.appendLoadingLogic
 import com.gnoemes.shikimoriapp.utils.ifNotNull
 import javax.inject.Inject
@@ -30,8 +29,7 @@ class SearchPresenter @Inject constructor(
         private val animeConverter: AnimeViewModelConverter,
         private val mangaConverter: MangaViewModelConverter,
         private val characterConverter: CharacterConverter,
-        private val personConverter: PersonConverter,
-        private val resourceProvider: FilterResourceProvider
+        private val personConverter: PersonConverter
 ) : BaseNetworkPresenter<SearchView>() {
 
     private var paginator: SearchPaginator? = null
@@ -46,7 +44,7 @@ class SearchPresenter @Inject constructor(
     override fun initData() {
         viewState.hideEmptyView()
         viewState.hideNetworkError()
-        paginator = SearchPaginatorImpl(interactor, viewController)
+        initFilter()
 
         if (genre == null) {
             initPaginator()
@@ -204,14 +202,11 @@ class SearchPresenter @Inject constructor(
     }
 
     fun onFilterClicked() {
-        val typeFilters = when (type) {
-            Type.ANIME -> resourceProvider.animeFilters
-            Type.MANGA -> resourceProvider.mangaFilters
-            Type.RANOBE -> resourceProvider.ranobeFilters
-            else -> HashMap()
-        }
+        viewState.showFilterDialog()
+    }
 
-        viewState.showFilterDialog(type, typeFilters, filters)
+    private fun initFilter() {
+        viewState.initFilterView(type, filters)
     }
 
     fun onFiltersSelected(filters: HashMap<String, MutableList<FilterItem>>) {
@@ -220,6 +215,7 @@ class SearchPresenter @Inject constructor(
         paginator?.setFilters(filters)
         paginator?.restart()
         viewState.closeFilterDialog()
+        initFilter()
     }
 
     private fun clearFiltersAndRefresh() {
@@ -230,6 +226,7 @@ class SearchPresenter @Inject constructor(
         this.type = type
         viewState.setSpinnerPosition(type)
         viewState.hideEmptyListView()
+        initFilter()
 
         if (supportsPagination.contains(type)) {
             clearFiltersAndRefresh()

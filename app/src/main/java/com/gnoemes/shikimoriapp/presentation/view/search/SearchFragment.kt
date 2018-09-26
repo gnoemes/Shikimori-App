@@ -23,7 +23,7 @@ import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData
 import com.gnoemes.shikimoriapp.presentation.presenter.search.SearchPresenter
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
-import com.gnoemes.shikimoriapp.presentation.view.common.widget.FilterView
+import com.gnoemes.shikimoriapp.presentation.view.common.widget.FilterFragment
 import com.gnoemes.shikimoriapp.presentation.view.search.adapter.SearchAdapter
 import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider
 import com.gnoemes.shikimoriapp.utils.*
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_default_list.*
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, FilterView.FilterCallback {
+class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, FilterFragment.FilterCallback {
 
     @InjectPresenter
     lateinit var searchPresenter: SearchPresenter
@@ -65,6 +65,8 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
     lateinit var resourceProvider: FilterResourceProvider
 
     private val searchAdapter by lazy { SearchAdapter(userSettings, imageLoader, presenter::onContentClicked) }
+    private var filterFragment: FilterFragment? = null
+    private var filterState: Bundle? = null
     private lateinit var searchView: com.lapism.searchview.SearchView
     private lateinit var spinner: ReSpinner
 
@@ -77,7 +79,7 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
         super.onSaveInstanceState(outState)
         outState.putBoolean(AppExtras.ARGUMENT_DIALOG, drawerLayout?.isDrawerOpen(Gravity.END)
                 ?: false)
-        outState.putBundle(FilterView.STATE_KEY, filterView?.getBundle())
+        outState.putBundle(FilterFragment.STATE_KEY, filterFragment?.state)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -92,8 +94,7 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
             if (dialog) {
                 presenter.onFilterClicked()
             }
-            val bundle = savedInstanceState.getBundle(FilterView.STATE_KEY)
-            filterView.setBundle(bundle)
+            filterState = savedInstanceState.getBundle(FilterFragment.STATE_KEY)
         }
         initList()
         initSearchView()
@@ -102,8 +103,9 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
     private fun initList() {
         val layout = GridLayoutManager(context, context!!.calculateColumns(R.dimen.image_big_width))
         with(list) {
-            layoutManager = layout
             adapter = searchAdapter
+            layoutManager = layout
+            setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -127,7 +129,7 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
         viewEmptyList.gone()
         viewEmptyList.setText(R.string.search_only_name)
         btn_filter.setOnClickListener { presenter.onFilterClicked() }
-        filterView.callback = this
+        filterFragment?.callback = this
         drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerClosed(p0: View) = presenter.onFilterClosed()
             override fun onDrawerStateChanged(p0: Int) = Unit
@@ -239,21 +241,27 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
 
     override fun onResult(filters: HashMap<String, MutableList<FilterItem>>) {
         presenter.onFiltersSelected(filters)
+        filterState = filterFragment?.state
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // MVP
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun showFilterDialog(type: Type, filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>?) {
-        when (type) {
-            Type.ANIME -> filterView.initAnimeFilters(filters, appliedFilters)
-            Type.MANGA -> filterView.initMangaFilters(filters, appliedFilters)
-            Type.RANOBE -> filterView.initMangaFilters(filters, appliedFilters)
-            else -> Unit
-        }
-
+    override fun showFilterDialog() {
         drawerLayout.openDrawer(Gravity.END)
+    }
+
+    override fun initFilterView(type: Type, appliedFilters: java.util.HashMap<String, MutableList<FilterItem>>?) {
+        filterFragment = FilterFragment.newInstance(type)
+        filterFragment.ifNotNull { fragment ->
+            fragment.appliedFilters = appliedFilters ?: HashMap()
+            fragment.state = filterState ?: Bundle()
+            fragment.callback = this
+            childFragmentManager.beginTransaction()
+                    .replace(R.id.filterContainer, fragment)
+                    .commitNow()
+        }
     }
 
     override fun closeFilterDialog() {
@@ -304,9 +312,13 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
 
     override fun hideEmptyView() = view_search_empty.gone()
 
-    override fun onShowPageLoading() = searchAdapter.showPageLoading()
+    override fun onShowPageLoading() {
+        list.post { searchAdapter.showPageLoading() }
+    }
 
-    override fun onHidePageLoading() = searchAdapter.hidePageLoading()
+    override fun onHidePageLoading() {
+        list.post { searchAdapter.hidePageLoading() }
+    }
 
     override fun onShowLoading() {
         refresh_layout.isRefreshing = true

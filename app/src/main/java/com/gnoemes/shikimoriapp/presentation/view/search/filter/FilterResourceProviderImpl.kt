@@ -5,6 +5,7 @@ import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType
 import com.gnoemes.shikimoriapp.entity.anime.domain.Genre
 import com.gnoemes.shikimoriapp.entity.anime.domain.Status
+import com.gnoemes.shikimoriapp.entity.manga.domain.MangaType
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class FilterResourceProviderImpl @Inject constructor(
 
         filters[getGenreString()] = converter.convertMangaFilters(getList(R.array.genres), getList(R.array.genres_names), Genre.values())
         filters[getStatusString()] = converter.convertMangaFilters(getList(R.array.statuses), getList(R.array.statuses_names), Status.values())
-        filters[getTypeString()] = converter.convertMangaFilters(getList(R.array.manga_types), getList(R.array.manga_types_name), AnimeType.values())
+        filters[getTypeString()] = converter.convertMangaFilters(getList(R.array.manga_types), getList(R.array.manga_types_name), MangaType.values())
 
         return filters
     }

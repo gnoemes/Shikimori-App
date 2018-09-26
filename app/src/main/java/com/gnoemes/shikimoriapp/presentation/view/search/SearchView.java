@@ -8,6 +8,8 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +17,10 @@ import java.util.List;
 public interface SearchView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void showFilterDialog(Type type, HashMap<String, List<FilterItem>> filters, HashMap<String, List<FilterItem>> appliedFilters);
+    void showFilterDialog();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void initFilterView(@NotNull Type type, HashMap<String, List<FilterItem>> appliedFilters);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void closeFilterDialog();

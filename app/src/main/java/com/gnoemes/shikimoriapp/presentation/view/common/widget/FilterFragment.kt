@@ -1,25 +1,26 @@
 package com.gnoemes.shikimoriapp.presentation.view.common.widget
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.transition.AutoTransition
 import android.support.transition.TransitionManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Checkable
 import android.widget.SpinnerAdapter
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.gnoemes.shikimoriapp.R
+import com.gnoemes.shikimoriapp.entity.app.domain.Type
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants
-import com.gnoemes.shikimoriapp.utils.colorAttr
-import com.gnoemes.shikimoriapp.utils.ifNotNull
-import com.gnoemes.shikimoriapp.utils.inflate
-import com.gnoemes.shikimoriapp.utils.tint
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceConverter
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceConverterImpl
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider
+import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProviderImpl
+import com.gnoemes.shikimoriapp.utils.*
 import com.santalu.respinner.ReSpinner
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup
@@ -29,49 +30,72 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.item_expandable.view.*
 import kotlinx.android.synthetic.main.item_multichoice.view.*
-import kotlinx.android.synthetic.main.view_filter.view.*
+import kotlinx.android.synthetic.main.view_filter.*
 import kotlin.collections.set
 
-class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : BaseView(context, attrs, defStyleAttr) {
+class FilterFragment : MvpAppCompatFragment() {
 
-    private var state: Bundle = Bundle()
+    var state: Bundle = Bundle()
     private var spinner: ReSpinner? = null
-    private var appliedFilters: HashMap<String, MutableList<FilterItem>> = HashMap()
+    var appliedFilters: HashMap<String, MutableList<FilterItem>> = HashMap()
     internal var callback: FilterCallback? = null
 
     companion object {
         const val STATE_KEY = "FILTER_STATE_KEY"
+        const val CONTENT_TYPE_KEY = "CONTENT_TYPE_KEY"
+        fun newInstance(type: Type) = FilterFragment().withArgs { putSerializable(CONTENT_TYPE_KEY, type) }
     }
 
     private var filterAdapter: FilterAdapter? = null
 
-    override fun init(context: Context) {
-        View.inflate(context, layout, this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayout(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initData()
     }
 
-    override fun getLayout(): Int = R.layout.view_filter
+    private fun getLayout(): Int = R.layout.view_filter
 
     private fun initData() {
         spinner = ReSpinner(context)
         val backgroundDrawable = spinner?.background
-        backgroundDrawable?.tint(context.colorAttr(R.attr.colorAccent))
+        backgroundDrawable?.tint(context!!.colorAttr(R.attr.colorAccent))
         spinner?.background = backgroundDrawable
         with(toolbar) {
             setTitle(R.string.filter_sort_title)
             addView(spinner)
         }
         with(list) {
+            adapter = FilterAdapter(emptyList())
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
         apply.setOnClickListener { callback?.onResult(appliedFilters) }
         reset.setOnClickListener { callback?.onResult(HashMap()) }
+
+        val resourceConverter: FilterResourceConverter = FilterResourceConverterImpl()
+        val resourceProvider: FilterResourceProvider = FilterResourceProviderImpl(context!!, resourceConverter)
+
+        val type = arguments?.let { it.getSerializable(CONTENT_TYPE_KEY) as Type } ?: Type.ANIME
+        when (type) {
+            Type.ANIME -> {
+                initAnimeFilters(resourceProvider.animeFilters, appliedFilters)
+            }
+            Type.MANGA -> {
+                initMangaFilters(resourceProvider.mangaFilters, appliedFilters)
+            }
+            Type.RANOBE -> {
+                initMangaFilters(resourceProvider.ranobeFilters, appliedFilters)
+            }
+            else -> Unit
+        }
     }
 
-    fun initAnimeFilters(filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>? = null) {
+    private fun initAnimeFilters(filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>? = null) {
         appliedFilters.ifNotNull {
             this.appliedFilters = it
         }
@@ -103,7 +127,7 @@ class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         state.clear()
     }
 
-    fun initMangaFilters(filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>? = null) {
+    private fun initMangaFilters(filters: HashMap<String, MutableList<FilterItem>>, appliedFilters: HashMap<String, MutableList<FilterItem>>? = null) {
         appliedFilters.ifNotNull {
             this.appliedFilters = it
         }
@@ -135,15 +159,6 @@ class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         state.clear()
     }
 
-    fun setBundle(bundle: Bundle?) {
-        if (bundle == null) {
-            return
-        }
-        state = bundle
-    }
-
-    fun getBundle(): Bundle = state
-
     private fun convertToCheckGroup(filters: HashMap<String, MutableList<FilterItem>>): List<CheckGroup> {
         return filters.map { CheckGroup(it.key, it.value) }
     }
@@ -172,7 +187,7 @@ class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     private fun getSpinnerAdapter(stringArray: Int): SpinnerAdapter? {
-        return ArrayAdapter(context, R.layout.item_spinner_small, context.resources.getStringArray(stringArray))
+        return ArrayAdapter(context!!, R.layout.item_spinner_small, context!!.resources.getStringArray(stringArray))
     }
 
     private fun getAnimeOrderSelectionPosition(selection: SearchConstants.ORDER_BY?): Int {
@@ -203,9 +218,9 @@ class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(outState: Bundle) {
         filterAdapter?.onSaveInstanceState(state)
-        return super.onSaveInstanceState()
+        super.onSaveInstanceState(outState)
     }
 
     private inner class FilterAdapter(checkGroups: List<CheckGroup>) : CheckableChildRecyclerViewAdapter<CategoryViewHolder, ItemViewHolder>(checkGroups) {
@@ -231,12 +246,12 @@ class FilterView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private inner class CategoryViewHolder(view: View) : GroupViewHolder(view) {
 
         override fun collapse() {
-            TransitionManager.beginDelayedTransition(container, AutoTransition())
+            TransitionManager.beginDelayedTransition(view?.container!!, AutoTransition())
             itemView.arrow.rotation = 90f
         }
 
         override fun expand() {
-            TransitionManager.beginDelayedTransition(container, AutoTransition())
+            TransitionManager.beginDelayedTransition(view?.container!!, AutoTransition())
             itemView.arrow.rotation = 270f
         }
     }

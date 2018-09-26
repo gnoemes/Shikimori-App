@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.calendar
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
@@ -13,7 +14,6 @@ import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.CalendarAdapt
 import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider.CalendarAnimeResourceProvider
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider
-import com.gnoemes.shikimoriapp.utils.colorAttr
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter
 import com.gnoemes.shikimoriapp.utils.ifNotNull
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
@@ -67,7 +67,7 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
         }
 
         with(refresh_layout) {
-            setColorSchemeColors(context.colorAttr(R.attr.colorAccent))
+            setColorSchemeColors(Color.RED)
             setOnRefreshListener { presenter.loadCalendarData() }
         }
     }

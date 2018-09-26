@@ -7,7 +7,6 @@ import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeVie
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.CharacterConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.MangaViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.PersonConverter;
-import com.gnoemes.shikimoriapp.presentation.view.search.filter.FilterResourceProvider;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,10 +20,9 @@ public interface SearchPresenterModule {
                                                   MangaViewModelConverter modelConverter,
                                                   CharacterConverter characterConverter,
                                                   PersonConverter personConverter,
-                                                  AnalyticsInteractor analyticsInteractor,
-                                                  FilterResourceProvider filterResourceProvider
+                                                  AnalyticsInteractor analyticsInteractor
     ) {
-        return new SearchPresenter(searchInteractor, analyticsInteractor, converter, modelConverter, characterConverter, personConverter, filterResourceProvider);
+        return new SearchPresenter(searchInteractor, analyticsInteractor, converter, modelConverter, characterConverter, personConverter);
     }
 
 }
