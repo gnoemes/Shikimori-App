@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.domain.search
 
 import android.support.v4.util.ArrayMap
 import android.text.TextUtils
+import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem
 import com.gnoemes.shikimoriapp.entity.search.domain.SearchConstants
 import io.reactivex.Single
@@ -16,7 +17,7 @@ class SearchQueryBuilderImpl @Inject constructor() : SearchQueryBuilder {
         private const val SEASON_DIVIDER = "_"
     }
 
-    override fun createQueryFromFilters(filters: MutableMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<MutableMap<String, String>> {
+    override fun createQueryFromFilters(filters: Map<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<Map<String, String>> {
         val queryMap = ArrayMap<String, String>()
 
         if (filters == null || filters.isEmpty()) {
@@ -59,7 +60,7 @@ class SearchQueryBuilderImpl @Inject constructor() : SearchQueryBuilder {
         return Single.just(queryMap)
     }
 
-    override fun createQueryFromIds(ids: LinkedHashSet<Long>, searchQuery: String?, page: Int, limit: Int): Single<MutableMap<String, String>> {
+    override fun createQueryFromIds(ids: MutableCollection<Long>, searchQuery: String?, page: Int, limit: Int): Single<Map<String, String>> {
         val queryMap = ArrayMap<String, String>()
 
         if (!TextUtils.isEmpty(searchQuery)) {
@@ -74,6 +75,27 @@ class SearchQueryBuilderImpl @Inject constructor() : SearchQueryBuilder {
             queryMap[SearchConstants.IDS] = ids.toString()
             queryMap[SearchConstants.PAGE] = page.toString()
             queryMap[SearchConstants.LIMIT] = limit.toString()
+        }
+        return Single.just(queryMap)
+    }
+
+    override fun createMyListQueryFromIds(ids: MutableCollection<Long>, searchQuery: String?, page: Int, limit: Int): Single<Map<String, String>> {
+        val queryMap = ArrayMap<String, String>()
+
+        if (!TextUtils.isEmpty(searchQuery)) {
+            queryMap[SearchConstants.SEARCH] = searchQuery
+        }
+
+        if (ids.isNotEmpty()) {
+            val builder = StringBuilder()
+            ids.forEach { builder.append(it).append(DIVIDER) }
+            builder.deleteCharAt(builder.length - 1)
+
+            queryMap[SearchConstants.IDS] = ids.toString()
+            queryMap[SearchConstants.PAGE] = page.toString()
+            queryMap[SearchConstants.LIMIT] = limit.toString()
+
+            queryMap[SearchConstants.MY_LIST] = RateStatus.WATCHING.status
         }
         return Single.just(queryMap)
     }

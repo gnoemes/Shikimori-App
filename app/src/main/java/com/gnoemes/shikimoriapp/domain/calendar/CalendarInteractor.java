@@ -17,4 +17,9 @@ public interface CalendarInteractor {
      * @return <List<CalendarItem>>
      */
     Single<List<CalendarItem>> getCalendarData();
+
+    /**
+     * Get my calendar items
+     */
+    Single<List<CalendarItem>> getMyCalendarData();
 }

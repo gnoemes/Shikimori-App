@@ -34,6 +34,12 @@ class SearchAnimeAdapterDelegate(
         (holder as ViewHolder).bind(items[position] as AnimeViewModel)
     }
 
+    override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(viewHolder)
+        imageLoader.clearImage(viewHolder.itemView.animeImageView)
+        viewHolder.itemView.container.setOnClickListener(null)
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: AnimeViewModel) {

@@ -204,7 +204,11 @@ class MangaFragment : BaseFragment<MangaPresenter, MangaView>(), MangaView {
             MaterialDialog(context.dialogContext())
                     .show {
                         title(R.string.chronology)
-                        listItems(items = converter.convertList(nodes)) { _, pos, _ -> presenter.onMangaClicked(nodes[pos].id) }
+                        listItems(items = converter.convertList(nodes)) { _, pos, _ ->
+                            if (nodes.isNotEmpty()) {
+                                presenter.onMangaClicked(nodes[pos].id)
+                            }
+                        }
                     }
         }
     }

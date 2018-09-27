@@ -61,6 +61,6 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
                 item.getAnime().getAiredDate(),
                 item.getAnime().getReleasedDate(),
                 item.getNextEpisode(),
-                item.getNextEpisodeDate());
+                item.getNextEpisodeEndDate());
     }
 }

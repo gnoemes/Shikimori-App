@@ -19,4 +19,9 @@ public class CalendarResourceProviderImpl implements CalendarResourceProvider {
     public String getTitle() {
         return context.getString(R.string.calendar_ongoings);
     }
+
+    @Override
+    public String getMyOngoingsTitle() {
+        return context.getString(R.string.calendar_my_ongoings);
+    }
 }

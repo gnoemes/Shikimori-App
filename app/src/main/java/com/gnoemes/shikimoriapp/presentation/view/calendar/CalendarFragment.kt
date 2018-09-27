@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.calendar
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.LayoutRes
@@ -19,6 +20,7 @@ import com.gnoemes.shikimoriapp.utils.ifNotNull
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
 import com.gnoemes.shikimoriapp.utils.kotlin.gone
 import com.gnoemes.shikimoriapp.utils.kotlin.visible
+import com.gnoemes.shikimoriapp.utils.themeDrawable
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.layout_default_list.*
 import javax.inject.Inject
@@ -60,15 +62,36 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
         initViews()
     }
 
+    @SuppressLint("ResourceType")
     private fun initViews() {
         with(list) {
             layoutManager = LinearLayoutManager(context)
             adapter = calendarAdapter
         }
 
+        toolbar.ifNotNull { toolbar ->
+            with(toolbar) {
+                val icon = context?.themeDrawable(R.drawable.ic_tune, R.attr.colorText)
+
+                inflateMenu(R.menu.menu_calendar)
+                menu?.getItem(0)?.icon = icon
+                setNavigationOnClickListener { presenter.onBackPressed() }
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.item_my_ongoings -> presenter.onFilterClicked()
+                        else -> Unit
+                    }
+                    false
+                }
+            }
+        }
+
+        view_network_error.gone()
+
+
         with(refresh_layout) {
             setColorSchemeColors(Color.RED)
-            setOnRefreshListener { presenter.loadCalendarData() }
+            setOnRefreshListener { presenter.loadCalendar() }
         }
     }
 
@@ -88,7 +111,7 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
 
     override fun showCalendarData(items: MutableList<CalendarItemViewModel>?) {
         list.visible()
-        calendarAdapter.addNewItems(items)
+        calendarAdapter.bindItems(items)
     }
 
     override fun hideList() = list.gone()

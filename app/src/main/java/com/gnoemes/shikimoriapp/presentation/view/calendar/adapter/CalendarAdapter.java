@@ -16,7 +16,6 @@ import com.gnoemes.shikimoriapp.presentation.view.calendar.adapter.provider.Cale
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
-import com.gnoemes.shikimoriapp.utils.view.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,13 +61,25 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         return calendarItems.size();
     }
 
-    public void addNewItems(List<CalendarItemViewModel> viewModels) {
-        calendarItems = viewModels;
+    public void bindItems(List<CalendarItemViewModel> viewModels) {
+        calendarItems.clear();
+        calendarItems.addAll(viewModels);
         notifyDataSetChanged();
     }
 
     public interface AnimeListener {
         void onItemClicked(long id);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
+        clearHolder(holder);
+    }
+
+    private void clearHolder(ViewHolder holder) {
+        holder.animeAdapter.onDetachedFromRecyclerView(holder.animeList);
+        holder.animeAdapter = null;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +112,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         void bind(CalendarItemViewModel item) {
             date.setText(dateTimeConverter.convertCalendarDateToString(item.getDate()));
 
-            animeAdapter = new CalendarAnimeAdapter(resourceProvider, imageLoader, dateTimeConverter);
+            animeAdapter = new CalendarAnimeAdapter(resourceProvider, imageLoader, id -> animeListener.onItemClicked(id));
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL, false);
@@ -109,13 +120,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             animeList.setLayoutManager(layoutManager);
             animeList.setAdapter(animeAdapter);
 
-            animeList.addOnItemTouchListener(new RecyclerItemClickListener(itemView.getContext(), (view, position) -> {
-                if (animeListener != null) {
-                    animeListener.onItemClicked(animeAdapter.getItemByPosition(position).getId());
-                }
-            }));
 
-            animeAdapter.addNewItems(item.getAnimeViewModels());
+            animeAdapter.bindItems(item.getAnimeViewModels());
         }
     }
 }

@@ -31,6 +31,12 @@ class SearchCharacterAdapterDelegate(settings: UserSettingsSource,
         (holder as ViewHolder).bind(items[position] as CharacterViewModel)
     }
 
+    override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(viewHolder)
+        imageLoader.clearImage(viewHolder.itemView.animeImageView)
+        viewHolder.itemView.container.setOnClickListener(null)
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: CharacterViewModel) {

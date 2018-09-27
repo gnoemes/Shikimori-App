@@ -235,7 +235,11 @@ class AnimeFragment : BaseFragment<AnimePresenter, AnimeView>(), AnimeView {
             MaterialDialog(context.dialogContext())
                     .show {
                         title(R.string.chronology)
-                        listItems(items = converter.convertList(nodes)) { _, pos, _ -> presenter.onAnimeClicked(nodes[pos].id) }
+                        listItems(items = converter.convertList(nodes)) { _, pos, _ ->
+                            if (nodes.isNotEmpty()) {
+                                presenter.onAnimeClicked(nodes[pos].id)
+                            }
+                        }
                     }
         }
     }
