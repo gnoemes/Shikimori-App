@@ -25,7 +25,7 @@ public interface AnimeView extends BaseFragmentView {
     void setAnimeData(AnimeDetailsViewModel model);
 
     @StateStrategyType(AddToEndStrategy.class)
-    void showEpisodeList(List<BaseEpisodeItem> episodes);
+    void showEpisodeList(boolean isEpisodeReversed, List<BaseEpisodeItem> episodes);
 
     @StateStrategyType(AddToEndStrategy.class)
     void showComments(List<BaseItem> baseCommentItems);
@@ -66,4 +66,6 @@ public interface AnimeView extends BaseFragmentView {
     @StateStrategyType(SkipStrategy.class)
     void showClearHistoryDialog();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void reverseEpisodes();
 }

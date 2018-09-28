@@ -64,6 +64,9 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
         @BindView(R.id.image_alternative)
         ImageView alternativeBtn;
 
+        @BindView(R.id.imageInvert)
+        ImageView invertBtn;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -103,6 +106,7 @@ public class EpisodeOptionsAdapterDelegate extends AdapterDelegate<List<BaseEpis
 
             continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.WATCH_ONLINE, optionsItem.getEpisodeItem()));
             alternativeBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.ALTERNATIVE_SOURCE, null));
+            invertBtn.setOnClickListener(view -> callback.onAction(EpisodeOptionAction.REVERSE_LIST, null));
         }
     }
 }

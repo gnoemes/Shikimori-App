@@ -74,6 +74,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     private CommentsPaginator paginator;
 
     private boolean first = true;
+    private boolean isEpisodeReversed = false;
     private long animeId;
     private long rateId = Constants.NO_ID;
     private AnimeDetails currentAnime;
@@ -229,7 +230,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 break;
             case ServiceCodeException.TAG:
                 if (((ServiceCodeException) throwable).getServiceCode() == HttpStatusCode.NOT_FOUND) {
-                    getViewState().showEpisodeList(Collections.singletonList(new EpisodePlaceholderItem()));
+                    getViewState().showEpisodeList(isEpisodeReversed, Collections.singletonList(new EpisodePlaceholderItem()));
                 } else {
                     super.processErrors(throwable);
                 }
@@ -427,7 +428,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 analyticsInteractor.logEvent(AnalyticsEvent.ALTERNATIVE_SOURCE_EPISODES);
                 onAlternativeSource();
                 break;
+            case REVERSE_LIST:
+                analyticsInteractor.logEvent(AnalyticsEvent.REVERSE_EPISODES);
+                onReverseEpisodes();
+                break;
         }
+    }
+
+    private void onReverseEpisodes() {
+        isEpisodeReversed = !isEpisodeReversed;
+        getViewState().reverseEpisodes();
     }
 
     private void onAlternativeSource() {
@@ -455,8 +465,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Set episodes list
      */
     private void setEpisodes(List<BaseEpisodeItem> episodes) {
-        getViewState().showEpisodeList(episodes);
-
+        getViewState().showEpisodeList(isEpisodeReversed, episodes);
     }
 
     private void setCurrentSettings(UserSettings settings) {

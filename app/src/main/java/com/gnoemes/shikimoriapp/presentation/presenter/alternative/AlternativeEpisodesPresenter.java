@@ -36,6 +36,7 @@ public class AlternativeEpisodesPresenter extends BaseNetworkPresenter<Alternati
     private AnalyticsInteractor analyticsInteractor;
 
 
+    private boolean isEpisodesReversed = false;
     private long animeId;
     private long rateId = Constants.NO_ID;
     private EpisodeItem selectedEpisode;
@@ -82,7 +83,7 @@ public class AlternativeEpisodesPresenter extends BaseNetworkPresenter<Alternati
     }
 
     private void setEpisodes(List<BaseItem> episodes) {
-        getViewState().showList(episodes);
+        getViewState().showList(isEpisodesReversed, episodes);
     }
 
     /**
@@ -118,7 +119,16 @@ public class AlternativeEpisodesPresenter extends BaseNetworkPresenter<Alternati
                 analyticsInteractor.logEvent(AnalyticsEvent.WATCH_ONLINE_MASTER_CLICKED);
                 onEpisodeClicked(item);
                 break;
+            case REVERSE_LIST:
+                analyticsInteractor.logEvent(AnalyticsEvent.REVERSE_EPISODES);
+                onReverseEpisodes();
+                break;
         }
+    }
+
+    private void onReverseEpisodes() {
+        isEpisodesReversed = !isEpisodesReversed;
+        getViewState().reverseEpisodes();
     }
 
 

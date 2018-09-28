@@ -121,8 +121,13 @@ public class AlternativeEpisodesFragment extends BaseFragment<AlternativeEpisode
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void showList(List<BaseItem> episodes) {
-        episodeAdapter.bindItems(episodes);
+    public void showList(boolean isEpisodesReversed, List<BaseItem> episodes) {
+        episodeAdapter.bindItems(isEpisodesReversed, episodes);
+    }
+
+    @Override
+    public void reverseEpisodes() {
+        episodeAdapter.reverseItems();
     }
 
     @SuppressLint("CheckResult")

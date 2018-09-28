@@ -13,7 +13,7 @@
         android:id="@+id/btn_continue"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:drawablePadding="@dimen/margin_big"
+        android:drawablePadding="@dimen/margin_normal"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:paddingBottom="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_normal"
@@ -24,6 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="Начать просмотр"
         tools:drawableLeft="@drawable/ic_play_circle_filled"
         tools:drawableTint="?attr/colorText" />
 
@@ -49,11 +50,26 @@
         android:layout_marginRight="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:tint="?attr/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageInvert"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_find_replace" />
+
+    <ImageView
+        android:id="@+id/imageInvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:tint="?attr/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_find_replace" />
+        app:srcCompat="@drawable/ic_import_export" />
 
 </android.support.constraint.ConstraintLayout>

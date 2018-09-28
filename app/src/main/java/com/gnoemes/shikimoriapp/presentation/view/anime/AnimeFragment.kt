@@ -178,8 +178,12 @@ class AnimeFragment : BaseFragment<AnimePresenter, AnimeView>(), AnimeView {
         pagerAdapter.setData(converter.convertFromViewModel(details))
     }
 
+    override fun showEpisodeList(isEpisodeReversed: Boolean, episodes: List<BaseEpisodeItem>) {
+        pagerAdapter.showEpisodeList(isEpisodeReversed, episodes)
+    }
+
+    override fun reverseEpisodes() = pagerAdapter.reverseEpisodes()
     override fun setPage(position: Int) = view_pager.setCurrentItem(position, true)
-    override fun showEpisodeList(episodes: List<BaseEpisodeItem>) = pagerAdapter.showEpisodeList(episodes)
     override fun showComments(baseCommentItems: List<BaseItem>) = pagerAdapter.showComments(baseCommentItems)
     override fun insetMoreComments(baseCommentItems: List<BaseItem>) = pagerAdapter.insertMoreComments(baseCommentItems)
     override fun onShowPageLoading() = pagerAdapter.showPageLoading()
@@ -357,8 +361,8 @@ class AnimeFragment : BaseFragment<AnimePresenter, AnimeView>(), AnimeView {
             animeADapter.bindItems(animeItems)
         }
 
-        fun showEpisodeList(episodes: List<BaseEpisodeItem>) {
-            episodeAdapter.bindItems(episodes)
+        fun showEpisodeList(isEpisodeReversed: Boolean, episodes: List<BaseEpisodeItem>) {
+            episodeAdapter.bindItems(isEpisodeReversed, episodes)
         }
 
 
@@ -384,6 +388,10 @@ class AnimeFragment : BaseFragment<AnimePresenter, AnimeView>(), AnimeView {
 
         internal fun showPageLoading() {
             commentsAdapter.showProgress()
+        }
+
+        fun reverseEpisodes() {
+            episodeAdapter.reverseItems()
         }
 
     }

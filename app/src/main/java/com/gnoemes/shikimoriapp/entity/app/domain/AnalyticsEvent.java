@@ -22,7 +22,8 @@ public enum AnalyticsEvent {
     SHIKIMORI_APP_CLUB_CLICKED("shikimori_app_club_clicked"),
     HISTORY_CLICKED("history_clicked"),
     SEND_MAIL_TO_DEV("send_mail_to_dev"),
-    ALTERNATIVE_SOURCE_EPISODES("alternative_source_episodes");
+    ALTERNATIVE_SOURCE_EPISODES("alternative_source_episodes"),
+    REVERSE_EPISODES("reverse_episodes");
 
     private final String event;
 
