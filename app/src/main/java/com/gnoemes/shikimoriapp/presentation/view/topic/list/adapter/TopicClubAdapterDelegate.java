@@ -31,14 +31,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TopicClubAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private ImageLoader imageLoader;
-    private DefaultItemCallback callback;
+    private TopicListAdapter.TopicItemCallback callback;
     private LinkedItemCallback linkedCallback;
     private DefaultItemCallback userProfileCallback;
     private DateTimeConverter dateTimeConverter;
     private TopicResourceProvider resourceProvider;
 
     public TopicClubAdapterDelegate(ImageLoader imageLoader,
-                                    DefaultItemCallback callback,
+                                    TopicListAdapter.TopicItemCallback callback,
                                     LinkedItemCallback linkedCallback,
                                     DefaultItemCallback userProfileCallback,
                                     DateTimeConverter dateTimeConverter,
@@ -129,7 +129,7 @@ public class TopicClubAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             dateView.setText(dateTimeConverter.convertDateAgoToString(topicItem.getCreatedDate()));
 
-            layout.setOnClickListener(v -> callback.onItemClick(topicItem.getId()));
+            layout.setOnClickListener(v -> callback.onItemClicked(topicItem.getForum(), topicItem.getId()));
 
             linkedImageView.setOnClickListener(v -> userProfileCallback.onItemClick(topicItem.getUserBrief().getId()));
         }

@@ -75,7 +75,7 @@ class MangaFragment : BaseFragment<MangaPresenter, MangaView>(), MangaView {
         mangaPresenter = presenterProvider.get()
 
         parentFragment.ifNotNull {
-            mangaPresenter.setLocalRouter((it as RouterProvider).localRouter)
+            mangaPresenter.localRouter = (it as RouterProvider).localRouter
         }
 
         arguments.ifNotNull {

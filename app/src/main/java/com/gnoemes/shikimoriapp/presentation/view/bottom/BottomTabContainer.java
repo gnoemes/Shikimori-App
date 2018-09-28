@@ -211,9 +211,9 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.SCREENSHOTS:
                             return ScreenshotsActivity.newIntent(context, (ScreenshotNavigationData) data);
                         case Screens.EXTERNAL_PLAYER:
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
-                            intent.setDataAndType(Uri.parse((String) data), "video/mp4");
-                            return intent;
+                            Intent externalPlayer = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                            externalPlayer.setDataAndType(Uri.parse((String) data), "video/mp4");
+                            return externalPlayer;
                         case Screens.SEND_MAIL:
                             Intent sendMail = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "gnoemes@gmail.com", null));
                             sendMail.putExtra(Intent.EXTRA_EMAIL, new String[]{"gnoemes@gmail.com"});

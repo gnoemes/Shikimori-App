@@ -33,7 +33,7 @@ class SimilarFragment : BaseFragment<SimilarPresenter, SimilarView>(), SimilarVi
         similarPresenter = presenterProvider.get()
 
         parentFragment.ifNotNull {
-            similarPresenter.setLocalRouter((it as RouterProvider).localRouter)
+            similarPresenter.localRouter = (it as RouterProvider).localRouter
         }
 
         arguments.ifNotNull { bundle ->

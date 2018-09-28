@@ -17,7 +17,6 @@ import com.gnoemes.shikimoriapp.entity.topic.presentation.TopicWithDescriptionIt
 import com.gnoemes.shikimoriapp.presentation.view.topic.provider.TopicResourceProvider;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
-import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.LinkedItemCallback;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -30,13 +29,13 @@ import butterknife.ButterKnife;
 public class TopicWithDescriptionAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
     private ImageLoader imageLoader;
-    private DefaultItemCallback callback;
+    private TopicListAdapter.TopicItemCallback callback;
     private LinkedItemCallback linkedCallback;
     private DateTimeConverter dateTimeConverter;
     private TopicResourceProvider resourceProvider;
 
     public TopicWithDescriptionAdapterDelegate(ImageLoader imageLoader,
-                                               DefaultItemCallback callback,
+                                               TopicListAdapter.TopicItemCallback callback,
                                                LinkedItemCallback linkedCallback,
                                                DateTimeConverter dateTimeConverter,
                                                TopicResourceProvider resourceProvider) {
@@ -118,7 +117,7 @@ public class TopicWithDescriptionAdapterDelegate extends AdapterDelegate<List<Ba
 
             dateView.setText(dateTimeConverter.convertDateAgoToString(topicItem.getCreatedDate()));
 
-            layout.setOnClickListener(v -> callback.onItemClick(topicItem.getId()));
+            layout.setOnClickListener(v -> callback.onItemClicked(topicItem.getForum(), topicItem.getId()));
         }
 
         private void bindLinkedContent(LinkedContent content) {

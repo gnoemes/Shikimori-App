@@ -44,7 +44,7 @@ class SearchFragment : BaseFragment<SearchPresenter, SearchView>(), SearchView, 
     fun providePresenter(): SearchPresenter {
         searchPresenter = presenterProvider.get()
         parentFragment.ifNotNull {
-            searchPresenter.setLocalRouter((it as RouterProvider).localRouter)
+            searchPresenter.localRouter = (it as RouterProvider).localRouter
         }
         arguments.ifNotNull {
             val data = it.getParcelable(ARGUMENT_SEARCH_DATA) as? SearchNavigationData

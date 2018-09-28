@@ -44,7 +44,7 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
         calendarPresenter = presenterProvider.get()
 
         parentFragment.ifNotNull {
-            presenter.setLocalRouter((it as RouterProvider).localRouter)
+            presenter.localRouter = (it as RouterProvider).localRouter
         }
 
         return calendarPresenter

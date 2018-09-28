@@ -87,7 +87,7 @@ class AnimeFragment : BaseFragment<AnimePresenter, AnimeView>(), AnimeView {
     fun providePresenter(): AnimePresenter {
         animePresenter = presenterProvider.get()
         parentFragment.ifNotNull {
-            animePresenter.setLocalRouter((it as RouterProvider).localRouter)
+            animePresenter.localRouter = (it as RouterProvider).localRouter
         }
 
         arguments.ifNotNull {

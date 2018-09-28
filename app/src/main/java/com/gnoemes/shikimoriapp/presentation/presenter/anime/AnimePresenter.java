@@ -547,10 +547,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getSecondName()));
     }
 
-    public void onUserClicked(long id) {
-        getRouter().navigateTo(Screens.PROFILE, id);
-    }
-
     private void onClearHistoryClicked() {
         getViewState().showClearHistoryDialog();
     }
@@ -560,10 +556,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 .subscribe(this::loadAnimeData, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
-    }
-
-    public void onAnimeClicked(long id) {
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
     public void onBackgroundImageClicked() {

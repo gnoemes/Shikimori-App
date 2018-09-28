@@ -7,6 +7,8 @@ public enum LinkedType {
     ANIME("Anime"),
     @SerializedName("Manga")
     MANGA("Manga"),
+    @SerializedName("Ranobe")
+    RANOBE("Ranobe"),
     @SerializedName("Collection")
     COLLECTION("Collection"),
     @SerializedName("Character")

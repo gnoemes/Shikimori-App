@@ -44,7 +44,7 @@ class TranslationsFragment : BaseFragment<TranslationsPresenter, TranslationsVie
     fun providePresenter(): TranslationsPresenter {
         translationsPresenter = presenterProvider.get()
         parentFragment.ifNotNull {
-            translationsPresenter.setLocalRouter((it as RouterProvider).localRouter)
+            translationsPresenter.localRouter = (it as RouterProvider).localRouter
         }
 
         arguments.ifNotNull {
