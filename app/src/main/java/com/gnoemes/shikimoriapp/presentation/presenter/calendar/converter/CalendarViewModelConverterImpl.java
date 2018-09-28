@@ -28,17 +28,19 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
         List<CalendarItemViewModel> list = new ArrayList<>();
         List<CalendarAnimeViewModel> animeList = new ArrayList<>();
 
-        DateTime groupDate = calendarItems.get(0) == null ? null : calendarItems.get(0).getNextEpisodeDate();
+        if (!calendarItems.isEmpty()) {
+            DateTime groupDate = calendarItems.get(0) == null ? null : calendarItems.get(0).getNextEpisodeDate();
 
-        for (CalendarItem item : calendarItems) {
+            for (CalendarItem item : calendarItems) {
 
-            if (!dateTimeUtils.isSameDay(groupDate, item.getNextEpisodeDate())) {
-                list.add(new CalendarItemViewModel(groupDate, animeList));
-                animeList = new ArrayList<>();
+                if (!dateTimeUtils.isSameDay(groupDate, item.getNextEpisodeDate())) {
+                    list.add(new CalendarItemViewModel(groupDate, animeList));
+                    animeList = new ArrayList<>();
+                }
+
+                animeList.add(convertAnimeViewModel(item));
+                groupDate = item.getNextEpisodeDate();
             }
-
-            animeList.add(convertAnimeViewModel(item));
-            groupDate = item.getNextEpisodeDate();
         }
 
         return list;

@@ -14,4 +14,10 @@
         android:layout_gravity="center"
         tools:visibility="gone" />
 
+    <com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentViewWithButton
+        android:id="@+id/needAuthView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
 </android.support.design.widget.CoordinatorLayout>

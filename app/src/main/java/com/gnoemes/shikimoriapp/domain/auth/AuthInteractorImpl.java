@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.gnoemes.shikimoriapp.data.repository.app.AuthorizationRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
+import com.gnoemes.shikimoriapp.data.repository.user.UserRepository;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
@@ -17,6 +18,7 @@ import io.reactivex.Completable;
 public class AuthInteractorImpl implements AuthInteractor {
 
     private TokenRepository tokenRepository;
+    private UserRepository userRepository;
     private UserSettingsRepository settingsRepository;
     private AuthorizationRepository authorizationRepository;
     private CompletableErrorHandler completableErrorHandler;
@@ -25,11 +27,13 @@ public class AuthInteractorImpl implements AuthInteractor {
     @Inject
     public AuthInteractorImpl(@NonNull TokenRepository tokenRepository,
                               @NonNull AuthorizationRepository authorizationRepository,
+                              @NonNull UserRepository userRepository,
                               @NonNull UserSettingsRepository settingsRepository,
                               @NonNull CompletableErrorHandler completableErrorHandler,
                               @NonNull RxUtils rxUtils) {
         this.tokenRepository = tokenRepository;
         this.authorizationRepository = authorizationRepository;
+        this.userRepository = userRepository;
         this.settingsRepository = settingsRepository;
         this.completableErrorHandler = completableErrorHandler;
         this.rxUtils = rxUtils;
@@ -39,8 +43,8 @@ public class AuthInteractorImpl implements AuthInteractor {
     public Completable signIn(@NonNull String authCode) {
         return authorizationRepository.signIn(authCode)
                 .flatMapCompletable(token -> tokenRepository.saveToken(token))
-                .toSingleDefault(new UserSettings.Builder())
-                .map(builder -> builder.setStatus(UserStatus.AUTHORIZED).build())
+                .andThen(userRepository.getMyUserBrief())
+                .map(userBrief -> new UserSettings.Builder().setUserBrief(userBrief).setStatus(UserStatus.AUTHORIZED).build())
                 .flatMapCompletable(userSettings -> settingsRepository.saveUserSettings(userSettings))
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());

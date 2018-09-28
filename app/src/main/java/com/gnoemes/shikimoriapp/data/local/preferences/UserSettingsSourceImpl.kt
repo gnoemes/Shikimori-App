@@ -17,7 +17,7 @@ class UserSettingsSourceImpl @Inject constructor(
         @SettingsQualifier private val prefs: SharedPreferences,
         private val gson: Gson
 ) : UserSettingsSource {
-    override fun getUser(): UserBrief {
+    override fun getUser(): UserBrief? {
         return try {
             val json = prefs.getString(SettingsExtras.USER_BRIEF, "")
             gson.fromJson<UserBrief>(json, UserBrief::class.java)

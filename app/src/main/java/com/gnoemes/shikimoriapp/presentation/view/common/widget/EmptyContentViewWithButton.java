@@ -80,6 +80,7 @@ public class EmptyContentViewWithButton extends BaseView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        button.setOnClickListener(null);
         callback = null;
     }
 }

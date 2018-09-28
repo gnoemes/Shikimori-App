@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.utils.rx.RxUtils
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class NotificationsInteractorImpl @Inject constructor(
@@ -34,7 +35,7 @@ class NotificationsInteractorImpl @Inject constructor(
                                 .filter { it.dateCreated.millis > notificationsRepository.lastNewsMessageDate().millis }
                                 .toList()
                     }
-                    .map { notificationsRepository.saveNewsMessageDate(it.first().dateCreated); it }
+                    .map { notificationsRepository.saveNewsMessageDate(DateTime.now()); it }
                     .flatMapCompletable { list ->
                         Observable.fromIterable(list)
                                 .flatMapCompletable { notificationsRepository.createNotification(NotificationData(NotificationType.NEW_EPISODE, it.linked)) }

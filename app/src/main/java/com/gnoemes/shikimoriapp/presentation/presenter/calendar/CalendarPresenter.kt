@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.domain.calendar.CalendarInteractor
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException
+import com.gnoemes.shikimoriapp.entity.calendar.presentation.CalendarItemViewModel
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.converter.CalendarViewModelConverter
 import com.gnoemes.shikimoriapp.presentation.presenter.calendar.provider.CalendarResourceProvider
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter
@@ -46,17 +47,28 @@ class CalendarPresenter(
     private fun loadCalendarData() {
         interactor.calendarData
                 .appendLoadingLogic(viewState)
+                .doOnSubscribe { viewState.hideEmptyView() }
                 .map(viewModelConverter)
-                .subscribe({ viewState.showCalendarData(it) }, this::processErrors)
+                .subscribe(this::setData, this::processErrors)
                 .addToDisposables()
     }
 
     private fun loadMyOngoings() {
         interactor.myCalendarData
                 .appendLoadingLogic(viewState)
+                .doOnSubscribe { viewState.hideEmptyView() }
                 .map(viewModelConverter)
-                .subscribe({ viewState.showCalendarData(it) }, this::processErrors)
+                .subscribe(this::setData, this::processErrors)
                 .addToDisposables()
+    }
+
+    private fun setData(items: MutableList<CalendarItemViewModel>) {
+        if (items.isNotEmpty()) {
+            viewState.showCalendarData(items)
+        } else {
+            viewState.hideList()
+            viewState.showEmptyView()
+        }
     }
 
 

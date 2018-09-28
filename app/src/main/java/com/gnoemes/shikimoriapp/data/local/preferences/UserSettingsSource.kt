@@ -7,7 +7,7 @@ import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief
 
 interface UserSettingsSource {
 
-    fun getUser(): UserBrief
+    fun getUser(): UserBrief?
 
     fun setUser(user: UserBrief)
 

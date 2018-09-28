@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.domain.app;
 
 import com.gnoemes.shikimoriapp.data.repository.app.TokenRepository;
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
+import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.utils.rx.CompletableErrorHandler;
 import com.gnoemes.shikimoriapp.utils.rx.RxUtils;
 
@@ -31,6 +33,7 @@ public class LogoutInteractorImpl implements LogoutInteractor {
     public Completable logout() {
         return tokenRepository.saveToken(null)
                 .andThen(Completable.fromAction(() -> settingsRepository.clearUser()))
+                .andThen(settingsRepository.saveUserSettings(new UserSettings.Builder().setStatus(UserStatus.GUEST).setUserBrief(null).build()))
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
     }

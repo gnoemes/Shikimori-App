@@ -16,7 +16,7 @@ class UserSettingsRepositoryImpl @Inject constructor(
         private val source: UserSettingsSource
 ) : UserSettingsRepository {
 
-    override fun getUser(): UserBrief = source.getUser()
+    override fun getUser(): UserBrief? = source.getUser()
     override fun setUser(user: UserBrief) = source.setUser(user)
     override fun clearUser() = source.clearUser()
 

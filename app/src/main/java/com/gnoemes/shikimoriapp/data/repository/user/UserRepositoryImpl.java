@@ -69,10 +69,11 @@ public class UserRepositoryImpl implements UserRepository {
                 .onErrorResumeNext(throwable -> {
                     return userApi.getCurrentUserBriefInfo()
                             .map(userBriefResponseConverter)
-                            .flatMapCompletable(userBrief -> preferenceSource.saveUserSettings(
+                            .flatMap(userBrief -> preferenceSource.saveUserSettings(
                                     new UserSettings.Builder()
                                             .setUserBrief(userBrief)
-                                            .build()))
+                                            .build())
+                                    .toSingleDefault(userBrief))
                             .toObservable();
                 })
                 .firstOrError();

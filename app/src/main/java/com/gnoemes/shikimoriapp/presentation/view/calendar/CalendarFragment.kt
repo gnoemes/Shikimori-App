@@ -87,7 +87,8 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
         }
 
         view_network_error.gone()
-
+        emptyView.setText(R.string.calendar_nothing)
+        emptyView.gone()
 
         with(refresh_layout) {
             setColorSchemeColors(Color.RED)
@@ -119,6 +120,10 @@ class CalendarFragment : BaseFragment<CalendarPresenter, CalendarView>(), Calend
     override fun showNetworkErrorView() = view_network_error.visible()
 
     override fun hideNetworkErrorView() = view_network_error.gone()
+
+    override fun showEmptyView() = emptyView.visible()
+
+    override fun hideEmptyView() = emptyView.gone()
 
     override fun onShowLoading() {
         refresh_layout.isRefreshing = true

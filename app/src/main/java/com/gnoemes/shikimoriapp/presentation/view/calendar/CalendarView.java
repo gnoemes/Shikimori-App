@@ -32,5 +32,7 @@ public interface CalendarView extends BaseFragmentView {
      */
     void hideNetworkErrorView();
 
+    void showEmptyView();
 
+    void hideEmptyView();
 }

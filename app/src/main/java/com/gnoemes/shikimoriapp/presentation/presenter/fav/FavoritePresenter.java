@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
+import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
@@ -59,6 +60,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
                 processErrors(throwable);
             } else {
                 getViewState().hideNetworkErrorView();
+                getViewState().hideNeedAuthView();
             }
         }
 
@@ -202,10 +204,15 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     private void setSettings(UserSettings settings) {
-        this.userId = settings.getUserBrief() == null ? Constants.NO_ID : settings.getUserBrief().getId();
+        this.userId = settingsInteractor.getUser() == null ? Constants.NO_ID : settingsInteractor.getUser().getId();
         this.settings = settings;
-        loadUserProfile();
-        initPaginator();
+        if (settings.getStatus() == UserStatus.AUTHORIZED && userId != Constants.NO_ID) {
+            loadUserProfile();
+            initPaginator();
+            getViewState().hideNeedAuthView();
+        } else {
+            getViewState().showNeedAuthView();
+        }
     }
 
     private void initPaginator() {
@@ -300,6 +307,18 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
                 .subscribe(this::onRefresh, this::processErrors);
 
         unsubscribeOnDestroy(disposable);
+    }
+
+    public void onAuthClicked() {
+        getViewState().showAuthDialog();
+    }
+
+    public void onSignIn() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.OAUTH);
+    }
+
+    public void onSignUp() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.SIGN_UP);
     }
 }
 

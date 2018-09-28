@@ -1,5 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.app;
 
+import android.support.annotation.Nullable;
+
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
@@ -10,6 +12,7 @@ import io.reactivex.Observable;
 
 public interface UserSettingsRepository {
 
+    @Nullable
     UserBrief getUser();
 
     void setUser(UserBrief user);
