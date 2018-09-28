@@ -406,8 +406,8 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     public void onPortrait() {
         fullscreenBtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen));
     }
-    public interface PlayerControllerEventListener {
 
+    public interface PlayerControllerEventListener {
 
 
         void onControlsVisible();
@@ -433,6 +433,12 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void loadNextEpisode();
 
         void toggleOrientation();
+
+        void onChangeBrightness(int brightness);
+
+        void onChangeVolume(int volume);
+
+        void onScrollEnd();
     }
 
     public static class MediaSourceHelper {
@@ -496,6 +502,38 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     private class ExoPlayerGestureListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
+        private final int stepBrightness = 5;
+        private final int stepVolume = 1;
+        private boolean isMoving;
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float distanceX, float distanceY) {
+            Log.i(TAG, "onScroll: 1: " + motionEvent.getY() + " 2: " + motionEvent2.getY() + " diff: " + (motionEvent.getY() - motionEvent2.getY()));
+            Log.i(TAG, "onScroll: sssss " + Math.round(Math.abs(distanceY)) % 3);
+
+            isMoving = true;
+            if (motionEvent.getX() < ((float) (playerView.getWidth() / 2))) {
+                if (Math.round(Math.abs(distanceY)) % 3 == 0) {
+                    if (eventListener != null) {
+                        eventListener.onChangeVolume(distanceY > 0 ? stepVolume : -stepVolume);
+                    }
+                }
+            } else {
+                if (Math.round(Math.abs(distanceY)) % 3 == 0) {
+                    if (eventListener != null) {
+                        eventListener.onChangeBrightness(distanceY > 0 ? stepBrightness : -stepBrightness);
+                    }
+                }
+            }
+            return true;
+        }
+
+        void onScrollEnd() {
+            if (eventListener != null) {
+                eventListener.onScrollEnd();
+            }
+        }
+
         @Override
         public boolean onDoubleTap(MotionEvent e) {
 
@@ -512,9 +550,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             return true;
         }
 
+
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_UP && isMoving) {
+                isMoving = false;
+                onScrollEnd();
+            }
+
             return detector.onTouchEvent(event);
         }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -25,6 +27,7 @@ import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.player.EmbeddedPlayerPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
+import com.gnoemes.shikimoriapp.utils.SystemServiceKt;
 import com.gnoemes.shikimoriapp.utils.view.PlayerManager;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -48,11 +51,19 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     PlayerView playerView;
     @BindView(R.id.controls_video_loading)
     ProgressBar progressBar;
+    @BindView(R.id.volumeView)
+    TextView volumeView;
+    @BindView(R.id.brightnessView)
+    TextView brightnessView;
+
     @InjectPresenter
     EmbeddedPlayerPresenter presenter;
     @Inject
     NavigatorHolder navigatorHolder;
     private PlayerManager playerManager;
+
+    private int currentVolume;
+    private int currentBrightness;
 
     public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
@@ -78,6 +89,8 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         initUiFlags();
         playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView, getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
+        currentVolume = SystemServiceKt.audioManager(EmbeddedPlayerActivity.this).getStreamVolume(AudioManager.STREAM_MUSIC);
+        currentBrightness = (int) ((getWindow().getAttributes().screenBrightness / 255f) * 100);
     }
 
     @Override
@@ -160,6 +173,51 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onControlsVisible() {
 
+    }
+
+    @Override
+    public void onScrollEnd() {
+        volumeView.postDelayed(() -> volumeView.setVisibility(View.GONE), 1500);
+        brightnessView.postDelayed(() -> brightnessView.setVisibility(View.GONE), 1500);
+    }
+
+    @Override
+    public void onChangeBrightness(int brightness) {
+
+        currentBrightness += brightness;
+        if (currentBrightness > 100) {
+            currentBrightness = 100;
+        } else if (currentBrightness < 1) {
+            currentBrightness = 1;
+        }
+
+        brightnessView.setVisibility(View.VISIBLE);
+        String text = String.format(getString(R.string.brightness_format), currentBrightness);
+        brightnessView.setText(text);
+
+        WindowManager.LayoutParams layout = getWindow()
+                .getAttributes();
+        layout.screenBrightness = 255f / 100 * currentBrightness / 255f;
+        getWindow().setAttributes(layout);
+        Log.i("EmbeddedPlayer", "onChangeBrightness: " + 255f / 100 * currentBrightness / 255f);
+    }
+
+    @Override
+    public void onChangeVolume(int volume) {
+        AudioManager manager = SystemServiceKt.audioManager(EmbeddedPlayerActivity.this);
+
+        int max = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        currentVolume += volume;
+        if (currentVolume > max) {
+            currentVolume = max;
+        } else if (currentVolume < 0) {
+            currentVolume = 0;
+        }
+
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+        volumeView.setVisibility(View.VISIBLE);
+        String text = String.format(getString(R.string.volume_format), currentVolume == 0 ? 0 : Math.round(currentVolume / (max * 0.01f)));
+        volumeView.setText(text);
     }
 
     @Override

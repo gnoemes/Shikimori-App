@@ -433,6 +433,8 @@
     <string name="calendar_must_aired">Сейчас на ТВ</string>
     <string name="calendar_my_ongoings">Мои онгоинги</string>
     <string name="favorite_need_auth">Авторизируйтесь для синхронизации списков</string>
+    <string name="volume_format">Громкость %d%%</string>
+    <string name="brightness_format">Яркость %d%%</string>
 
 
     <plurals name="days_ago">

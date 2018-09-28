@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="36dp"
             android:background="@android:color/transparent"
-            android:minHeight="44dp"
             android:minWidth="44dp"
+            android:minHeight="44dp"
             android:visibility="visible"
             app:srcCompat="@drawable/exo_controls_previous"
             tools:ignore="ContentDescription,RtlHardcoded"
@@ -35,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:minHeight="44dp"
             android:minWidth="44dp"
+            android:minHeight="44dp"
             android:visibility="gone"
             app:srcCompat="@drawable/exo_controls_pause"
             tools:ignore="ContentDescription" />
@@ -46,8 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:minHeight="60dp"
             android:minWidth="44dp"
+            android:minHeight="60dp"
             android:visibility="gone"
             app:srcCompat="@drawable/exo_controls_play"
             tools:ignore="ContentDescription"
@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:background="@android:color/transparent"
-            android:minHeight="44dp"
             android:minWidth="44dp"
+            android:minHeight="44dp"
             android:visibility="visible"
             app:srcCompat="@drawable/exo_controls_next"
             tools:ignore="ContentDescription,RtlHardcoded"
@@ -84,9 +84,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
             android:layout_marginEnd="44dp"
             android:layout_marginRight="44dp"
-            android:layout_marginTop="26dp"
             app:srcCompat="@drawable/exo_controls_rewind" />
 
         <TextView
@@ -123,16 +123,16 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="44dp"
             android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:layout_marginTop="26dp"
             app:srcCompat="@drawable/exo_controls_fastforward" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="44dp"
             android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:gravity="center"
             android:text="@string/player_fast_forward_time"
             android:textColor="@color/white" />
@@ -145,10 +145,10 @@
         android:layout_alignParentTop="true"
         android:background="@color/player_controls_container"
         android:orientation="horizontal"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,8 +168,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_big"
             android:layout_marginStart="@dimen/margin_big"
+            android:layout_marginLeft="@dimen/margin_big"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -198,7 +198,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:popupBackground="@color/black"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
@@ -206,13 +207,13 @@
         android:id="@+id/controls_progress_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:background="@color/player_controls_container"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -241,6 +242,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 app:buffered_color="#b4f66767"
                 app:played_color="#FFFF0000"
                 app:scrubber_color="#FFFF0000"
@@ -251,10 +253,10 @@
                 android:id="@+id/exo_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:layout_marginRight="8dp"
                 android:textColor="@android:color/white"
                 tools:ignore="RtlHardcoded"
                 tools:text="1:23:49" />

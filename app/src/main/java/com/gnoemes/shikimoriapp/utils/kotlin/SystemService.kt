@@ -6,11 +6,15 @@ import android.app.NotificationManager
 import android.content.ClipboardManager
 import android.content.Context
 import android.hardware.SensorManager
+import android.media.AudioManager
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 
 fun Context.alarmManager(): AlarmManager =
         getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+fun Context.audioManager(): AudioManager =
+        getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
 fun Context.clipboardManager(): ClipboardManager =
         getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
