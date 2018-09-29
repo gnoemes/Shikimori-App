@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.data.repository.app;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
@@ -35,9 +36,17 @@ public interface UserSettingsRepository {
 
     void isRememberType(Boolean enabled);
 
+    Boolean isRememberPlayer();
+
+    void isRememberPlayer(Boolean enabled);
+
     TranslationType getTranslationType();
 
     void setTranslationType(TranslationType type);
+
+    PlayerType getPlayer();
+
+    void setPlayer(PlayerType type);
 
     Observable<UserSettings> getUserSettings();
 

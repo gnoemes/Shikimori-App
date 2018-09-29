@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
@@ -99,6 +100,16 @@ public class UserSettingsInteractorImpl implements UserSettingsInteractor {
     }
 
     @Override
+    public void isRememberPlayer(Boolean enabled) {
+        repository.isRememberPlayer(enabled);
+    }
+
+    @Override
+    public Boolean isRememberPlayer() {
+        return repository.isRememberPlayer();
+    }
+
+    @Override
     public void isRememberType(Boolean enabled) {
         repository.isRememberType(enabled);
     }
@@ -111,6 +122,16 @@ public class UserSettingsInteractorImpl implements UserSettingsInteractor {
     @Override
     public void setTranslationType(TranslationType type) {
         repository.setTranslationType(type);
+    }
+
+    @Override
+    public PlayerType getPlayer() {
+        return repository.getPlayer();
+    }
+
+    @Override
+    public void setPlayer(PlayerType type) {
+        repository.setPlayer(type);
     }
 
     @Override

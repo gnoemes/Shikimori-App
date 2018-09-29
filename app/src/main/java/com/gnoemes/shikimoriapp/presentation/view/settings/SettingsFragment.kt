@@ -12,6 +12,7 @@ import com.gnoemes.shikimoriapp.BuildConfig
 import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.data.repository.notifications.JobSchedulingRepositoryImpl
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras
 import com.gnoemes.shikimoriapp.entity.app.domain.JobKey
 import com.gnoemes.shikimoriapp.utils.dialogContext
@@ -84,10 +85,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 context.ifNotNull { context ->
                     MaterialDialog(context.dialogContext())
                             .show {
-                                title(R.string.translation_type)
                                 listItems(R.array.translations_type) { _, _, text ->
                                     it.summary = text.toLowerCase()
                                     getSharedPrefs().putString(SettingsExtras.TRANSLATION_TYPE, text.toLowerCase())
+                                }
+                            }
+                }
+                true
+            }
+        }
+        with(getPreference(R.string.pref_player_type)!!) {
+            val player = PlayerType.values().find { it.isEqualType(preferenceManager.sharedPreferences.getString(SettingsExtras.PLAYER_TYPE, "")) }
+            val summText = when (player) {
+                PlayerType.WEB -> context.getString(R.string.player_in_browser).toLowerCase()
+                PlayerType.EMBEDDED -> context.getString(R.string.player_embedded).toLowerCase()
+                PlayerType.EXTERNAL -> context.getString(R.string.player_external).toLowerCase()
+                else -> "не выбрано"
+            }
+            summary = summText
+            setOnPreferenceClickListener {
+                context.ifNotNull { context ->
+                    MaterialDialog(context.dialogContext())
+                            .show {
+                                listItems(R.array.players) { _, pos, text ->
+                                    it.summary = text.toLowerCase()
+                                    val type = when (pos) {
+                                        0 -> PlayerType.WEB
+                                        1 -> PlayerType.EMBEDDED
+                                        2 -> PlayerType.EXTERNAL
+                                        else -> PlayerType.EMBEDDED
+                                    }
+                                    getSharedPrefs().putString(SettingsExtras.PLAYER_TYPE, type.toString())
                                 }
                             }
                 }

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.anime.series.SeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.download.DownloadInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
@@ -33,6 +34,7 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
     private TitleResourceProvider resourceProvider;
     private TranslationViewModelConverter converter;
     private DownloadInteractor downloadInteractor;
+    private UserSettingsInteractor settingsInteractor;
 
     private TranslationType currentTranslationType;
     private TranslationViewModel currentTranslation;
@@ -42,10 +44,12 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
 
     public TranslationsPresenter(SeriesInteractor interactor,
                                  DownloadInteractor downloadInteractor,
+                                 UserSettingsInteractor settingsInteractor,
                                  TitleResourceProvider resourceProvider,
                                  TranslationViewModelConverter converter) {
         this.interactor = interactor;
         this.downloadInteractor = downloadInteractor;
+        this.settingsInteractor = settingsInteractor;
         this.resourceProvider = resourceProvider;
         this.converter = converter;
     }
@@ -105,7 +109,11 @@ public class TranslationsPresenter extends BaseNetworkPresenter<TranslationsView
         if (players.size() == 1) {
             onPlay(players.get(0));
         } else {
-            getViewState().showPlayerDialog(players);
+            if (settingsInteractor.isRememberPlayer()) {
+                onPlay(settingsInteractor.getPlayer());
+            } else {
+                getViewState().showPlayerDialog(players);
+            }
         }
     }
 

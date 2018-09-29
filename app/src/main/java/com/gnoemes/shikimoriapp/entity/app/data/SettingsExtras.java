@@ -11,4 +11,6 @@ public class SettingsExtras {
     public static final String TRANSLATION_TYPE = "translation_type";
     public static final String DOWNLOAD_LOCATION_TYPE = "download_save_type";
     public static final String IS_NOTIFICATIONS_ENABLED = "is_notifications_enabled";
+    public static final String PLAYER_TYPE_REMEMBER = "player_type_remember";
+    public static final String PLAYER_TYPE = "player_type";
 }

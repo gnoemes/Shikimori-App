@@ -8,10 +8,12 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.list.listItems
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.gnoemes.shikimoriapp.R
+import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData
@@ -33,12 +35,16 @@ import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnNeverAskAgain
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
+import javax.inject.Inject
 
 @RuntimePermissions
 class TranslationsFragment : BaseFragment<TranslationsPresenter, TranslationsView>(), TranslationsView {
 
     @InjectPresenter
     lateinit var translationsPresenter: TranslationsPresenter
+
+    @Inject
+    lateinit var userSettings: UserSettingsSource
 
     @ProvidePresenter
     fun providePresenter(): TranslationsPresenter {
@@ -96,17 +102,22 @@ class TranslationsFragment : BaseFragment<TranslationsPresenter, TranslationsVie
 
         val icon = context?.themeDrawable(R.drawable.ic_settings, R.attr.colorText)
 
-        toolbar?.addBackButton()
-        toolbar?.inflateMenu(R.menu.menu_translations)
-        toolbar?.menu?.getItem(0)?.icon = icon
-        toolbar?.setNavigationOnClickListener { presenter.onBackPressed() }
-        toolbar?.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.item_settings -> presenter.onSettingsClicked()
-                else -> Unit
+        toolbar.ifNotNull { toolbar ->
+            with(toolbar) {
+                addBackButton()
+                inflateMenu(R.menu.menu_translations)
+                menu?.getItem(0)?.icon = icon
+                setNavigationOnClickListener { presenter.onBackPressed() }
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.item_settings -> presenter.onSettingsClicked()
+                        else -> Unit
+                    }
+                    false
+                }
             }
-            false
         }
+
     }
 
     @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -158,7 +169,14 @@ class TranslationsFragment : BaseFragment<TranslationsPresenter, TranslationsVie
         safeDialog { context ->
             MaterialDialog(context)
                     .show {
-                        listItems(if (players?.size == 1) R.array.players_single else R.array.players) { _, pos, _ -> presenter.onPlay(players?.get(pos)) }
+                        checkBoxPrompt(R.string.common_remember) { b -> putSetting(SettingsExtras.PLAYER_TYPE_REMEMBER, b) }
+                        listItems(if (players?.size == 1) R.array.players_single else R.array.players) { _, pos, _ ->
+                            presenter.onPlay(players?.get(pos))
+                            if (userSettings.getRememberPlayer()) {
+                                putSetting(SettingsExtras.PLAYER_TYPE, players?.get(pos)?.toString())
+                            }
+                        }
+
                     }
         }
     }

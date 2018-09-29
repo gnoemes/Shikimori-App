@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.data.local.preferences
 import android.content.SharedPreferences
 import com.gnoemes.shikimoriapp.di.app.qualifiers.SettingsQualifier
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType
 import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief
@@ -70,6 +71,13 @@ class UserSettingsSourceImpl @Inject constructor(
     override fun getRememberType(): Boolean =
             prefs.getBoolean(SettingsExtras.TRANSLATION_TYPE_REMEMBER, false)
 
+    override fun setRememberPlayer(value: Boolean) {
+        prefs.putBoolean(SettingsExtras.PLAYER_TYPE_REMEMBER, value)
+    }
+
+    override fun getRememberPlayer(): Boolean =
+            prefs.getBoolean(SettingsExtras.PLAYER_TYPE_REMEMBER, false)
+
     override fun setType(value: TranslationType) {
         prefs.putString(SettingsExtras.TRANSLATION_TYPE, value.type)
     }
@@ -77,6 +85,15 @@ class UserSettingsSourceImpl @Inject constructor(
     override fun getType(): TranslationType {
         val type = prefs.getString(SettingsExtras.TRANSLATION_TYPE, "")
         return TranslationType.values().find { it.isEqualType(type) } ?: TranslationType.ALL
+    }
+
+    override fun setPlayer(value: PlayerType) {
+        prefs.putString(SettingsExtras.PLAYER_TYPE, value.toString())
+    }
+
+    override fun getPlayer(): PlayerType {
+        val type = prefs.getString(SettingsExtras.PLAYER_TYPE, "")
+        return PlayerType.values().find { it.isEqualType(type) } ?: PlayerType.EMBEDDED
     }
 
     override fun getDownloadLocation(): Int = prefs.getInt(SettingsExtras.DOWNLOAD_LOCATION_TYPE, 1)

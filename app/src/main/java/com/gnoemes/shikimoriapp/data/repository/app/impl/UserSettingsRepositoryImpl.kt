@@ -4,6 +4,7 @@ import com.gnoemes.shikimoriapp.data.local.preferences.UserPreferenceSource
 import com.gnoemes.shikimoriapp.data.local.preferences.UserSettingsSource
 import com.gnoemes.shikimoriapp.data.repository.app.UserSettingsRepository
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief
@@ -32,8 +33,14 @@ class UserSettingsRepositoryImpl @Inject constructor(
     override fun isRememberType(): Boolean = source.getRememberType()
     override fun isRememberType(enabled: Boolean) = source.setRememberType(enabled)
 
+    override fun isRememberPlayer(): Boolean = source.getRememberPlayer()
+    override fun isRememberPlayer(enabled: Boolean) = source.setRememberPlayer(enabled)
+
     override fun getTranslationType(): TranslationType = source.getType()
     override fun setTranslationType(type: TranslationType) = source.setType(type)
+
+    override fun getPlayer(): PlayerType = source.getPlayer()
+    override fun setPlayer(type: PlayerType) = source.setPlayer(type)
 
     override fun isNotificationsEnabled(): Boolean = source.getNotificationsEnabled()
 

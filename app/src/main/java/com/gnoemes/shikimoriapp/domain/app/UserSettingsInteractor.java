@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.domain.app;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
+import com.gnoemes.shikimoriapp.entity.anime.series.presentation.PlayerType;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserSettings;
 import com.gnoemes.shikimoriapp.entity.app.domain.UserStatus;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
@@ -30,6 +31,10 @@ public interface UserSettingsInteractor {
 
     Boolean isRememberType();
 
+    void isRememberPlayer(Boolean enabled);
+
+    Boolean isRememberPlayer();
+
     void isRememberType(Boolean enabled);
 
     TranslationType getTranslationType();
@@ -39,6 +44,10 @@ public interface UserSettingsInteractor {
     Observable<UserSettings> getUserSettings();
 
     Completable saveUserSettings(UserSettings settings);
+
+    PlayerType getPlayer();
+
+    void setPlayer(PlayerType type);
 
     Boolean isNotificationsEnabled();
 

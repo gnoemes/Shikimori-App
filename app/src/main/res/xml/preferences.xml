@@ -16,7 +16,31 @@
             android:title="Получать уведомления" />
 
     </PreferenceCategory>
+
     <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Плееры">
+
+        <Preference
+            android:defaultValue="не выбрано"
+            android:key="@string/pref_player_type"
+            android:layout="@layout/layout_preference"
+            android:summary="не выбрано"
+            android:title="Плеер" />
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="false"
+            android:key="@string/pref_player_type_remember"
+            android:layout="@layout/layout_preference"
+            android:summary="Не показывать диалоговое окно для выбора плеера"
+            android:title="@string/common_remember" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
         android:title="Переводы">
