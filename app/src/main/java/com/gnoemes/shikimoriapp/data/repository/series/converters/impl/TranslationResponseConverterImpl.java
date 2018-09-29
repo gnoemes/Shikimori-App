@@ -61,7 +61,7 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
         boolean isBroken = e.getElementsByClass(BROKEN_QUERY).first() != null;
         boolean isBanned = e.getElementsByClass(BANNED_QUERY).first() != null;
 
-        TranslationQuality quality = convertQuality(e.getElementsByClass(QUALITY_QUERY).text());
+        TranslationQuality quality = convertQuality(e.getElementsByClass(QUALITY_QUERY).toString().replaceAll("(<span class=\")", "").replaceAll("(\"></span>)", "").replaceFirst("video-quality", ""));
         TranslationType translationType = convertType(e.getElementsByClass(TRANSLATION_TYPE_QUERY).text());
         VideoHosting hosting = convertHosting(e.getElementsByClass(VIDEO_HOSTING_QUERY).text());
         String author = e.getElementsByClass(AUTHOR_QUERY).text();

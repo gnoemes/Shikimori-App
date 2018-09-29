@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationQuality;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationViewModel;
 import com.gnoemes.shikimoriapp.utils.Utils;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
@@ -99,7 +100,9 @@ public class TranslationsAdapter extends RecyclerView.Adapter<TranslationsAdapte
             }
 
             titleText.setText(title);
-            hosting.setText(translation.getHosting().getSynonymType());
+            String quality = translation.getQuality() == TranslationQuality.BD ? "(blu-ray)" : translation.getQuality() == TranslationQuality.DVD ? "(dvd)" : "";
+            String hostingText = translation.getHosting().getSynonymType() + " " + quality;
+            hosting.setText(hostingText);
             menu.setOnClickListener(v -> showPopup(translation));
             layout.setOnLongClickListener(v -> {
                 callback.onDownloadTranslation(translation);
