@@ -76,8 +76,8 @@ class CalendarPresenter(
      * Catch errors
      */
     override fun processErrors(throwable: Throwable) {
-        val baseException = throwable as BaseException
-        when (baseException.tag) {
+        val baseException = throwable as? BaseException
+        when (baseException?.tag) {
             NetworkException.TAG -> processNetworkError(throwable)
             else -> super.processErrors(throwable)
         }
