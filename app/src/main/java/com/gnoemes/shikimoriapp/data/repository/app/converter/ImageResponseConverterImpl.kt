@@ -9,9 +9,9 @@ class ImageResponseConverterImpl @Inject constructor() : ImageResponseConverter 
 
     override fun convert(image: ImageResponse): Image =
             Image(
-                    image.original.appendHostIfNeed(),
-                    image.preview.appendHostIfNeed(),
-                    image.x96.appendHostIfNeed(),
-                    image.x48.appendHostIfNeed()
+                    image.original?.appendHostIfNeed(),
+                    image.preview?.appendHostIfNeed(),
+                    image.x96?.appendHostIfNeed(),
+                    image.x48?.appendHostIfNeed()
             )
 }

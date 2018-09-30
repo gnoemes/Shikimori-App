@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.gnoemes.shikimoriapp.data.repository.app.converter.GenreResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
@@ -49,7 +50,7 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
 
         return new AnimeDetails(response.getId(),
                 response.getTopicId(),
-                name,
+                TextUtils.isEmpty(name) ? secondName : name,
                 secondName,
                 imageResponseConverter.convert(response.getImage()),
                 response.getUrl(),

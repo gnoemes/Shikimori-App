@@ -33,7 +33,7 @@ public class TopicRepositoryImpl implements TopicRepository {
         return api.getTopics(page, limit, type.getType())
                 .map(converter)
                 .doOnSuccess(topics -> {
-                    if (page > 1) {
+                    if (page > 1 && !topics.isEmpty()) {
                         topics.remove(0);
                     }
                 });
