@@ -3,8 +3,8 @@ package com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.adapter;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionsItem;
-import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodePlaceholderItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.PlaceHolderItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.adapter.BaseListAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.AdapterResourceProvider;
 import com.gnoemes.shikimoriapp.utils.view.StickyHeaders;
@@ -26,7 +26,7 @@ public class EpisodeAdapter extends BaseListAdapter implements StickyHeaders {
         items.clear();
 
         if (episodeItems.isEmpty()) {
-            items.add(new EpisodePlaceholderItem());
+            items.add(new PlaceHolderItem(resourceProvider.getPlaceholderMessage()));
         } else {
             items.addAll(episodeItems);
             if (isEpisodeReversed) {

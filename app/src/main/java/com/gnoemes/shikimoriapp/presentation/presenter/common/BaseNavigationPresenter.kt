@@ -14,15 +14,16 @@ abstract class BaseNavigationPresenter<View : BaseView> : BasePresenter<View>() 
 
     override fun getRouter(): Router = localRouter
 
-    override fun onBackPressed() = router.exit()
+    override fun onBackPressed() = route { router.exit() }
 
-    open fun onAnimeClicked(id: Long) = router.navigateTo(Screens.ANIME_DETAILS, id)
-    open fun onMangaClicked(id: Long) = router.navigateTo(Screens.MANGA_DETAILS, MangaNavigationData(id, Type.MANGA))
-    open fun onRanobeClicked(id: Long) = router.navigateTo(Screens.MANGA_DETAILS, MangaNavigationData(id, Type.RANOBE))
-    open fun onCharacterClicked(id: Long) = router.navigateTo(Screens.CHARACTER_DETAILS, id)
-    open fun onUserClicked(id: Long) = router.navigateTo(Screens.PROFILE, id)
-    open fun onPersonClicked(id: Long) = router.navigateTo(Screens.PERSON_DETAILS, id)
-    open fun onOpenWeb(url: String) = router.navigateTo(Screens.WEB, url)
+    open fun onAnimeClicked(id: Long) = route { router.navigateTo(Screens.ANIME_DETAILS, id) }
+
+    open fun onMangaClicked(id: Long) = route { router.navigateTo(Screens.MANGA_DETAILS, MangaNavigationData(id, Type.MANGA)) }
+    open fun onRanobeClicked(id: Long) = route { router.navigateTo(Screens.MANGA_DETAILS, MangaNavigationData(id, Type.RANOBE)) }
+    open fun onCharacterClicked(id: Long) = route { router.navigateTo(Screens.CHARACTER_DETAILS, id) }
+    open fun onUserClicked(id: Long) = route { router.navigateTo(Screens.PROFILE, id) }
+    open fun onPersonClicked(id: Long) = route { router.navigateTo(Screens.PERSON_DETAILS, id) }
+    open fun onOpenWeb(url: String) = route { router.navigateTo(Screens.WEB, url) }
 
     fun onContentClicked(type: Type, id: Long) {
         when (type) {
@@ -44,5 +45,9 @@ abstract class BaseNavigationPresenter<View : BaseView> : BasePresenter<View>() 
             LinkedType.PERSON -> onPersonClicked(id)
             else -> router.showSystemMessage("В разработке")
         }
+    }
+
+    private fun <T : Any> T.route(f: (it: T) -> Unit) {
+        if (::localRouter.isInitialized) f(this)
     }
 }
