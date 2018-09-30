@@ -79,7 +79,7 @@ class SearchQueryBuilderImpl @Inject constructor() : SearchQueryBuilder {
         return Single.just(queryMap)
     }
 
-    override fun createMyListQueryFromIds(ids: MutableCollection<Long>, searchQuery: String?, page: Int, limit: Int): Single<Map<String, String>> {
+    override fun createMyListQueryFromIds(ids: MutableCollection<Long>, status: RateStatus, searchQuery: String?, page: Int, limit: Int): Single<Map<String, String>> {
         val queryMap = ArrayMap<String, String>()
 
         if (!TextUtils.isEmpty(searchQuery)) {
@@ -95,7 +95,7 @@ class SearchQueryBuilderImpl @Inject constructor() : SearchQueryBuilder {
             queryMap[SearchConstants.PAGE] = page.toString()
             queryMap[SearchConstants.LIMIT] = limit.toString()
 
-            queryMap[SearchConstants.MY_LIST] = RateStatus.WATCHING.status
+            queryMap[SearchConstants.MY_LIST] = status.status
         }
         return Single.just(queryMap)
     }

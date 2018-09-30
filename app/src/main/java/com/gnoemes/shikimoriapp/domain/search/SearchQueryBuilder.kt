@@ -1,6 +1,7 @@
 package com.gnoemes.shikimoriapp.domain.search
 
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants
+import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus
 import com.gnoemes.shikimoriapp.entity.search.domain.FilterItem
 import io.reactivex.Single
 
@@ -10,5 +11,5 @@ interface SearchQueryBuilder {
 
     fun createQueryFromIds(ids: MutableCollection<Long>, searchQuery: String? = null, page: Int = 1, limit: Int = Constants.MAX_LIMIT): Single<Map<String, String>>
 
-    fun createMyListQueryFromIds(ids: MutableCollection<Long>, searchQuery: String? = null, page: Int = 1, limit: Int = Constants.MAX_LIMIT): Single<Map<String, String>>
+    fun createMyListQueryFromIds(ids: MutableCollection<Long>, status: RateStatus, searchQuery: String? = null, page: Int = 1, limit: Int = Constants.MAX_LIMIT): Single<Map<String, String>>
 }

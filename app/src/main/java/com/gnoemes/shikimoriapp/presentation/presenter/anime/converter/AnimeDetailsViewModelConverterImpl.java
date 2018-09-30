@@ -104,7 +104,7 @@ public class AnimeDetailsViewModelConverterImpl implements AnimeDetailsViewModel
     public List<BaseItem> convertFromViewModel(AnimeDetailsViewModel viewModel) {
         List<BaseItem> animeItems = new ArrayList<>();
         animeItems.add(new AnimeHeadItem(viewModel.getId(),
-                viewModel.getTitle().trim(),
+                viewModel.getTitle() == null ? "" : viewModel.getTitle().trim(),
                 viewModel.getSubTitle() == null ? "" : viewModel.getSubTitle().trim(),
                 viewModel.getUrl(),
                 viewModel.getImageUrl(),
