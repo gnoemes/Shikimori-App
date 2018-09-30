@@ -22,7 +22,7 @@ class CalendarInteractorImpl @Inject constructor(
 
     override fun getCalendarData(): Single<MutableList<CalendarItem>> =
             calendarRepository.calendarData
-                    .compose(singleErrorHandler.handleErrors<MutableList<CalendarItem>>())
+                    .compose(singleErrorHandler as SingleErrorHandler<MutableList<CalendarItem>>)
                     .compose(rxUtils.applySingleSchedulers())
 
     override fun getMyCalendarData(): Single<MutableList<CalendarItem>> =
@@ -40,6 +40,6 @@ class CalendarInteractorImpl @Inject constructor(
                                 .map { myOngoings -> items.filter { item -> myOngoings.asSequence().map { it.id }.contains(item.anime.id) } }
                                 .map { it.toMutableList() }
                     }
-                    .compose(singleErrorHandler.handleErrors<MutableList<CalendarItem>>())
+                    .compose(singleErrorHandler as SingleErrorHandler<MutableList<CalendarItem>>)
                     .compose(rxUtils.applySingleSchedulers())
 }

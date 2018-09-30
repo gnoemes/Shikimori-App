@@ -47,6 +47,7 @@ class CalendarPresenter(
     private fun loadCalendarData() {
         interactor.calendarData
                 .appendLoadingLogic(viewState)
+                .doOnSubscribe { viewState.hideNetworkErrorView() }
                 .doOnSubscribe { viewState.hideEmptyView() }
                 .map(viewModelConverter)
                 .subscribe(this::setData, this::processErrors)
@@ -56,6 +57,7 @@ class CalendarPresenter(
     private fun loadMyOngoings() {
         interactor.myCalendarData
                 .appendLoadingLogic(viewState)
+                .doOnSubscribe { viewState.hideNetworkErrorView() }
                 .doOnSubscribe { viewState.hideEmptyView() }
                 .map(viewModelConverter)
                 .subscribe(this::setData, this::processErrors)

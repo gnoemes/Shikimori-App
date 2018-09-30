@@ -25,7 +25,7 @@ class RanobeInteractorImpl @Inject constructor(
     override fun getFranchiseNodes(id: Long): Single<List<FranchiseNode>> = repository.getFranchiseNodes(id).composeHandlerAndSchedulers()
 
     private fun <T> Single<T>.composeHandlerAndSchedulers(): Single<T> {
-        return this.compose(singleErrorHandler.handleErrors())
+        return this.compose(singleErrorHandler as SingleErrorHandler<T>)
                 .compose(rxUtils.applySingleSchedulers())
     }
 }

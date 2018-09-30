@@ -21,48 +21,46 @@ class SearchInteractorImpl @Inject constructor(
     override fun loadAnimeList(page: Int, limit: Int): Single<List<Anime>> =
             queryBuilder.createQueryFromFilters(null, page, limit)
                     .flatMap { repository.getAnimeList(it) }
-                    .compose(errorHandler.handleErrors<List<Anime>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadMangaList(page: Int, limit: Int): Single<List<Manga>> =
             queryBuilder.createQueryFromFilters(null, page, limit)
                     .flatMap { repository.getMangaList(it) }
-                    .compose(errorHandler.handleErrors<List<Manga>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadRanobeList(page: Int, limit: Int): Single<List<Manga>> =
             queryBuilder.createQueryFromFilters(null, page, limit)
                     .flatMap { repository.getMangaList(it) }
-                    .compose(errorHandler.handleErrors<List<Manga>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadCharacterListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<List<Character>> =
             queryBuilder.createQueryFromFilters(filters, page, limit)
                     .flatMap { repository.getCharacterList(it) }
-                    .compose(errorHandler.handleErrors<List<Character>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadPersonListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<List<Person>> =
             queryBuilder.createQueryFromFilters(filters, page, limit)
                     .flatMap { repository.getPersonList(it) }
-                    .compose(errorHandler.handleErrors<List<Person>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadAnimeListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<List<Anime>> =
             queryBuilder.createQueryFromFilters(filters, page, limit)
                     .flatMap { repository.getAnimeList(it) }
-                    .compose(errorHandler.handleErrors<List<Anime>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadMangaListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<List<Manga>> =
             queryBuilder.createQueryFromFilters(filters, page, limit)
                     .flatMap { repository.getMangaList(it) }
-                    .compose(errorHandler.handleErrors<List<Manga>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
 
     override fun loadRanobeListWithFilters(filters: HashMap<String, MutableList<FilterItem>>?, page: Int, limit: Int): Single<List<Manga>> =
             queryBuilder.createQueryFromFilters(filters, page, limit)
                     .flatMap { repository.getRanobeList(it) }
-                    .compose(errorHandler.handleErrors<List<Manga>>())
-                    .compose(rxUtils.applySingleSchedulers())
+                    .composeHandlerAndSchedulers()
+
+
+    private fun <T> Single<T>.composeHandlerAndSchedulers(): Single<T> {
+        return this.compose(errorHandler as SingleErrorHandler<T>)
+                .compose(rxUtils.applySingleSchedulers())
+    }
 }
