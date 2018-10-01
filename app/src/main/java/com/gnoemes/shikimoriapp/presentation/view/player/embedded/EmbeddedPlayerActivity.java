@@ -10,9 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +57,10 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     TextView volumeView;
     @BindView(R.id.brightnessView)
     TextView brightnessView;
+    @BindView(R.id.unLocker)
+    ImageView unLockerView;
+    @BindView(R.id.constraint)
+    ConstraintLayout container;
 
     @InjectPresenter
     EmbeddedPlayerPresenter presenter;
@@ -64,6 +70,27 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     private int currentVolume;
     private int currentBrightness;
+
+    private Runnable hideLockerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            unLockerView.setVisibility(View.GONE);
+        }
+    };
+
+    private Runnable hideVolumeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            volumeView.setVisibility(View.GONE);
+        }
+    };
+
+    private Runnable hideBrighnessRunnable = new Runnable() {
+        @Override
+        public void run() {
+            brightnessView.setVisibility(View.GONE);
+        }
+    };
 
     public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
@@ -91,6 +118,10 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
         currentVolume = SystemServiceKt.audioManager(EmbeddedPlayerActivity.this).getStreamVolume(AudioManager.STREAM_MUSIC);
         currentBrightness = (int) ((getWindow().getAttributes().screenBrightness / 255f) * 100);
+        unLockerView.setOnClickListener(view -> {
+            playerManager.unlock();
+            unLockerView.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -176,9 +207,24 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     }
 
     @Override
+    public void onLocked() {
+        unLockerView.setVisibility(View.VISIBLE);
+        unLockerView.postDelayed(hideLockerRunnable, 3500);
+        container.setOnClickListener(view -> {
+            if (playerManager.isLocked()) {
+                unLockerView.removeCallbacks(hideLockerRunnable);
+                unLockerView.setVisibility(View.VISIBLE);
+                unLockerView.postDelayed(hideLockerRunnable, 3500);
+            }
+        });
+    }
+
+    @Override
     public void onScrollEnd() {
-        volumeView.postDelayed(() -> volumeView.setVisibility(View.GONE), 1500);
-        brightnessView.postDelayed(() -> brightnessView.setVisibility(View.GONE), 1500);
+        volumeView.removeCallbacks(hideVolumeRunnable);
+        volumeView.postDelayed(hideVolumeRunnable, 2500);
+        brightnessView.removeCallbacks(hideBrighnessRunnable);
+        brightnessView.postDelayed(hideBrighnessRunnable, 2500);
     }
 
     @Override

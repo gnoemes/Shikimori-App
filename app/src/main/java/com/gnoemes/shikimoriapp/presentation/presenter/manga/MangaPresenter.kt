@@ -185,7 +185,6 @@ class MangaPresenter @Inject constructor(
     fun onLinkClicked(linkViewModel: LinkViewModel) = router.navigateTo(Screens.WEB, linkViewModel.url)
 
     fun onClearHistory() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun onDeleteRate(id: Long) {

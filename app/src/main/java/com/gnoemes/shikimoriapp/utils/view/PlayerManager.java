@@ -50,7 +50,6 @@ import com.santalu.respinner.ReSpinner;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO fix fragments concat and add subs support with fragments
 public class PlayerManager implements Player.EventListener, PlayerControlView.VisibilityListener {
 
     private static final String TAG = "EmbeddedPlayer";
@@ -71,6 +70,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private LinearLayout rewind;
 
     private ImageView fullscreenBtn;
+    private ImageView locker;
 
     private int controlsVisibility;
 
@@ -80,6 +80,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private PlayerControllerEventListener eventListener;
 
     private boolean landscape;
+    private boolean isLocked = false;
 
     public PlayerManager(Context context,
                          PlayerView playerView,
@@ -102,6 +103,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         nextBtn = playerView.findViewById(R.id.next);
         prevBtn = playerView.findViewById(R.id.prev);
         fullscreenBtn = playerView.findViewById(R.id.fullscreen);
+        locker = playerView.findViewById(R.id.lock);
 
         nextBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -130,6 +132,14 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         fullscreenBtn.setOnClickListener(v -> {
             if (eventListener != null) {
                 eventListener.toggleOrientation();
+            }
+        });
+
+        locker.setOnClickListener(view -> {
+            isLocked = true;
+            playerView.setUseController(false);
+            if (eventListener != null) {
+                eventListener.onLocked();
             }
         });
 
@@ -220,6 +230,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         prevBtn.setEnabled(true);
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void unlock() {
+        isLocked = false;
+        playerView.setUseController(true);
+    }
+
     private void showControls() {
         playerView.showController();
     }
@@ -228,7 +247,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         playerView.hideController();
     }
 
-    private void toggleControlsVisibility() {
+    public void toggleControlsVisibility() {
         if (!isControlsVisible()) {
             hideControls();
         } else {
@@ -439,6 +458,8 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void onChangeVolume(int volume);
 
         void onScrollEnd();
+
+        void onLocked();
     }
 
     public static class MediaSourceHelper {
@@ -502,6 +523,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     private class ExoPlayerGestureListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
+        private final int MOVEMENT_TH = 30;
         private final int stepBrightness = 5;
         private final int stepVolume = 1;
         private boolean isMoving;
@@ -511,21 +533,26 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             Log.i(TAG, "onScroll: 1: " + motionEvent.getY() + " 2: " + motionEvent2.getY() + " diff: " + (motionEvent.getY() - motionEvent2.getY()));
             Log.i(TAG, "onScroll: sssss " + Math.round(Math.abs(distanceY)) % 3);
 
-            isMoving = true;
-            if (motionEvent.getX() < ((float) (playerView.getWidth() / 2))) {
-                if (Math.round(Math.abs(distanceY)) % 3 == 0) {
-                    if (eventListener != null) {
-                        eventListener.onChangeVolume(distanceY > 0 ? stepVolume : -stepVolume);
+            if (!isLocked) {
+                int diff = (int) Math.abs((motionEvent.getY() - motionEvent2.getY()));
+                isMoving = true;
+                if (motionEvent.getX() < ((float) (playerView.getWidth() / 2))) {
+                    if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
+                        if (eventListener != null) {
+                            eventListener.onChangeVolume(distanceY > 0 ? stepVolume : -stepVolume);
+                        }
+                    }
+                } else {
+                    if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
+                        if (eventListener != null) {
+                            eventListener.onChangeBrightness(distanceY > 0 ? stepBrightness : -stepBrightness);
+                        }
                     }
                 }
-            } else {
-                if (Math.round(Math.abs(distanceY)) % 3 == 0) {
-                    if (eventListener != null) {
-                        eventListener.onChangeBrightness(distanceY > 0 ? stepBrightness : -stepBrightness);
-                    }
-                }
+                return true;
             }
-            return true;
+
+            return false;
         }
 
         void onScrollEnd() {
@@ -540,26 +567,32 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 //            if (!isPlaying()) {
 //                return false;
 //            }
-
-            if (e.getX() > ((float) (playerView.getWidth() / 2))) {
-                onFastForward();
-            } else {
-                onRewind();
+            if (!isLocked) {
+                if (e.getX() > ((float) (playerView.getWidth() / 2))) {
+                    onFastForward();
+                } else {
+                    onRewind();
+                }
+                return true;
             }
 
-            return true;
+            return false;
         }
 
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP && isMoving) {
-                isMoving = false;
-                onScrollEnd();
-            }
+            if (!isLocked) {
+                if (event.getAction() == MotionEvent.ACTION_UP && isMoving) {
+                    isMoving = false;
+                    onScrollEnd();
+                }
 
-            return detector.onTouchEvent(event);
+                return detector.onTouchEvent(event);
+            } else {
+                return false;
+            }
         }
 
     }
