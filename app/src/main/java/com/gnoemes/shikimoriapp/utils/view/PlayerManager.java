@@ -80,14 +80,17 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private PlayerControllerEventListener eventListener;
 
     private boolean landscape;
+    private boolean isGesturesEnabled;
     private boolean isLocked = false;
 
     public PlayerManager(Context context,
                          PlayerView playerView,
-                         boolean landscape) {
+                         boolean landscape,
+                         boolean isGesturesEnabled) {
         this.context = context;
         this.playerView = playerView;
         this.landscape = landscape;
+        this.isGesturesEnabled = isGesturesEnabled;
         initPlayer();
         initControls();
     }
@@ -538,13 +541,13 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
                 isMoving = true;
                 if (motionEvent.getX() < ((float) (playerView.getWidth() / 2))) {
                     if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
-                        if (eventListener != null) {
+                        if (eventListener != null && isGesturesEnabled) {
                             eventListener.onChangeVolume(distanceY > 0 ? stepVolume : -stepVolume);
                         }
                     }
                 } else {
                     if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
-                        if (eventListener != null) {
+                        if (eventListener != null && isGesturesEnabled) {
                             eventListener.onChangeBrightness(distanceY > 0 ? stepBrightness : -stepBrightness);
                         }
                     }

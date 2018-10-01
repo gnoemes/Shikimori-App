@@ -301,6 +301,7 @@
     <string name="pref_translation_type_remember">translation_type_remember</string>
     <string name="pref_player_type">player_type</string>
     <string name="pref_player_type_remember">player_type_remember</string>
+    <string name="pref_player_gestures">player_gestures</string>
     <string name="attention">Внимание</string>
     <string name="need_restart">Для применения измений требуется перезапуск</string>
     <string name="restart">Перезапустить</string>

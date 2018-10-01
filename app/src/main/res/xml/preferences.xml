@@ -37,6 +37,14 @@
             android:summary="Не показывать диалоговое окно для выбора плеера"
             android:title="@string/common_remember" />
 
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="true"
+            android:key="@string/pref_player_gestures"
+            android:layout="@layout/layout_preference"
+            android:summary="Возможность управлять уровнями громкости и звука жестами"
+            android:title="Управление жестами" />
+
+
     </PreferenceCategory>
 
     <Preference android:layout="@layout/layout_shadow_double" />
