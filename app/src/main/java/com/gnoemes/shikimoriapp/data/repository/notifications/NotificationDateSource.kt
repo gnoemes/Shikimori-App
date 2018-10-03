@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 
 interface NotificationDateSource {
 
-    fun getLastDate(): DateTime
+    fun getLastDateMills(): Long
 
-    fun saveLastDate(dateTime: DateTime)
+    fun saveLastDate(dateTime: DateTime?)
 }

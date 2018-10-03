@@ -12,7 +12,7 @@ class NotificationsRepositoryImpl @Inject constructor(
 
     override fun createNotification(data: NotificationData): Completable = notificationSource.createNotification(data)
 
-    override fun lastNewsMessageDate(): DateTime = dateSource.getLastDate()
+    override fun lastNewsMessageDate(): Long = dateSource.getLastDateMills()
 
-    override fun saveNewsMessageDate(dateTime: DateTime) = dateSource.saveLastDate(dateTime)
+    override fun saveNewsMessageDate(dateTime: DateTime?) = dateSource.saveLastDate(dateTime)
 }

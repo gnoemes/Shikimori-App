@@ -6,9 +6,9 @@ import org.joda.time.DateTime
 
 interface NotificationsRepository {
 
-    fun lastNewsMessageDate(): DateTime
+    fun lastNewsMessageDate(): Long
 
     fun createNotification(data: NotificationData): Completable
 
-    fun saveNewsMessageDate(dateTime: DateTime)
+    fun saveNewsMessageDate(dateTime: DateTime?)
 }

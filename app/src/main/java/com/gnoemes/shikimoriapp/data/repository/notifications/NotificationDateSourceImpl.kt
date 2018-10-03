@@ -15,16 +15,13 @@ class NotificationDateSourceImpl @Inject constructor(
         private const val KEY = "message_date_last"
     }
 
-    override fun getLastDate(): DateTime {
-        val mills = sharedPreferences.getLong(KEY, Constants.NO_ID)
-        return if (mills == Constants.NO_ID) {
-            DateTime.now()
-        } else {
-            DateTime(mills)
-        }
+    override fun getLastDateMills(): Long {
+        return sharedPreferences.getLong(KEY, Constants.NO_ID)
     }
 
-    override fun saveLastDate(dateTime: DateTime) {
-        sharedPreferences.putLong(KEY, dateTime.millis)
+    override fun saveLastDate(dateTime: DateTime?) {
+        if (dateTime != null) {
+            sharedPreferences.putLong(KEY, dateTime.millis)
+        }
     }
 }
