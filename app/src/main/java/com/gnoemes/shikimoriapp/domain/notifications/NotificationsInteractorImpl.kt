@@ -38,7 +38,7 @@ class NotificationsInteractorImpl @Inject constructor(
                     .map { notificationsRepository.saveNewsMessageDate(it.firstOrNull()?.dateCreated); it }
                     .flatMapCompletable { list ->
                         Observable.fromIterable(list)
-                                .flatMapCompletable { notificationsRepository.createNotification(NotificationData(NotificationType.NEW_EPISODE, it.linked)) }
+                                .flatMapCompletable { notificationsRepository.createNotification(NotificationData(NotificationType.NEW_EPISODE, it)) }
                     }
                     .compose(completableErrorHandler)
                     .compose(rxUtils.applyCompleteSchedulers())

@@ -16,6 +16,7 @@ import com.gnoemes.shikimoriapp.entity.app.domain.NotificationData
 import com.gnoemes.shikimoriapp.entity.app.domain.NotificationType
 import com.gnoemes.shikimoriapp.entity.app.domain.Type
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras
+import com.gnoemes.shikimoriapp.entity.user.domain.Message
 import com.gnoemes.shikimoriapp.presentation.view.main.MainActivity
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader
 import javax.inject.Inject
@@ -52,10 +53,10 @@ class NotificationConverterImpl @Inject constructor(
     }
 
     private fun createNewEpisodeNotification(data: NotificationData, channel: String): Notification {
-        val anime = (data.payload as? Anime)!!
+        val message = (data.payload as? Message)!!
         val title = context.getString(R.string.notification_new_episode_title)
-        val text = String.format(context.getString(R.string.notification_new_episode_format), anime.episodesAired, anime.name)
-        return animeNotification(anime, title, text, channel)
+        val text = message.htmlBody
+        return animeNotification(message.linked as Anime, title, text, channel)
     }
 
     private fun animeNotification(anime: Anime, title: String, text: String, channel: String): Notification {
