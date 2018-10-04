@@ -74,7 +74,7 @@
         <item name="colorAction">@color/colorAccentInverse</item>
         <item name="colorBottom">@color/colorPrimaryInverse</item>
         <item name="colorBottomAccent">@color/colorAccentInverse</item>
-        <item name="colorBottomDark">@color/colorPrimaryDarkInverse</item>
+        <item name="colorBottomDark">@color/gray_transparent</item>
         <item name="colorTextTransparent">@color/gray_transparent</item>
     </style>
 
