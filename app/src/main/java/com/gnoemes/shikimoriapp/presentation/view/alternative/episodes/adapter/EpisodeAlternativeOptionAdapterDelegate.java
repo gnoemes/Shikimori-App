@@ -104,7 +104,7 @@ public class EpisodeAlternativeOptionAdapterDelegate extends AdapterDelegate<Lis
 
             continueBtn.setText(buttonText);
 
-            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.ALTERNATIVE_SOURCE, optionsItem.getEpisodeItem()));
+            continueBtn.setOnClickListener(v -> callback.onAction(EpisodeOptionAction.WATCH_ONLINE, optionsItem.getEpisodeItem()));
             invertView.setOnClickListener(view -> callback.onAction(EpisodeOptionAction.REVERSE_LIST, null));
             alternativeBtn.setVisibility(View.GONE);
         }
