@@ -33,7 +33,10 @@
 
         <activity
             android:name=".presentation.view.player.WebPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenLayout|smallestScreenSize|screenSize"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:hardwareAccelerated="true" />
         <activity
             android:name=".presentation.view.auth.AuthActivity"
@@ -45,7 +48,10 @@
 
         <activity
             android:name=".presentation.view.player.embedded.EmbeddedPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenLayout|smallestScreenSize|screenSize"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:hardwareAccelerated="true" />
 
         <activity

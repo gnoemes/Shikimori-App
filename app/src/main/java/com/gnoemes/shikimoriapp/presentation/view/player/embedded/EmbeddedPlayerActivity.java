@@ -1,5 +1,6 @@
 package com.gnoemes.shikimoriapp.presentation.view.player.embedded;
 
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -206,7 +207,11 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onControlsVisible() {
+    }
 
+    @Override
+    public void onControlsHidden() {
+        enterFullscreen();
     }
 
     @Override
@@ -220,6 +225,13 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
                 unLockerView.postDelayed(hideLockerRunnable, 3500);
             }
         });
+    }
+
+    @Override
+    public void onPipMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            enterPictureInPictureMode(new PictureInPictureParams.Builder().build());
+        }
     }
 
     @Override
@@ -311,11 +323,6 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     @Override
     public void onAlternativeSource() {
         getPresenter().onAlternativeSource();
-    }
-
-    @Override
-    public void onControlsHidden() {
-        enterFullscreen();
     }
 
     @Override

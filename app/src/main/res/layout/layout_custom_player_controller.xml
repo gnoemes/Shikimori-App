@@ -249,8 +249,8 @@
                 android:id="@+id/exo_progress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 app:buffered_color="#b4f66767"
                 app:played_color="#FFFF0000"
                 app:scrubber_color="#FFFF0000"
@@ -268,6 +268,20 @@
                 android:textColor="@android:color/white"
                 tools:ignore="RtlHardcoded"
                 tools:text="1:23:49" />
+
+            <ImageView
+                android:id="@+id/pipView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:tint="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_open_in_new"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/fullscreen"

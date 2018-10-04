@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -71,6 +72,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
     private ImageView fullscreenBtn;
     private ImageView locker;
+    private ImageView pipView;
 
     private int controlsVisibility;
 
@@ -107,6 +109,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         prevBtn = playerView.findViewById(R.id.prev);
         fullscreenBtn = playerView.findViewById(R.id.fullscreen);
         locker = playerView.findViewById(R.id.lock);
+        pipView = playerView.findViewById(R.id.pipView);
 
         nextBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -159,6 +162,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
         detector = new GestureDetector(context, gestureListener);
         playerView.setOnTouchListener(gestureListener);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            pipView.setVisibility(View.VISIBLE);
+            pipView.setOnClickListener(view -> {
+                if (eventListener != null) {
+                    eventListener.onPipMode();
+                }
+            });
+        }
     }
 
     private void initPlayer() {
@@ -463,6 +475,8 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void onScrollEnd();
 
         void onLocked();
+
+        void onPipMode();
     }
 
     public static class MediaSourceHelper {
