@@ -128,20 +128,21 @@ class SearchPresenter @Inject constructor(
         onRefresh()
     }
 
+    //TODO rewrite
     private fun showList(list: MutableList<LinkedContent>?) {
         paginator.ifNotNull { searchPaginator ->
             if (searchPaginator.isFirstPage()) {
                 when (type) {
                     Type.ANIME -> {
-                        val items = list?.map { it as Anime }
+                        val items = list?.asSequence()?.filter { it is Anime }?.map { it as Anime }?.toList()
                         viewState.showList(animeConverter.convertListFrom(items))
                     }
                     Type.MANGA -> {
-                        val items = list?.map { it as Manga }
+                        val items = list?.asSequence()?.filter { it is Manga }?.map { it as Manga }?.toList()
                         viewState.showList(mangaConverter.convertListFrom(items))
                     }
                     Type.RANOBE -> {
-                        val items = list?.map { it as Manga }
+                        val items = list?.asSequence()?.filter { it is Manga }?.map { it as Manga }?.toList()
                         viewState.showList(mangaConverter.convertListFrom(items))
                     }
                     else -> Unit
@@ -149,15 +150,15 @@ class SearchPresenter @Inject constructor(
             } else {
                 when (type) {
                     Type.ANIME -> {
-                        val items = list?.map { it as Anime }
+                        val items = list?.asSequence()?.filter { it is Anime }?.map { it as Anime }?.toList()
                         viewState.insetMore(animeConverter.convertListFrom(items))
                     }
                     Type.MANGA -> {
-                        val items = list?.map { it as Manga }
+                        val items = list?.asSequence()?.filter { it is Manga }?.map { it as Manga }?.toList()
                         viewState.insetMore(mangaConverter.convertListFrom(items))
                     }
                     Type.RANOBE -> {
-                        val items = list?.map { it as Manga }
+                        val items = list?.asSequence()?.filter { it is Manga }?.map { it as Manga }?.toList()
                         viewState.insetMore(mangaConverter.convertListFrom(items))
                     }
                     else -> Unit
