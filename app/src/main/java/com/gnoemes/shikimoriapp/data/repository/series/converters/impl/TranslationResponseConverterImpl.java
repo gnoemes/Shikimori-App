@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 public class TranslationResponseConverterImpl implements TranslationResponseConverter {
 
-    private static final String ALL_QUERY = "div.video-variant-group~[data-kind=all]";
+    private static final String ALL_QUERY = "div.video-variant-group[data-kind=%s]";
     private static final String TRANSLATIONS_QUERY = "div.b-video_variant[data-video_id]";
     private static final String VIDEO_ID_QUERY = "data-video_id";
     private static final String REJECTED_QUERY = "rejected";
@@ -37,12 +37,14 @@ public class TranslationResponseConverterImpl implements TranslationResponseConv
     }
 
     @Override
-    public List<Translation> convert(long animeId, int episodeId, Document document) {
+    public List<Translation> convert(long animeId, int episodeId, TranslationType type, Document document) {
         List<Translation> translations = new ArrayList<>();
 
         int episodesSize = seriesResponseConverter.apply(animeId, document).getEpisodesSize();
 
-        Element all = document.select(ALL_QUERY).first();
+        String ss = type == TranslationType.SUB_RU ? "subtitles" : type == TranslationType.VOICE_RU ? "fandub" : "raw";
+        String kek = String.format(ALL_QUERY, ss);
+        Element all = document.select(kek).first();
 
         if (all != null) {
             Elements group = all.select(TRANSLATIONS_QUERY);

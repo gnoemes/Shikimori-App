@@ -85,7 +85,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     @Override
     public Single<List<Translation>> getTranslations(TranslationType type, long animeId, int episodeId) {
         return api.getAnimeVideoInfo(animeId, episodeId)
-                .map(document -> translationResponseConverter.convert(animeId, episodeId, document))
+                .map(document -> translationResponseConverter.convert(animeId, episodeId, type, document))
                 .flatMap(translations -> Observable.fromIterable(translations)
                         .filter(translation -> translation.getType() == type || type == TranslationType.ALL)
                         .toList());
