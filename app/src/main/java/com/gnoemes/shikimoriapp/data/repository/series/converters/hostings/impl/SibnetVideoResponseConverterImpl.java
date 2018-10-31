@@ -26,7 +26,7 @@ public class SibnetVideoResponseConverterImpl implements SibnetVideoResponseConv
     }
 
     @Override
-    public PlayVideo convertResponse(long animeId, int episodeId, String title, Document document) {
+    public PlayVideo convertResponse(long animeId, int episodeId, String title, String sourceUrl, Document document) {
         Elements scripts = document.getElementsByTag("script");
         List<VideoTrack> tracks = new ArrayList<>();
         String json = null;
@@ -50,7 +50,7 @@ public class SibnetVideoResponseConverterImpl implements SibnetVideoResponseConv
             }
         }
 
-        return new PlayVideo(animeId, episodeId, VideoHosting.SIBNET, title, tracks);
+        return new PlayVideo(animeId, episodeId, VideoHosting.SIBNET, title, tracks, sourceUrl);
     }
 
     @Override

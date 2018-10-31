@@ -63,11 +63,15 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     @Override
+    public String convertSibnetDashToMp4Link(String url) {
+        return sibnetVideoResponseConverter.convertDashToMp4Link(url);
+    }
+
+    @Override
     public PlayVideo convertMp4FromDashSibnetResponse(PlayVideo video, String url) {
         List<VideoTrack> trackList = new ArrayList<>();
 
-        String videoUrl = sibnetVideoResponseConverter.convertDashToMp4Link(url);
-        trackList.add(new VideoTrack((int) Constants.NO_ID, videoUrl, VideoFormat.MP4));
+        trackList.add(new VideoTrack((int) Constants.NO_ID, sibnetVideoResponseConverter.convertDashToMp4Link(url), VideoFormat.MP4));
 
         return new PlayVideo(video.getAnimeId(), video.getEpisodeId(), video.getHosting(), video.getTitle(), trackList);
     }
@@ -97,20 +101,20 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     }
 
     @Override
-    public PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String title, Document document) {
+    public PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String playVideoTitle, String sourceUrl, Document document) {
         switch (hosting) {
             case YOUTUBE:
                 return convertYoutubeSource(animeId, episodeId, document);
             case OK:
                 return convertOkSource(animeId, episodeId, document);
             case VK:
-                return vkVideoResponseConverter.convertResponse(animeId, episodeId, title, document);
+                return vkVideoResponseConverter.convertResponse(animeId, episodeId, playVideoTitle, sourceUrl, document);
             case MY_VI:
                 return convertMyViSource(animeId, episodeId, document);
             case RUTUBE:
                 return convertRutubeSource(animeId, episodeId, document);
             case SIBNET:
-                return sibnetVideoResponseConverter.convertResponse(animeId, episodeId, title, document);
+                return sibnetVideoResponseConverter.convertResponse(animeId, episodeId, playVideoTitle, sourceUrl, document);
             case MAIL_RU:
                 return convertMailRuSource(animeId, episodeId, document);
             case ANIMEDIA:

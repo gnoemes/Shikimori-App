@@ -105,12 +105,14 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     }
 
     private Single<PlayVideo> getVideoFromSibnet(PlayVideo video) {
-        return api.getRawVideoResponse(video.getTracks().get(0).getUrl())
+        String url = video.getTracks().get(0).getUrl();
+        return api.getRawVideoResponse(url, video.getSourceUrl())
                 .map(Response::raw)
                 .map(okhttp3.Response::request)
                 .map(Request::url)
                 .map(HttpUrl::toString)
-                .map(url -> playVideoResponseConverter.convertMp4FromDashSibnetResponse(video, url));
+                .map(playVideoResponseConverter::convertSibnetDashToMp4Link)
+                .map(url2 -> playVideoResponseConverter.convertMp4FromDashSibnetResponse(video, url2));
     }
 
     @Override
@@ -124,6 +126,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                         playVideo.getEpisodeId(),
                                         playVideo.getHosting(),
                                         playVideo.getTitle(),
+                                        playVideo.getSourceUrl(),
                                         document)))
                 .flatMap(video -> {
                     if (video.getHosting() == VideoHosting.SIBNET) {
@@ -143,7 +146,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                         playVideo.getAnimeId(),
                                         playVideo.getEpisodeId(),
                                         playVideo.getHosting(),
-                                        playVideo.getTitle(),
+                                        playVideo.getTitle(), playVideo.getTitle(),
                                         document)))
                 .flatMap(video -> {
                     if (video.getHosting() == VideoHosting.SIBNET) {

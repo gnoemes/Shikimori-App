@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 
 public interface BaseVideoResponseConverter {
 
-    PlayVideo convertResponse(long animeId, int episodeId, String title, Document document);
+    PlayVideo convertResponse(long animeId, int episodeId, String title, String sourceUrl, Document document);
 
     default VideoFormat convertVideoFormat(String type) {
         for (VideoFormat format : VideoFormat.values()) {

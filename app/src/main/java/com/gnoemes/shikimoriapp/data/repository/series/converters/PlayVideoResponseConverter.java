@@ -8,7 +8,9 @@ import org.jsoup.nodes.Document;
 public interface PlayVideoResponseConverter {
     PlayVideo apply(Document document, long animeId, int episodeId);
 
-    PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String title, Document document);
+    PlayVideo convertDependsOnHosting(long animeId, int episodeId, VideoHosting hosting, String playVideoTitle, String sourceUrl, Document document);
+
+    String convertSibnetDashToMp4Link(String url);
 
     PlayVideo convertMp4FromDashSibnetResponse(PlayVideo video, String url);
 }

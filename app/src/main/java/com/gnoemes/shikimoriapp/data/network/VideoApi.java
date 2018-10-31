@@ -6,6 +6,7 @@ import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
@@ -42,5 +43,5 @@ public interface VideoApi {
      * Handle raw response with headers and redirect urls
      */
     @GET
-    Single<Response<ResponseBody>> getRawVideoResponse(@Url String url);
+    Single<Response<ResponseBody>> getRawVideoResponse(@Url String url, @Header("Referer") String refererHeader);
 }

@@ -26,7 +26,7 @@ public class VkVideoResponseConverterImpl implements VkVideoResponseConverter {
     }
 
     @Override
-    public PlayVideo convertResponse(long animeId, int episodeId, String title, Document document) {
+    public PlayVideo convertResponse(long animeId, int episodeId, String title, String sourceUrl, Document document) {
         String QUALITIES_QUERY = "video#video_player>source[type=video/mp4]";
         List<VideoTrack> tracks = new ArrayList<>();
         Pattern resolutionPattern = Pattern.compile("\\.(\\d+)\\.");
