@@ -27,6 +27,8 @@ import com.gnoemes.shikimoriapp.data.repository.notifications.NotificationsRepos
 import com.gnoemes.shikimoriapp.data.repository.notifications.NotificationsRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepository;
 import com.gnoemes.shikimoriapp.data.repository.rates.UserRatesRepositoryImpl;
+import com.gnoemes.shikimoriapp.data.repository.series.AgentRepository;
+import com.gnoemes.shikimoriapp.data.repository.series.AgentRepositoryImpl;
 import com.gnoemes.shikimoriapp.data.repository.user.UserRepository;
 import com.gnoemes.shikimoriapp.data.repository.user.UserRepositoryImpl;
 
@@ -96,4 +98,8 @@ public interface RepositoryModule {
     @Binds
     @Singleton
     JobSchedulingRepository bindJobSchedulingRepository(JobSchedulingRepositoryImpl repository);
+
+    @Binds
+    @Singleton
+    AgentRepository bindAgentRepository(AgentRepositoryImpl repository);
 }

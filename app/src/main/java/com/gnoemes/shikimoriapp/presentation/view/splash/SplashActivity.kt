@@ -10,6 +10,8 @@ import com.arellomobile.mvp.MvpAppCompatActivity
 import com.gnoemes.shikimoriapp.BuildConfig
 import com.gnoemes.shikimoriapp.R
 import com.gnoemes.shikimoriapp.presentation.view.main.MainActivity
+import com.gnoemes.shikimoriapp.utils.getDefaultSharedPreferences
+import com.gnoemes.shikimoriapp.utils.putString
 import com.gnoemes.shikimoriapp.utils.toUri
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,13 +31,24 @@ class SplashActivity : MvpAppCompatActivity() {
                 val lastVersion = snapshot.value.toString()
                 Log.i("DEVE", "last $lastVersion")
                 if (!BuildConfig.VERSION_NAME.contains(lastVersion)) {
-                    Log.i("DEVE", "lul")
                     createNewVersionPush(lastVersion)
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {}
         }
+
+        val agentListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.i("DEVE", snapshot.value.toString())
+                getDefaultSharedPreferences().putString("agent", snapshot.value.toString())
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        }
+
+        database.child("video-agent").addListenerForSingleValueEvent(agentListener)
         database.child("version").addListenerForSingleValueEvent(versionListener)
 
         startActivity(Intent(this, MainActivity::class.java))

@@ -35,6 +35,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
     private EpisodeDbSource episodeDbSource;
     private HistoryDbSource historyDbSource;
     private RateSyncDbSource syncDbSource;
+    private AgentRepository agentRepository;
 
     @Inject
     public SeriesRepositoryImpl(@NonNull VideoApi api,
@@ -43,7 +44,9 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                                 @NonNull PlayVideoResponseConverter playVideoResponseConverter,
                                 @NonNull EpisodeDbSource episodeDbSource,
                                 @NonNull HistoryDbSource historyDbSource,
-                                @NonNull RateSyncDbSource syncDbSource) {
+                                @NonNull RateSyncDbSource syncDbSource,
+                                AgentRepository agentRepository
+    ) {
         this.api = api;
         this.responseConverter = responseConverter;
         this.translationResponseConverter = translationResponseConverter;
@@ -51,6 +54,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
         this.episodeDbSource = episodeDbSource;
         this.historyDbSource = historyDbSource;
         this.syncDbSource = syncDbSource;
+        this.agentRepository = agentRepository;
     }
 
 
@@ -61,7 +65,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
      */
     @Override
     public Single<Series> getAnimeSeries(long animeId) {
-        return api.getAnimeVideoInfo(animeId)
+        return api.getAnimeVideoInfo(animeId, agentRepository.getAgent())
                 .map(document -> responseConverter.apply(animeId, document))
                 .flatMap(series -> episodeDbSource.saveEpisodes(series.getEpisodes()).toSingleDefault(series.getEpisodes())
                         .flatMap(episodes -> syncDbSource.getRateEpisodes(animeId)
@@ -84,7 +88,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
      */
     @Override
     public Single<List<Translation>> getTranslations(TranslationType type, long animeId, int episodeId) {
-        return api.getAnimeVideoInfo(animeId, episodeId)
+        return api.getAnimeVideoInfo(animeId, episodeId, agentRepository.getAgent())
                 .map(document -> translationResponseConverter.convert(animeId, episodeId, type, document))
                 .flatMap(translations -> Observable.fromIterable(translations)
                         .filter(translation -> translation.getType() == type || type == TranslationType.ALL)
@@ -93,14 +97,14 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 
     @Override
     public Single<PlayVideo> getVideo(long animeId, int episodeId, long videoId) {
-        return api.getAnimeVideoInfo(animeId, episodeId, videoId)
+        return api.getAnimeVideoInfo(animeId, episodeId, videoId, agentRepository.getAgent())
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
 
     }
 
     @Override
     public Single<PlayVideo> getVideo(long animeId, int episodeId) {
-        return api.getAnimeVideoInfo(animeId, episodeId)
+        return api.getAnimeVideoInfo(animeId, episodeId, agentRepository.getAgent())
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId));
     }
 
@@ -117,7 +121,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 
     @Override
     public Single<PlayVideo> getVideoSource(long animeId, int episodeId, long videoId) {
-        return api.getAnimeVideoInfo(animeId, episodeId, videoId)
+        return api.getAnimeVideoInfo(animeId, episodeId, videoId, agentRepository.getAgent())
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
                 .flatMap(playVideo -> api.getVideoSource(playVideo.getSourceUrl())
                         .map(document -> playVideoResponseConverter
@@ -138,7 +142,7 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 
     @Override
     public Single<PlayVideo> getVideoSource(long animeId, int episodeId) {
-        return api.getAnimeVideoInfo(animeId, episodeId)
+        return api.getAnimeVideoInfo(animeId, episodeId, agentRepository.getAgent())
                 .map(document -> playVideoResponseConverter.apply(document, animeId, episodeId))
                 .flatMap(playVideo -> api.getVideoSource(playVideo.getSourceUrl())
                         .map(document -> playVideoResponseConverter

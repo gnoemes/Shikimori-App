@@ -7,7 +7,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
@@ -20,22 +19,19 @@ public interface VideoApi {
      * Get html page of specific video
      */
     @GET("/animes/a{animeId}/video_online/{episode}/{videoId}")
-    @Headers({"User-Agent: okhttp 3.11"})
-    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode, @Path("videoId") long videoId);
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode, @Path("videoId") long videoId, @Header("User-Agent") String agent);
 
     /**
      * Get html page of anime (information about episodes hostings etc)
      */
     @GET("/animes/a{animeId}/video_online/")
-    @Headers({"User-Agent: okhttp 3.11"})
-    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId);
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Header("User-Agent") String agent);
 
     /**
      * Get html page of anime with default video
      */
     @GET("/animes/a{animeId}/video_online/{episode}")
-    @Headers({"User-Agent: okhttp 3.11"})
-    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode);
+    Single<Document> getAnimeVideoInfo(@Path("animeId") long animeId, @Path("episode") int episode, @Header("User-Agent") String agent);
 
     /**
      * Get html source from hosting
