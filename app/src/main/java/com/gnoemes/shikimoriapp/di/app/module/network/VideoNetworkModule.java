@@ -9,7 +9,6 @@ import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.di.app.qualifiers.VideoApi;
 import com.gnoemes.shikimoriapp.entity.app.data.AppConfig;
 import com.gnoemes.shikimoriapp.utils.net.parser.PlayShikimoriConverterFactory;
-import com.gnoemes.shikimoriapp.utils.net.shiki.UserAgentInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,10 +33,8 @@ public interface VideoNetworkModule {
     @Singleton
     @VideoApi
     static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor,
-                                            UserAgentInterceptor agentInterceptor,
                                             @VideoApi CookieJar cookieJar) {
         return new OkHttpClient.Builder()
-                .addInterceptor(agentInterceptor)
                 .addInterceptor(interceptor)
                 .cookieJar(cookieJar)
                 .connectTimeout(AppConfig.LONG_TIMEOUT, TimeUnit.SECONDS)
