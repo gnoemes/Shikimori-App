@@ -23,8 +23,12 @@
           }
         },
         {
-          "client_id": "950611899003-83ebh2masgicidokeon576jo24v3vbc5.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "950611899003-a87r025lmc46558mesiefd9s3ugeltgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gnoemes.shikimoriapp",
+            "certificate_hash": "374e544a6e6f3473ba07e6391132e8a7dd820469"
+          }
         },
         {
           "client_id": "950611899003-83ebh2masgicidokeon576jo24v3vbc5.apps.googleusercontent.com",

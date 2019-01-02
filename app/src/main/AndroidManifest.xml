@@ -20,14 +20,21 @@
         android:largeHeap="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppThemeLight">
-        <activity
-            android:name=".presentation.view.main.MainActivity"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustPan">
+        <activity android:name=".presentation.view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".presentation.view.main.MainActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
