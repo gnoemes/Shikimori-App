@@ -26,7 +26,7 @@ public class PlayVideoResponseConverterImpl implements PlayVideoResponseConverte
     private static final String HREF_QUERY = "href";
     private static final String TITLE_QUERY = "a.b-link>span[itemprop]";
 
-    private static final String SMOTRET_ANIME_REGEX = "https?://smotret-anime\\.ru/";
+    private static final String SMOTRET_ANIME_REGEX = "https?://smotretanime\\.ru/";
     private static final String SIBNET_REGEX = "https?://video\\.sibnet\\.ru/";
     private static final String VK_REGEX = "https?://vk\\.com/";
     private static final String YOUTUBE_REGEX = "https?://(?:www\\.)?youtube\\.com/";
