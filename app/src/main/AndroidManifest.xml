@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".App"
@@ -17,11 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:largeHeap="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppThemeLight">
-        <activity
-            android:name=".presentation.view.main.MainActivity"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustPan">
+        <activity android:name=".presentation.view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +29,21 @@
         </activity>
 
         <activity
+            android:name=".presentation.view.main.MainActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".presentation.view.player.WebPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenLayout|smallestScreenSize|screenSize"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:hardwareAccelerated="true" />
         <activity
             android:name=".presentation.view.auth.AuthActivity"
@@ -43,7 +55,10 @@
 
         <activity
             android:name=".presentation.view.player.embedded.EmbeddedPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenLayout|smallestScreenSize|screenSize"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:hardwareAccelerated="true" />
 
         <activity
@@ -53,6 +68,12 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="49adb365d3d365dabad78f3110d69bd84e717eea" />
+
+        <receiver
+            android:name=".domain.notifications.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

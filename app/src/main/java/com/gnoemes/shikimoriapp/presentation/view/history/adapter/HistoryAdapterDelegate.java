@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.history.presentation.HistoryItem;
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
@@ -126,7 +126,7 @@ public class HistoryAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             statusView.display();
 
             //TODO locale/settings
-            animeTitleView.setText(item.getRussianName());
+            animeTitleView.setText(item.getName());
 
             layout.setOnClickListener(v -> callback.onItemClick(item.getId()));
         }
@@ -158,7 +158,7 @@ public class HistoryAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                     .build();
         }
 
-        private String convertStatus(AnimeStatus status) {
+        private String convertStatus(Status status) {
             if (status == null) {
                 return itemView.getContext().getString(R.string.error_no_data);
             }

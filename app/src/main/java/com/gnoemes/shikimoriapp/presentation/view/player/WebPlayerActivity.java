@@ -83,7 +83,7 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         layout = findViewById(R.id.frame);
         webView = new WebView(getApplicationContext());
         layout.addView(webView);
-
+        webView.clearCache(true);
         client = new VideoWebChromeClient(webView, windowCallback);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -96,6 +96,7 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
         webView.setWebViewClient(new WebViewClient() {
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
@@ -111,6 +112,8 @@ public class WebPlayerActivity extends MvpAppCompatActivity {
                 } else {
                     return super.shouldOverrideUrlLoading(view, url);
                 }
+
+
             }
         });
 

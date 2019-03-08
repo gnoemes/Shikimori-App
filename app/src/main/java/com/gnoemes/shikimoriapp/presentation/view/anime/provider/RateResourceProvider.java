@@ -1,15 +1,19 @@
 package com.gnoemes.shikimoriapp.presentation.view.anime.provider;
 
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
 
 import java.util.List;
 
 public interface RateResourceProvider {
 
-    List<String> getRateStasuses();
+    List<String> getAnimeRateStasuses();
 
-    String getLocalizedStatus(RateStatus status);
+    List<String> getMangaRatesWithCount();
 
-    List<String> getRatesWithCount();
+    List<String> getMangaRateStasuses();
 
+    List<String> getAnimeRatesWithCount();
+
+    String getLocalizedStatus(Type type, RateStatus status);
 }

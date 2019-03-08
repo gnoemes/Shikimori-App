@@ -2,11 +2,9 @@ package com.gnoemes.shikimoriapp.data.repository.user.converter;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.user.domain.Target;
 import com.gnoemes.shikimoriapp.entity.user.domain.TargetType;
 
@@ -14,8 +12,11 @@ import javax.inject.Inject;
 
 public class TargetResponseConverterImpl implements TargetResponseConverter {
 
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    public TargetResponseConverterImpl() {
+    public TargetResponseConverterImpl(ImageResponseConverter imageResponseConverter) {
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
         return new Target(animeResponse.getId(),
                 animeResponse.getName(),
                 animeResponse.getRussianName(),
-                convertAnimeImage(animeResponse.getImage()),
+                imageResponseConverter.convert(animeResponse.getImage()),
                 animeResponse.getUrl(),
                 convertAnimeType(animeResponse.getType()),
                 convertAnimeStatus(animeResponse.getStatus()),
@@ -35,21 +36,6 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
                 animeResponse.getEpisodesAired(),
                 animeResponse.getAiredDate(),
                 animeResponse.getReleasedDate());
-    }
-
-    private AnimeImage convertAnimeImage(DefaultImageResponse image) {
-        return new AnimeImage(
-                buildUrl(image.getImageOriginalUrl()),
-                buildUrl(image.getImagePreviewUrl()),
-                buildUrl(image.getImageX96Url()),
-                buildUrl(image.getImageX48Url()));
-    }
-
-    private String buildUrl(String url) {
-        if (url.contains("http")) {
-            return url;
-        }
-        return BuildConfig.ShikimoriBaseUrl.concat(url);
     }
 
     private TargetType convertAnimeType(String type) {
@@ -61,13 +47,13 @@ public class TargetResponseConverterImpl implements TargetResponseConverter {
         return null;
     }
 
-    private AnimeStatus convertAnimeStatus(String status) {
-        if (AnimeStatus.ANONS.equalsStatus(status)) {
-            return AnimeStatus.ANONS;
-        } else if (AnimeStatus.ONGOING.equalsStatus(status)) {
-            return AnimeStatus.ONGOING;
-        } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
-            return AnimeStatus.RELEASED;
+    private Status convertAnimeStatus(String status) {
+        if (Status.ANONS.equalsStatus(status)) {
+            return Status.ANONS;
+        } else if (Status.ONGOING.equalsStatus(status)) {
+            return Status.ONGOING;
+        } else if (Status.RELEASED.equalsStatus(status)) {
+            return Status.RELEASED;
         } else {
             throw new IllegalArgumentException(status + " is not valid status");
         }

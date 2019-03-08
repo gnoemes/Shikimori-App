@@ -6,6 +6,7 @@ import com.gnoemes.shikimoriapp.di.main.module.MainModule;
 import com.gnoemes.shikimoriapp.di.player.EmbeddedPlayerModule;
 import com.gnoemes.shikimoriapp.di.player.WebPlayerModule;
 import com.gnoemes.shikimoriapp.di.screenshots.ScreenshotsModule;
+import com.gnoemes.shikimoriapp.domain.notifications.NotificationReceiver;
 import com.gnoemes.shikimoriapp.presentation.view.auth.AuthActivity;
 import com.gnoemes.shikimoriapp.presentation.view.main.MainActivity;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
@@ -37,4 +38,7 @@ public interface ActivityInjectionModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = ScreenshotsModule.class)
     ScreenshotsActivity screenshotsActivityInjector();
+
+    @ContributesAndroidInjector()
+    NotificationReceiver notificationReceiverInjector();
 }

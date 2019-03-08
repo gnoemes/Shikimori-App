@@ -32,6 +32,10 @@ public interface FavoriteView extends BaseFragmentView {
 
     void hideNetworkErrorView();
 
+    void showNeedAuthView();
+
+    void hideNeedAuthView();
+
     @StateStrategyType(AddToEndStrategy.class)
     void addBackArrow();
 
@@ -40,4 +44,10 @@ public interface FavoriteView extends BaseFragmentView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void updateRateItems(List<String> rates);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showChangeRateDialog(long id, List<RateStatus> currentStatus);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showAuthDialog();
 }

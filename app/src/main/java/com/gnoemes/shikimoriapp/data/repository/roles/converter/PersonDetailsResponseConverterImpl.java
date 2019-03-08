@@ -1,9 +1,8 @@
 package com.gnoemes.shikimoriapp.data.repository.roles.converter;
 
 import com.gnoemes.shikimoriapp.data.repository.anime.converter.AnimeResponseConverter;
-import com.gnoemes.shikimoriapp.data.repository.manga.MangaResponseConverter;
-import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.manga.converter.MangaResponseConverter;
 import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.roles.data.PersonDetailsResponse;
 import com.gnoemes.shikimoriapp.entity.roles.data.SeyuRoleResponse;
@@ -25,12 +24,17 @@ public class PersonDetailsResponseConverterImpl implements PersonDetailsResponse
     private AnimeResponseConverter animeResponseConverter;
     private MangaResponseConverter mangaResponseConverter;
     private CharacterResponseConverter characterResponseConverter;
+    private ImageResponseConverter imageResponseConverter;
 
     @Inject
-    public PersonDetailsResponseConverterImpl(AnimeResponseConverter animeResponseConverter, MangaResponseConverter mangaResponseConverter, CharacterResponseConverter characterResponseConverter) {
+    public PersonDetailsResponseConverterImpl(AnimeResponseConverter animeResponseConverter,
+                                              MangaResponseConverter mangaResponseConverter,
+                                              CharacterResponseConverter characterResponseConverter,
+                                              ImageResponseConverter imageResponseConverter) {
         this.animeResponseConverter = animeResponseConverter;
         this.mangaResponseConverter = mangaResponseConverter;
         this.characterResponseConverter = characterResponseConverter;
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class PersonDetailsResponseConverterImpl implements PersonDetailsResponse
                 personDetailsResponse.getName(),
                 personDetailsResponse.getRussianName(),
                 personDetailsResponse.getJapaneseName(),
-                convertImage(personDetailsResponse.getImageResponse()),
+                imageResponseConverter.convert(personDetailsResponse.getImageResponse()),
                 Utils.appendHostIfNeed(personDetailsResponse.getUrl()),
                 personDetailsResponse.getJobTitle(),
                 personDetailsResponse.getBirthDay(),
@@ -97,15 +101,6 @@ public class PersonDetailsResponseConverterImpl implements PersonDetailsResponse
                 animeResponseConverter.convertFrom(response.getAnimeResponse()),
                 mangaResponseConverter.convertResponse(response.getMangaResponse()),
                 response.getRole()
-        );
-    }
-
-    private AnimeImage convertImage(DefaultImageResponse imageResponse) {
-        return new AnimeImage(
-                Utils.appendHostIfNeed(imageResponse.getImageOriginalUrl()),
-                Utils.appendHostIfNeed(imageResponse.getImagePreviewUrl()),
-                Utils.appendHostIfNeed(imageResponse.getImageX96Url()),
-                Utils.appendHostIfNeed(imageResponse.getImageX48Url())
         );
     }
 }

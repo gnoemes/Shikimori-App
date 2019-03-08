@@ -11,6 +11,10 @@ import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayEpisodeRes
 import com.gnoemes.shikimoriapp.data.repository.series.converters.PlayVideoResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.SeriesResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.TranslationResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.hostings.SibnetVideoResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.hostings.VkVideoResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.hostings.impl.SibnetVideoResponseConverterImpl;
+import com.gnoemes.shikimoriapp.data.repository.series.converters.hostings.impl.VkVideoResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayEpisodeConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayEpisodeResponseConverterImpl;
 import com.gnoemes.shikimoriapp.data.repository.series.converters.impl.PlayVideoResponseConverterImpl;
@@ -56,5 +60,11 @@ public interface SeriesModule {
 
     @Binds
     PlayVideoResponseConverter bindPlayVideoResponseConverter(PlayVideoResponseConverterImpl converter);
+
+    @Binds
+    SibnetVideoResponseConverter bindSibnetVideoResponseConverter(SibnetVideoResponseConverterImpl converter);
+
+    @Binds
+    VkVideoResponseConverter bindVkVideoResponseConverter(VkVideoResponseConverterImpl converter);
 
 }

@@ -15,6 +15,8 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 
+import javax.net.ssl.SSLHandshakeException;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -41,7 +43,7 @@ public class ErrorProcessing<T> {
     }
 
     @NonNull
-    private Throwable throwProcessException(Throwable throwable) throws TitleException,
+    Throwable throwProcessException(Throwable throwable) throws TitleException,
             NetworkException, ServiceCodeException, ContentException {
 
         Crashlytics.logException(throwable);
@@ -51,6 +53,10 @@ public class ErrorProcessing<T> {
         }
 
         if (throwable instanceof ConnectException) {
+            throw new NetworkException(resourceProvider.getConnectionErrorException());
+        }
+
+        if (throwable instanceof SSLHandshakeException) {
             throw new NetworkException(resourceProvider.getConnectionErrorException());
         }
 

@@ -171,54 +171,24 @@ public class ProfilePresenter extends BaseNetworkPresenter<ProfileView> {
                 onAnimeClicked(id);
                 break;
             case FAVORITE_MANGAKAS:
-                onMangakasClicked(id);
+                onPersonClicked(id);
                 break;
             case FAVORITE_SEYU:
-                onSeyuClicked(id);
+                onPersonClicked(id);
                 break;
             case FAVORITE_MANGA:
                 onMangaClicked(id);
                 break;
             case FAVORITE_PEOPLE:
-                onPeopleClicked(id);
+                onPersonClicked(id);
                 break;
             case FAVORITE_PRODUCERS:
-                onProducersClicked(id);
+                onPersonClicked(id);
                 break;
             case FAVORITE_CHARACTERS:
-                onCharactersClicked(id);
+                onCharacterClicked(id);
                 break;
         }
-    }
-
-    private void onCharactersClicked(long id) {
-        getRouter().navigateTo(Screens.CHARACTER_DETAILS, id);
-    }
-
-    private void onProducersClicked(long id) {
-        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
-    }
-
-    private void onPeopleClicked(long id) {
-        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
-    }
-
-    private void onMangaClicked(long id) {
-//TODO add
-        getRouter().showSystemMessage("Манга в разработке");
-    }
-
-    private void onSeyuClicked(long id) {
-        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
-    }
-
-    private void onMangakasClicked(long id) {
-        getRouter().navigateTo(Screens.PERSON_DETAILS, id);
-    }
-
-    private void onAnimeClicked(long id) {
-        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
     }
 
     private void onSendMessageClicked(long id) {

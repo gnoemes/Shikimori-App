@@ -1,9 +1,32 @@
 <resources>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="preferenceTheme">@style/PreferenceAppTheme</item>
         <!--<item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>-->
+
+        <item name="colorSecondary">?attr/colorPrimary</item>
+        <item name="scrimBackground">@color/mtrl_scrim_color</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1
+        </item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2
+        </item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3
+        </item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
     </style>
 
     <!-- Base application theme. -->
@@ -51,8 +74,16 @@
         <item name="colorAction">@color/colorAccentInverse</item>
         <item name="colorBottom">@color/colorPrimaryInverse</item>
         <item name="colorBottomAccent">@color/colorAccentInverse</item>
-        <item name="colorBottomDark">@color/colorPrimaryDarkInverse</item>
+        <item name="colorBottomDark">@color/gray_transparent</item>
         <item name="colorTextTransparent">@color/gray_transparent</item>
+    </style>
+
+    <style name="DialogStyle">
+        <item name="android:textColorPrimary">?attr/colorText</item>
+        <item name="android:textColorSecondary">?attr/colorText</item>
+        <item name="android:checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="android:divider">?attr/colorText</item>
+        <item name="android:background">?attr/colorBackgroundContent</item>
     </style>
 
     <style name="PreferenceAppTheme" parent="PreferenceThemeOverlay">
@@ -63,6 +94,10 @@
         <item name="android:textColor">?attr/colorText</item>
     </style>
 
+    <style name="CheckBoxStyle" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
+
     <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/colorBackgroundWindow</item>
         <item name="android:textColor">?attr/colorText</item>
@@ -70,7 +105,14 @@
 
     <style name="ToolbarTextAppearance">
         <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">?attr/colorText</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="ToolbarSmallTextAppearance">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">

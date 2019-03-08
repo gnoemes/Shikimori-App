@@ -21,5 +21,8 @@ public interface UserRatesAnimeResourceProvider extends AnimeResourceProvider {
 
     String getFavString();
 
+    String getDeleteString();
+
     List<String> getRateStasuses();
+
 }

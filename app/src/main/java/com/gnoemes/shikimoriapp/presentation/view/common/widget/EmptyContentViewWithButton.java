@@ -77,9 +77,4 @@ public class EmptyContentViewWithButton extends BaseView {
         button.setText(text);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        callback = null;
-    }
 }

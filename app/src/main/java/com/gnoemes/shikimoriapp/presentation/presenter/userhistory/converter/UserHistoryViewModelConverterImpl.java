@@ -90,7 +90,7 @@ public class UserHistoryViewModelConverterImpl implements UserHistoryViewModelCo
         if (history.getTarget() != null) {
             targetId = history.getTarget().getId();
             targetName = TextUtils.isEmpty(history.getTarget().getRussianName()) ? history.getTarget().getName() : history.getTarget().getRussianName();
-            targetImage = history.getTarget().getAnimeImage().getImageOriginalUrl();
+            targetImage = history.getTarget().getImage().getOriginal();
             targetType = Type.ANIME;
         }
         return new HistoryItem(history.getId(),

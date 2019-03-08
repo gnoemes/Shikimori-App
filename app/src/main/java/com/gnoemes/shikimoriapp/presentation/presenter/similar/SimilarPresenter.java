@@ -2,15 +2,15 @@ package com.gnoemes.shikimoriapp.presentation.presenter.similar;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarAnimeInteractor;
+import com.gnoemes.shikimoriapp.domain.anime.similar.SimilarInteractor;
 import com.gnoemes.shikimoriapp.domain.app.AnalyticsInteractor;
-import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
-import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.AnimeViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.search.converter.MangaViewModelConverter;
 import com.gnoemes.shikimoriapp.presentation.view.similar.SimilarView;
 
 import java.util.List;
@@ -20,24 +20,69 @@ import io.reactivex.disposables.Disposable;
 @InjectViewState
 public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
 
-    private SimilarAnimeInteractor animeInteractor;
+    private SimilarInteractor interactor;
     private AnimeViewModelConverter converter;
+    private MangaViewModelConverter mangaViewModelConverter;
     private AnalyticsInteractor analyticsInteractor;
 
-    private long animeId;
+    private long id;
+    private Type type;
 
-    public SimilarPresenter(SimilarAnimeInteractor animeInteractor,
+    public SimilarPresenter(SimilarInteractor interactor,
                             AnimeViewModelConverter converter,
+                            MangaViewModelConverter mangaViewModelConverter,
                             AnalyticsInteractor analyticsInteractor) {
-        this.animeInteractor = animeInteractor;
+        this.interactor = interactor;
         this.converter = converter;
+        this.mangaViewModelConverter = mangaViewModelConverter;
         this.analyticsInteractor = analyticsInteractor;
     }
 
     @Override
     public void initData() {
         getViewState().setTitle(R.string.common_similar);
-        loadAnimes();
+        loadData();
+    }
+
+    private void loadData() {
+        switch (type) {
+            case RANOBE:
+                loadRanobe();
+                break;
+            case ANIME:
+                loadAnimes();
+                break;
+            case MANGA:
+                loadMangas();
+                break;
+        }
+    }
+
+    private void loadMangas() {
+        getViewState().hideNetworkError();
+        getViewState().onShowLoading();
+        getViewState().hideEmptyView();
+
+        Disposable disposable = interactor.getSimilarMangas(id)
+                .doOnEvent((mangas, throwable) -> getViewState().onHideLoading())
+                .map(mangas -> mangaViewModelConverter.convertListFrom(mangas))
+                .subscribe(this::setData, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    private void loadRanobe() {
+        getViewState().hideNetworkError();
+        getViewState().onShowLoading();
+        getViewState().hideEmptyView();
+
+        Disposable disposable = interactor.getSimilarRanobe(id)
+                .doOnEvent((mangas, throwable) -> getViewState().onHideLoading())
+                .map(mangas -> mangaViewModelConverter.convertListFrom(mangas))
+                .subscribe(this::setData, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+
     }
 
     private void loadAnimes() {
@@ -45,7 +90,7 @@ public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
         getViewState().onShowLoading();
         getViewState().hideEmptyView();
 
-        Disposable disposable = animeInteractor.getSimilarAnimes(animeId)
+        Disposable disposable = interactor.getSimilarAnimes(id)
                 .doOnEvent((animes, throwable) -> getViewState().onHideLoading())
                 .map(animes -> converter.convertListFrom(animes))
                 .subscribe(this::setData, this::processErrors);
@@ -75,17 +120,15 @@ public class SimilarPresenter extends BaseNetworkPresenter<SimilarView> {
         }
     }
 
-
-    public void onAnimeClicked(long id) {
-        analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
-    }
-
     public void onRefresh() {
         loadAnimes();
     }
 
-    public void setAnimeId(long animeId) {
-        this.animeId = animeId;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

@@ -30,10 +30,9 @@
         android:padding="@dimen/margin_small"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/constraint"
-        tools:background="@color/light_teal"
+        android:background="@drawable/background_type"
         tools:text="MANGA" />
 
     <View

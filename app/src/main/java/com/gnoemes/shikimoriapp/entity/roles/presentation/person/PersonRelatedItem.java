@@ -1,15 +1,15 @@
 package com.gnoemes.shikimoriapp.entity.roles.presentation.person;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 public class PersonRelatedItem {
 
     private long id;
-    private AnimeImage image;
+    private Image image;
     private String text;
     private PersonRelatedItemType type;
 
-    public PersonRelatedItem(long id, AnimeImage image, String text, PersonRelatedItemType type) {
+    public PersonRelatedItem(long id, Image image, String text, PersonRelatedItemType type) {
         this.id = id;
         this.image = image;
         this.text = text;
@@ -20,7 +20,7 @@ public class PersonRelatedItem {
         return id;
     }
 
-    public AnimeImage getImage() {
+    public Image getImage() {
         return image;
     }
 

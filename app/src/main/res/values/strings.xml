@@ -38,12 +38,14 @@
 
     <string name="search_nothing">Ничего не найдено.\n Попробуйте поискать что-нибудь другое</string>
     <string name="episode_nothing">Ничего не найдено.\n Похоже, что серии еще не появились на сайте</string>
+    <string name="calendar_nothing">Ничего не найдено.\n Добавляйте аниме в списки для отслеживания выхода новых серий</string>
     <string name="search_advance">Продвинутый</string>
 
-    <string name="calendar_ongoings">Календарь онгоингов</string>
+    <string name="calendar_ongoings">Онгоинги</string>
     <string name="calendar_date_format" translatable="false">%s, %s</string>
     <string name="calendar_episodes_format">\n[%s из %s]</string>
-    <string name="calendar_episode_in">%s эпизод c %s</string>
+    <string name="calendar_volumes_format">\n[%s-%s]</string>
+    <string name="calendar_episode_in">%s эпизод</string>
 
     <string name="menu_guest_hint">Авторизоваться</string>
     <string name="menu_user_hint">Перейти в профиль</string>
@@ -82,7 +84,7 @@
     <string name="type_special_translatable">Спешл</string>
     <string name="type_music_translatable">Музыка</string>
 
-    <string-array name="types">
+    <string-array name="anime_types">
         <item>@string/type_tv</item>
         <item>@string/type_ova</item>
         <item>@string/type_ona</item>
@@ -94,7 +96,7 @@
         <item>@string/type_tv_48</item>
     </string-array>
 
-    <string-array name="types_name">
+    <string-array name="anime_types_name">
         <item>tv</item>
         <item>ova</item>
         <item>ona</item>
@@ -104,6 +106,22 @@
         <item>tv_13</item>
         <item>tv_24</item>
         <item>tv_48</item>
+    </string-array>
+
+    <string-array name="manga_types">
+        <item>@string/type_manga_translatable</item>
+        <item>@string/type_manhwa_translatable</item>
+        <item>@string/type_manhua_translatable</item>
+        <item>@string/type_one_shot_translatable</item>
+        <item>@string/type_doujin_translatable</item>
+    </string-array>
+
+    <string-array name="manga_types_name">
+        <item>manga</item>
+        <item>manhwa</item>
+        <item>manhua</item>
+        <item>one_shot</item>
+        <item>doujin</item>
     </string-array>
 
     <string name="status_anons">Анонс</string>
@@ -145,13 +163,16 @@
     <string name="order_by_id">По порядку</string>
     <string name="order_by_type">По типу</string>
     <string name="order_by_popularity">По популярности</string>
+    <string name="order_by_ranked">По рейтингу</string>
     <string name="order_by_name">По имени</string>
     <string name="order_by_aired_on">По дате</string>
     <string name="order_by_episodes">По эпизодам</string>
     <string name="order_by_status">По статусу</string>
     <string name="order_by_random">Рандом</string>
+    <string name="order_by_volumes">По томам</string>
+    <string name="order_by_chapters">По главам</string>
 
-    <string-array name="order">
+    <string-array name="anime_order">
         <item>@string/order_by_name</item>
         <item>@string/order_by_aired_on</item>
         <item>@string/order_by_type</item>
@@ -159,10 +180,11 @@
         <item>@string/order_by_status</item>
         <item>@string/order_by_random</item>
         <item>@string/order_by_episodes</item>
+        <item>@string/order_by_ranked</item>
         <item>@string/order_by_popularity</item>
     </string-array>
 
-    <string-array name="order_names">
+    <string-array name="anime_order_names">
         <item>name</item>
         <item>aired_on</item>
         <item>type</item>
@@ -171,6 +193,18 @@
         <item>random</item>
         <item>episodes</item>
         <item>popularity</item>
+    </string-array>
+
+    <string-array name="manga_order">
+        <item>@string/order_by_name</item>
+        <item>@string/order_by_aired_on</item>
+        <item>@string/order_by_id</item>
+        <item>@string/order_by_status</item>
+        <item>@string/order_by_random</item>
+        <item>@string/order_by_volumes</item>
+        <item>@string/order_by_chapters</item>
+        <item>@string/order_by_ranked</item>
+        <item>@string/order_by_popularity</item>
     </string-array>
 
     <string name="duration_small">&lt; 10 мин.</string>
@@ -204,6 +238,7 @@
     <string name="translation_settings">Настройки переводов</string>
     <string name="translation_find_all">Искать все</string>
     <string name="common_sign_in">Вход</string>
+    <string name="common_enter">Войти</string>
     <string name="auth_dialog_conent">Войдите или зарегистрируйтесь для использования всех возможностей приложения</string>
     <string name="common_sign_up">Регистрация</string>
     <string name="reg_nickname">Никнейм</string>
@@ -216,15 +251,22 @@
     <string name="comment_quote">Цитата:</string>
     <string name="common_episodes">Эпизоды:</string>
     <string name="common_rate">Оценка:</string>
+    <string name="common_chapters">Главы:</string>
     <string name="rate_episodes_format" translatable="false">%s / %s (%s)</string>
     <string name="rate_empty">Здесь пока ничего нет</string>
     <string name="rate_watching">Смотрю</string>
+    <string name="rate_reading">Читаю</string>
+    <string name="rate_rereading">Перечитываю</string>
+    <string name="rate_readed">Прочитано</string>
     <string name="rate_planned">Запланировано</string>
     <string name="rate_rewatch">Пересматриваю</string>
     <string name="rate_completed">Просмотрено</string>
     <string name="rate_on_hold">Отложено</string>
     <string name="rate_dropped">Брошено</string>
     <string name="rate_watching_with_count">Смотрю (%s)</string>
+    <string name="rate_reading_with_count">Читаю (%s)</string>
+    <string name="rate_rereading_with_count">Перечитываю (%s)</string>
+    <string name="rate_readed_with_count">Прочитано (%s)</string>
     <string name="rate_planned_with_count">Запланировано (%s)</string>
     <string name="rate_rewatch_with_count">Пересматриваю (%s)</string>
     <string name="rate_completed_with_count">Просмотрено (%s)</string>
@@ -254,6 +296,12 @@
     <string name="pref_auto_dark_theme_title">Включать автоматически</string>
     <string name="about_program">О программе</string>
     <string name="pref_about_program">about_version</string>
+    <string name="pref_clear_settings">clear_settings</string>
+    <string name="pref_translation_type">translation_type</string>
+    <string name="pref_translation_type_remember">translation_type_remember</string>
+    <string name="pref_player_type">player_type</string>
+    <string name="pref_player_type_remember">player_type_remember</string>
+    <string name="pref_player_gestures">player_gestures</string>
     <string name="attention">Внимание</string>
     <string name="need_restart">Для применения измений требуется перезапуск</string>
     <string name="restart">Перезапустить</string>
@@ -314,6 +362,11 @@
     <string name="source">Источник</string>
     <string name="seyu">Сэйю</string>
     <string name="anime">Аниме</string>
+    <string name="manga">Манга</string>
+    <string name="ranobe">Ранобэ</string>
+    <string name="character">Персонаж</string>
+    <string name="producer">Режиссер</string>
+    <string name="person">Человек</string>
     <string name="character_info">Информация о персонаже</string>
     <string name="player_fast_forward_time">+10 сек.</string>
     <string name="player_rewind_time">-10 сек.</string>
@@ -354,6 +407,38 @@
     <string name="person_info">Информация о человеке</string>
     <string name="person_best_roles">Лучшие роли</string>
     <string name="episodes_alternative">Альтернативный источник</string>
+    <string name="rate_change">Изменить статус</string>
+    <string name="common_download">Скачать</string>
+    <string name="pref_naming">naming_type</string>
+    <string name="on_russian">На русском</string>
+    <string name="on_romadzi">На ромадзи</string>
+    <string name="titles_naming">Наименования тайтлов</string>
+    <string name="common_remember">Запомнить</string>
+    <string name="search_only_name">Для поиска персонажей и людей\nвоспользуйтесь поиском по имени.</string>
+    <string name="common_reset">Сброс</string>
+    <string name="common_apply">Применить</string>
+    <string name="filter_sort_title">Сортировать:</string>
+    <string name="read_online">Читать онлайн</string>
+    <string name="chapters">Главы</string>
+    <string name="volumes_and_chapters">Тома/Главы</string>
+    <string name="chapters_in_dev">Чтение манги пока не доступно</string>
+    <string name="manga_type_format">%s, %s %s</string>
+    <string name="translation_type">Тип перевода</string>
+    <string name="on_sd">На SD карту</string>
+    <string name="on_memory">В память телефона</string>
+    <string name="notification_new_episode_title">Новый эпизод</string>
+    <string name="notification_anime_ongoing_title">Онгоинг</string>
+    <string name="notification_anime_release_title">Релиз</string>
+    <string name="notification_new_episode_format">Вышел %d эпизод аниме «%s»</string>
+    <string name="notification_anime_ongoing_format">Начало показа нового аниме «%s»</string>
+    <string name="notification_anime_release_format">Завершен показ аниме «%s»</string>
+    <string name="pref_notifications_enabled">is_notifications_enabled</string>
+    <string name="calendar_must_aired">Сейчас на ТВ</string>
+    <string name="calendar_my_ongoings">Мои онгоинги</string>
+    <string name="favorite_need_auth">Авторизируйтесь для синхронизации списков</string>
+    <string name="volume_format">Громкость %d%%</string>
+    <string name="brightness_format">Яркость %d%%</string>
+
 
     <plurals name="days_ago">
         <item quantity="one">%1$d день назад</item>
@@ -397,6 +482,20 @@
         <item quantity="other">%1$d минут назад</item>
     </plurals>
 
+    <plurals name="volumes">
+        <item quantity="one">%1$d том</item>
+        <item quantity="few">%1$d тома</item>
+        <item quantity="many">%1$d томов</item>
+        <item quantity="other">%1$d томов</item>
+    </plurals>
+
+    <plurals name="chapters">
+        <item quantity="one">%1$d глава</item>
+        <item quantity="few">%1$d главы</item>
+        <item quantity="many">%1$d глав</item>
+        <item quantity="other">%1$d глав</item>
+    </plurals>
+
     <string-array name="duration">
         <item>@string/duration_small</item>
         <item>@string/duration_medium</item>
@@ -410,8 +509,8 @@
     </string-array>
 
     <string-array name="translations_type">
-        <item>Русская озвучка</item>
-        <item>Русские субтитры</item>
+        <item>Озвучка</item>
+        <item>Субтитры</item>
         <item>Оригинал</item>
     </string-array>
 
@@ -423,11 +522,20 @@
         <item>Английские субтитры</item>
     </string-array>
 
-    <string-array name="rate_stasuses">
+    <string-array name="anime_rate_stasuses">
         <item>@string/rate_watching</item>
         <item>@string/rate_planned</item>
         <item>@string/rate_rewatch</item>
         <item>@string/rate_completed</item>
+        <item>@string/rate_on_hold</item>
+        <item>@string/rate_dropped</item>
+    </string-array>
+
+    <string-array name="manga_rate_stasuses">
+        <item>@string/rate_reading</item>
+        <item>@string/rate_planned</item>
+        <item>@string/rate_rereading</item>
+        <item>@string/rate_readed</item>
         <item>@string/rate_on_hold</item>
         <item>@string/rate_dropped</item>
     </string-array>
@@ -442,11 +550,20 @@
         <item>@string/rate_dropped_with_count</item>
     </string-array>
 
-    <string-array name="rate_stasuses_with_count">
+    <string-array name="anime_rate_stasuses_with_count">
         <item>@string/rate_watching_with_count</item>
         <item>@string/rate_planned_with_count</item>
         <item>@string/rate_rewatch_with_count</item>
         <item>@string/rate_completed_with_count</item>
+        <item>@string/rate_on_hold_with_count</item>
+        <item>@string/rate_dropped_with_count</item>
+    </string-array>
+
+    <string-array name="manga_rate_stasuses_with_count">
+        <item>@string/rate_reading_with_count</item>
+        <item>@string/rate_planned_with_count</item>
+        <item>@string/rate_rereading_with_count</item>
+        <item>@string/rate_readed_with_count</item>
         <item>@string/rate_on_hold_with_count</item>
         <item>@string/rate_dropped_with_count</item>
     </string-array>
@@ -459,6 +576,24 @@
 
     <string-array name="players_single">
         <item>@string/player_in_browser</item>
+    </string-array>
+
+    <string-array name="naming_types">
+        <item>@string/on_russian</item>
+        <item>@string/on_romadzi</item>
+    </string-array>
+
+    <string-array name="search_types">
+        <item>@string/anime</item>
+        <item>@string/manga</item>
+        <item>@string/ranobe</item>
+        <item>@string/character</item>
+        <item>@string/person</item>
+    </string-array>
+
+    <string-array name="download_paths">
+        <item>@string/on_sd</item>
+        <item>@string/on_memory</item>
     </string-array>
 
 </resources>

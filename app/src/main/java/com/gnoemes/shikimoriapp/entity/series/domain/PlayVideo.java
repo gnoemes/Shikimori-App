@@ -31,6 +31,15 @@ public class PlayVideo {
         this.sourceUrl = sourceUrl;
     }
 
+    public PlayVideo(long animeId, int episodeId, VideoHosting hosting, String title, @Nullable List<VideoTrack> tracks, @Nullable String sourceUrl) {
+        this.animeId = animeId;
+        this.episodeId = episodeId;
+        this.hosting = hosting;
+        this.title = title;
+        this.tracks = tracks;
+        this.sourceUrl = sourceUrl;
+    }
+
     public long getAnimeId() {
         return animeId;
     }

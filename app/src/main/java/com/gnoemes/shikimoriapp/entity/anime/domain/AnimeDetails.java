@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.domain;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -19,12 +20,12 @@ public class AnimeDetails {
     private long topicId;
     private String name;
     @Nullable
-    private String russianName;
-    private AnimeImage animeImage;
+    private String secondName;
+    private Image image;
     private String url;
     private AnimeType type;
     @Nullable
-    private AnimeStatus status;
+    private Status status;
     private int episodes;
     private int episodesAired;
     @Nullable
@@ -39,24 +40,24 @@ public class AnimeDetails {
     private double score;
     @Nullable
     private String description;
-    private List<AnimeGenre> animeGenres;
+    private List<Genre> genres;
     @Nullable
     private UserRate animeRate;
     @Nullable
     private List<Video> videos;
     private List<Character> characters;
 
-    public AnimeDetails(long id, long topicId, String name, @Nullable String russianName, AnimeImage animeImage,
-                        String url, AnimeType type, @Nullable AnimeStatus status, int episodes,
+    public AnimeDetails(long id, long topicId, String name, @Nullable String secondName, Image image,
+                        String url, AnimeType type, @Nullable Status status, int episodes,
                         int episodesAired, @Nullable DateTime airedDate, @Nullable DateTime releasedDate,
                         @Nullable List<String> englishNames, @Nullable List<String> japaneseNames, int duration,
-                        double score, @Nullable String description, List<AnimeGenre> animeGenres,
+                        double score, @Nullable String description, List<Genre> genres,
                         @Nullable UserRate animeRate, @Nullable List<Video> videos, List<Character> characters) {
         this.id = id;
         this.topicId = topicId;
         this.name = name;
-        this.russianName = russianName;
-        this.animeImage = animeImage;
+        this.secondName = secondName;
+        this.image = image;
         this.url = url;
         this.type = type;
         this.status = status;
@@ -69,7 +70,7 @@ public class AnimeDetails {
         this.duration = duration;
         this.score = score;
         this.description = description;
-        this.animeGenres = animeGenres;
+        this.genres = genres;
         this.animeRate = animeRate;
         this.videos = videos;
         this.characters = characters;
@@ -88,14 +89,13 @@ public class AnimeDetails {
     }
 
     @Nullable
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
-
     public String getUrl() {
         return url;
     }
@@ -105,7 +105,7 @@ public class AnimeDetails {
     }
 
     @Nullable
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -150,8 +150,8 @@ public class AnimeDetails {
         return description;
     }
 
-    public List<AnimeGenre> getAnimeGenres() {
-        return animeGenres;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
     @Nullable

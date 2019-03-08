@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseFragmentModule;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.TranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
@@ -25,8 +24,11 @@ import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.LocalCiceroneHolder;
+import com.gnoemes.shikimoriapp.entity.manga.presentation.MangaNavigationData;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.AlternativeEpisodesFragment;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
@@ -38,6 +40,7 @@ import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragmentVi
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteFragment;
 import com.gnoemes.shikimoriapp.presentation.view.history.HistoryFragment;
+import com.gnoemes.shikimoriapp.presentation.view.manga.MangaFragment;
 import com.gnoemes.shikimoriapp.presentation.view.menu.MenuFragment;
 import com.gnoemes.shikimoriapp.presentation.view.person.PersonFragment;
 import com.gnoemes.shikimoriapp.presentation.view.player.WebPlayerActivity;
@@ -157,7 +160,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case BottomScreens.CALENDAR:
                             return CalendarFragment.newInstance();
                         case BottomScreens.SEARCH:
-                            return SearchFragment.newInstance((AnimeGenre) data);
+                            return SearchFragment.newInstance((SearchNavigationData) data);
                         case BottomScreens.SOCIAL:
                             return SocialFragment.newInstance();
                         case BottomScreens.MENU:
@@ -167,7 +170,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.TRANSLATIONS:
                             return TranslationsFragment.newInstance((TranslationNavigationData) data);
                         case Screens.SIMILAR:
-                            return SimilarFragment.newInstance((Long) data);
+                            return SimilarFragment.newInstance((SimilarNavigationData) data);
                         case Screens.PROFILE:
                             return ProfileFragment.newInstance((Long) data);
                         case Screens.USER_HISTORY:
@@ -186,6 +189,8 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                             return AlternativeEpisodesFragment.newInstance((Long) data);
                         case Screens.ALTERNATIVE_TRANSLATIONS:
                             return AlternativeTranslationsFragment.newInstance((AlternativeTranslationNavigationData) data);
+                        case Screens.MANGA_DETAILS:
+                            return MangaFragment.newInstance((MangaNavigationData) data);
                     }
                     return null;
                 }
@@ -206,9 +211,9 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
                         case Screens.SCREENSHOTS:
                             return ScreenshotsActivity.newIntent(context, (ScreenshotNavigationData) data);
                         case Screens.EXTERNAL_PLAYER:
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
-                            intent.setDataAndType(Uri.parse((String) data), "video/*");
-                            return Intent.createChooser(intent, "Открыть в");
+                            Intent externalPlayer = new Intent(Intent.ACTION_VIEW, Uri.parse((String) data));
+                            externalPlayer.setDataAndType(Uri.parse((String) data), "video/mp4");
+                            return externalPlayer;
                         case Screens.SEND_MAIL:
                             Intent sendMail = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "gnoemes@gmail.com", null));
                             sendMail.putExtra(Intent.EXTRA_EMAIL, new String[]{"gnoemes@gmail.com"});
@@ -284,8 +289,7 @@ public class BottomTabContainer extends MvpAppCompatFragment implements RouterPr
     @Override
     public boolean onBackPressed() {
         Fragment fragment = childFragmentManager.findFragmentById(R.id.fragment_container);
-        if (fragment != null
-                && fragment instanceof BaseFragmentView) {
+        if (fragment instanceof BaseFragmentView) {
             ((BaseFragmentView) fragment).onBackPressed();
             return true;
         } else {

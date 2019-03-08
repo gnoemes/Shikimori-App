@@ -1,20 +1,30 @@
 package com.gnoemes.shikimoriapp.presentation.view.player.embedded;
 
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
+import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.series.domain.PlayVideo;
@@ -22,6 +32,7 @@ import com.gnoemes.shikimoriapp.entity.series.domain.VideoTrack;
 import com.gnoemes.shikimoriapp.entity.series.presentation.PlayVideoNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.player.EmbeddedPlayerPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.common.activity.BaseActivity;
+import com.gnoemes.shikimoriapp.utils.SystemServiceKt;
 import com.gnoemes.shikimoriapp.utils.view.PlayerManager;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -45,11 +56,44 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
     PlayerView playerView;
     @BindView(R.id.controls_video_loading)
     ProgressBar progressBar;
+    @BindView(R.id.volumeView)
+    TextView volumeView;
+    @BindView(R.id.brightnessView)
+    TextView brightnessView;
+    @BindView(R.id.unLocker)
+    ImageView unLockerView;
+    @BindView(R.id.constraint)
+    ConstraintLayout container;
+
     @InjectPresenter
     EmbeddedPlayerPresenter presenter;
     @Inject
     NavigatorHolder navigatorHolder;
     private PlayerManager playerManager;
+
+    private int currentVolume;
+    private int currentBrightness;
+
+    private Runnable hideLockerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            unLockerView.setVisibility(View.GONE);
+        }
+    };
+
+    private Runnable hideVolumeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            volumeView.setVisibility(View.GONE);
+        }
+    };
+
+    private Runnable hideBrighnessRunnable = new Runnable() {
+        @Override
+        public void run() {
+            brightnessView.setVisibility(View.GONE);
+        }
+    };
 
     public static Intent newIntent(Context context, PlayVideoNavigationData data) {
         Intent intent = new Intent(context, EmbeddedPlayerActivity.class);
@@ -73,8 +117,15 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initUiFlags();
-        playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView);
+        boolean isGesturesEnabled = PreferenceManager.getDefaultSharedPreferences(EmbeddedPlayerActivity.this).getBoolean(SettingsExtras.PLAYER_GESTURES, false);
+        playerManager = new PlayerManager(EmbeddedPlayerActivity.this, playerView, getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, isGesturesEnabled);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
+        currentVolume = SystemServiceKt.audioManager(EmbeddedPlayerActivity.this).getStreamVolume(AudioManager.STREAM_MUSIC);
+        currentBrightness = (int) ((getWindow().getAttributes().screenBrightness / 255f) * 100);
+        unLockerView.setOnClickListener(view -> {
+            playerManager.unlock();
+            unLockerView.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -156,17 +207,122 @@ public class EmbeddedPlayerActivity extends BaseActivity<EmbeddedPlayerPresenter
 
     @Override
     public void onControlsVisible() {
-
-    }
-
-    @Override
-    public void onAlternativeSource() {
-        getPresenter().onAlternativeSource();
     }
 
     @Override
     public void onControlsHidden() {
         enterFullscreen();
+    }
+
+    @Override
+    public void onLocked() {
+        unLockerView.setVisibility(View.VISIBLE);
+        unLockerView.postDelayed(hideLockerRunnable, 3500);
+        container.setOnClickListener(view -> {
+            if (playerManager.isLocked()) {
+                unLockerView.removeCallbacks(hideLockerRunnable);
+                unLockerView.setVisibility(View.VISIBLE);
+                unLockerView.postDelayed(hideLockerRunnable, 3500);
+            }
+        });
+    }
+
+    @Override
+    public void onPipMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            enterPictureInPictureMode(new PictureInPictureParams.Builder().build());
+        }
+    }
+
+    @Override
+    public void onScrollEnd() {
+        volumeView.removeCallbacks(hideVolumeRunnable);
+        volumeView.postDelayed(hideVolumeRunnable, 2500);
+        brightnessView.removeCallbacks(hideBrighnessRunnable);
+        brightnessView.postDelayed(hideBrighnessRunnable, 2500);
+    }
+
+    @Override
+    public void onChangeBrightness(int brightness) {
+
+        currentBrightness += brightness;
+        if (currentBrightness > 100) {
+            currentBrightness = 100;
+        } else if (currentBrightness < 1) {
+            currentBrightness = 1;
+        }
+
+        brightnessView.setVisibility(View.VISIBLE);
+        String text = String.format(getString(R.string.brightness_format), currentBrightness);
+        brightnessView.setText(text);
+
+        WindowManager.LayoutParams layout = getWindow()
+                .getAttributes();
+        layout.screenBrightness = 255f / 100 * currentBrightness / 255f;
+        getWindow().setAttributes(layout);
+        Log.i("EmbeddedPlayer", "onChangeBrightness: " + 255f / 100 * currentBrightness / 255f);
+    }
+
+    @Override
+    public void onChangeVolume(int volume) {
+        AudioManager manager = SystemServiceKt.audioManager(EmbeddedPlayerActivity.this);
+
+        int max = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        currentVolume += volume;
+        if (currentVolume > max) {
+            currentVolume = max;
+        } else if (currentVolume < 0) {
+            currentVolume = 0;
+        }
+
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+        volumeView.setVisibility(View.VISIBLE);
+        String text = String.format(getString(R.string.volume_format), currentVolume == 0 ? 0 : Math.round(currentVolume / (max * 0.01f)));
+        volumeView.setText(text);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        togglePlayer();
+        if (android.provider.Settings.System.getInt(getContentResolver(),
+                Settings.System.ACCELEROMETER_ROTATION, 0) == 1) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
+
+    private void togglePlayer() {
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            onPortrait();
+        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            onLandscape();
+        }
+    }
+
+    private void onPortrait() {
+        playerManager.onPortrait();
+    }
+
+    private void onLandscape() {
+        playerManager.onLandscape();
+    }
+
+    @Override
+    public void toggleOrientation() {
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            onLandscape();
+        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            onPortrait();
+        }
+    }
+
+    @Override
+    public void onAlternativeSource() {
+        getPresenter().onAlternativeSource();
     }
 
     @Override

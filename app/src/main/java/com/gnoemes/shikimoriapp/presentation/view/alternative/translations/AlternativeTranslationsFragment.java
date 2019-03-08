@@ -1,37 +1,49 @@
 package com.gnoemes.shikimoriapp.presentation.view.alternative.translations;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.AlternativeTranslationType;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationNavigationData;
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTranslationViewModel;
+import com.gnoemes.shikimoriapp.entity.app.data.SettingsExtras;
 import com.gnoemes.shikimoriapp.entity.app.presentation.AppExtras;
 import com.gnoemes.shikimoriapp.presentation.presenter.alternative.AlternativeTranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.adapter.TranslationAdapter;
+import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.adapter.TranslationItemCallback;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.BaseFragment;
 import com.gnoemes.shikimoriapp.presentation.view.common.fragment.RouterProvider;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.EmptyContentViewWithButton;
 import com.gnoemes.shikimoriapp.presentation.view.common.widget.NetworkErrorView;
+import com.gnoemes.shikimoriapp.utils.PreferenceKt;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
-import com.gnoemes.shikimoriapp.utils.view.VerticalSpaceItemDecoration;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTranslationsPresenter, AlternativeTranslationsView>
         implements AlternativeTranslationsView {
 
@@ -84,6 +96,12 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
         initViews();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AlternativeTranslationsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     private void initViews() {
 
         emptyContentView.setText(R.string.translations_empty);
@@ -93,10 +111,19 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
 
         refreshLayout.setOnRefreshListener(() -> getPresenter().loadTranslations());
 
-        adapter = new TranslationAdapter(getPresenter()::onTranslationClicked);
+        adapter = new TranslationAdapter(new TranslationItemCallback() {
+            @Override
+            public void onTranslationClicked(AlternativeTranslationViewModel translation) {
+                getPresenter().onTranslationClicked(translation);
+            }
 
-        int margin = (int) getResources().getDimension(R.dimen.margin_small);
-        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(margin));
+            @Override
+            public void onDownloadTranslation(AlternativeTranslationViewModel translation) {
+                getPresenter().onDownloadTranslation(translation);
+            }
+        });
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -132,6 +159,22 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
             return false;
         });
     }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionDenied() {
+        getPresenter().onPermissionDenied();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onNeverAskAgain() {
+        getPresenter().onNeverAskAgain();
+    }
+
+    @NeedsPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionGranted() {
+        getPresenter().onPermissionGranted();
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // GETTERS
@@ -188,26 +231,53 @@ public class AlternativeTranslationsFragment extends BaseFragment<AlternativeTra
         refreshLayout.setRefreshing(false);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showSettingsDialog() {
+//        List<AlternativeTranslationType> types = Arrays.asList(AlternativeTranslationType.values());
+//        new MaterialDialog.Builder(getContext())
+//                .items(R.array.translations_type_alternative)
+//                .itemsCallback((dialog, itemView, position, text) -> {
+//                    dialog.dismiss();
+//                    getPresenter().onTypeClicked(types.get(position));
+//                })
+//                .autoDismiss(true)
+//                .titleColorAttr(R.attr.colorText)
+//                .contentColorAttr(R.attr.colorText)
+//                .alwaysCallSingleChoiceCallback()
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .autoDismiss(false)
+//                .negativeColorAttr(R.attr.colorAction)
+//                .negativeText(R.string.common_cancel)
+//                .onNegative((dialog, which) -> dialog.dismiss())
+//                .canceledOnTouchOutside(true)
+//                .build()
+//                .show();
+        //TODO kotlin
         List<AlternativeTranslationType> types = Arrays.asList(AlternativeTranslationType.values());
-        new MaterialDialog.Builder(getContext())
-                .items(R.array.translations_type_alternative)
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    dialog.dismiss();
-                    getPresenter().onTypeClicked(types.get(position));
-                })
-                .autoDismiss(true)
-                .titleColorAttr(R.attr.colorText)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .autoDismiss(false)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .canceledOnTouchOutside(true)
-                .build()
-                .show();
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
+        DialogListExtKt.listItems(dialog, R.array.translations_type_alternative, null, new int[]{}, false, (materialDialog, integer, s) -> {
+            getPresenter().onTypeClicked(types.get(integer));
+            return null;
+        });
+        dialog.show();
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void showDownloadPathDialog() {
+        MaterialDialog dialog = new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle));
+        DialogListExtKt.listItems(dialog, R.array.download_paths, null, new int[]{}, false, (materialDialog, integer, s) -> {
+            getPresenter().onDownloadPlaceTypeChoosed();
+            PreferenceKt.putSetting(this, SettingsExtras.DOWNLOAD_LOCATION_TYPE, integer);
+            return null;
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void checkPermissions() {
+        AlternativeTranslationsFragmentPermissionsDispatcher.onPermissionGrantedWithPermissionCheck(this);
     }
 }

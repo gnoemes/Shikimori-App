@@ -1,13 +1,20 @@
 package com.gnoemes.shikimoriapp.entity.rates.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum RateStatus {
+    @SerializedName("watching")
     WATCHING("watching"),
-    COMPLETED("completed"),
-    ON_HOLD("on_hold"),
-    DROPPED("dropped"),
-    REWATCHING("rewatching"),
+    @SerializedName("planned")
     PLANNED("planned"),
-    FAVORITE("fav");
+    @SerializedName("rewatching")
+    REWATCHING("rewatching"),
+    @SerializedName("completed")
+    COMPLETED("completed"),
+    @SerializedName("on_hold")
+    ON_HOLD("on_hold"),
+    @SerializedName("dropped")
+    DROPPED("dropped");
 
     private final String status;
 

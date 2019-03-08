@@ -2,8 +2,8 @@ package com.gnoemes.shikimoriapp.entity.history.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 
 import org.joda.time.DateTime;
 
@@ -11,28 +11,28 @@ public class HistoryItem extends BaseHistoryItem {
 
     private long id;
     private String name;
-    private String russianName;
+    private String secondName;
     private String imageOriginalUrl;
     private String imagePreviewUrl;
     private String imageX96Url;
     private String imageX48Url;
     private String url;
     private AnimeType type;
-    private AnimeStatus status;
+    private Status status;
     private int episodes;
     private int episodesAired;
     private DateTime airedDate;
     @Nullable
     private DateTime releasedDate;
 
-    public HistoryItem(long id, String name, String russianName,
+    public HistoryItem(long id, String name, String secondName,
                        String imageOriginalUrl, String imagePreviewUrl, String imageX96Url,
-                       String imageX48Url, String url, AnimeType type, AnimeStatus status,
+                       String imageX48Url, String url, AnimeType type, Status status,
                        int episodes, int episodesAired, DateTime airedDate,
                        @Nullable DateTime releasedDate) {
         this.id = id;
         this.name = name;
-        this.russianName = russianName;
+        this.secondName = secondName;
         this.imageOriginalUrl = imageOriginalUrl;
         this.imagePreviewUrl = imagePreviewUrl;
         this.imageX96Url = imageX96Url;
@@ -54,8 +54,8 @@ public class HistoryItem extends BaseHistoryItem {
         return name;
     }
 
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
     public String getImageOriginalUrl() {
@@ -82,7 +82,7 @@ public class HistoryItem extends BaseHistoryItem {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

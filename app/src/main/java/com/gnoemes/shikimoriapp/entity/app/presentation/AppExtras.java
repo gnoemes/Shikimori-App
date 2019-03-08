@@ -27,7 +27,7 @@ public class AppExtras {
     public static final String ARGUMENT_TOKEN = "ARGUMENT_TOKEN";
     public static final String ARGUMENT_AUTH_TYPE = "ARGUMENT_AUTH_TYPE";
     public static final String ARGUMENT_RATE_STATUS = "ARGUMENT_RATE_STATUS";
-    public static final String ARGUMENT_ANIME_RATE = "ARGUMENT_ANIME_RATE";
+    public static final String ARGUMENT_RATE = "ARGUMENT_RATE";
     public static final String ARGUMENT_USER_ID = "ARGUMENT_USER_ID";
     public static final String ARGUMENT_RELATED_DATA = "ARGUMENT_RELATED_DATA";
     public static final String ARGUMENT_TRANSLATION_ID = "ARGUMENT_TRANSLATION_ID";
@@ -39,4 +39,9 @@ public class AppExtras {
     public static final String ARGUMENT_PLAY_VIDEO_DATA = "ARGUMENT_PLAY_VIDEO_DATA";
     public static final String ARGUMENT_FORUM_TYPE = "ARGUMENT_FORUM_TYPE";
     public static final String ARGUMENT_PERSON_ID = "ARGUMENT_PERSON_ID";
+    public static final String ARGUMENT_SEARCH_DATA = "ARGUMENT_SEARCH_DATA";
+    public static final String ARGUMENT_MANGA_DATA = "ARGUMENT_MANGA_DATA";
+    public static final String ARGUMENT_SIMILAR_DATA = "ARGUMENT_SIMILAR_DATA";
+    public static final String ARGUMENT_TRANSLATION_DATA = "ARGUMENT_TRANSLATION_DATA";
+    public static final String ARGUMENT_NOTIFICATION_ACTION = "ARGUMENT_NOTIFICATION_ACTION";
 }

@@ -1,9 +1,9 @@
 package com.gnoemes.shikimoriapp.data.network;
 
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeFranchiseResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.AnimeLinkResponse;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.FranchiseResponse;
+import com.gnoemes.shikimoriapp.entity.anime.data.LinkResponse;
 import com.gnoemes.shikimoriapp.entity.related.data.RelatedResponse;
 import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
 import com.gnoemes.shikimoriapp.entity.screenshots.data.ScreenshotResponse;
@@ -36,7 +36,7 @@ public interface AnimesApi {
      * Get anime external links
      */
     @GET("/api/animes/{id}/external_links")
-    Single<List<AnimeLinkResponse>> getAnimeLinks(@Path("id") long animeId);
+    Single<List<LinkResponse>> getAnimeLinks(@Path("id") long animeId);
 
     @GET("/api/animes/{id}/similar")
     Single<List<AnimeResponse>> getSimilarAnimes(@Path("id") long animeId);
@@ -45,7 +45,7 @@ public interface AnimesApi {
     Single<List<RelatedResponse>> getRelatedItems(@Path("id") long animeId);
 
     @GET("/api/animes/{id}/franchise")
-    Single<AnimeFranchiseResponse> getFranchise(@Path("id") long animeId);
+    Single<FranchiseResponse> getFranchise(@Path("id") long animeId);
 
     @GET("/api/animes/{id}/roles")
     Single<List<RolesResponse>> getRoles(@Path("id") long animeId);

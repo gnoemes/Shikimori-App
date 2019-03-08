@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 import org.joda.time.DateTime;
 
@@ -17,15 +18,15 @@ public class Anime extends LinkedContent {
     private String name;
 
     @Nullable
-    private String russianName;
+    private String secondName;
 
-    private AnimeImage animeImage;
+    private Image image;
 
     private String url;
 
     private AnimeType type;
 
-    private AnimeStatus status;
+    private Status status;
 
     private int episodes;
 
@@ -36,14 +37,14 @@ public class Anime extends LinkedContent {
     @Nullable
     private DateTime releasedDate;
 
-    public Anime(long id, String name, @Nullable String russianName, AnimeImage animeImage,
-                 String url, AnimeType type, AnimeStatus status, int episodes,
+    public Anime(long id, String name, @Nullable String secondName, Image image,
+                 String url, AnimeType type, Status status, int episodes,
                  int episodesAired, DateTime airedDate, @Nullable DateTime releasedDate) {
-        super(id, LinkedType.ANIME, animeImage.getImageOriginalUrl());
+        super(id, LinkedType.ANIME, image.getOriginal());
         this.id = id;
         this.name = name;
-        this.russianName = russianName;
-        this.animeImage = animeImage;
+        this.secondName = secondName;
+        this.image = image;
         this.url = url;
         this.type = type;
         this.status = status;
@@ -62,12 +63,12 @@ public class Anime extends LinkedContent {
     }
 
     @Nullable
-    public String getRussianName() {
-        return russianName;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getUrl() {
@@ -78,7 +79,7 @@ public class Anime extends LinkedContent {
         return type;
     }
 
-    public AnimeStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -98,4 +99,5 @@ public class Anime extends LinkedContent {
     public DateTime getReleasedDate() {
         return releasedDate;
     }
+
 }

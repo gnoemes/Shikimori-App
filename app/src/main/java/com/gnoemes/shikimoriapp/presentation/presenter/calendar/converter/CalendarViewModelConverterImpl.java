@@ -28,17 +28,19 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
         List<CalendarItemViewModel> list = new ArrayList<>();
         List<CalendarAnimeViewModel> animeList = new ArrayList<>();
 
-        DateTime groupDate = calendarItems.get(0) == null ? null : calendarItems.get(0).getNextEpisodeDate();
+        if (!calendarItems.isEmpty()) {
+            DateTime groupDate = calendarItems.get(0) == null ? null : calendarItems.get(0).getNextEpisodeDate();
 
-        for (CalendarItem item : calendarItems) {
+            for (CalendarItem item : calendarItems) {
 
-            if (!dateTimeUtils.isSameDay(groupDate, item.getNextEpisodeDate())) {
-                list.add(new CalendarItemViewModel(groupDate, animeList));
-                animeList = new ArrayList<>();
+                if (!dateTimeUtils.isSameDay(groupDate, item.getNextEpisodeDate())) {
+                    list.add(new CalendarItemViewModel(groupDate, animeList));
+                    animeList = new ArrayList<>();
+                }
+
+                animeList.add(convertAnimeViewModel(item));
+                groupDate = item.getNextEpisodeDate();
             }
-
-            animeList.add(convertAnimeViewModel(item));
-            groupDate = item.getNextEpisodeDate();
         }
 
         return list;
@@ -48,11 +50,11 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
         return new CalendarAnimeViewModel(
                 item.getAnime().getId(),
                 item.getAnime().getName(),
-                item.getAnime().getRussianName(),
-                item.getAnime().getAnimeImage().getImageOriginalUrl(),
-                item.getAnime().getAnimeImage().getImagePreviewUrl(),
-                item.getAnime().getAnimeImage().getImageX96Url(),
-                item.getAnime().getAnimeImage().getImageX48Url(),
+                item.getAnime().getSecondName(),
+                item.getAnime().getImage().getOriginal(),
+                item.getAnime().getImage().getPreview(),
+                item.getAnime().getImage().getX96(),
+                item.getAnime().getImage().getX48(),
                 item.getAnime().getUrl(),
                 item.getAnime().getType(),
                 item.getAnime().getStatus(),
@@ -61,6 +63,6 @@ public class CalendarViewModelConverterImpl implements CalendarViewModelConverte
                 item.getAnime().getAiredDate(),
                 item.getAnime().getReleasedDate(),
                 item.getNextEpisode(),
-                item.getNextEpisodeDate());
+                item.getNextEpisodeEndDate());
     }
 }

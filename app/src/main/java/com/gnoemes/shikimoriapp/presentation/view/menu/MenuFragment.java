@@ -3,6 +3,7 @@ package com.gnoemes.shikimoriapp.presentation.view.menu;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -110,23 +111,35 @@ public class MenuFragment extends BaseFragment<MenuPresenter, MenuView> implemen
 
     @Override
     public void showAuthTypeDialog() {
-        new MaterialDialog.Builder(getContext())
-                .content(R.string.auth_dialog_conent)
-                .contentColorAttr(R.attr.colorText)
-                .alwaysCallSingleChoiceCallback()
-                .backgroundColorAttr(R.attr.colorBackgroundWindow)
-                .negativeColorAttr(R.attr.colorAction)
-                .negativeText(R.string.common_cancel)
-                .onNegative((dialog, which) -> dialog.dismiss())
-                .positiveColorAttr(R.attr.colorAction)
-                .positiveText(R.string.common_sign_in)
-                .onPositive((dialog, which) -> getPresenter().onSignIn())
-                .neutralColorAttr(R.attr.colorAction)
-                .neutralText(R.string.common_sign_up)
-                .onNeutral((dialog, which) -> getPresenter().onSignUp())
-                .autoDismiss(true)
-                .canceledOnTouchOutside(true)
-                .build()
+//        new MaterialDialog.Builder(getContext())
+//                .content(R.string.auth_dialog_conent)
+//                .contentColorAttr(R.attr.colorText)
+//                .alwaysCallSingleChoiceCallback()
+//                .backgroundColorAttr(R.attr.colorBackgroundWindow)
+//                .negativeColorAttr(R.attr.colorAction)
+//                .negativeText(R.string.common_cancel)
+//                .onNegative((dialog, which) -> dialog.dismiss())
+//                .positiveColorAttr(R.attr.colorAction)
+//                .positiveText(R.string.common_sign_in)
+//                .onPositive((dialog, which) -> getPresenter().onSignIn())
+//                .neutralColorAttr(R.attr.colorAction)
+//                .neutralText(R.string.common_sign_up)
+//                .onNeutral((dialog, which) -> getPresenter().onSignUp())
+//                .autoDismiss(true)
+//                .canceledOnTouchOutside(true)
+//                .build()
+//                .show();
+        new MaterialDialog(new ContextThemeWrapper(getContext(), R.style.DialogStyle))
+                .message(R.string.auth_dialog_conent, null)
+                .positiveButton(R.string.common_sign_in, null, materialDialog -> {
+                    getPresenter().onSignIn();
+                    return null;
+                })
+                .negativeButton(R.string.common_cancel, null, null)
+                .neutralButton(R.string.common_sign_up, null, materialDialog -> {
+                    getPresenter().onSignUp();
+                    return null;
+                })
                 .show();
     }
 }

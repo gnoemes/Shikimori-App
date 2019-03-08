@@ -89,14 +89,16 @@ public class RelatedMangaAdapterDelegate extends AdapterDelegate<List<BaseItem>>
 
         public void bind(RelatedMangaItem item) {
 
-            imageLoader.setImageWithFit(imageView, item.getManga().getImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getManga().getImage().getOriginal());
 
-            String name = TextUtils.isEmpty(item.getManga().getRussianName()) ? item.getManga().getName() : item.getManga().getRussianName();
+            typeView.setText(item.getManga().getType().name().replace("_", " "));
+
+            String name = TextUtils.isEmpty(item.getManga().getNameRu()) ? item.getManga().getName() : item.getManga().getNameRu();
             titleView.setText(name);
 
             descriptionView.setText(String.format("%s\n(%s, %s г.)", item.getRelationRussian(),
                     resourceProvider.getLocalizedType(item.getManga().getType()),
-                    String.valueOf(item.getManga().getAiredDate().getYear())
+                    String.valueOf(item.getManga().getDateAired() == null ? "xxx" : item.getManga().getDateAired().getYear())
             ));
 
             layout.setOnClickListener(v -> callback.onRelatedItemClicked(Type.MANGA, item.getManga().getId()));

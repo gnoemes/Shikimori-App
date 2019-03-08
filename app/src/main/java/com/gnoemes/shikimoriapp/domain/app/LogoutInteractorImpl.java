@@ -32,11 +32,8 @@ public class LogoutInteractorImpl implements LogoutInteractor {
     @Override
     public Completable logout() {
         return tokenRepository.saveToken(null)
-                .andThen(settingsRepository.saveUserSettings(new UserSettings.Builder()
-                        .setStatus(UserStatus.GUEST)
-                        .setUserBrief(null)
-                        .build()
-                ))
+                .andThen(Completable.fromAction(() -> settingsRepository.clearUser()))
+                .andThen(settingsRepository.saveUserSettings(new UserSettings.Builder().setStatus(UserStatus.GUEST).setUserBrief(null).build()))
                 .compose(completableErrorHandler)
                 .compose(rxUtils.applyCompleteSchedulers());
     }

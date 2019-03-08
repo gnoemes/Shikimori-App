@@ -12,29 +12,6 @@
     android:paddingEnd="16dp"
     android:paddingStart="16dp">
 
-    <LinearLayout
-        android:id="@+android:id/icon_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginStart="-4dp"
-        android:gravity="start|center_vertical"
-        android:minWidth="48dp"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingEnd="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="4dp">
-
-        <android.support.v7.internal.widget.PreferenceImageView
-            android:id="@+android:id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="48dp"
-            android:maxWidth="48dp" />
-
-    </LinearLayout>
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

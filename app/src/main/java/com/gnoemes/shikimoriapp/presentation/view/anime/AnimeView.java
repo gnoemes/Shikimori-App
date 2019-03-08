@@ -4,9 +4,9 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
@@ -25,7 +25,7 @@ public interface AnimeView extends BaseFragmentView {
     void setAnimeData(AnimeDetailsViewModel model);
 
     @StateStrategyType(AddToEndStrategy.class)
-    void showEpisodeList(List<BaseEpisodeItem> episodes);
+    void showEpisodeList(boolean isEpisodeReversed, List<BaseEpisodeItem> episodes);
 
     @StateStrategyType(AddToEndStrategy.class)
     void showComments(List<BaseItem> baseCommentItems);
@@ -43,7 +43,7 @@ public interface AnimeView extends BaseFragmentView {
     void showPlayWizard(List<TranslationType> translationTypes);
 
     @StateStrategyType(SkipStrategy.class)
-    void showLinksDialog(List<AnimeLinkViewModel> animeLinkViewModels);
+    void showLinksDialog(List<LinkViewModel> linkViewModels);
 
     @StateStrategyType(AddToEndStrategy.class)
     void onShowRefresh();
@@ -58,7 +58,7 @@ public interface AnimeView extends BaseFragmentView {
     void onHidePageLoading();
 
     @StateStrategyType(SkipStrategy.class)
-    void showChronologyDialog(List<AnimeFranchiseNode> nodes);
+    void showChronologyDialog(List<FranchiseNode> nodes);
 
     @StateStrategyType(SkipStrategy.class)
     void showRatesDialog(UserRate data);
@@ -66,4 +66,6 @@ public interface AnimeView extends BaseFragmentView {
     @StateStrategyType(SkipStrategy.class)
     void showClearHistoryDialog();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void reverseEpisodes();
 }

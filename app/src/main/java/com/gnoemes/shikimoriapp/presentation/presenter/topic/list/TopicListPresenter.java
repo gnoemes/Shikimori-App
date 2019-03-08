@@ -3,9 +3,8 @@ package com.gnoemes.shikimoriapp.presentation.presenter.topic.list;
 import com.arellomobile.mvp.InjectViewState;
 import com.gnoemes.shikimoriapp.domain.social.TopicInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
-import com.gnoemes.shikimoriapp.entity.app.domain.LinkedType;
 import com.gnoemes.shikimoriapp.entity.app.domain.NetworkException;
-import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
+import com.gnoemes.shikimoriapp.entity.forum.domain.Forum;
 import com.gnoemes.shikimoriapp.entity.forum.domain.ForumType;
 import com.gnoemes.shikimoriapp.entity.topic.domain.Topic;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
@@ -15,6 +14,7 @@ import com.gnoemes.shikimoriapp.presentation.presenter.topic.list.paginator.Topi
 import com.gnoemes.shikimoriapp.presentation.presenter.topic.list.paginator.TopicPaginatorImpl;
 import com.gnoemes.shikimoriapp.presentation.view.topic.list.TopicListView;
 import com.gnoemes.shikimoriapp.presentation.view.topic.provider.TopicResourceProvider;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -125,24 +125,9 @@ public class TopicListPresenter extends BaseNetworkPresenter<TopicListView> {
         }
     }
 
-    public void onTopicClicked(long id) {
+    public void onTopicClicked(Forum forum, long id) {
         //TODO navigate to topic fragment
-        getRouter().showSystemMessage("Будет доступно в следующем обновлении");
-    }
-
-    public void onUserClicked(long id) {
-        getRouter().navigateTo(Screens.PROFILE, id);
-    }
-
-    public void onLinkedContentClicked(long id, LinkedType linkedType) {
-        switch (linkedType) {
-            case ANIME:
-                getRouter().navigateTo(Screens.ANIME_DETAILS, id);
-                break;
-            case CHARACTER:
-                getRouter().navigateTo(Screens.CHARACTER_DETAILS, id);
-                break;
-        }
+        onOpenWeb(Utils.appendHostIfNeed(forum.getUrl().concat("/") + id));
     }
 
     @Override

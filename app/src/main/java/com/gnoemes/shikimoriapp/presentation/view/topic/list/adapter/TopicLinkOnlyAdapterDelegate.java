@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.app.domain.LinkedContent;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.topic.presentation.TopicLinkOnlyItem;
@@ -21,7 +21,6 @@ import com.gnoemes.shikimoriapp.presentation.view.topic.provider.TopicResourcePr
 import com.gnoemes.shikimoriapp.utils.date.converter.DateTimeConverter;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.AttributesHelper;
-import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.gnoemes.shikimoriapp.utils.view.DrawableHelper;
 import com.gnoemes.shikimoriapp.utils.view.LinkedItemCallback;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
@@ -37,13 +36,13 @@ import butterknife.ButterKnife;
 
 public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     private ImageLoader imageLoader;
-    private DefaultItemCallback callback;
+    private TopicListAdapter.TopicItemCallback callback;
     private LinkedItemCallback linkedCallback;
     private DateTimeConverter dateTimeConverter;
     private TopicResourceProvider resourceProvider;
 
     public TopicLinkOnlyAdapterDelegate(ImageLoader imageLoader,
-                                        DefaultItemCallback callback,
+                                        TopicListAdapter.TopicItemCallback callback,
                                         LinkedItemCallback linkedCallback,
                                         DateTimeConverter dateTimeConverter,
                                         TopicResourceProvider resourceProvider) {
@@ -158,7 +157,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
             dateView.setText(dateTimeConverter.convertDateAgoToString(item.getCreatedDate()));
 
-            layout.setOnClickListener(v -> callback.onItemClick(item.getId()));
+            layout.setOnClickListener(v -> callback.onItemClicked(item.getForum(), item.getId()));
         }
 
         private void bindLinkedContent(LinkedContent content) {
@@ -171,7 +170,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
 
             linkedImageView.setOnClickListener(v -> {
                 if (content != null) {
-                    linkedCallback.onLinkedContentClicked(content.getId(), content.getLinkedType());
+                    linkedCallback.onLinkedContentClicked(content.getLinkedId(), content.getLinkedType());
                 }
             });
         }
@@ -203,7 +202,7 @@ public class TopicLinkOnlyAdapterDelegate extends AdapterDelegate<List<BaseItem>
                     .build();
         }
 
-        private String convertStatus(AnimeStatus status) {
+        private String convertStatus(Status status) {
             if (status == null) {
                 return itemView.getContext().getString(R.string.error_no_data);
             }

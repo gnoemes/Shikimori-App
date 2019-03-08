@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -49,7 +51,6 @@ import com.santalu.respinner.ReSpinner;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO fix fragments concat and add subs support with fragments
 public class PlayerManager implements Player.EventListener, PlayerControlView.VisibilityListener {
 
     private static final String TAG = "EmbeddedPlayer";
@@ -69,6 +70,10 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     private LinearLayout fastForward;
     private LinearLayout rewind;
 
+    private ImageView fullscreenBtn;
+    private ImageView locker;
+    private ImageView pipView;
+
     private int controlsVisibility;
 
     private GestureDetector detector;
@@ -76,10 +81,18 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
     private PlayerControllerEventListener eventListener;
 
+    private boolean landscape;
+    private boolean isGesturesEnabled;
+    private boolean isLocked = false;
+
     public PlayerManager(Context context,
-                         PlayerView playerView) {
+                         PlayerView playerView,
+                         boolean landscape,
+                         boolean isGesturesEnabled) {
         this.context = context;
         this.playerView = playerView;
+        this.landscape = landscape;
+        this.isGesturesEnabled = isGesturesEnabled;
         initPlayer();
         initControls();
     }
@@ -94,6 +107,9 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         rewind = playerView.findViewById(R.id.rewind);
         nextBtn = playerView.findViewById(R.id.next);
         prevBtn = playerView.findViewById(R.id.prev);
+        fullscreenBtn = playerView.findViewById(R.id.fullscreen);
+        locker = playerView.findViewById(R.id.lock);
+        pipView = playerView.findViewById(R.id.pipView);
 
         nextBtn.setOnClickListener(v -> {
             if (eventListener != null) {
@@ -113,6 +129,27 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
             }
         });
 
+        if (landscape) {
+            onLandscape();
+        } else {
+            onPortrait();
+        }
+
+        fullscreenBtn.setOnClickListener(v -> {
+            if (eventListener != null) {
+                eventListener.toggleOrientation();
+            }
+        });
+
+        locker.setOnClickListener(view -> {
+            isLocked = true;
+            playerView.setUseController(false);
+            if (eventListener != null) {
+                eventListener.onLocked();
+            }
+        });
+
+
         Drawable rateBackground = DrawableHelper
                 .withContext(context)
                 .withDrawable(resolutionSpinner.getBackground())
@@ -125,6 +162,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
 
         detector = new GestureDetector(context, gestureListener);
         playerView.setOnTouchListener(gestureListener);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            pipView.setVisibility(View.VISIBLE);
+            pipView.setOnClickListener(view -> {
+                if (eventListener != null) {
+                    eventListener.onPipMode();
+                }
+            });
+        }
     }
 
     private void initPlayer() {
@@ -199,6 +245,15 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         prevBtn.setEnabled(true);
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void unlock() {
+        isLocked = false;
+        playerView.setUseController(true);
+    }
+
     private void showControls() {
         playerView.showController();
     }
@@ -207,7 +262,7 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         playerView.hideController();
     }
 
-    private void toggleControlsVisibility() {
+    public void toggleControlsVisibility() {
         if (!isControlsVisible()) {
             hideControls();
         } else {
@@ -378,6 +433,14 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         controlsVisibility = visibility;
     }
 
+    public void onLandscape() {
+        fullscreenBtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_exit));
+    }
+
+    public void onPortrait() {
+        fullscreenBtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen));
+    }
+
     public interface PlayerControllerEventListener {
 
 
@@ -402,6 +465,18 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
         void loadPrevEpisode();
 
         void loadNextEpisode();
+
+        void toggleOrientation();
+
+        void onChangeBrightness(int brightness);
+
+        void onChangeVolume(int volume);
+
+        void onScrollEnd();
+
+        void onLocked();
+
+        void onPipMode();
     }
 
     public static class MediaSourceHelper {
@@ -465,26 +540,76 @@ public class PlayerManager implements Player.EventListener, PlayerControlView.Vi
     }
 
     private class ExoPlayerGestureListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
+        private final int MOVEMENT_TH = 30;
+        private final int stepBrightness = 5;
+        private final int stepVolume = 1;
+        private boolean isMoving;
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float distanceX, float distanceY) {
+            Log.i(TAG, "onScroll: 1: " + motionEvent.getY() + " 2: " + motionEvent2.getY() + " diff: " + (motionEvent.getY() - motionEvent2.getY()));
+            Log.i(TAG, "onScroll: sssss " + Math.round(Math.abs(distanceY)) % 3);
+
+            if (!isLocked) {
+                int diff = (int) Math.abs((motionEvent.getY() - motionEvent2.getY()));
+                isMoving = true;
+                if (motionEvent.getX() < ((float) (playerView.getWidth() / 2))) {
+                    if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
+                        if (eventListener != null && isGesturesEnabled) {
+                            eventListener.onChangeVolume(distanceY > 0 ? stepVolume : -stepVolume);
+                        }
+                    }
+                } else {
+                    if (Math.round(Math.abs(distanceY)) % 3 == 0 && diff > MOVEMENT_TH) {
+                        if (eventListener != null && isGesturesEnabled) {
+                            eventListener.onChangeBrightness(distanceY > 0 ? stepBrightness : -stepBrightness);
+                        }
+                    }
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        void onScrollEnd() {
+            if (eventListener != null) {
+                eventListener.onScrollEnd();
+            }
+        }
+
         @Override
         public boolean onDoubleTap(MotionEvent e) {
 
 //            if (!isPlaying()) {
 //                return false;
 //            }
-
-            if (e.getX() > ((float) (playerView.getWidth() / 2))) {
-                onFastForward();
-            } else {
-                onRewind();
+            if (!isLocked) {
+                if (e.getX() > ((float) (playerView.getWidth() / 2))) {
+                    onFastForward();
+                } else {
+                    onRewind();
+                }
+                return true;
             }
 
-            return true;
+            return false;
         }
+
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            return detector.onTouchEvent(event);
+            if (!isLocked) {
+                if (event.getAction() == MotionEvent.ACTION_UP && isMoving) {
+                    isMoving = false;
+                    onScrollEnd();
+                }
+
+                return detector.onTouchEvent(event);
+            } else {
+                return false;
+            }
         }
 
     }

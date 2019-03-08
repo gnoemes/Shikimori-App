@@ -1,10 +1,8 @@
 package com.gnoemes.shikimoriapp.data.repository.roles.converter;
 
-import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.roles.data.PersonResponse;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Person;
-import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +11,11 @@ import javax.inject.Inject;
 
 public class PersonResponseConverterImpl implements PersonResponseConverter {
 
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    public PersonResponseConverterImpl() {
+    public PersonResponseConverterImpl(ImageResponseConverter imageResponseConverter) {
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -37,16 +38,7 @@ public class PersonResponseConverterImpl implements PersonResponseConverter {
         return new Person(response.getId(),
                 response.getName(),
                 response.getRussianName(),
-                convertAnimeImage(response.getImageResponse()),
+                imageResponseConverter.convert(response.getImageResponse()),
                 response.getUrl());
-    }
-
-    @Override
-    public AnimeImage convertAnimeImage(DefaultImageResponse image) {
-        return new AnimeImage(
-                Utils.appendHostIfNeed(image.getImageOriginalUrl()),
-                Utils.appendHostIfNeed(image.getImagePreviewUrl()),
-                Utils.appendHostIfNeed(image.getImageX96Url()),
-                Utils.appendHostIfNeed(image.getImageX48Url()));
     }
 }

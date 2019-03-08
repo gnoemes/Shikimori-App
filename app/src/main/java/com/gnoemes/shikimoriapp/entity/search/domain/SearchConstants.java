@@ -19,6 +19,7 @@ public class SearchConstants {
     public static final String SEASON = "season";
     public static final String ORDER = "order";
     public static final String IDS = "ids";
+    public static final String MY_LIST = "mylist";
 
     ////////////////////////////////////////////////////////////////////
     // Values
@@ -93,6 +94,8 @@ public class SearchConstants {
         NAME("name"),
         AIRED_ON("aired_on"),
         EPISODES("episodes"),
+        VOLUMES("volumes"),
+        CHAPTERS("chapters"),
         STATUS("status"),
         RANDOM("random"),;
 

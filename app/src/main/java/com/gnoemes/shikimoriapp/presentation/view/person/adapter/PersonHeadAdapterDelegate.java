@@ -94,7 +94,7 @@ public class PersonHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
         public void bind(PersonHeadItem item) {
 
-            imageLoader.setImageWithFit(imageView, item.getAnimeImage().getImageOriginalUrl());
+            imageLoader.setImageWithFit(imageView, item.getImage().getOriginal());
 
             if (TextUtils.isEmpty(item.getName())) {
                 engNameView.setVisibility(View.GONE);

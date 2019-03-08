@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.di.anime.AnimeUtilsModule;
 import com.gnoemes.shikimoriapp.di.base.modules.BaseChildFragmentModule;
 import com.gnoemes.shikimoriapp.di.base.scopes.BottomScope;
 import com.gnoemes.shikimoriapp.domain.anime.series.AlternativeSeriesInteractor;
+import com.gnoemes.shikimoriapp.domain.download.DownloadInteractor;
 import com.gnoemes.shikimoriapp.presentation.presenter.alternative.AlternativeTranslationsPresenter;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.AlternativeTranslationsFragment;
 import com.gnoemes.shikimoriapp.presentation.view.alternative.translations.converter.AlternativeTranslationViewModelConverter;
@@ -31,9 +32,10 @@ public interface AlternativeTranslationsModule {
 
     @Provides
     static AlternativeTranslationsPresenter provideHistoryPresenter(AlternativeSeriesInteractor seriesInteractor,
+                                                                    DownloadInteractor downloadInteractor,
                                                                     TitleResourceProvider titleResourceProvider,
                                                                     AlternativeTranslationViewModelConverter converter) {
-        return new AlternativeTranslationsPresenter(seriesInteractor, titleResourceProvider, converter);
+        return new AlternativeTranslationsPresenter(seriesInteractor, downloadInteractor, titleResourceProvider, converter);
     }
 
     @Binds

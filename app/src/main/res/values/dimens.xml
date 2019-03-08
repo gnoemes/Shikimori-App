@@ -12,4 +12,10 @@
     <dimen name="topic_image_width">120dp</dimen>
     <dimen name="topic_image_height">150dp</dimen>
     <dimen name="topic_avatar_size">64dp</dimen>
+    <dimen name="image_big_height">240dp</dimen>
+    <dimen name="image_big_width">170dp</dimen>
+    <dimen name="image_medium_height">160dp</dimen>
+    <dimen name="image_medium_width">120dp</dimen>
+    <dimen name="image_default_height">190dp</dimen>
+    <dimen name="image_default_width">140dp</dimen>
 </resources>

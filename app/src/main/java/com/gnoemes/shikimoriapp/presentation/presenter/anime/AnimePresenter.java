@@ -12,12 +12,12 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.comments.CommentsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeFranchiseNode;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
+import com.gnoemes.shikimoriapp.entity.anime.domain.FranchiseNode;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsPage;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeDetailsViewModel;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeLinkViewModel;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.LinkViewModel;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.BaseEpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.EpisodeItem;
 import com.gnoemes.shikimoriapp.entity.anime.series.domain.TranslationType;
@@ -38,9 +38,11 @@ import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.related.domain.RelatedNavigationData;
 import com.gnoemes.shikimoriapp.entity.screenshots.domain.ScreenshotNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SearchNavigationData;
+import com.gnoemes.shikimoriapp.entity.search.presentation.SimilarNavigationData;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeDetailsViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.AnimeLinkViewModelConverter;
-import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.AnimeDetailsResourceProvider;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.converter.LinkViewModelConverter;
+import com.gnoemes.shikimoriapp.presentation.presenter.anime.provider.DetailsResourceProvider;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginator;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.CommentsPaginatorImpl;
 import com.gnoemes.shikimoriapp.presentation.presenter.comments.converter.CommentsViewModelConverter;
@@ -59,19 +61,20 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private AnimeInteractor animeInteractor;
     private AnimeDetailsViewModelConverter viewModelConverter;
-    private AnimeLinkViewModelConverter linkViewModelConverter;
+    private LinkViewModelConverter linkViewModelConverter;
     private SeriesInteractor seriesInteractor;
     private CommentsInteractor commentsInteractor;
     private EpisodeViewModelConverter episodeViewModelConverter;
     private UserSettingsInteractor settingsInteractor;
     private CommentsViewModelConverter commentsConverter;
     private UserRatesInteractor ratesInteractor;
-    private AnimeDetailsResourceProvider resourceProvider;
+    private DetailsResourceProvider resourceProvider;
     private AnalyticsInteractor analyticsInteractor;
 
     private CommentsPaginator paginator;
 
     private boolean first = true;
+    private boolean isEpisodeReversed = false;
     private long animeId;
     private long rateId = Constants.NO_ID;
     private AnimeDetails currentAnime;
@@ -135,9 +138,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                           @NonNull UserRatesInteractor ratesInteractor,
                           @NonNull AnimeDetailsViewModelConverter viewModelConverter,
                           @NonNull EpisodeViewModelConverter episodeViewModelConverter,
-                          @NonNull AnimeLinkViewModelConverter linkViewModelConverter,
+                          @NonNull LinkViewModelConverter linkViewModelConverter,
                           @NonNull CommentsViewModelConverter commentsConverter,
-                          @NonNull AnimeDetailsResourceProvider resourceProvider,
+                          @NonNull DetailsResourceProvider resourceProvider,
                           @NonNull AnalyticsInteractor analyticsInteractor) {
         this.animeInteractor = animeInteractor;
         this.seriesInteractor = seriesInteractor;
@@ -190,7 +193,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private AnimeDetails setCurrentAnime(AnimeDetails animeDetails) {
         this.currentAnime = animeDetails;
-        if (currentAnime.getAnimeRate() != null) {
+        if (currentAnime.getAnimeRate() != null && currentAnime.getAnimeRate().getId() != null) {
             this.rateId = currentAnime.getAnimeRate().getId();
         }
         return animeDetails;
@@ -200,7 +203,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Process errors
      */
     @Override
-    protected void processErrors(Throwable throwable) {
+    protected void processErrors(@NonNull Throwable throwable) {
         BaseException exception = (BaseException) throwable;
         switch (exception.getTag()) {
             case NetworkException.TAG:
@@ -227,7 +230,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 break;
             case ServiceCodeException.TAG:
                 if (((ServiceCodeException) throwable).getServiceCode() == HttpStatusCode.NOT_FOUND) {
-                    getViewState().showEpisodeList(Collections.singletonList(new EpisodePlaceholderItem()));
+                    getViewState().showEpisodeList(isEpisodeReversed, Collections.singletonList(new EpisodePlaceholderItem()));
                 } else {
                     super.processErrors(throwable);
                 }
@@ -245,7 +248,12 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     public void onEpisodeClicked(EpisodeItem episode) {
         selectedEpisode = episode;
-        getViewState().showPlayWizard(episode.getTranslationTypes());
+        if (settingsInteractor.isRememberType()) {
+            TranslationType type = settingsInteractor.getTranslationType();
+            onTranslationTypeChoosed(type);
+        } else {
+            getViewState().showPlayWizard(episode.getTranslationTypes());
+        }
     }
 
     /**
@@ -270,16 +278,13 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Callback from anime details page
      */
-    public void onAction(AnimeAction action, @Nullable Object data) {
+    public void onAction(DetailsAction action, @Nullable Object data) {
         switch (action) {
             case WATCH_ONLINE:
                 onOnlineClicked();
                 break;
-            case RATE:
-                onRateClicked();
-                break;
             case GENRE:
-                onGenreClick((AnimeGenre) data);
+                onGenreClick((Genre) data);
                 break;
             case LINKS:
                 onLinksClicked();
@@ -335,7 +340,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         unsubscribeOnDestroy(disposable);
     }
 
-    private void showChronologyDialog(List<AnimeFranchiseNode> nodes) {
+    private void showChronologyDialog(List<FranchiseNode> nodes) {
         getViewState().showChronologyDialog(nodes);
     }
 
@@ -343,9 +348,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Route to search page and search animes with clicked genre
      */
-    private void onGenreClick(AnimeGenre item) {
+    private void onGenreClick(Genre item) {
         analyticsInteractor.logEvent(AnalyticsEvent.GENRE_SEARCH);
-        getRouter().navigateTo(BottomScreens.SEARCH, item);
+        getRouter().navigateTo(BottomScreens.SEARCH, new SearchNavigationData(item, Type.ANIME));
     }
 
     /**
@@ -363,7 +368,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      */
     private void onSimilarClicked() {
         analyticsInteractor.logEvent(AnalyticsEvent.SIMILAR_CLICKED);
-        getRouter().navigateTo(Screens.SIMILAR, animeId);
+        getRouter().navigateTo(Screens.SIMILAR, new SimilarNavigationData(animeId, Type.ANIME));
     }
 
     /**
@@ -382,8 +387,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Show links dialog
      */
-    private void showLinks(List<AnimeLinkViewModel> animeLinkViewModels) {
-        getViewState().showLinksDialog(animeLinkViewModels);
+    private void showLinks(List<LinkViewModel> linkViewModels) {
+        getViewState().showLinksDialog(linkViewModels);
     }
 
     /**
@@ -410,13 +415,6 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         getViewState().setPage(AnimeDetailsPage.COMMENTS.getPage());
     }
 
-
-    private void onRateClicked() {
-        //TODO check authorization and rate if user exist
-        //UPDATED: Can user rate?
-    }
-
-
     /**
      * Button callback from episodes page
      */
@@ -430,7 +428,16 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
                 analyticsInteractor.logEvent(AnalyticsEvent.ALTERNATIVE_SOURCE_EPISODES);
                 onAlternativeSource();
                 break;
+            case REVERSE_LIST:
+                analyticsInteractor.logEvent(AnalyticsEvent.REVERSE_EPISODES);
+                onReverseEpisodes();
+                break;
         }
+    }
+
+    private void onReverseEpisodes() {
+        isEpisodeReversed = !isEpisodeReversed;
+        getViewState().reverseEpisodes();
     }
 
     private void onAlternativeSource() {
@@ -440,8 +447,8 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     /**
      * Open link in browser
      */
-    public void onLinkPressed(AnimeLinkViewModel animeLinkViewModel) {
-        getRouter().navigateTo(Screens.WEB, animeLinkViewModel.getUrl());
+    public void onLinkPressed(LinkViewModel linkViewModel) {
+        getRouter().navigateTo(Screens.WEB, linkViewModel.getUrl());
     }
 
     /**
@@ -458,8 +465,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
      * Set episodes list
      */
     private void setEpisodes(List<BaseEpisodeItem> episodes) {
-        getViewState().showEpisodeList(episodes);
-
+        getViewState().showEpisodeList(isEpisodeReversed, episodes);
     }
 
     private void setCurrentSettings(UserSettings settings) {
@@ -496,7 +502,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
     }
 
     public void onSaveRate(UserRate rate) {
-        if (rate.getId() == Constants.NO_ID) {
+        if (rate.getId() != null && rate.getId() == Constants.NO_ID) {
             if (userSettings.getUserBrief() != null) {
                 createRate(rate);
             } else {
@@ -527,7 +533,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void onCreateSuccess() {
         loadAnimeData();
-        getRouter().showSystemMessage(String.format(resourceProvider.getCreateMessage(), currentAnime.getRussianName()));
+        getRouter().showSystemMessage(String.format(resourceProvider.getCreateMessage(), currentAnime.getSecondName()));
     }
 
     public void onDeleteRate(long id) {
@@ -538,11 +544,7 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
 
     private void onDeleteSuccess() {
         loadAnimeData();
-        getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getRussianName()));
-    }
-
-    public void onUserClicked(long id) {
-        getRouter().navigateTo(Screens.PROFILE, id);
+        getRouter().showSystemMessage(String.format(resourceProvider.getDeleteMessage(), currentAnime.getSecondName()));
     }
 
     private void onClearHistoryClicked() {
@@ -556,13 +558,9 @@ public class AnimePresenter extends BaseNetworkPresenter<AnimeView> {
         unsubscribeOnDestroy(disposable);
     }
 
-    public void onAnimeClicked(long id) {
-        getRouter().navigateTo(Screens.ANIME_DETAILS, id);
-    }
-
     public void onBackgroundImageClicked() {
         if (currentAnime != null) {
-            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getRussianName(), currentAnime.getAnimeImage().getImageOriginalUrl()));
+            getRouter().navigateTo(Screens.SCREENSHOTS, new ScreenshotNavigationData(animeId, currentAnime.getName(), currentAnime.getImage().getOriginal()));
         }
     }
 }

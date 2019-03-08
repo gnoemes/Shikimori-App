@@ -90,8 +90,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:drawableEnd="@drawable/ic_chevron_right"
-        android:drawableRight="@drawable/ic_chevron_right"
         android:gravity="center"
         android:text="@string/common_details"
         android:textAllCaps="true"
@@ -99,6 +97,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/text_title"
         app:layout_constraintTop_toBottomOf="@+id/text_title"
+        tools:drawableEnd="@drawable/ic_chevron_right"
+        tools:drawableRight="@drawable/ic_chevron_right"
         tools:drawableTint="?attr/colorAccent" />
 
     <TextView

@@ -3,25 +3,24 @@ package com.gnoemes.shikimoriapp.presentation.view.search.adapter;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeViewModel;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.view.search.provider.SearchAnimeResourceProvider;
 import com.gnoemes.shikimoriapp.utils.imageloader.ImageLoader;
 import com.gnoemes.shikimoriapp.utils.view.DefaultItemCallback;
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.mpt.android.stv.Slice;
 import com.mpt.android.stv.SpannableTextView;
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +52,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View item = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_anime_search, parent, false);
+                .inflate(R.layout.item_search, parent, false);
         return new ViewHolder(item);
     }
 
@@ -77,9 +76,7 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         @BindView(R.id.container)
         ConstraintLayout layout;
         @BindView(R.id.image_anime)
-        ImageView animeImage;
-        @BindView(R.id.text_type)
-        TextView textType;
+        RoundedImageView animeImage;
         @BindView(R.id.text_name)
         SpannableTextView name;
 
@@ -96,23 +93,19 @@ public class AnimeItemAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
 
             imageLoader.setImageWithFit(animeImage, item.getImageOriginalUrl());
 
-            textType.setText(item.getType().name());
-            textType.setBackgroundResource(resourceProvider.getColorByAnimeType(item.getType()));
-
             name.reset();
-            if (item.getRussianName() != null && Locale.getDefault().getLanguage().equals("ru")) {
-                name.addSlice(getSliceWithName(item.getRussianName()));
-            } else {
+            if (!TextUtils.isEmpty(item.getName())) {
                 name.addSlice(getSliceWithName(item.getName()));
+            } else {
+                name.addSlice(getSliceWithName(item.getSecondName()));
             }
 
             String episodes = String.format(resourceProvider.getEpisodeStringFormat(),
-                    item.getStatus() == AnimeStatus.RELEASED ? item.getEpisodes() : item.getEpisodesAired(),
+                    item.getStatus() == Status.RELEASED ? item.getEpisodes() : item.getEpisodesAired(),
                     item.getEpisodes() == 0 ? "xxx" : item.getEpisodes());
 
             name.addSlice(new Slice.Builder(episodes)
                     .textColor(itemView.getContext().getResources().getColor(R.color.colorAccentInverse))
-                    .textSize((int) itemView.getContext().getResources().getDimension(R.dimen.text_normal))
                     .build());
             name.display();
 

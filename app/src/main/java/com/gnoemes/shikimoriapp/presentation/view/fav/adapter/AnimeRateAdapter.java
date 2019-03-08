@@ -17,9 +17,10 @@ public class AnimeRateAdapter extends BaseListAdapter {
 
     public AnimeRateAdapter(@NonNull ImageLoader imageLoader,
                             @NonNull UserRatesAnimeResourceProvider resourceProvider,
-                            @NonNull DefaultItemCallback callback) {
+                            @NonNull DefaultItemCallback callback,
+                            @NonNull DefaultItemCallback rateChangeCallback) {
         super(null);
-        delegatesManager.addDelegate(new RateAdapterDelegate(imageLoader, resourceProvider, callback));
+        delegatesManager.addDelegate(new RateAdapterDelegate(imageLoader, resourceProvider, callback, rateChangeCallback));
         delegatesManager.addDelegate(new AnimeRatePlaceholderAdapterDelegate());
     }
 

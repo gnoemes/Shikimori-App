@@ -3,9 +3,14 @@ package com.gnoemes.shikimoriapp.presentation.view.alternative.episodes.adapter;
 import android.support.annotation.Nullable;
 
 import com.gnoemes.shikimoriapp.entity.anime.series.presentation.EpisodeOptionsItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
+import com.gnoemes.shikimoriapp.entity.app.presentation.PlaceHolderItem;
 import com.gnoemes.shikimoriapp.presentation.view.common.adapter.BaseListAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.main.provider.AdapterResourceProvider;
 import com.gnoemes.shikimoriapp.utils.view.StickyHeaders;
+
+import java.util.Collections;
+import java.util.List;
 
 public class EpisodeAdapter extends BaseListAdapter implements StickyHeaders {
 
@@ -15,7 +20,29 @@ public class EpisodeAdapter extends BaseListAdapter implements StickyHeaders {
         super(resourceProvider);
         delegatesManager.addDelegate(new EpisodeAlternativeIAdapterDelegate(callback));
         delegatesManager.addDelegate(new EpisodeAlternativeOptionAdapterDelegate(optionCallback));
+    }
 
+    public void bindItems(Boolean isEpisodeReversed, List<BaseItem> episodeItems) {
+        items.clear();
+
+        if (episodeItems.isEmpty()) {
+            items.add(new PlaceHolderItem(resourceProvider.getPlaceholderMessage()));
+        } else {
+            items.addAll(episodeItems);
+            if (isEpisodeReversed) {
+                reverseItems();
+            }
+        }
+        this.notifyDataSetChanged();
+    }
+
+    public void reverseItems() {
+        if (!items.isEmpty()) {
+            items.add(items.get(0));
+            Collections.reverse(items);
+            items.remove(items.size() - 1);
+            this.notifyDataSetChanged();
+        }
     }
 
     @Override

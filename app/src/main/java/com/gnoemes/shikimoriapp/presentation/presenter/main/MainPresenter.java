@@ -1,17 +1,23 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.main;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.crashlytics.android.Crashlytics;
+import com.gnoemes.shikimoriapp.domain.notifications.JobSchedulingInteractor;
+import com.gnoemes.shikimoriapp.entity.app.domain.NotificationAction;
+import com.gnoemes.shikimoriapp.entity.app.presentation.Screens;
 import com.gnoemes.shikimoriapp.entity.main.presentation.BottomScreens;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BasePresenter;
 import com.gnoemes.shikimoriapp.presentation.view.main.MainView;
 
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import ru.terrakok.cicerone.Router;
 
 /**
  * Presenter for MainActivity
  */
 @InjectViewState
+//TODO normal notification action parsing
 public class MainPresenter extends BasePresenter<MainView> {
 
     /**
@@ -20,8 +26,14 @@ public class MainPresenter extends BasePresenter<MainView> {
     @NonNull
     private Router router;
 
-    public MainPresenter(@NonNull Router router) {
+    private NotificationAction data;
+
+    private JobSchedulingInteractor schedulingInteractor;
+
+    public MainPresenter(@NonNull Router router,
+                         JobSchedulingInteractor schedulingInteractor) {
         this.router = router;
+        this.schedulingInteractor = schedulingInteractor;
     }
 
     /**
@@ -29,8 +41,14 @@ public class MainPresenter extends BasePresenter<MainView> {
      */
     @Override
     public void initData() {
-        getViewState().initBottomNavigation();
         getRouter().replaceScreen(BottomScreens.FAVORITE);
+        scheduleAnimeNotifications();
+    }
+
+    private void scheduleAnimeNotifications() {
+        Disposable disposable = schedulingInteractor.planAnimeEpisodesNotifications()
+                .subscribe(() -> {
+                }, Crashlytics::logException);
     }
 
     @Override
@@ -83,5 +101,25 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void onMenuReSelected() {
         getViewState().clearMenuBackStack();
+    }
+
+    public void onNotificationAction(NotificationAction data) {
+        this.data = data;
+        processAction(data);
+    }
+
+    private void processAction(NotificationAction data) {
+        if (data != null) {
+            switch (data.getType()) {
+                case ANIME:
+                    getRouter().navigateTo(Screens.ANIME_DETAILS, data.getId());
+                    break;
+            }
+        }
+    }
+
+    //TODO remove
+    public void onReady() {
+        processAction(data);
     }
 }

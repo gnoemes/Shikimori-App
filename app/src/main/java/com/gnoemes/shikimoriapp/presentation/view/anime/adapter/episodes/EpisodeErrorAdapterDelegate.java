@@ -60,8 +60,6 @@ public class EpisodeErrorAdapterDelegate extends AdapterDelegate<List<BaseEpisod
 
         public void bind(EpisodeErrorItem errorItem) {
             emptyContentView.setText(errorItem.getErrorMessage());
-            emptyContentView.setCallback(null);
-            emptyContentView.setCallback(v -> callback.onAction(EpisodeOptionAction.ALTERNATIVE_SOURCE, null));
         }
     }
 }

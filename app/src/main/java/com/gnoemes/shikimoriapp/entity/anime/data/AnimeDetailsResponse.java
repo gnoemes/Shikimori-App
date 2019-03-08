@@ -2,6 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.data;
 
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.entity.common.data.ImageResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.UserRateResponse;
 import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.google.gson.annotations.SerializedName;
@@ -29,7 +30,7 @@ public class AnimeDetailsResponse {
     private String russianName;
 
     @SerializedName("image")
-    private DefaultImageResponse image;
+    private ImageResponse image;
 
     @SerializedName("url")
     private String url;
@@ -99,7 +100,7 @@ public class AnimeDetailsResponse {
         return russianName;
     }
 
-    public DefaultImageResponse getImage() {
+    public ImageResponse getImage() {
         return image;
     }
 

@@ -13,14 +13,14 @@ import java.util.List;
 public class AnimeAdapter extends ListDelegationAdapter<List<BaseItem>> {
 
     public AnimeAdapter(RateResourceProvider rateResourceProvider,
-                        AnimeCharacterAdapter characterAdapter,
+                        DetailsCharacterAdapter characterAdapter,
                         @NonNull AnimeItemCallback callback) {
         delegatesManager.addDelegate(new AnimeHeadAdapterDelegate(rateResourceProvider, callback));
-        delegatesManager.addDelegate(new AnimeContentAdapterDelegate());
+        delegatesManager.addDelegate(new DetailsContentAdapterDelegate());
         delegatesManager.addDelegate(new DoubleDividerAdapterDelegate());
         delegatesManager.addDelegate(new AnimeOtherAdapterDelegate(callback));
-        delegatesManager.addDelegate(new AnimeActionAdapterDelegate(callback));
-        delegatesManager.addDelegate(new AnimeCharacterAdapterDelegate(characterAdapter));
+        delegatesManager.addDelegate(new DetailsActionAdapterDelegate(callback));
+        delegatesManager.addDelegate(new DetailsCharacterAdapterDelegate(characterAdapter));
 
         setItems(new ArrayList<>());
     }

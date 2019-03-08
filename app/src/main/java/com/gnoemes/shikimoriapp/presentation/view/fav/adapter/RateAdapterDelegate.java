@@ -34,13 +34,17 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
     private ImageLoader imageLoader;
     private UserRatesAnimeResourceProvider resourceProvider;
     private DefaultItemCallback callback;
+    private DefaultItemCallback rateChangecallback;
 
     public RateAdapterDelegate(ImageLoader imageLoader,
                                UserRatesAnimeResourceProvider resourceProvider,
-                               DefaultItemCallback callback) {
+                               DefaultItemCallback callback,
+                               DefaultItemCallback rateChangeCallback
+    ) {
         this.imageLoader = imageLoader;
         this.resourceProvider = resourceProvider;
         this.callback = callback;
+        this.rateChangecallback = rateChangeCallback;
     }
 
     @Override
@@ -99,6 +103,9 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
         @BindView(R.id.text_watches)
         TextView watches;
 
+        @BindView(R.id.image_menu)
+        ImageView menuView;
+
         private int textColor;
 
         public ViewHolder(View itemView) {
@@ -139,13 +146,11 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             episodes.reset();
             comment.reset();
 
-            String titleText = model.getAnime().getRussianName() == null ? model.getAnime().getName()
-                    : model.getAnime().getRussianName();
+            String titleText = model.getAnime().getName() == null ? model.getAnime().getSecondName()
+                    : model.getAnime().getName();
             title.setText(titleText);
 
             type.setText(model.getAnime().getType().name());
-            type.setBackgroundResource(resourceProvider.getColorByAnimeType(model.getAnime().getType()));
-
 
             String ratingText = model.getScore() == 0 ? "-" : String.valueOf(model.getScore());
             String ratingTitle = itemView.getContext().getResources().getString(R.string.rate_rating);
@@ -180,6 +185,11 @@ public class RateAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             }
 
             layout.setOnClickListener(v -> callback.onItemClick(model.getAnime().getId()));
+            layout.setOnLongClickListener(v -> {
+                rateChangecallback.onItemClick(model.getId());
+                return true;
+            });
+            menuView.setOnClickListener(v -> rateChangecallback.onItemClick(model.getId()));
         }
 
         /**

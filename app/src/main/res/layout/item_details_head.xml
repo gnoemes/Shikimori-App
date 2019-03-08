@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorBackgroundContent">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/onlineButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:clickable="true"
+            android:drawablePadding="@dimen/margin_small"
+            android:focusable="true"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:drawableStart="@drawable/ic_play_circle_filled"
+            tools:drawableTint="@color/white"
+            tools:text="@string/watch_online" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="?attr/colorDivider"
+            app:layout_constraintBottom_toBottomOf="@+id/rateCompound"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="@+id/rateCompound" />
+
+
+        <ImageView
+            android:id="@+id/optionsMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="?attr/colorText"
+            app:layout_constraintBottom_toBottomOf="@+id/onlineButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/onlineButton"
+            app:srcCompat="@drawable/ic_dots_vertical" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="58dp" />
+
+        <TextView
+            android:id="@+id/rateCompound"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/divider1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/onlineButton"
+            tools:drawableTint="?attr/colorText"
+            tools:drawableTop="@drawable/ic_star_border"
+            tools:text="Без статуса" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="?attr/colorDivider"
+            app:layout_constraintBottom_toBottomOf="@+id/similarCompound"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/similarCompound" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66" />
+
+        <TextView
+            android:id="@+id/similarCompound"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="@string/common_similar"
+            app:layout_constraintBottom_toBottomOf="@+id/rateCompound"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="@+id/rateCompound"
+            tools:drawableTint="?attr/colorText"
+            tools:drawableTop="@drawable/ic_arrange_send_backward" />
+
+        <TextView
+            android:id="@+id/relatedCompound"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="@string/related"
+            app:layout_constraintBottom_toBottomOf="@+id/similarCompound"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/similarCompound"
+            tools:drawableTint="?attr/colorText"
+            tools:drawableTop="@drawable/ic_arrange_bring_to_front" />
+
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/firstDescriptionView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rateCompound"
+            tools:text="Сезон: Весна 2010" />
+
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/typeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@+id/firstDescriptionView"
+            app:layout_constraintTop_toBottomOf="@+id/firstDescriptionView"
+            tools:text="Тип: TV (24 эп.), 23 мин." />
+
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/statusView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@+id/typeView"
+            app:layout_constraintTop_toBottomOf="@+id/typeView"
+            tools:text="Статус: релиз" />
+
+
+        <com.mpt.android.stv.SpannableTextView
+            android:id="@+id/genreView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@+id/statusView"
+            app:layout_constraintTop_toBottomOf="@+id/statusView"
+            tools:text="Жанр:" />
+
+        <RatingBar
+            android:id="@+id/ratingView"
+            style="?attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:theme="@style/RatingBarTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingValueView"
+            app:layout_constraintEnd_toStartOf="@+id/ratingValueView"
+            app:layout_constraintTop_toTopOf="@+id/ratingValueView"
+            tools:rating="3.5" />
+
+        <TextView
+            android:id="@+id/ratingValueView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_big"
+            android:layout_marginRight="@dimen/margin_big"
+            app:layout_constraintBaseline_toBaselineOf="@id/firstDescriptionView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="9.53" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/genreList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:focusable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genreView" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.card.MaterialCardView>

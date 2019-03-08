@@ -5,4 +5,6 @@ import com.gnoemes.shikimoriapp.entity.anime.series.presentation.AlternativeTran
 public interface TranslationItemCallback {
 
     void onTranslationClicked(AlternativeTranslationViewModel translation);
+
+    void onDownloadTranslation(AlternativeTranslationViewModel translation);
 }

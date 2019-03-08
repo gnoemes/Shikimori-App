@@ -2,6 +2,8 @@ package com.gnoemes.shikimoriapp.data.repository.user;
 
 import com.gnoemes.shikimoriapp.entity.club.domain.Club;
 import com.gnoemes.shikimoriapp.entity.user.domain.Favorites;
+import com.gnoemes.shikimoriapp.entity.user.domain.Message;
+import com.gnoemes.shikimoriapp.entity.user.domain.MessageType;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBan;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserBrief;
 import com.gnoemes.shikimoriapp.entity.user.domain.UserHistory;
@@ -17,6 +19,8 @@ public interface UserRepository {
     Single<UserBrief> getMyUserBrief();
 
     Single<UserBrief> getUserBriefInfo(long id);
+
+    Single<List<Message>> getUserMessages(MessageType type);
 
     Single<UserProfile> getUserInfo(long id);
 

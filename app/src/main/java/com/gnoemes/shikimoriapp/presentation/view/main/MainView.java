@@ -32,4 +32,5 @@ public interface MainView extends BaseView {
 
     @StateStrategyType(SkipStrategy.class)
     void clearFavoriteBackStack();
+
 }

@@ -1,11 +1,11 @@
 package com.gnoemes.shikimoriapp.data.repository.user.converter;
 
-import com.gnoemes.shikimoriapp.BuildConfig;
 import com.gnoemes.shikimoriapp.entity.app.domain.FavoriteType;
 import com.gnoemes.shikimoriapp.entity.user.data.FavoriteResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.FavoritesResponse;
 import com.gnoemes.shikimoriapp.entity.user.domain.Favorite;
 import com.gnoemes.shikimoriapp.entity.user.domain.Favorites;
+import com.gnoemes.shikimoriapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,14 +79,8 @@ public class FavoritesResponseConverterImpl implements FavoritesResponseConverte
                 type,
                 response.getName(),
                 response.getRussianName(),
-                convertUrl(response.getImageUrl()),
+                Utils.appendHostIfNeed(response.getImageUrl()).replace("x64", "original"),
                 response.getUrl());
     }
 
-    private String convertUrl(String url) {
-        if (url.contains("http")) {
-            return url;
-        }
-        return BuildConfig.ShikimoriBaseUrl.concat(url);
-    }
 }

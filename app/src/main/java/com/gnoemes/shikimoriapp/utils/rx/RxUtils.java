@@ -8,7 +8,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RxUtils {
 
-    public <T> CompletableTransformer applyCompleteSchedulers() {
+    public CompletableTransformer applyCompleteSchedulers() {
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

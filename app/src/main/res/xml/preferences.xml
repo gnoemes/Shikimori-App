@@ -3,6 +3,89 @@
 
     <Preference android:layout="@layout/layout_shadow_top" />
 
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Уведомления">
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="true"
+            android:key="@string/pref_notifications_enabled"
+            android:layout="@layout/layout_preference"
+            android:summary="Получать уведомления о выходе новых серий"
+            android:title="Получать уведомления" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Плееры">
+
+        <Preference
+            android:defaultValue="не выбрано"
+            android:key="@string/pref_player_type"
+            android:layout="@layout/layout_preference"
+            android:summary="не выбрано"
+            android:title="Плеер" />
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="false"
+            android:key="@string/pref_player_type_remember"
+            android:layout="@layout/layout_preference"
+            android:summary="Не показывать диалоговое окно для выбора плеера"
+            android:title="@string/common_remember" />
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="true"
+            android:key="@string/pref_player_gestures"
+            android:layout="@layout/layout_preference"
+            android:summary="Возможность управлять уровнями громкости и звука жестами"
+            android:title="Управление жестами" />
+
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Переводы">
+
+        <Preference
+            android:defaultValue="не выбрано"
+            android:key="@string/pref_translation_type"
+            android:layout="@layout/layout_preference"
+            android:summary="не выбрано"
+            android:title="Тип перевода" />
+
+        <com.gnoemes.shikimoriapp.utils.view.SwitchFixCompat
+            android:defaultValue="false"
+            android:key="@string/pref_translation_type_remember"
+            android:layout="@layout/layout_preference"
+            android:summary="Не показывать диалоговое окно для выбора типа перевода"
+            android:title="@string/common_remember" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        android:title="Наименования">
+
+        <Preference
+            android:defaultValue="@string/on_russian"
+            android:key="@string/pref_naming"
+            android:layout="@layout/layout_preference"
+            android:summary="@string/on_russian"
+            android:title="@string/titles_naming" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/layout_shadow_double" />
+
     <PreferenceCategory
         android:layout="@layout/layout_preference_category"
         android:title="Управление статусами">
@@ -46,7 +129,7 @@
         <Preference
             android:icon="@mipmap/ic_launcher"
             android:key="@string/pref_about_program"
-            android:layout="@layout/layout_preference"
+            android:layout="@layout/layout_preference_with_image"
             android:title="@string/app_name" />
     </PreferenceCategory>
 

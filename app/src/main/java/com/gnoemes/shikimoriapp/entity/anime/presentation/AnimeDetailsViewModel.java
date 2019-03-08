@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.presentation;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
@@ -15,13 +15,13 @@ import java.util.List;
 public class AnimeDetailsViewModel {
 
     private long id;
-    private String name;
-    private String jpOrEngName;
+    private String title;
+    private String subTitle;
     private String url;
     private String imageUrl;
     private String animeType;
     private String animeStatus;
-    private List<AnimeGenre> genres;
+    private List<Genre> genres;
     private int episodes;
     private int episodesAired;
     private String season;
@@ -35,14 +35,15 @@ public class AnimeDetailsViewModel {
     private List<Video> videos;
     private List<Character> characters;
 
-    public AnimeDetailsViewModel(long id, String name, String jpOrEngName, String url,
+    public AnimeDetailsViewModel(long id, String title, String subTitle, String url,
                                  String imageUrl, String animeType, String animeStatus,
-                                 List<AnimeGenre> genres, int episodes, int episodesAired,
-                                 String season, int duration, double score, @Nullable String description,
-                                 @Nullable UserRate animeRate, @Nullable List<Video> videos, List<Character> characters) {
+                                 List<Genre> genres, int episodes, int episodesAired,
+                                 String season, int duration, double score,
+                                 @Nullable String description, @Nullable UserRate animeRate,
+                                 @Nullable List<Video> videos, List<Character> characters) {
         this.id = id;
-        this.name = name;
-        this.jpOrEngName = jpOrEngName;
+        this.title = title;
+        this.subTitle = subTitle;
         this.url = url;
         this.imageUrl = imageUrl;
         this.animeType = animeType;
@@ -63,12 +64,12 @@ public class AnimeDetailsViewModel {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public String getJpOrEngName() {
-        return jpOrEngName;
+    public String getSubTitle() {
+        return subTitle;
     }
 
     public String getUrl() {
@@ -87,7 +88,7 @@ public class AnimeDetailsViewModel {
         return animeStatus;
     }
 
-    public List<AnimeGenre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 

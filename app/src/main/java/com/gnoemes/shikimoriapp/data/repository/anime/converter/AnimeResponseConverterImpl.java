@@ -1,21 +1,27 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.DefaultImageResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeStatus;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeType;
-import com.gnoemes.shikimoriapp.utils.Utils;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Status;
+import com.gnoemes.shikimoriapp.utils.PrefUtils;
 
 import javax.inject.Inject;
 
 public class AnimeResponseConverterImpl implements AnimeResponseConverter {
 
+    private Context context;
+    private ImageResponseConverter imageResponseConverter;
+
     @Inject
-    AnimeResponseConverterImpl() {
+    public AnimeResponseConverterImpl(Context context,
+                                      ImageResponseConverter imageResponseConverter) {
+        this.context = context;
+        this.imageResponseConverter = imageResponseConverter;
     }
 
     @Override
@@ -24,10 +30,14 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
             return null;
         }
 
+        boolean isRomandziNaming = PrefUtils.isRomandziNaming(context);
+        String name = isRomandziNaming ? animeResponse.getName() : animeResponse.getRussianName();
+        String secondName = isRomandziNaming ? animeResponse.getRussianName() : animeResponse.getName();
+
         return new Anime(animeResponse.getId(),
-                animeResponse.getName(),
-                animeResponse.getRussianName(),
-                convertAnimeImage(animeResponse.getImage()),
+                name,
+                secondName,
+                imageResponseConverter.convert(animeResponse.getImage()),
                 animeResponse.getUrl(),
                 convertAnimeType(animeResponse.getType()),
                 convertAnimeStatus(animeResponse.getStatus()),
@@ -35,15 +45,6 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
                 animeResponse.getEpisodesAired(),
                 animeResponse.getAiredDate(),
                 animeResponse.getReleasedDate());
-    }
-
-    @Override
-    public AnimeImage convertAnimeImage(DefaultImageResponse image) {
-        return new AnimeImage(
-                Utils.appendHostIfNeed(image.getImageOriginalUrl()),
-                Utils.appendHostIfNeed(image.getImagePreviewUrl()),
-                Utils.appendHostIfNeed(image.getImageX96Url()),
-                Utils.appendHostIfNeed(image.getImageX48Url()));
     }
 
     @Override
@@ -67,16 +68,16 @@ public class AnimeResponseConverterImpl implements AnimeResponseConverter {
     }
 
     @Override
-    public AnimeStatus convertAnimeStatus(String status) {
+    public Status convertAnimeStatus(String status) {
 
-        if (AnimeStatus.ANONS.equalsStatus(status)) {
-            return AnimeStatus.ANONS;
-        } else if (AnimeStatus.ONGOING.equalsStatus(status)) {
-            return AnimeStatus.ONGOING;
-        } else if (AnimeStatus.RELEASED.equalsStatus(status)) {
-            return AnimeStatus.RELEASED;
+        if (Status.ANONS.equalsStatus(status)) {
+            return Status.ANONS;
+        } else if (Status.ONGOING.equalsStatus(status)) {
+            return Status.ONGOING;
+        } else if (Status.RELEASED.equalsStatus(status)) {
+            return Status.RELEASED;
         } else {
-            return AnimeStatus.NONE;
+            return Status.NONE;
         }
     }
 }

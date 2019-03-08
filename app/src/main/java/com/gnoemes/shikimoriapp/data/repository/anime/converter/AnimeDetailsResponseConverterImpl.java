@@ -1,14 +1,18 @@
 package com.gnoemes.shikimoriapp.data.repository.anime.converter;
 
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.gnoemes.shikimoriapp.data.repository.app.converter.GenreResponseConverter;
+import com.gnoemes.shikimoriapp.data.repository.app.converter.ImageResponseConverter;
 import com.gnoemes.shikimoriapp.data.repository.rates.converter.AnimeRateResponseConverter;
 import com.gnoemes.shikimoriapp.entity.anime.data.AnimeDetailsResponse;
-import com.gnoemes.shikimoriapp.entity.anime.data.GenreResponse;
 import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeDetails;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
 import com.gnoemes.shikimoriapp.entity.roles.data.RolesResponse;
 import com.gnoemes.shikimoriapp.entity.video.data.VideoResponse;
 import com.gnoemes.shikimoriapp.entity.video.domain.Video;
 import com.gnoemes.shikimoriapp.entity.video.domain.VideoType;
+import com.gnoemes.shikimoriapp.utils.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,38 +27,47 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
     private AnimeResponseConverter converter;
     private AnimeRateResponseConverter rateConverter;
     private RolesResponseConverter rolesResponseConverter;
+    private Context context;
+    private ImageResponseConverter imageResponseConverter;
+    private GenreResponseConverter genreResponseConverter;
 
     @Inject
-    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter,
-                                             AnimeRateResponseConverter rateConverter,
-                                             RolesResponseConverter rolesResponseConverter) {
+    public AnimeDetailsResponseConverterImpl(AnimeResponseConverter converter, AnimeRateResponseConverter rateConverter, RolesResponseConverter rolesResponseConverter, Context context, ImageResponseConverter imageResponseConverter, GenreResponseConverter genreResponseConverter) {
         this.converter = converter;
         this.rateConverter = rateConverter;
         this.rolesResponseConverter = rolesResponseConverter;
+        this.context = context;
+        this.imageResponseConverter = imageResponseConverter;
+        this.genreResponseConverter = genreResponseConverter;
     }
 
     @Override
-    public AnimeDetails convertDetailsWithCharacters(AnimeDetailsResponse animeDetailsResponse, List<RolesResponse> rolesResponses) {
-        return new AnimeDetails(animeDetailsResponse.getId(),
-                animeDetailsResponse.getTopicId(),
-                animeDetailsResponse.getName(),
-                animeDetailsResponse.getRussianName(),
-                converter.convertAnimeImage(animeDetailsResponse.getImage()),
-                animeDetailsResponse.getUrl(),
-                converter.convertAnimeType(animeDetailsResponse.getType()),
-                converter.convertAnimeStatus(animeDetailsResponse.getStatus()),
-                animeDetailsResponse.getEpisodes(),
-                animeDetailsResponse.getEpisodesAired(),
-                animeDetailsResponse.getAiredDate(),
-                animeDetailsResponse.getReleasedDate(),
-                animeDetailsResponse.getEnglishNames(),
-                animeDetailsResponse.getJapaneseNames(),
-                animeDetailsResponse.getDuration(),
-                animeDetailsResponse.getScore(),
-                animeDetailsResponse.getDescription(),
-                convertGenres(animeDetailsResponse.getGenres()),
-                rateConverter.convertUserRateResponse(animeDetailsResponse.getRateResponse()),
-                convertVideos(animeDetailsResponse.getVideoResponses()),
+    public AnimeDetails convertDetailsWithCharacters(AnimeDetailsResponse response, List<RolesResponse> rolesResponses) {
+
+        boolean isRomandziNaming = PrefUtils.isRomandziNaming(context);
+        String name = isRomandziNaming ? response.getName() : response.getRussianName();
+        String secondName = isRomandziNaming ? response.getRussianName() : response.getName();
+
+        return new AnimeDetails(response.getId(),
+                response.getTopicId(),
+                TextUtils.isEmpty(name) ? secondName : name,
+                secondName,
+                imageResponseConverter.convert(response.getImage()),
+                response.getUrl(),
+                converter.convertAnimeType(response.getType()),
+                converter.convertAnimeStatus(response.getStatus()),
+                response.getEpisodes(),
+                response.getEpisodesAired(),
+                response.getAiredDate(),
+                response.getReleasedDate(),
+                response.getEnglishNames(),
+                response.getJapaneseNames(),
+                response.getDuration(),
+                response.getScore(),
+                response.getDescription(),
+                genreResponseConverter.convertGenres(response.getGenres()),
+                rateConverter.convertUserRateResponse(response.getRateResponse()),
+                convertVideos(response.getVideoResponses()),
                 rolesResponseConverter.convertCharacters(rolesResponses)
         );
     }
@@ -84,38 +97,5 @@ public class AnimeDetailsResponseConverterImpl implements AnimeDetailsResponseCo
             }
         }
         return VideoType.OTHER;
-    }
-
-
-    /**
-     * Returns List<AnimeGenres> (ENUMS)
-     */
-    private List<AnimeGenre> convertGenres(List<GenreResponse> responses) {
-        List<AnimeGenre> animeGenres = new ArrayList<>();
-
-        for (GenreResponse genre : responses) {
-            for (AnimeGenre animeGenre : AnimeGenre.values()) {
-                String name = convertGenreName(genre.getName());
-                if (animeGenre.equalsName(name)) {
-                    animeGenres.add(animeGenre);
-                }
-            }
-        }
-        return animeGenres;
-    }
-
-    /**
-     * Converts genre name for future action (e.g. slice_of_life)
-     */
-    private String convertGenreName(String name) {
-        StringBuilder builder = new StringBuilder();
-        for (char c : name.toCharArray()) {
-            if (Character.isWhitespace(c)) {
-                builder.append('_');
-            } else {
-                builder.append(c);
-            }
-        }
-        return builder.toString().toLowerCase();
     }
 }

@@ -8,6 +8,7 @@ import com.gnoemes.shikimoriapp.domain.app.UserSettingsInteractor;
 import com.gnoemes.shikimoriapp.domain.rates.UserRatesInteractor;
 import com.gnoemes.shikimoriapp.domain.user.UserInteractor;
 import com.gnoemes.shikimoriapp.entity.app.domain.AnalyticsEvent;
+import com.gnoemes.shikimoriapp.entity.app.domain.AuthType;
 import com.gnoemes.shikimoriapp.entity.app.domain.BaseException;
 import com.gnoemes.shikimoriapp.entity.app.domain.ContentException;
 import com.gnoemes.shikimoriapp.entity.app.domain.HttpStatusCode;
@@ -20,6 +21,7 @@ import com.gnoemes.shikimoriapp.entity.main.domain.Constants;
 import com.gnoemes.shikimoriapp.entity.rates.domain.AnimeRate;
 import com.gnoemes.shikimoriapp.entity.rates.domain.PlaceholderType;
 import com.gnoemes.shikimoriapp.entity.rates.domain.RateStatus;
+import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 import com.gnoemes.shikimoriapp.entity.rates.presentation.AnimeRatePlaceholder;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.BaseNetworkPresenter;
 import com.gnoemes.shikimoriapp.presentation.presenter.common.ViewController;
@@ -27,6 +29,8 @@ import com.gnoemes.shikimoriapp.presentation.presenter.fav.converter.RateStatusC
 import com.gnoemes.shikimoriapp.presentation.view.fav.FavoriteView;
 import com.gnoemes.shikimoriapp.presentation.view.fav.converter.AnimeRateViewModelConverter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -56,6 +60,7 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
                 processErrors(throwable);
             } else {
                 getViewState().hideNetworkErrorView();
+                getViewState().hideNeedAuthView();
             }
         }
 
@@ -199,10 +204,15 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     }
 
     private void setSettings(UserSettings settings) {
-        this.userId = settings.getUserBrief() == null ? Constants.NO_ID : settings.getUserBrief().getId();
+        this.userId = settingsInteractor.getUser() == null ? Constants.NO_ID : settingsInteractor.getUser().getId();
         this.settings = settings;
-        loadUserProfile();
-        initPaginator();
+        if (settings.getStatus() == UserStatus.AUTHORIZED && userId != Constants.NO_ID) {
+            loadUserProfile();
+            initPaginator();
+            getViewState().hideNeedAuthView();
+        } else {
+            getViewState().showNeedAuthView();
+        }
     }
 
     private void initPaginator() {
@@ -217,6 +227,13 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
     public void onItemClicked(long id) {
         analyticsInteractor.logEvent(AnalyticsEvent.ANIME_OPENED);
         getRouter().navigateTo(Screens.ANIME_DETAILS, id);
+    }
+
+    public void onItemChangeStatus(long id) {
+        List<RateStatus> statuses = new ArrayList<>(Arrays.asList(RateStatus.values()));
+        statuses.remove(currentStatus);
+
+        getViewState().showChangeRateDialog(id, statuses);
     }
 
     private void destroyPaginator() {
@@ -273,6 +290,35 @@ public class FavoritePresenter extends BaseNetworkPresenter<FavoriteView> {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public void onItemStatusChanged(long id, RateStatus status) {
+        //TODO kotlin
+        UserRate rate = new UserRate(id, null, null, null, null, status, null, null, null, null, null, null, null, null);
+
+        Disposable disposable = interactor.updateRate(rate)
+                .subscribe(this::onRefresh, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    public void onItemStatusRemove(long id) {
+        Disposable disposable = interactor.deleteRate(id)
+                .subscribe(this::onRefresh, this::processErrors);
+
+        unsubscribeOnDestroy(disposable);
+    }
+
+    public void onAuthClicked() {
+        getViewState().showAuthDialog();
+    }
+
+    public void onSignIn() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.OAUTH);
+    }
+
+    public void onSignUp() {
+        getRouter().navigateTo(Screens.AUTHORIZATION, AuthType.SIGN_UP);
     }
 }
 

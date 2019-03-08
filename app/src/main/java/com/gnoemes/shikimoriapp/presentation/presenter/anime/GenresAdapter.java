@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,13 @@ import butterknife.ButterKnife;
 
 public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder> {
 
-    private List<AnimeGenre> genres = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
 
-    public AnimeGenre getItemByPosition(int position) {
+    public Genre getItemByPosition(int position) {
         return genres.get(position);
     }
 
-    public void bindItems(List<AnimeGenre> genres) {
+    public void bindItems(List<Genre> genres) {
         if (this.genres.size() != genres.size()) {
             this.genres = genres;
             notifyDataSetChanged();
@@ -42,7 +42,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull GenresAdapter.ViewHolder holder, int position) {
-        AnimeGenre item = genres.get(position);
+        Genre item = genres.get(position);
         holder.bind(item);
     }
 
@@ -61,7 +61,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(AnimeGenre item) {
+        public void bind(Genre item) {
             textView.setText(item.getRussianName().toLowerCase());
         }
     }

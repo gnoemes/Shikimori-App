@@ -2,13 +2,12 @@ package com.gnoemes.shikimoriapp.data.network;
 
 import com.gnoemes.shikimoriapp.entity.club.data.ClubResponse;
 import com.gnoemes.shikimoriapp.entity.rates.data.AnimeRateResponse;
-import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateRequest;
-import com.gnoemes.shikimoriapp.entity.rates.data.UserRateUpdateRequest;
+import com.gnoemes.shikimoriapp.entity.rates.data.UserRateCreateOrUpdateRequest;
 import com.gnoemes.shikimoriapp.entity.user.data.FavoritesResponse;
+import com.gnoemes.shikimoriapp.entity.user.data.MessageResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBanResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserBriefResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserHistoryResponse;
-import com.gnoemes.shikimoriapp.entity.user.data.UserMessageResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserProfileResponse;
 import com.gnoemes.shikimoriapp.entity.user.data.UserUnreadMessages;
 
@@ -71,13 +70,13 @@ public interface UserApi {
      * Create rate
      */
     @POST("/api/v2/user_rates")
-    Completable createRate(@Body UserRateCreateRequest request);
+    Completable createRate(@Body UserRateCreateOrUpdateRequest request);
 
     /**
      * Update Rate
      */
     @PATCH("/api/v2/user_rates/{id}")
-    Completable updateRate(@Path("id") long id, @Body UserRateUpdateRequest request);
+    Completable updateRate(@Path("id") long id, @Body UserRateCreateOrUpdateRequest request);
 
     /**
      * Increment episode
@@ -105,7 +104,7 @@ public interface UserApi {
      * ~Need authorization~
      */
     @GET("/api/users/{id}/messages")
-    Single<List<UserMessageResponse>> getUserMessages(@Path("id") long id);
+    Single<List<MessageResponse>> getUserMessages(@Path("id") long id, @Query("type") String type, @Query("limit") int limit);
 
     /**
      * Get user history

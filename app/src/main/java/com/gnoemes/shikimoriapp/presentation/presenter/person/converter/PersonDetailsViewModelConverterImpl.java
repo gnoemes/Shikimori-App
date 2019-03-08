@@ -1,12 +1,10 @@
 package com.gnoemes.shikimoriapp.presentation.presenter.person.converter;
 
 import com.gnoemes.shikimoriapp.entity.anime.domain.Anime;
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BottomDividerItem;
 import com.gnoemes.shikimoriapp.entity.app.presentation.DoubleDividerItem;
 import com.gnoemes.shikimoriapp.entity.manga.domain.Manga;
-import com.gnoemes.shikimoriapp.entity.manga.domain.MangaImage;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Character;
 import com.gnoemes.shikimoriapp.entity.roles.domain.PersonDetails;
 import com.gnoemes.shikimoriapp.entity.roles.domain.Work;
@@ -59,7 +57,7 @@ public class PersonDetailsViewModelConverterImpl implements PersonDetailsViewMod
 
         for (Character character : characters) {
             items.add(new PersonRelatedItem(character.getId(),
-                    character.getAnimeImage(),
+                    character.getImage(),
                     character.getRussianName(),
                     PersonRelatedItemType.CHARACTER));
         }
@@ -81,20 +79,13 @@ public class PersonDetailsViewModelConverterImpl implements PersonDetailsViewMod
         switch (work.getType()) {
             case ANIME:
                 Anime anime = work.getAnime();
-                return new PersonRelatedItem(anime.getId(), anime.getAnimeImage(), work.getRole(), PersonRelatedItemType.ANIME);
+                return new PersonRelatedItem(anime.getId(), anime.getImage(), work.getRole(), PersonRelatedItemType.ANIME);
             case MANGA:
                 Manga manga = work.getManga();
-                return new PersonRelatedItem(manga.getId(), convertImage(manga.getImage()), work.getRole(), PersonRelatedItemType.MANGA);
+                return new PersonRelatedItem(manga.getId(), manga.getImage(), work.getRole(), PersonRelatedItemType.MANGA);
         }
 
         return null;
-    }
-
-    private AnimeImage convertImage(MangaImage image) {
-        return new AnimeImage(image.getImageOriginalUrl(),
-                image.getImagePreviewUrl(),
-                image.getImageX96Url(),
-                image.getImageX48Url());
     }
 
     private PersonHeadItem convertHeadItem(PersonDetails personDetails) {

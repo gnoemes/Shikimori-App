@@ -16,8 +16,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gnoemes.shikimoriapp.R;
-import com.gnoemes.shikimoriapp.entity.anime.presentation.AnimeAction;
+import com.gnoemes.shikimoriapp.entity.anime.presentation.DetailsAction;
 import com.gnoemes.shikimoriapp.entity.anime.presentation.delegate.AnimeHeadItem;
+import com.gnoemes.shikimoriapp.entity.app.domain.Type;
 import com.gnoemes.shikimoriapp.entity.app.presentation.BaseItem;
 import com.gnoemes.shikimoriapp.presentation.presenter.anime.GenresAdapter;
 import com.gnoemes.shikimoriapp.presentation.view.anime.provider.RateResourceProvider;
@@ -170,16 +171,16 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             genresList.setLayoutManager(flexboxLayoutManager);
             genresList.setAdapter(adapter);
             genresList.addOnItemTouchListener(new RecyclerItemClickListener(itemView.getContext(), (view, position) ->
-                    callback.onAction(AnimeAction.GENRE, adapter.getItemByPosition(position))));
+                    callback.onAction(DetailsAction.GENRE, adapter.getItemByPosition(position))));
 
             similarView.setCompoundDrawablesWithIntrinsicBounds(null, similar, null, null);
             relatedView.setCompoundDrawablesWithIntrinsicBounds(null, related, null, null);
             buttonOnline.setCompoundDrawablesWithIntrinsicBounds(play, null, null, null);
 
 
-            buttonOnline.setOnClickListener(v -> callback.onAction(AnimeAction.WATCH_ONLINE, null));
-            similarView.setOnClickListener(v -> callback.onAction(AnimeAction.SIMILAR, null));
-            relatedView.setOnClickListener(v -> callback.onAction(AnimeAction.RELATED, null));
+            buttonOnline.setOnClickListener(v -> callback.onAction(DetailsAction.WATCH_ONLINE, null));
+            similarView.setOnClickListener(v -> callback.onAction(DetailsAction.SIMILAR, null));
+            relatedView.setOnClickListener(v -> callback.onAction(DetailsAction.RELATED, null));
             optionsView.setOnClickListener(v -> showPopup());
         }
 
@@ -216,11 +217,11 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
                 rateView.setText(itemView.getResources().getString(R.string.no_rate));
             } else {
                 rateView.setCompoundDrawablesWithIntrinsicBounds(null, add, null, null);
-                rateView.setText(resourceProvider.getLocalizedStatus(item.getAnimeRate().getStatus()));
+                rateView.setText(resourceProvider.getLocalizedStatus(Type.ANIME, item.getAnimeRate().getStatus()));
             }
 
 
-            rateView.setOnClickListener(v -> callback.onAction(AnimeAction.ADD_TO_LIST, item.getAnimeRate()));
+            rateView.setOnClickListener(v -> callback.onAction(DetailsAction.ADD_TO_LIST, item.getAnimeRate()));
         }
 
         private void showPopup() {
@@ -230,15 +231,15 @@ public class AnimeHeadAdapterDelegate extends AdapterDelegate<List<BaseItem>> {
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.item_open:
-                        callback.onAction(AnimeAction.OPEN_IN_BROWSER, null);
+                        callback.onAction(DetailsAction.OPEN_IN_BROWSER, null);
                         break;
                     case R.id.item_clear_history:
-                        callback.onAction(AnimeAction.CLEAR_HISTORY, null);
+                        callback.onAction(DetailsAction.CLEAR_HISTORY, null);
                         break;
                 }
                 return false;
             });
-            popupMenu.show();
+            itemView.post(popupMenu::show);
         }
 
 

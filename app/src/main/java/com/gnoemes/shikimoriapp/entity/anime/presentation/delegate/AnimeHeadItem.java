@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.anime.presentation.delegate;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeGenre;
+import com.gnoemes.shikimoriapp.entity.anime.domain.Genre;
 import com.gnoemes.shikimoriapp.entity.rates.domain.UserRate;
 
 import java.util.List;
@@ -10,25 +10,25 @@ import java.util.List;
 public class AnimeHeadItem extends BaseAnimeItem {
 
     private long id;
-    private String name;
-    private String jpOrEngName;
+    private String title;
+    private String subTitle;
     private String url;
     private String imageUrl;
     private String animeType;
     private String animeStatus;
     private String season;
-    private List<AnimeGenre> genres;
+    private List<Genre> genres;
     private double score;
     @Nullable
     private UserRate animeRate;
 
-    public AnimeHeadItem(long id, String name, String jpOrEngName,
+    public AnimeHeadItem(long id, String title, String subTitle,
                          String url, String imageUrl, String animeType,
-                         String animeStatus, String season, List<AnimeGenre> genres,
+                         String animeStatus, String season, List<Genre> genres,
                          double score, @Nullable UserRate animeRate) {
         this.id = id;
-        this.name = name;
-        this.jpOrEngName = jpOrEngName;
+        this.title = title;
+        this.subTitle = subTitle;
         this.url = url;
         this.imageUrl = imageUrl;
         this.animeType = animeType;
@@ -43,12 +43,12 @@ public class AnimeHeadItem extends BaseAnimeItem {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public String getJpOrEngName() {
-        return jpOrEngName;
+    public String getSubTitle() {
+        return subTitle;
     }
 
     public String getUrl() {
@@ -71,7 +71,7 @@ public class AnimeHeadItem extends BaseAnimeItem {
         return season;
     }
 
-    public List<AnimeGenre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 

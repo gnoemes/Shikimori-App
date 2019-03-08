@@ -2,7 +2,7 @@ package com.gnoemes.shikimoriapp.entity.series.domain;
 
 public enum VideoHosting {
     SIBNET("sibnet", "sibnet.ru"),
-    SMOTRET_ANIME("smotret-anime", "smotret-anime.ru"),
+    SMOTRET_ANIME("smotretanime", "smotretanime.ru"),
     VK("vk", "vk.com"),
     OK("ok", "ok.ru"),
     MAIL_RU("mailru", "mail.ru"),

@@ -2,14 +2,14 @@ package com.gnoemes.shikimoriapp.entity.roles.presentation.character;
 
 import android.support.annotation.Nullable;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 public class CharacterHeadItem extends BaseCharacterItem {
 
     private long id;
     private String name;
     private String russianName;
-    private AnimeImage animeImage;
+    private Image image;
     private String url;
     private String alternativeName;
     @Nullable
@@ -20,13 +20,13 @@ public class CharacterHeadItem extends BaseCharacterItem {
     private String descriptionSource;
 
     public CharacterHeadItem(long id, String name, String russianName,
-                             AnimeImage animeImage, String url, String alternativeName,
+                             Image image, String url, String alternativeName,
                              @Nullable String japaneseName, @Nullable String description,
                              @Nullable String descriptionSource) {
         this.id = id;
         this.name = name;
         this.russianName = russianName;
-        this.animeImage = animeImage;
+        this.image = image;
         this.url = url;
         this.alternativeName = alternativeName;
         this.japaneseName = japaneseName;
@@ -46,8 +46,8 @@ public class CharacterHeadItem extends BaseCharacterItem {
         return russianName;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getUrl() {

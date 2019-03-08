@@ -6,7 +6,7 @@ public enum TranslationType {
     VOICE_RU("озвучка"),
     SUB_RU("субтитры"),
     RAW("оригинал"),
-    ALL(null);
+    ALL("не выбрано");
 
     @Nullable
     private final String type;
@@ -16,7 +16,7 @@ public enum TranslationType {
     }
 
     public boolean isEqualType(@Nullable String otherType) {
-        return (otherType != null && type != null && type.equals(otherType))
+        return (type != null && type.equals(otherType))
                 || (otherType == null && type == null);
     }
 

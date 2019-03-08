@@ -1,11 +1,11 @@
 package com.gnoemes.shikimoriapp.entity.roles.presentation.person;
 
-import com.gnoemes.shikimoriapp.entity.anime.domain.AnimeImage;
+import com.gnoemes.shikimoriapp.entity.common.domain.Image;
 
 public class PersonHeadItem extends BasePersonItem {
 
     private long id;
-    private AnimeImage animeImage;
+    private Image image;
     private String name;
     private String russianName;
     private String japaneeseName;
@@ -13,9 +13,9 @@ public class PersonHeadItem extends BasePersonItem {
     private String birthDay;
     private String roles;
 
-    public PersonHeadItem(long id, AnimeImage animeImage, String name, String russianName, String japaneeseName, String jobTitle, String birthDay, String roles) {
+    public PersonHeadItem(long id, Image image, String name, String russianName, String japaneeseName, String jobTitle, String birthDay, String roles) {
         this.id = id;
-        this.animeImage = animeImage;
+        this.image = image;
         this.name = name;
         this.russianName = russianName;
         this.japaneeseName = japaneeseName;
@@ -28,8 +28,8 @@ public class PersonHeadItem extends BasePersonItem {
         return id;
     }
 
-    public AnimeImage getAnimeImage() {
-        return animeImage;
+    public Image getImage() {
+        return image;
     }
 
     public String getName() {
